@@ -3,7 +3,7 @@ import RarityList from "@/components/market/RarityList";
 
 const MarketPage = () => {
   return (
-    <Box w={"100%"} >
+    <Box w={"100%"} p={"30px"}>
       <RarityList/>
     </Box>
   )
