@@ -49,7 +49,20 @@ const RarityItem = ({ rarity }: { rarity: string }) => {
 
 const RarityList = () => {
   return (
-    <Flex columnGap={7} ml={"15px"}>
+    <Flex columnGap={7} align={"center"}>
+      <Text
+        bgGradient={"linear(to-r, #FF0099, #FF7A00)"}
+        letterSpacing={"0.3em"}
+        fontSize={12}
+        fontWeight={600}
+        bgClip={"text"}
+        color={"transparent"}
+        textTransform={"uppercase"}
+        pl={9}
+        my={4}
+      >
+        rarity
+      </Text>
       {rarityList.map((item, key) => (
         <RarityItem key={key} rarity={item} />
       ))}
