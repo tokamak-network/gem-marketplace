@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 
 import { rarityStatus } from "@/recoild/market/atom";
 
-import { rarityList, colorList } from "@/constants/rarity";
+import { rarityList } from "@/constants/rarity";
 
 // import Base from "@/assets/rarity/base.svg";
 // import Common from "@/assets/rarity/common.svg";
@@ -58,7 +58,6 @@ const RarityList = () => {
         bgClip={"text"}
         color={"transparent"}
         textTransform={"uppercase"}
-        pl={9}
         my={4}
       >
         rarity

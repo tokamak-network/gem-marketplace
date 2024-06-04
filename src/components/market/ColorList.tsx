@@ -41,7 +41,6 @@ const ColorList = () => {
         bgClip={"text"}
         color={"transparent"}
         textTransform={"uppercase"}
-        pl={9}
         my={4}
       >
         color
