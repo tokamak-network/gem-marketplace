@@ -67,8 +67,7 @@ const Sidebar = () => {
     <Flex
       flexDir={"column"}
       bg={"#0D0E16"}
-      w={"243px"}
-      h={"100vh"}
+      minW={"243px"}
       borderRight={"2px solid #1E2033"}
     >
       <Flex align={"center"} columnGap={"10px"} p={9}>

@@ -3,7 +3,7 @@ import Sidebar from "./sidebar";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Flex>
+    <Flex minH={"100vh"} bg={"#0D0E16"}>
       <Sidebar />
       {children}
     </Flex>
