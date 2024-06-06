@@ -14,8 +14,6 @@ import Wallet from "@/assets/icon/wallet.svg";
 import Activity from "@/assets/icon/activity.svg";
 import Settings from "@/assets/icon/setting.svg";
 
-import "@fontsource/poppins/600.css"
-
 interface MenuType {
   children: React.ReactNode;
   icon: string;

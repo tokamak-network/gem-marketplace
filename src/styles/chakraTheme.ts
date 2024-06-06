@@ -1,9 +1,8 @@
 import { extendTheme } from "@chakra-ui/theme-utils";
 import "@fontsource/poppins";
-import "@fontsource/Inter";
+import "@fontsource/inter";
 import "@fontsource/open-sans";
 import "@fontsource/poppins/600.css"
-import { color } from "framer-motion";
 
 const fonts = {
   Poppins: "Poppins",

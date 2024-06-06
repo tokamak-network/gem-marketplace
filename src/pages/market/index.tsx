@@ -91,7 +91,7 @@ const MarketPage = () => {
       </Flex>
 
       <Flex mt={4} gap={4} flexWrap={"wrap"}>
-        {Array(20)
+        {Array(12)
           .fill("")
           .map((item) => {
             return (
