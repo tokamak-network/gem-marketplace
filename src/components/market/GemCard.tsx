@@ -14,7 +14,7 @@ interface GemCardType {
 
 const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
   const [isSaved, setSaved] = useState<boolean>(false);
-  const [isHover, setHover] = useState<boolean>(false);
+  const [isFlip, setFlip] = useState<boolean>(false);
 
   return (
     <Box
@@ -22,8 +22,8 @@ const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
       h={272}
       bgColor={"transparent"}
       style={{ perspective: "1000px" }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      cursor={"pointer"}
+      onClick={() => setFlip((prev) => !prev)}
     >
       <Box
         w={"100%"}
@@ -31,7 +31,7 @@ const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
         transition={"transform 0.8s"}
         style={{
           transformStyle: "preserve-3d",
-          transform: isHover ? "rotateY(180deg)" : "",
+          transform: isFlip ? "rotateY(180deg)" : "",
         }}
         pos={"relative"}
       >
@@ -52,7 +52,11 @@ const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
             right={"10px"}
             cursor={"pointer"}
             zIndex={10}
-            onClick={() => setSaved((prev) => !prev)}
+            onClick={(e) => {
+              setSaved((prev) => !prev);
+              e.preventDefault();
+              e.stopPropagation();
+            }}
           >
             <SavedIcon isFill={isSaved} />
           </Box>
@@ -89,10 +93,11 @@ const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
           bgColor={"blue"}
           w={"100%"}
           h={"100%"}
+          rounded={8}
           style={{
             backfaceVisibility: "hidden",
-            transform: "rotateY(180deg)"
           }}
+          transform={"rotateY(180deg)"}
         ></Box>
       </Box>
     </Box>
