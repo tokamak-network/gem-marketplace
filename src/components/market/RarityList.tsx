@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useMemo } from "react";
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 
@@ -18,8 +19,17 @@ import { rarityList } from "@/constants/rarity";
 const RarityItem = ({ rarity }: { rarity: string }) => {
   const [rarityState, setRarityState] = useRecoilState(rarityStatus);
   const handleRarity = (rarity: string) => {
-    setRarityState((prev) => ({...prev, ...{[rarity] : !prev[rarity]}}));
-  }
+    setRarityState((prev) => ({ ...prev, ...{ [rarity]: !prev[rarity] } }));
+  };
+
+  const defaultState = useMemo(() => {
+    for (let item of rarityList) {
+      if (rarityState[item] !== "") return false;
+    }
+    return true;
+  }, [rarityState]);
+
+  console.log(defaultState);
 
   return (
     <Center
@@ -31,14 +41,17 @@ const RarityItem = ({ rarity }: { rarity: string }) => {
       cursor={"pointer"}
       onClick={() => handleRarity(rarity)}
       pos={"relative"}
+      opacity={defaultState || rarityState[rarity] ? 1 : 0.5}
+      border={"1px solid"}
+      borderColor={rarityState[rarity] ? "white" : "transparent"}
     >
-      <Box pos={"absolute"} top={0} left={-15}>
-      <Image
-        alt="rarity"
-        src={`/rarity/${rarity}.svg`}
-        width={30}
-        height={30}
-      />
+      <Box pos={"absolute"} top={"-1px"} left={"-16px"}>
+        <Image
+          alt="rarity"
+          src={`/rarity/${rarity}.svg`}
+          width={30}
+          height={30}
+        />
       </Box>
       <Text color={"white"} fontSize={12} fontWeight={500}>
         {rarity}

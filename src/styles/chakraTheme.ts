@@ -27,7 +27,6 @@ const theme = extendTheme({
   styles: {
     global: () => ({
       'body': {
-        boxSizing: "border-box",
         color: "white"
       }
     }),

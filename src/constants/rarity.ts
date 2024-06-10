@@ -9,6 +9,7 @@ export const rarityList = [
   "heirloom",
 ];
 
+
 type ColorListType = {
   [ruby: string]: string;
   amber: string,

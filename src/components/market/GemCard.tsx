@@ -31,8 +31,9 @@ const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
         transition={"transform 0.8s"}
         style={{
           transformStyle: "preserve-3d",
-          transform: isFlip ? "rotateY(180deg)" : "",
+          
         }}
+        transform={isFlip ? "rotateY(180deg)" : ""}
         pos={"relative"}
       >
         <Flex
