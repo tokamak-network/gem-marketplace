@@ -1,17 +1,25 @@
-import Image from "next/image";
+import { useMemo } from "react";
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 
-import { rarityStatus } from "@/recoild/market/atom";
+import { colorStatus } from "@/recoild/market/atom";
 
-import { colorList } from "@/constants/rarity";
-import { color } from "framer-motion";
+import { colorList, colorBorderList } from "@/constants/rarity";
 
 const ColorItem = ({ color }: { color: string }) => {
-//   const [rarityState, setRarityState] = useRecoilState(rarityStatus);
-//   const handleRarity = (rarity: string) => {
-//     setRarityState((prev) => ({...prev, ...{[rarity] : !prev[rarity]}}));
-//   }
+  const [colorState, setColorState] = useRecoilState(colorStatus);
+  const handleRarity = (color: string) => {
+    setColorState((prev) => ({...prev, ...{[color] : !prev[color]}}));
+  }
+
+  const defaultState = useMemo(() => {
+    for(let item of Object.keys(colorList)) {
+      if (colorState[item] !== false ) return false;
+    }
+    return true;
+  }, [colorState]);
+
+  console.log(defaultState)
 
   return (
     <Center
@@ -21,7 +29,10 @@ const ColorItem = ({ color }: { color: string }) => {
       bgColor={colorList[color]}
       columnGap={"10px"}
       cursor={"pointer"}
-      // onClick={() => handleRarity(rarity)}
+      onClick={() => handleRarity(color)}
+      opacity={defaultState || colorState[color] ? 1 : 0.5}
+      border={"1px solid"}
+      borderColor={colorState[color] ? colorBorderList[color] : "transparent"}
     >
       <Text textTransform={"capitalize"} color={"white"} fontSize={12} fontWeight={500}>
         {color}

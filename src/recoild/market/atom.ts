@@ -1,6 +1,6 @@
 import { atom, selector } from "recoil";
 
-type RarityType = {
+type RarityStatusType = {
   [base: string]: boolean | "",
   common: boolean | "",
   uncommon: boolean | "",
@@ -11,16 +11,45 @@ type RarityType = {
   heirloom: boolean | ""
 }
 
-export const rarityStatus = atom<RarityType>({
+export const rarityStatus = atom<RarityStatusType>({
   key: "rarityStatus",
   default: {
-    base: "",
-    common: "",
-    uncommon: "",
-    rare: "",
-    epic: "",
-    legendary: "",
-    mythic: "",
-    heirloom: ""
+    base: false,
+    common: false,
+    uncommon: false,
+    rare: false,
+    epic: false,
+    legendary: false,
+    mythic: false,
+    heirloom: false
+  }
+})
+
+type ColorStatusType = {
+  [ruby: string]: boolean;
+  amber: boolean,
+  topaz: boolean,
+  emerald: boolean,
+  turquoise: boolean,
+  sapphire: boolean,
+  amethyst: boolean,
+  garnet: boolean,
+  diamond: boolean,
+  onyx: boolean,
+}
+
+export const colorStatus = atom<ColorStatusType>({
+  key: "colorStatus",
+  default: {
+    ruby: false,
+    amber: false,
+    topaz: false,
+    emerald: false,
+    turquoise: false,
+    sapphire: false,
+    amethyst: false,
+    garnet: false,
+    diamond: false,
+    onyx: false,
   }
 })

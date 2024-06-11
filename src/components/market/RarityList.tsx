@@ -20,16 +20,15 @@ const RarityItem = ({ rarity }: { rarity: string }) => {
   const [rarityState, setRarityState] = useRecoilState(rarityStatus);
   const handleRarity = (rarity: string) => {
     setRarityState((prev) => ({ ...prev, ...{ [rarity]: !prev[rarity] } }));
+
   };
 
   const defaultState = useMemo(() => {
     for (let item of rarityList) {
-      if (rarityState[item] !== "") return false;
+      if (rarityState[item] !== false ) return false;
     }
     return true;
   }, [rarityState]);
-
-  console.log(defaultState);
 
   return (
     <Center

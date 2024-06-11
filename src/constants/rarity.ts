@@ -35,3 +35,16 @@ export const colorList: ColorListType = {
   diamond: "#FFFFFF26",
   onyx: "#000000",
 };
+
+export const colorBorderList: ColorListType = {
+  ruby: "#FF0000",
+  amber: "#FF8A00",
+  topaz: "#FAFF00",
+  emerald: "#33FF00",
+  turquoise: "#00E0FF",
+  sapphire: "#000AFF",
+  amethyst: "#8F00FF",
+  garnet: "#FF00E5",
+  diamond: "#FFFFFF",
+  onyx: "#585858",
+};
