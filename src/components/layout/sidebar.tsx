@@ -36,7 +36,7 @@ const Sidebar = () => {
           borderLeft={isActive ? "4px solid #0075FF" : ""}
           columnGap={3}
         >
-          <Image alt={link} src={icon} width={24} height={24} style={{opacity: isActive ? 1 : 0.5}} />
+          <Image alt={link} src={icon} width={24} height={24} />
           <Text fontWeight={600}>{children}</Text>
         </Flex>
       </Link>

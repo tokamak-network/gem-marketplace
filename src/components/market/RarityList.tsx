@@ -44,6 +44,7 @@ const RarityItem = ({ rarity }: { rarity: string }) => {
       opacity={defaultState || rarityState[rarity] ? 1 : 0.5}
       border={"1px solid"}
       borderColor={rarityState[rarity] ? "white" : "transparent"}
+      transition={"0.1s"}
     >
       <Box pos={"absolute"} top={"-1px"} left={"-16px"}>
         <Image

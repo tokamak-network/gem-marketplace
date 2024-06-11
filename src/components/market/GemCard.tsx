@@ -21,7 +21,7 @@ const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
       w={212}
       h={272}
       bgColor={"transparent"}
-      style={{ perspective: "1000px" }}
+      sx={{ perspective: "1000px" }}
       cursor={"pointer"}
       onClick={() => setFlip((prev) => !prev)}
     >
@@ -29,7 +29,7 @@ const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
         w={"100%"}
         h={"100%"}
         transition={"transform 0.8s"}
-        style={{
+        sx={{
           transformStyle: "preserve-3d",
           
         }}
@@ -43,7 +43,7 @@ const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
           flexDir={"column"}
           rounded={8}
           overflow={"hidden"}
-          style={{
+          sx={{
             backfaceVisibility: "hidden",
           }}
         >
@@ -95,7 +95,7 @@ const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
           w={"100%"}
           h={"100%"}
           rounded={8}
-          style={{
+          sx={{
             backfaceVisibility: "hidden",
           }}
           transform={"rotateY(180deg)"}

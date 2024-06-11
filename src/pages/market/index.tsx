@@ -93,9 +93,10 @@ const MarketPage = () => {
       <Flex mt={4} gap={4} flexWrap={"wrap"}>
         {Array(12)
           .fill("")
-          .map((item) => {
+          .map((item, key) => {
             return (
               <GemCard
+                key={key}
                 rarity="Mythic"
                 rarityScore={1}
                 staked={253.2}
