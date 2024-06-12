@@ -1,7 +1,10 @@
 import { Box, Flex, Text, useTheme } from "@chakra-ui/react";
+import { useRecoilState } from "recoil";
+import { gemPackModalStatus } from "@/recoild/market/atom";
 import RarityList from "@/components/market/RarityList";
 import ColorList from "@/components/market/ColorList";
 import PriceContainer from "@/components/common/PriceContainer";
+import GemPackModal from "@/components/modal/GemPackModal";
 
 import GEM from "@/assets/images/sample_gem.png";
 import Image from "next/image";
@@ -9,6 +12,7 @@ import GemCard from "@/components/market/GemCard";
 
 const MarketPage = () => {
   const theme = useTheme();
+  const [gemPackModalState, setGemPackModalState] = useRecoilState(gemPackModalStatus);
 
   return (
     <Box w={"100%"} p={"30px"}>
@@ -57,9 +61,13 @@ const MarketPage = () => {
             px={"9px"}
             align={"center"}
           >
-            <PriceContainer price={10} />
+            <PriceContainer price={10} onClick={() => setGemPackModalState(true)}/>
           </Flex>
         </Flex>
+        <GemPackModal isOpen={gemPackModalState}
+        onOpen={() => setGemPackModalState(true)}
+        onClose={() => setGemPackModalState(false)}
+        />
 
         <Flex
           pos={"relative"}

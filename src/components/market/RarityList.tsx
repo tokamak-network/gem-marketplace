@@ -7,15 +7,6 @@ import { rarityStatus } from "@/recoild/market/atom";
 
 import { rarityList } from "@/constants/rarity";
 
-// import Base from "@/assets/rarity/base.svg";
-// import Common from "@/assets/rarity/common.svg";
-// import Uncommon from "@/assets/rarity/uncommon.svg";
-// import Rare from "@/assets/rarity/rare.svg";
-// import Epic from "@/assets/rarity/epic.svg";
-// import Legendary from "@/assets/rarity/legendary.svg";
-// import Mythic from "@/assets/rarity/mythic.svg";
-// import Heirloom from "@/assets/rarity/heirloom.svg";
-
 const RarityItem = ({ rarity }: { rarity: string }) => {
   const [rarityState, setRarityState] = useRecoilState(rarityStatus);
   const handleRarity = (rarity: string) => {

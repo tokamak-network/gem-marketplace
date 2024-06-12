@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Box, Center, Flex, Text } from "@chakra-ui/react";
+import { Center, Flex, Text } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 
 import { colorStatus } from "@/recoild/market/atom";
@@ -18,8 +18,6 @@ const ColorItem = ({ color }: { color: string }) => {
     }
     return true;
   }, [colorState]);
-
-  console.log(defaultState)
 
   return (
     <Center

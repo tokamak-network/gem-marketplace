@@ -53,3 +53,8 @@ export const colorStatus = atom<ColorStatusType>({
     onyx: false,
   }
 })
+
+export const gemPackModalStatus = atom<boolean>({
+  key: "gemPackModalStatus",
+  default: false
+})

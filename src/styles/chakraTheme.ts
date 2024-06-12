@@ -3,6 +3,8 @@ import "@fontsource/poppins";
 import "@fontsource/inter";
 import "@fontsource/open-sans";
 import "@fontsource/poppins/600.css"
+import "@fontsource/poppins/400.css"
+import "@fontsource/inter/400.css";
 
 const fonts = {
   Poppins: "Poppins",
