@@ -1,10 +1,10 @@
+import { useState } from "react";
+import { Box } from "@chakra-ui/react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import MiningIntroModal from "@/components/modal/MiningIntroModal";
-import { Box } from "@chakra-ui/react";
-import { useState } from "react";
 
 const MinePage = () => {
-  const [storedValue, setValue] = useLocalStorage("mineIntro", true);
+  const [storedValue,] = useLocalStorage("mineIntro", true);
   const [isGuideModal, setGuideModal] = useState(storedValue);
 
   const handleGuideModal = () => {

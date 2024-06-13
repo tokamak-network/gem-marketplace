@@ -9,17 +9,25 @@ import {
   Center,
   Text,
   useTheme,
-  Button,
+  Checkbox,
 } from "@chakra-ui/react";
 import GemPack from "@/assets/images/sample_gem.png";
 import ArrorRight from "@/assets/icon/right_arrow.svg";
+import { useState } from "react";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const MiningIntroModal = (props: any) => {
   const { isOpen, onClose } = props;
+  const [isChecked, setChecked] = useState(false);
   const theme = useTheme();
+  const [, setValue] = useLocalStorage("mineIntro", true);
+  const handleClose = () => {
+    if (isChecked) setValue(false);
+    onClose();
+  }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={"xl"} isCentered>
+    <Modal isOpen={isOpen} onClose={handleClose} size={"xl"} isCentered>
       <ModalOverlay />
       <ModalContent bgColor={"#21232D"}>
         <ModalCloseButton />
@@ -54,9 +62,20 @@ const MiningIntroModal = (props: any) => {
             </Text>
 
             <Center>
-              <Image alt="gempack" src={GemPack} width={160}/>
-              <Image alt="gempack" src={ArrorRight} width={50}/>
-              <Image alt="gempack" src={GemPack} width={160}/>
+              <Image alt="gempack" src={GemPack} width={160} />
+              <Image alt="arrow" src={ArrorRight} width={50} />
+              <Image alt="gempack" src={GemPack} width={160} />
+            </Center>
+
+            <Center mt={4}>
+              <Checkbox
+                fontSize={14}
+                fontWeight={400}
+                isChecked={isChecked}
+                onChange={() => setChecked((prev) => !prev)}
+              >
+                Don’t show this again.
+              </Checkbox>
             </Center>
           </Flex>
         </ModalBody>
