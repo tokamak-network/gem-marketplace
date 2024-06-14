@@ -1,24 +1,20 @@
 import { Box, Flex, Text, useTheme } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { gemPackModalStatus } from "@/recoild/market/atom";
-import RarityList from "@/components/market/RarityList";
-import ColorList from "@/components/market/ColorList";
+
 import PriceContainer from "@/components/common/PriceContainer";
 import GemPackModal from "@/components/modal/GemPackModal";
 
 import GEM from "@/assets/images/sample_gem.png";
 import Image from "next/image";
-import GemCard from "@/components/market/GemCard";
+import GemCard from "@/components/common/GemCard";
 
 const MarketPage = () => {
   const theme = useTheme();
   const [gemPackModalState, setGemPackModalState] = useRecoilState(gemPackModalStatus);
 
   return (
-    <Box w={"100%"} p={"30px"}>
-      <RarityList />
-      <ColorList />
-
+    <>
       <Flex columnGap={4} mt={73}>
         <Flex
           pos={"relative"}
@@ -113,7 +109,7 @@ const MarketPage = () => {
             );
           })}
       </Flex>
-    </Box>
+    </>
   );
 };
 

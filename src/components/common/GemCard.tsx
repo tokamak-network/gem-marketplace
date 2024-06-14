@@ -1,20 +1,46 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { useState } from "react";
-import PriceContainer from "../common/PriceContainer";
+import { useEffect, useState } from "react";
+import PriceContainer from "./PriceContainer";
 import HighArrow from "@/assets/icon/higharrow.svg";
 import Image from "next/image";
-import SavedIcon from "../common/SavedIcon";
+import SavedIcon from "./SavedIcon";
+import { COOLDOWN } from "@/constants";
 
 interface GemCardType {
   rarity: string;
   rarityScore: number;
   staked: number;
   dailyChange: number;
+  mode?: "market" | "forge" | "mine";
+  lastMineTime?: number;
 }
 
-const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
+const GemCard = ({
+  mode = "market",
+  rarity,
+  rarityScore,
+  staked,
+  dailyChange,
+  lastMineTime = Date.now(),
+}: GemCardType) => {
   const [isSaved, setSaved] = useState<boolean>(false);
   const [isFlip, setFlip] = useState<boolean>(false);
+  const [timeRemaining, setTimeRemaining] = useState<number>(0);
+  const [isReadyForMine, setReadyForMine] = useState<boolean>(false);
+
+  useEffect(() => {
+    const currentTimestamp = Date.now();
+    console.log(currentTimestamp)
+    console.log(lastMineTime)
+    const interval = setInterval(() => {
+      if ((currentTimestamp / 1000 - lastMineTime) > COOLDOWN) {
+        setReadyForMine(true);
+      } else {
+        setTimeRemaining(COOLDOWN + lastMineTime - Math.floor(currentTimestamp / 1000));
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timeRemaining]);
 
   return (
     <Box
@@ -31,7 +57,6 @@ const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
         transition={"transform 0.8s"}
         sx={{
           transformStyle: "preserve-3d",
-          
         }}
         transform={isFlip ? "rotateY(180deg)" : ""}
         pos={"relative"}
@@ -64,6 +89,7 @@ const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
 
           <Box w={"full"} h={"full"} bg={"white"} opacity={0.05}></Box>
           <Flex
+            pos={"relative"}
             w={"full"}
             h={53}
             bgColor={"#00000080"}
@@ -85,7 +111,13 @@ const GemCard = ({ rarity, rarityScore, staked, dailyChange }: GemCardType) => {
               </Flex>
             </Flex>
 
-            <PriceContainer price={100} />
+            {mode === "market" && <PriceContainer price={100} />}
+            {mode === "mine" && 
+            <Box pos={"absolute"} w={"50px"} top={2} right={2}>
+              <Text fontSize={10}>
+                {`${new Date(timeRemaining * 1000).getHours()} : ${new Date(timeRemaining * 1000).getMinutes()} : ${new Date(timeRemaining * 1000).getSeconds()}`}
+              </Text>
+            </Box>}
           </Flex>
         </Flex>
 
