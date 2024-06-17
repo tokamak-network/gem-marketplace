@@ -1,3 +1,4 @@
+'use client';
 import Image from "next/image";
 import { Box, Flex, Text, Progress, Center } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -29,6 +30,8 @@ const GemCard = ({
   const [isFlip, setFlip] = useState<boolean>(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
   const [isReadyForMine, setReadyForMine] = useState<boolean>(false);
+  const [isHoverMine, SetHoverMine] = useState<boolean>(false);
+
 
   useEffect(() => {
     const currentTimestamp = Date.now();
@@ -127,8 +130,12 @@ const GemCard = ({
                 w={"full"}
                 bg={"#191A22D9"}
                 columnGap={"6px"}
+                transition={"0.5s"}
+                _hover={{ bgColor: "#004422", fontSize: 24 }}
+                onMouseEnter={() => SetHoverMine(true)}
+                onMouseLeave={() => SetHoverMine(false)}
               >
-                <Text>Ready to mine</Text>
+                <Text >{isHoverMine ? "Mine" : "Ready to mine"}</Text>
                 <Image alt="gem" src={GemIcon} width={16} height={16}></Image>
               </Center>
             ) : (

@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
@@ -12,7 +14,7 @@ const MinePage = () => {
     setGuideModal(false);
   };
   return (
-    <Box>
+    <>
       <MiningIntroModal isOpen={isGuideModal} onClose={handleGuideModal} />
 
       <Flex mt={4} gap={4} flexWrap={"wrap"}>
@@ -40,7 +42,7 @@ const MinePage = () => {
             );
           })}
       </Flex>
-    </Box>
+    </>
   );
 };
 

@@ -12,18 +12,23 @@ import {
   Checkbox,
   Button,
 } from "@chakra-ui/react";
-import GemPack from "@/assets/images/sample_gem.png";
-import ArrorRight from "@/assets/icon/right_arrow.svg";
 import { useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
-const MiningIntroModal = (props: any) => {
+import Forge1 from "@/assets/images/forge1.png";
+import Forge2 from "@/assets/images/forge2.png";
+import Forge3 from "@/assets/images/forge3.png";
+import ArrorRight from "@/assets/icon/right_arrow.svg";
+
+const ForgingIntroModal = (props: any) => {
   const { isOpen, onClose } = props;
   const [isChecked, setChecked] = useState(false);
   const theme = useTheme();
-  const [, setValue] = useLocalStorage("mineIntro", true);
+  const [, setValue] = useLocalStorage("forgeIntro", true);
   const handleClose = () => {
-    if (isChecked) setValue(false);
+    if (isChecked) {
+      setValue(false);
+    } 
     onClose();
   };
 
@@ -40,7 +45,7 @@ const MiningIntroModal = (props: any) => {
               textAlign={"center"}
               textTransform={"uppercase"}
             >
-              mining
+              forging
             </Text>
 
             <Text
@@ -51,7 +56,7 @@ const MiningIntroModal = (props: any) => {
               lineHeight={"34.57px"}
               textAlign={"center"}
             >
-              Mine once per day to obtain more gems to forge!
+              Forge gems together to obtain higher quality and rarer gems!
             </Text>
 
             <Text mt={8} fontSize={14} fontWeight={400} lineHeight={"21px"}>
@@ -62,11 +67,14 @@ const MiningIntroModal = (props: any) => {
               treasure unlike any other.
             </Text>
 
-            <Center>
-              <Image alt="gempack" src={GemPack} width={160} />
-              <Image alt="arrow" src={ArrorRight} width={50} />
-              <Image alt="gempack" src={GemPack} width={160} />
-            </Center>
+            <Flex w={"full"} justify={"space-between"} my={"50px"}>
+              <Image alt="gempack" src={Forge1} />
+              <Center columnGap={"14px"}>
+                <Image alt="gempack" src={Forge2} />
+                <Image alt="arrow" src={ArrorRight} />
+                <Image alt="gempack" src={Forge3} />
+              </Center>
+            </Flex>
 
             <Center mt={4}>
               <Checkbox
@@ -101,4 +109,4 @@ const MiningIntroModal = (props: any) => {
   );
 };
 
-export default MiningIntroModal;
+export default ForgingIntroModal;
