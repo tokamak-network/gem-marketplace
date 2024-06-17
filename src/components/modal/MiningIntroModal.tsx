@@ -10,6 +10,7 @@ import {
   Text,
   useTheme,
   Checkbox,
+  Button,
 } from "@chakra-ui/react";
 import GemPack from "@/assets/images/sample_gem.png";
 import ArrorRight from "@/assets/icon/right_arrow.svg";
@@ -24,7 +25,7 @@ const MiningIntroModal = (props: any) => {
   const handleClose = () => {
     if (isChecked) setValue(false);
     onClose();
-  }
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} size={"xl"} isCentered>
@@ -77,6 +78,22 @@ const MiningIntroModal = (props: any) => {
                 Don’t show this again.
               </Checkbox>
             </Center>
+
+            <Button
+              pos={"absolute"}
+              bottom={22}
+              right={22}
+              w={9}
+              bg={"transparent"}
+              color={"white"}
+              fontWeight={400}
+              fontSize={14}
+              _hover={""}
+              _active={""}
+              onClick={() => onClose()}
+            >
+              Okay
+            </Button>
           </Flex>
         </ModalBody>
       </ModalContent>

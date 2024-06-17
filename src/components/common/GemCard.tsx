@@ -1,10 +1,12 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import Image from "next/image";
+import { Box, Flex, Text, Progress, Center } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import PriceContainer from "./PriceContainer";
 import HighArrow from "@/assets/icon/higharrow.svg";
-import Image from "next/image";
 import SavedIcon from "./SavedIcon";
 import { COOLDOWN } from "@/constants";
+
+import GemIcon from "@/assets/icon/mine.svg";
 
 interface GemCardType {
   rarity: string;
@@ -30,13 +32,14 @@ const GemCard = ({
 
   useEffect(() => {
     const currentTimestamp = Date.now();
-    console.log(currentTimestamp)
-    console.log(lastMineTime)
     const interval = setInterval(() => {
-      if ((currentTimestamp / 1000 - lastMineTime) > COOLDOWN) {
+      if (currentTimestamp / 1000 - lastMineTime > COOLDOWN) {
         setReadyForMine(true);
+        setTimeRemaining(0);
       } else {
-        setTimeRemaining(COOLDOWN + lastMineTime - Math.floor(currentTimestamp / 1000));
+        setTimeRemaining(
+          COOLDOWN + lastMineTime - Math.floor(currentTimestamp / 1000)
+        );
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -88,6 +91,9 @@ const GemCard = ({
           </Box>
 
           <Box w={"full"} h={"full"} bg={"white"} opacity={0.05}></Box>
+
+          <Progress value={(COOLDOWN / timeRemaining) * 100} h={"2px"} />
+
           <Flex
             pos={"relative"}
             w={"full"}
@@ -112,12 +118,30 @@ const GemCard = ({
             </Flex>
 
             {mode === "market" && <PriceContainer price={100} />}
-            {mode === "mine" && 
-            <Box pos={"absolute"} w={"50px"} top={2} right={2}>
-              <Text fontSize={10}>
-                {`${new Date(timeRemaining * 1000).getHours()} : ${new Date(timeRemaining * 1000).getMinutes()} : ${new Date(timeRemaining * 1000).getSeconds()}`}
-              </Text>
-            </Box>}
+            {mode === "mine" && isReadyForMine ? (
+              <Center
+                pos={"absolute"}
+                h={53}
+                top={0}
+                left={0}
+                w={"full"}
+                bg={"#191A22D9"}
+                columnGap={"6px"}
+              >
+                <Text>Ready to mine</Text>
+                <Image alt="gem" src={GemIcon} width={16} height={16}></Image>
+              </Center>
+            ) : (
+              <Box pos={"absolute"} w={"50px"} top={2} right={2}>
+                <Text fontSize={10}>
+                  {`${new Date(timeRemaining * 1000).getHours()} : ${new Date(
+                    timeRemaining * 1000
+                  ).getMinutes()} : ${new Date(
+                    timeRemaining * 1000
+                  ).getSeconds()}`}
+                </Text>
+              </Box>
+            )}
           </Flex>
         </Flex>
 
