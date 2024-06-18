@@ -4,7 +4,7 @@ import { Box } from "@chakra-ui/react";
 import { useState } from "react";
 
 const ForgePage = () => {
-  const [storedValue] = useLocalStorage("forgeIntro", true);
+  const [storedValue] = useLocalStorage("forge-guide", true);
   const [isGuideModal, setGuideModal] = useState(storedValue);
 
   return (

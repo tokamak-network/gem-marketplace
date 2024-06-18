@@ -7,7 +7,7 @@ import MiningIntroModal from "@/components/modal/MiningIntroModal";
 import GemCard from "@/components/common/GemCard";
 
 const MinePage = () => {
-  const [storedValue] = useLocalStorage("mineIntro", true);
+  const [storedValue] = useLocalStorage("mine-guide", true);
   const [isGuideModal, setGuideModal] = useState(storedValue);
 
   const handleGuideModal = () => {
@@ -36,7 +36,7 @@ const MinePage = () => {
                 rarityScore={1}
                 staked={253.2}
                 dailyChange={16.7}
-                lastMineTime={1718608437}
+                lastMineTime={1718647217}
                 mode="mine"
               />
             );

@@ -21,7 +21,7 @@ const MiningIntroModal = (props: any) => {
   const { isOpen, onClose } = props;
   const [isChecked, setChecked] = useState(false);
   const theme = useTheme();
-  const [, setValue] = useLocalStorage("mineIntro", true);
+  const [, setValue] = useLocalStorage("mine-guide", true);
   const handleClose = () => {
     if (isChecked) setValue(false);
     onClose();

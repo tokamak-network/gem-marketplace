@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import Image from "next/image";
 import { Box, Flex, Text, Progress, Center } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -31,7 +31,6 @@ const GemCard = ({
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
   const [isReadyForMine, setReadyForMine] = useState<boolean>(false);
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
-
 
   useEffect(() => {
     const currentTimestamp = Date.now();
@@ -95,7 +94,10 @@ const GemCard = ({
 
           <Box w={"full"} h={"full"} bg={"white"} opacity={0.05}></Box>
 
-          <Progress value={(COOLDOWN / timeRemaining) * 100} h={"2px"} />
+          <Progress
+            value={((COOLDOWN - timeRemaining) / COOLDOWN) * 100}
+            h={"2px"}
+          />
 
           <Flex
             pos={"relative"}
@@ -135,17 +137,15 @@ const GemCard = ({
                 onMouseEnter={() => SetHoverMine(true)}
                 onMouseLeave={() => SetHoverMine(false)}
               >
-                <Text >{isHoverMine ? "Mine" : "Ready to mine"}</Text>
+                <Text>{isHoverMine ? "Mine" : "Ready to mine"}</Text>
                 <Image alt="gem" src={GemIcon} width={16} height={16}></Image>
               </Center>
             ) : (
               <Box pos={"absolute"} w={"50px"} top={2} right={2}>
                 <Text fontSize={10}>
-                  {`${new Date(timeRemaining * 1000).getHours()} : ${new Date(
-                    timeRemaining * 1000
-                  ).getMinutes()} : ${new Date(
-                    timeRemaining * 1000
-                  ).getSeconds()}`}
+                  {`${Math.floor(timeRemaining / 3600)} : ${Math.floor(
+                    (timeRemaining % 3600) / 60
+                  )} : ${Math.floor((timeRemaining % 3600) % 60)}`}
                 </Text>
               </Box>
             )}

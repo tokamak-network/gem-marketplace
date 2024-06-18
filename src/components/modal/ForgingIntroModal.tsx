@@ -24,7 +24,7 @@ const ForgingIntroModal = (props: any) => {
   const { isOpen, onClose } = props;
   const [isChecked, setChecked] = useState(false);
   const theme = useTheme();
-  const [, setValue] = useLocalStorage("forgeIntro", true);
+  const [, setValue] = useLocalStorage("forge-guide", true);
   const handleClose = () => {
     if (isChecked) {
       setValue(false);
