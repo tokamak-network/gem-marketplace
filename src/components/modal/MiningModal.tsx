@@ -15,34 +15,42 @@ import {
 } from "@chakra-ui/react";
 
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useRecoilState } from "recoil";
+import { miningModalStatus } from "@/recoild/mine/atom";
 
-import GemPack from "@/assets/images/sample_gem.png";
-import ArrorRight from "@/assets/icon/right_arrow.svg";
+import Mining from "@/assets/images/mining.png";
 
-const MiningIntroModal = (props: any) => {
-  const { isOpen, onClose } = props;
+const MiningModal = (props: any) => {
+  const [mineModalStatus, setMineModalStatus] =
+    useRecoilState(miningModalStatus);
   const [isChecked, setChecked] = useState(false);
   const theme = useTheme();
-  const [, setValue] = useLocalStorage("mine-guide", true);
+  const [storageValue, setValue] = useLocalStorage("mining-detail", true);
   const handleClose = () => {
     if (isChecked) setValue(false);
-    onClose();
+    setMineModalStatus({ isOpen: false });
   };
 
+
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} size={"xl"} isCentered>
+    <Modal
+      isOpen={mineModalStatus.isOpen && storageValue}
+      onClose={() => handleClose()}
+      size={"xl"}
+      isCentered
+    >
       <ModalOverlay />
-      <ModalContent bgColor={"#21232D"}>
+      <ModalContent bgColor={"#21232D"} rounded={16}>
         <ModalCloseButton />
         <ModalBody padding={0}>
-          <Flex w={"100%"} flexDir={"column"} p={"52px"}>
+          <Flex w={"100%"} flexDir={"column"} p={"37px 52px 52px 52px"}>
             <Text
               fontWeight={700}
               fontSize={48}
               textAlign={"center"}
               textTransform={"uppercase"}
             >
-              mining
+              mining...
             </Text>
 
             <Text
@@ -53,24 +61,14 @@ const MiningIntroModal = (props: any) => {
               lineHeight={"34.57px"}
               textAlign={"center"}
             >
-              Mine once per day to obtain more gems to forge!
-            </Text>
-
-            <Text mt={8} fontSize={14} fontWeight={400} lineHeight={"21px"}>
-              Each Gem boasts a unique shape and a vibrant palette of colors
-              ranging from deep blues to fiery hues. <br />
-              <br />
-              Their one-of-a-kind nature, ensuring every acquisition is a
-              treasure unlike any other.
+              Mining takes some time, come back in 9:59 minutes
             </Text>
 
             <Center>
-              <Image alt="gempack" src={GemPack} width={160} />
-              <Image alt="arrow" src={ArrorRight} width={50} />
-              <Image alt="gempack" src={GemPack} width={160} />
+              <Image alt="mining" src={Mining} />
             </Center>
 
-            <Center mt={4}>
+            <Center>
               <Checkbox
                 fontSize={14}
                 fontWeight={400}
@@ -103,4 +101,4 @@ const MiningIntroModal = (props: any) => {
   );
 };
 
-export default MiningIntroModal;
+export default MiningModal;

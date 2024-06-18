@@ -6,6 +6,8 @@ import PriceContainer from "./PriceContainer";
 import HighArrow from "@/assets/icon/higharrow.svg";
 import SavedIcon from "./SavedIcon";
 import { COOLDOWN } from "@/constants";
+import { useRecoilState } from "recoil";
+import { miningModalStatus } from "@/recoild/mine/atom";
 
 import GemIcon from "@/assets/icon/mine.svg";
 
@@ -31,6 +33,7 @@ const GemCard = ({
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
   const [isReadyForMine, setReadyForMine] = useState<boolean>(false);
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
+  const [, seMineModalState] = useRecoilState(miningModalStatus);
 
   useEffect(() => {
     const currentTimestamp = Date.now();
@@ -63,7 +66,7 @@ const GemCard = ({
         sx={{
           transformStyle: "preserve-3d",
         }}
-        transform={isFlip ? "rotateY(180deg)" : ""}
+        // transform={isFlip ? "rotateY(180deg)" : ""}
         pos={"relative"}
       >
         <Flex
@@ -94,10 +97,12 @@ const GemCard = ({
 
           <Box w={"full"} h={"full"} bg={"white"} opacity={0.05}></Box>
 
-          <Progress
-            value={((COOLDOWN - timeRemaining) / COOLDOWN) * 100}
-            h={"2px"}
-          />
+          {mode === "mine" && (
+            <Progress
+              value={((COOLDOWN - timeRemaining) / COOLDOWN) * 100}
+              h={"2px"}
+            />
+          )}
 
           <Flex
             pos={"relative"}
@@ -136,11 +141,15 @@ const GemCard = ({
                 _hover={{ bgColor: "#004422", fontSize: 24 }}
                 onMouseEnter={() => SetHoverMine(true)}
                 onMouseLeave={() => SetHoverMine(false)}
+                onClick={() => {
+                  console.log("heyhey")
+                  seMineModalState({ isOpen: true, mineTime: 2342347 });
+                }}
               >
                 <Text>{isHoverMine ? "Mine" : "Ready to mine"}</Text>
                 <Image alt="gem" src={GemIcon} width={16} height={16}></Image>
               </Center>
-            ) : (
+            ) : mode === "mine" && !isReadyForMine ? (
               <Box pos={"absolute"} w={"50px"} top={2} right={2}>
                 <Text fontSize={10}>
                   {`${Math.floor(timeRemaining / 3600)} : ${Math.floor(
@@ -148,6 +157,8 @@ const GemCard = ({
                   )} : ${Math.floor((timeRemaining % 3600) % 60)}`}
                 </Text>
               </Box>
+            ) : (
+              ""
             )}
           </Flex>
         </Flex>
