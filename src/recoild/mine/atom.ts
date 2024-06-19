@@ -12,3 +12,11 @@ export const miningModalStatus = atom<MiningModalStatus>({
     mineTime: 0
   }
 });
+
+export const miningResultStatus = atom<MiningModalStatus>({
+  key: "mineResultStatus",
+  default: {
+    isOpen: false,
+    mineTime: 0
+  }
+});

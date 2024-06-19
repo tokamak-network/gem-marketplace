@@ -32,7 +32,7 @@ const MinePage = () => {
             return (
               <GemCard
                 key={key}
-                rarity="Mythic"
+                rarity="mythic"
                 rarityScore={1}
                 staked={253.2}
                 dailyChange={16.7}

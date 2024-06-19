@@ -1,6 +1,14 @@
 "use client";
 import Image from "next/image";
-import { Box, Flex, Text, Progress, Center } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Progress,
+  Center,
+  Grid,
+  GridItem,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import PriceContainer from "./PriceContainer";
 import HighArrow from "@/assets/icon/higharrow.svg";
@@ -10,6 +18,7 @@ import { useRecoilState } from "recoil";
 import { miningModalStatus } from "@/recoild/mine/atom";
 
 import GemIcon from "@/assets/icon/mine.svg";
+import GemModel from "@/assets/gem/gem_legendary.svg";
 
 interface GemCardType {
   rarity: string;
@@ -54,10 +63,11 @@ const GemCard = ({
     <Box
       w={212}
       h={272}
-      bgColor={"transparent"}
+      bgGradient={"radial(#6F97FF, #1F25A4)"}
       sx={{ perspective: "1000px" }}
       cursor={"pointer"}
       onClick={() => setFlip((prev) => !prev)}
+      rounded={8}
     >
       <Box
         w={"100%"}
@@ -95,7 +105,10 @@ const GemCard = ({
             <SavedIcon isFill={isSaved} />
           </Box>
 
-          <Box w={"full"} h={"full"} bg={"white"} opacity={0.05}></Box>
+
+          <Center w={"full"} h={"full"} bg={""}>
+            <Image alt="gem" src={GemModel}/>
+          </Center>
 
           {mode === "mine" && (
             <Progress
@@ -110,10 +123,10 @@ const GemCard = ({
             h={53}
             bgColor={"#00000080"}
             justify={"space-between"}
-            p={"10px"}
+            align={"center"}
           >
-            <Flex flexDir={"column"} justify={"space-between"}>
-              <Text fontSize={14} fontWeight={600}>
+            <Flex flexDir={"column"} justify={"space-between"} m={"10px"}>
+              <Text fontSize={14} fontWeight={600} textTransform={"capitalize"}>
                 {rarity} {rarityScore}%
               </Text>
               <Flex columnGap={1} align={"center"}>
@@ -142,7 +155,7 @@ const GemCard = ({
                 onMouseEnter={() => SetHoverMine(true)}
                 onMouseLeave={() => SetHoverMine(false)}
                 onClick={() => {
-                  console.log("heyhey")
+                  console.log("heyhey");
                   seMineModalState({ isOpen: true, mineTime: 2342347 });
                 }}
               >
@@ -159,6 +172,24 @@ const GemCard = ({
               </Box>
             ) : (
               ""
+            )}
+            {mode === "forge" && (
+              <Grid w={53} h={"full"} bg={"#00000080"} templateColumns={"repeat(2, 1fr)"}>
+                <GridItem
+                  borderBottom={"1px solid #164355"}
+                  borderRight={"1px solid #164355"}
+                  w={"100%"}
+                ></GridItem>
+                <GridItem
+                  borderBottom={"1px solid #164355"}
+                  w={"100%"}
+                ></GridItem>
+                <GridItem
+                  borderRight={"1px solid #164355"}
+                  w={"100%"}
+                ></GridItem>
+                <GridItem w={"100%"}></GridItem>
+              </Grid>
             )}
           </Flex>
         </Flex>
