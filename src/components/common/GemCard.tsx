@@ -18,7 +18,7 @@ import { useRecoilState } from "recoil";
 import { miningModalStatus } from "@/recoild/mine/atom";
 
 import GemIcon from "@/assets/icon/mine.svg";
-import GemModel from "@/assets/gem/gem_legendary.svg";
+import GemModel from "@/assets/gem/gem_legendary.png";
 
 interface GemCardType {
   rarity: string;
@@ -105,14 +105,14 @@ const GemCard = ({
             <SavedIcon isFill={isSaved} />
           </Box>
 
-
           <Center w={"full"} h={"full"} bg={""}>
-            <Image alt="gem" src={GemModel}/>
+            <Image alt="gem" src={GemModel} width={150} />
           </Center>
 
           {mode === "mine" && (
             <Progress
               value={((COOLDOWN - timeRemaining) / COOLDOWN) * 100}
+              colorScheme="green"
               h={"2px"}
             />
           )}
@@ -124,8 +124,9 @@ const GemCard = ({
             bgColor={"#00000080"}
             justify={"space-between"}
             align={"center"}
+            p={"10px"}
           >
-            <Flex flexDir={"column"} justify={"space-between"} m={"10px"}>
+            <Flex flexDir={"column"} justify={"space-between"}>
               <Text fontSize={14} fontWeight={600} textTransform={"capitalize"}>
                 {rarity} {rarityScore}%
               </Text>
@@ -174,21 +175,40 @@ const GemCard = ({
               ""
             )}
             {mode === "forge" && (
-              <Grid w={53} h={"full"} bg={"#00000080"} templateColumns={"repeat(2, 1fr)"}>
+              <Grid
+                pos={"absolute"}
+                top={0}
+                right={0}
+                w={53}
+                h={"full"}
+                bg={"#00000080"}
+                templateColumns={"repeat(2, 1fr)"}
+              >
                 <GridItem
+                  textAlign={"center"}
                   borderBottom={"1px solid #164355"}
                   borderRight={"1px solid #164355"}
                   w={"100%"}
-                ></GridItem>
+                >
+                  3
+                </GridItem>
                 <GridItem
+                  textAlign={"center"}
                   borderBottom={"1px solid #164355"}
                   w={"100%"}
-                ></GridItem>
+                >
+                  3
+                </GridItem>
                 <GridItem
+                  textAlign={"center"}
                   borderRight={"1px solid #164355"}
                   w={"100%"}
-                ></GridItem>
-                <GridItem w={"100%"}></GridItem>
+                >
+                  4
+                </GridItem>
+                <GridItem w={"100%"} textAlign={"center"}>
+                  4
+                </GridItem>
               </Grid>
             )}
           </Flex>

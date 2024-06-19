@@ -36,7 +36,7 @@ const MinePage = () => {
                 rarityScore={1}
                 staked={253.2}
                 dailyChange={16.7}
-                lastMineTime={1718647217}
+                lastMineTime={1718750374}
                 mode="mine"
               />
             );

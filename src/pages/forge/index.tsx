@@ -1,8 +1,10 @@
-import GemCard from "@/components/common/GemCard";
+import { useState } from "react";
+import { Box, Button, Center, Flex } from "@chakra-ui/react";
 import ForgingIntroModal from "@/components/modal/ForgingIntroModal";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { Box, Flex } from "@chakra-ui/react";
-import { useState } from "react";
+import GemCard from "@/components/common/GemCard";
+import ForgeIcon from "@/assets/icon/forge.svg";
+import Image from "next/image";
 
 const ForgePage = () => {
   const [storedValue] = useLocalStorage("forge-guide", true);
@@ -14,13 +16,25 @@ const ForgePage = () => {
         isOpen={isGuideModal}
         onClose={() => setGuideModal(false)}
       />
-      <Flex mt={4} gap={4} flexWrap={"wrap"}>
+
+      <Center mt={100} columnGap={6}>
+        <Box w={212} h={272} border={"1px solid white"} rounded={8}></Box>
+
+        <Box w={212} h={272} border={"1px solid white"} rounded={8}></Box>
+      </Center>
+      <Center mt={34}>
+        <Button p={4} bgColor={"#191A22"} color={"white"} columnGap={"6px"} rounded={"full"}>
+          <Image alt="forge" src={ForgeIcon} width={24} height={24} /> Forge
+        </Button>
+      </Center>
+
+      <Flex mt={"72px"} gap={4} flexWrap={"wrap"}>
         {Array(12)
           .fill("")
           .map((item, key) => {
             return (
               <GemCard
-              mode="forge"
+                mode="forge"
                 key={key}
                 rarity="Mythic"
                 rarityScore={1}
