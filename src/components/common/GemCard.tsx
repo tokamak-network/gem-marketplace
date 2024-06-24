@@ -19,6 +19,8 @@ import { miningModalStatus } from "@/recoild/mine/atom";
 
 import GemIcon from "@/assets/icon/mine.svg";
 import GemModel from "@/assets/gem/gem_legendary.png";
+import GemShape from "./GemShape";
+import { PieceInfo, PieceDir } from "@/types";
 
 interface GemCardType {
   rarity: string;
@@ -106,7 +108,16 @@ const GemCard = ({
           </Box>
 
           <Center w={"full"} h={"full"} bg={""}>
-            <Image alt="gem" src={GemModel} width={150} />
+            <GemShape
+              gradient="linear"
+              pieces={{
+                topLeft: 6,
+                topRight: 6,
+                bottomLeft: 6,
+                bottomRight: 7,
+              }}
+              bgColor={["#428EFF", "#012AFF"]}
+            />
           </Center>
 
           {mode === "mine" && (
