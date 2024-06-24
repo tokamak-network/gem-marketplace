@@ -19,14 +19,6 @@ const MinePage = () => {
       <MiningIntroModal isOpen={isGuideModal} onClose={handleGuideModal} />
 
       <Flex mt={4} gap={4} flexWrap={"wrap"}>
-      <GemCard
-          rarity="Mythic"
-          rarityScore={1}
-          staked={253.2}
-          dailyChange={39}
-          lastMineTime={1718349237}
-          mode="mine"
-        />
         {GemList.map((item, key) => {
           return (
             <GemCard
@@ -36,14 +28,7 @@ const MinePage = () => {
               rarityScore={1}
               staked={253.2}
               dailyChange={16.7}
-              lastMineTime={1719201869}
-              pieces={{
-                topLeft: item.topLeft,
-                topRight: item.topRight,
-                bottomLeft: item.bottomLeft,
-                bottomRight: item.bottomRight,
-              }}
-              gemBgColor={item.gemBgColor}
+              gemInfo={item}
             />
           );
         })}

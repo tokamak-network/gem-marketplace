@@ -110,13 +110,7 @@ const MarketPage = () => {
               rarityScore={1}
               staked={253.2}
               dailyChange={16.7}
-              pieces={{
-                topLeft: item.topLeft,
-                topRight: item.topRight,
-                bottomLeft: item.bottomLeft,
-                bottomRight: item.bottomRight,
-              }}
-              gemBgColor={item.gemBgColor}
+              gemInfo={item}
             />
           );
         })}

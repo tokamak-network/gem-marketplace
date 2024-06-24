@@ -79,20 +79,13 @@ const ForgePage = () => {
         {GemList.map((item, key) => {
           return (
             <GemCard
-              id={item.id}
               mode="forge"
               key={key}
+              gemInfo={item}
               rarity="Mythic"
               rarityScore={1}
               staked={253.2}
               dailyChange={16.7}
-              pieces={{
-                topLeft: item.topLeft,
-                topRight: item.topRight,
-                bottomLeft: item.bottomLeft,
-                bottomRight: item.bottomRight,
-              }}
-              gemBgColor={item.gemBgColor}
             />
           );
         })}

@@ -21,6 +21,6 @@ export type GemStandard = {
   bottomLeft: number,
   bottomRight: number,
   gemBgColor: string[],
-  lastMineTime?: number,
+  lastMineTime: number,
 
 }

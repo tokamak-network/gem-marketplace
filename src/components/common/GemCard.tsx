@@ -24,27 +24,21 @@ import GemShape from "./GemShape";
 import { PieceInfo, PieceDir } from "@/types";
 
 interface GemCardType {
-  id: number;
   rarity: string;
   rarityScore: number;
   staked: number;
   dailyChange: number;
   mode?: "market" | "forge" | "mine";
-  lastMineTime?: number;
-  pieces?: PieceInfo;
-  gemBgColor?: string[];
+  gemInfo: GemStandard;
 }
 
 const GemCard = ({
-  id,
   mode = "market",
   rarity,
   rarityScore,
   staked,
   dailyChange,
-  lastMineTime = Date.now(),
-  pieces = { topLeft: 1, topRight: 1, bottomLeft: 1, bottomRight: 1 },
-  gemBgColor = ["#0000FF"],
+  gemInfo,
 }: GemCardType) => {
   const [isSaved, setSaved] = useState<boolean>(false);
   const [isFlip, setFlip] = useState<boolean>(false);
@@ -54,6 +48,14 @@ const GemCard = ({
   const [, seMineModalState] = useRecoilState(miningModalStatus);
   const [selectedGems, setSelectedGems] = useRecoilState(selectedForgeGem);
   const { firstSelectedGem, secondSelectedGem } = selectedGems;
+
+  const { id, lastMineTime, gemBgColor } = gemInfo;
+  const pieces = {
+    topLeft: gemInfo.topLeft,
+    topRight: gemInfo.topRight,
+    bottomLeft: gemInfo.bottomLeft,
+    bottomRight: gemInfo.bottomRight,
+  };
 
   useEffect(() => {
     const currentTimestamp = Date.now();
@@ -79,6 +81,7 @@ const GemCard = ({
         bottomLeft: pieces.bottomLeft,
         bottomRight: pieces.bottomRight,
         gemBgColor: gemBgColor,
+        lastMineTime: lastMineTime
       };
 
       if (firstSelectedGem === null && secondSelectedGem === null) {
