@@ -1,0 +1,22 @@
+<svg width="80" height="80" viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M-2.40413e-05 110L110 0L0 -2.40413e-05L-2.40413e-05 110Z" fill="url(#paint0_linear_384_18879)"/>
+<mask id="path-2-inside-1_384_18879" fill="white">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 250L250 6.55671e-05L110 2.88495e-05L3.67176e-05 110L0 250Z"/>
+</mask>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 250L250 6.55671e-05L110 2.88495e-05L3.67176e-05 110L0 250Z" fill="url(#paint1_linear_384_18879)"/>
+<path d="M250 6.55671e-05L250 -0.999934L252.414 -0.999934L250.707 0.707173L250 6.55671e-05ZM0 250L0.707107 250.707L-1 252.414L-1 250L0 250ZM110 2.88495e-05L109.293 -0.707079L109.586 -0.999971L110 -0.999971L110 2.88495e-05ZM3.67176e-05 110L-0.999963 110L-0.999963 109.586L-0.70707 109.293L3.67176e-05 110ZM250.707 0.707173L0.707107 250.707L-0.707107 249.293L249.293 -0.707042L250.707 0.707173ZM110 -0.999971L250 -0.999934L250 1.00007L110 1.00003L110 -0.999971ZM110.707 0.707137L0.707143 110.707L-0.70707 109.293L109.293 -0.707079L110.707 0.707137ZM-1 250L-0.999963 110L1.00004 110L1 250L-1 250Z" fill="url(#paint2_linear_384_18879)" mask="url(#path-2-inside-1_384_18879)"/>
+<defs>
+<linearGradient id="paint0_linear_384_18879" x1="110" y1="0" x2="2.18478e-06" y2="110" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" />
+<stop offset="1" stop-color="white" />
+</linearGradient>
+<linearGradient id="paint1_linear_384_18879" x1="250" y1="5.06659e-05" x2="0" y2="250" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" />
+<stop offset="1" stop-color="white" />
+</linearGradient>
+<linearGradient id="paint2_linear_384_18879" x1="111" y1="-1.3496e-05" x2="-3.30307e-07" y2="111" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" />
+<stop offset="1" stop-color="white" />
+</linearGradient>
+</defs>
+</svg>

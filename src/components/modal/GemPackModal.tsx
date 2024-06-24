@@ -35,7 +35,7 @@ const GemPackModal = (props: GemPackModalProps) => {
                 h={"100%"}
                 bgRepeat={"no-repeat"}
                 bgSize={"cover"}
-                bgImage={"/image/gempack.png"}
+                bgImage={"/assets/image/gempack.png"}
               >
                 <Image alt="gem" src={GemPack} width={400} height={400} />
               </Center>

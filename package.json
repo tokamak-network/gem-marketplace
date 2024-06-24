@@ -16,6 +16,7 @@
     "@fontsource/inter": "^5.0.18",
     "@fontsource/open-sans": "^5.0.28",
     "@fontsource/poppins": "^5.0.14",
+    "@types/merge-images": "^1.2.4",
     "framer-motion": "^11.2.9",
     "next": "14.2.3",
     "react": "^18",

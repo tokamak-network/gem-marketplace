@@ -20,7 +20,7 @@ const MarketPage = () => {
           pos={"relative"}
           w={212}
           h={272}
-          bgImage={"/image/gempack.png"}
+          bgImage={"/assets/images/gempack.png"}
           flexDir={"column"}
           justify={"end"}
         >
@@ -79,7 +79,7 @@ const MarketPage = () => {
               alt="halloween"
               width={668}
               height={272}
-              src={"/image/halloween.png"}
+              src={"/assets/images/halloween.png"}
             ></Image>
           </Box>
           <Box

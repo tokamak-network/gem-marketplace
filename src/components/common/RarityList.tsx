@@ -39,7 +39,7 @@ const RarityItem = ({ rarity }: { rarity: string }) => {
       <Box pos={"absolute"} top={"-1px"} left={"-16px"}>
         <Image
           alt="rarity"
-          src={`/rarity/${rarity}.svg`}
+          src={`/assets/rarity/${rarity}.svg`}
           width={30}
           height={30}
         />

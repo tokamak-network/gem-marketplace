@@ -1,10 +1,11 @@
+import Image from "next/image";
 import { useState } from "react";
 import { Box, Button, Center, Flex } from "@chakra-ui/react";
 import ForgingIntroModal from "@/components/modal/ForgingIntroModal";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import GemCard from "@/components/common/GemCard";
 import ForgeIcon from "@/assets/icon/forge.svg";
-import Image from "next/image";
+import mergeImages from "merge-images";
 
 const ForgePage = () => {
   const [storedValue] = useLocalStorage("forge-guide", true);
@@ -23,7 +24,14 @@ const ForgePage = () => {
         <Box w={212} h={272} border={"1px solid white"} rounded={8}></Box>
       </Center>
       <Center mt={34}>
-        <Button p={4} bgColor={"#191A22"} color={"white"} columnGap={"6px"} rounded={"full"}>
+        <Button
+          p={4}
+          bgColor={"#191A22"}
+          color={"white"}
+          _hover={{bgColor: "#222222"}}
+          columnGap={"6px"}
+          rounded={"full"}
+        >
           <Image alt="forge" src={ForgeIcon} width={24} height={24} /> Forge
         </Button>
       </Center>

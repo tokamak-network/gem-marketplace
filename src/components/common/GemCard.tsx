@@ -182,6 +182,7 @@ const GemCard = ({
                 w={53}
                 h={"full"}
                 bg={"#00000080"}
+                fontSize={16}
                 templateColumns={"repeat(2, 1fr)"}
               >
                 <GridItem
