@@ -16,7 +16,7 @@ import {
 
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useRecoilState } from "recoil";
-import { miningModalStatus } from "@/recoild/mine/atom";
+import { miningModalStatus } from "@/recoil/mine/atom";
 
 import Mining from "@/assets/images/mining.png";
 

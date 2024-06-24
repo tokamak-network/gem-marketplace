@@ -15,29 +15,36 @@ import HighArrow from "@/assets/icon/higharrow.svg";
 import SavedIcon from "./SavedIcon";
 import { COOLDOWN } from "@/constants";
 import { useRecoilState } from "recoil";
-import { miningModalStatus } from "@/recoild/mine/atom";
+import { miningModalStatus } from "@/recoil/mine/atom";
+import { selectedForgeGem } from "@/recoil/forge/atom";
+import { GemStandard } from "@/types";
 
 import GemIcon from "@/assets/icon/mine.svg";
-import GemModel from "@/assets/gem/gem_legendary.png";
 import GemShape from "./GemShape";
 import { PieceInfo, PieceDir } from "@/types";
 
 interface GemCardType {
+  id: number;
   rarity: string;
   rarityScore: number;
   staked: number;
   dailyChange: number;
   mode?: "market" | "forge" | "mine";
   lastMineTime?: number;
+  pieces?: PieceInfo;
+  gemBgColor?: string[];
 }
 
 const GemCard = ({
+  id,
   mode = "market",
   rarity,
   rarityScore,
   staked,
   dailyChange,
   lastMineTime = Date.now(),
+  pieces = { topLeft: 1, topRight: 1, bottomLeft: 1, bottomRight: 1 },
+  gemBgColor = ["#0000FF"],
 }: GemCardType) => {
   const [isSaved, setSaved] = useState<boolean>(false);
   const [isFlip, setFlip] = useState<boolean>(false);
@@ -45,6 +52,8 @@ const GemCard = ({
   const [isReadyForMine, setReadyForMine] = useState<boolean>(false);
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
   const [, seMineModalState] = useRecoilState(miningModalStatus);
+  const [selectedGems, setSelectedGems] = useRecoilState(selectedForgeGem);
+  const { firstSelectedGem, secondSelectedGem } = selectedGems;
 
   useEffect(() => {
     const currentTimestamp = Date.now();
@@ -61,6 +70,69 @@ const GemCard = ({
     return () => clearInterval(interval);
   }, [timeRemaining]);
 
+  const handleCardClick = () => {
+    if (mode === "forge") {
+      const selectedGem: GemStandard = {
+        id: id,
+        topLeft: pieces.topLeft,
+        topRight: pieces.topRight,
+        bottomLeft: pieces.bottomLeft,
+        bottomRight: pieces.bottomRight,
+        gemBgColor: gemBgColor,
+      };
+
+      if (firstSelectedGem === null && secondSelectedGem === null) {
+        setSelectedGems((prev) => ({
+          ...prev,
+          ...{ firstSelectedGem: selectedGem },
+        }));
+      }
+
+      if (firstSelectedGem !== null && secondSelectedGem === null) {
+        if (firstSelectedGem.id === id) {
+          setSelectedGems((prev) => ({
+            ...prev,
+            ...{ firstSelectedGem: null },
+          }));
+        } else {
+          setSelectedGems((prev) => ({
+            ...prev,
+            ...{ secondSelectedGem: selectedGem },
+          }));
+        }
+      }
+
+      if (firstSelectedGem === null && secondSelectedGem !== null) {
+        if (secondSelectedGem.id === id) {
+          setSelectedGems((prev) => ({
+            ...prev,
+            ...{ secondSelectedGem: null },
+          }));
+        } else {
+          setSelectedGems((prev) => ({
+            ...prev,
+            ...{ firstSelectedGem: selectedGem },
+          }));
+        }
+      }
+
+      if (firstSelectedGem !== null && secondSelectedGem !== null) {
+        if (firstSelectedGem.id === id) {
+          setSelectedGems((prev) => ({
+            ...prev,
+            ...{ firstSelectedGem: null },
+          }));
+        }
+        if (secondSelectedGem.id === id) {
+          setSelectedGems((prev) => ({
+            ...prev,
+            ...{ secondSelectedGem: null },
+          }));
+        }
+      }
+    }
+  };
+
   return (
     <Box
       w={212}
@@ -68,7 +140,7 @@ const GemCard = ({
       bgGradient={"radial(#6F97FF, #1F25A4)"}
       sx={{ perspective: "1000px" }}
       cursor={"pointer"}
-      onClick={() => setFlip((prev) => !prev)}
+      onClick={handleCardClick}
       rounded={8}
     >
       <Box
@@ -110,13 +182,8 @@ const GemCard = ({
           <Center w={"full"} h={"full"} bg={""}>
             <GemShape
               gradient="linear"
-              pieces={{
-                topLeft: 6,
-                topRight: 6,
-                bottomLeft: 6,
-                bottomRight: 7,
-              }}
-              bgColor={["#428EFF", "#012AFF"]}
+              pieces={pieces}
+              gemBgColor={gemBgColor}
             />
           </Center>
 
@@ -202,24 +269,24 @@ const GemCard = ({
                   borderRight={"1px solid #164355"}
                   w={"100%"}
                 >
-                  3
+                  {pieces.topLeft}
                 </GridItem>
                 <GridItem
                   textAlign={"center"}
                   borderBottom={"1px solid #164355"}
                   w={"100%"}
                 >
-                  3
+                  {pieces.topRight}
                 </GridItem>
                 <GridItem
                   textAlign={"center"}
                   borderRight={"1px solid #164355"}
                   w={"100%"}
                 >
-                  4
+                  {pieces.bottomLeft}
                 </GridItem>
                 <GridItem w={"100%"} textAlign={"center"}>
-                  4
+                  {pieces.bottomRight}
                 </GridItem>
               </Grid>
             )}

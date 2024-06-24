@@ -1,6 +1,6 @@
 import { Box, Flex, Text, useTheme } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
-import { gemPackModalStatus } from "@/recoild/market/atom";
+import { gemPackModalStatus } from "@/recoil/market/atom";
 
 import PriceContainer from "@/components/common/PriceContainer";
 import GemPackModal from "@/components/modal/GemPackModal";
@@ -9,9 +9,12 @@ import GEM from "@/assets/images/sample_gem.png";
 import Image from "next/image";
 import GemCard from "@/components/common/GemCard";
 
+import { GemList } from "@/constants";
+
 const MarketPage = () => {
   const theme = useTheme();
-  const [gemPackModalState, setGemPackModalState] = useRecoilState(gemPackModalStatus);
+  const [gemPackModalState, setGemPackModalState] =
+    useRecoilState(gemPackModalStatus);
 
   return (
     <>
@@ -57,12 +60,16 @@ const MarketPage = () => {
             px={"9px"}
             align={"center"}
           >
-            <PriceContainer price={10} onClick={() => setGemPackModalState(true)}/>
+            <PriceContainer
+              price={10}
+              onClick={() => setGemPackModalState(true)}
+            />
           </Flex>
         </Flex>
-        <GemPackModal isOpen={gemPackModalState}
-        onOpen={() => setGemPackModalState(true)}
-        onClose={() => setGemPackModalState(false)}
+        <GemPackModal
+          isOpen={gemPackModalState}
+          onOpen={() => setGemPackModalState(true)}
+          onClose={() => setGemPackModalState(false)}
         />
 
         <Flex
@@ -95,19 +102,24 @@ const MarketPage = () => {
       </Flex>
 
       <Flex mt={4} gap={4} flexWrap={"wrap"}>
-        {Array(12)
-          .fill("")
-          .map((item, key) => {
-            return (
-              <GemCard
-                key={key}
-                rarity="Mythic"
-                rarityScore={1}
-                staked={253.2}
-                dailyChange={16.7}
-              />
-            );
-          })}
+        {GemList.map((item, key) => {
+          return (
+            <GemCard
+              key={key}
+              rarity="Mythic"
+              rarityScore={1}
+              staked={253.2}
+              dailyChange={16.7}
+              pieces={{
+                topLeft: item.topLeft,
+                topRight: item.topRight,
+                bottomLeft: item.bottomLeft,
+                bottomRight: item.bottomRight,
+              }}
+              gemBgColor={item.gemBgColor}
+            />
+          );
+        })}
       </Flex>
     </>
   );

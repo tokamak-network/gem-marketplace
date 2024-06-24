@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 
-import { rarityStatus } from "@/recoild/market/atom";
+import { rarityStatus } from "@/recoil/market/atom";
 
 import { rarityList } from "@/constants/rarity";
 

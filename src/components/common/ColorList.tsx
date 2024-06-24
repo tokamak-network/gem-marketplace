@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Center, Flex, Text } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 
-import { colorStatus } from "@/recoild/market/atom";
+import { colorStatus } from "@/recoil/market/atom";
 
 import { colorList, colorBorderList } from "@/constants/rarity";
 

@@ -6,13 +6,13 @@ import { PieceDir, PieceInfo, GradientType } from "@/types";
 
 interface GemProps {
   pieces: PieceInfo;
-  bgColor: string[];
-  gradient: GradientType;
+  gemBgColor: string[];
+  gradient?: GradientType;
 }
 
 const GemShape = ({
   pieces,
-  bgColor = ["#0000FF"],
+  gemBgColor = ["#0000FF"],
   gradient = "solid",
 }: GemProps) => {
   const [combinedGem, setCombinedGem] = useState<string>("");
@@ -88,9 +88,9 @@ const GemShape = ({
         style={{
           maskImage: `url("${bgGemShape}")`,
           background:
-            bgColor.length === 1
-              ? bgColor[0]
-              : `linear-gradient(${bgColor[0]}, ${bgColor[1]})`,
+          gemBgColor.length === 1
+              ? gemBgColor[0]
+              : `linear-gradient(${gemBgColor[0]}, ${gemBgColor[1]})`,
         }}
         pos={"absolute"}
         zIndex={-1}

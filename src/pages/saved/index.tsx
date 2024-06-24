@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Box, Flex, Text, useTheme } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
-import { gemPackModalStatus } from "@/recoild/market/atom";
+import { gemPackModalStatus } from "@/recoil/market/atom";
 
 import PriceContainer from "@/components/common/PriceContainer";
 import GemPackModal from "@/components/modal/GemPackModal";
@@ -95,11 +95,12 @@ const SavedPage = () => {
       </Flex>
 
       <Flex mt={4} gap={4} flexWrap={"wrap"}>
-        {Array(12)
+        {/* {Array(12)
           .fill("")
           .map((item, key) => {
             return (
               <GemCard
+                id={id}
                 key={key}
                 rarity="Mythic"
                 rarityScore={1}
@@ -107,7 +108,7 @@ const SavedPage = () => {
                 dailyChange={16.7}
               />
             );
-          })}
+          })} */}
       </Flex>
     </>
   );
