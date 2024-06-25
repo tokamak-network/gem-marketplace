@@ -1,15 +1,7 @@
 "use client";
 import Image from "next/image";
-import {
-  Box,
-  Flex,
-  Text,
-  Progress,
-  Center,
-  Grid,
-  GridItem,
-} from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Box, Flex, Text, Progress, Center, useTheme } from "@chakra-ui/react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import PriceContainer from "./PriceContainer";
 import HighArrow from "@/assets/icon/higharrow.svg";
 import SavedIcon from "./SavedIcon";
@@ -18,13 +10,12 @@ import { useRecoilState } from "recoil";
 import { miningModalStatus } from "@/recoil/mine/atom";
 import { selectedForgeGem } from "@/recoil/forge/atom";
 import { GemStandard } from "@/types";
+import RarityViewer from "./RarityViewer";
 
 import GemIcon from "@/assets/icon/mine.svg";
 import GemShape from "./GemShape";
-import { PieceInfo, PieceDir } from "@/types";
 
 interface GemCardType {
-  rarity: string;
   rarityScore: number;
   staked: number;
   dailyChange: number;
@@ -34,7 +25,6 @@ interface GemCardType {
 
 const GemCard = ({
   mode = "market",
-  rarity,
   rarityScore,
   staked,
   dailyChange,
@@ -48,8 +38,9 @@ const GemCard = ({
   const [, seMineModalState] = useRecoilState(miningModalStatus);
   const [selectedGems, setSelectedGems] = useRecoilState(selectedForgeGem);
   const { firstSelectedGem, secondSelectedGem } = selectedGems;
+  const theme = useTheme();
 
-  const { id, lastMineTime, gemBgColor } = gemInfo;
+  const { id, lastMineTime, gemBgColor, rarity } = gemInfo;
   const pieces = {
     topLeft: gemInfo.topLeft,
     topRight: gemInfo.topRight,
@@ -59,21 +50,21 @@ const GemCard = ({
 
   useEffect(() => {
     const currentTimestamp = Date.now();
-    const interval = setInterval(() => {
-      if (currentTimestamp / 1000 - lastMineTime > COOLDOWN) {
-        setReadyForMine(true);
-        setTimeRemaining(0);
-      } else {
-        setTimeRemaining(
-          COOLDOWN + lastMineTime - Math.floor(currentTimestamp / 1000)
-        );
-      }
-    }, 1000);
-    return () => clearInterval(interval);
+    // const interval = setInterval(() => {
+    //   if (currentTimestamp / 1000 - lastMineTime > COOLDOWN) {
+    //     setReadyForMine(true);
+    //     setTimeRemaining(0);
+    //   } else {
+    //     setTimeRemaining(
+    //       COOLDOWN + lastMineTime - Math.floor(currentTimestamp / 1000)
+    //     );
+    //   }
+    // }, 1000);
+    // return () => clearInterval(interval);
   }, [timeRemaining]);
 
-  const handleCardClick = () => {
-    if (mode === "forge") {
+  const handleCardClick = useCallback(() => {
+    if (mode === "forge" && (isForgeActive || isForgeSelected)) {
       const selectedGem: GemStandard = {
         id: id,
         topLeft: pieces.topLeft,
@@ -82,6 +73,7 @@ const GemCard = ({
         bottomRight: pieces.bottomRight,
         gemBgColor: gemBgColor,
         lastMineTime: lastMineTime,
+        rarity: rarity,
       };
 
       if (firstSelectedGem === null && secondSelectedGem === null) {
@@ -134,10 +126,27 @@ const GemCard = ({
         }
       }
     }
-  };
+  }, [firstSelectedGem, secondSelectedGem]);
+
+  const isForgeActive = useMemo(() => {
+    if (firstSelectedGem === null && secondSelectedGem === null) return true;
+    else {
+      if (firstSelectedGem !== null && secondSelectedGem !== null) return false;
+      if (
+        rarity === firstSelectedGem?.rarity ||
+        rarity === secondSelectedGem?.rarity
+      )
+      return true;
+    }
+  }, [firstSelectedGem, secondSelectedGem]);
+
+  const isForgeSelected = useMemo(() => {
+    return id === firstSelectedGem?.id || id === secondSelectedGem?.id;
+  }, [firstSelectedGem, secondSelectedGem]);
 
   return (
     <Box
+      pos={"relative"}
       w={212}
       h={272}
       bgGradient={"radial(#6F97FF, #1F25A4)"}
@@ -145,7 +154,23 @@ const GemCard = ({
       cursor={"pointer"}
       onClick={handleCardClick}
       rounded={8}
+      opacity={isForgeActive || isForgeSelected ? 1 : 0.25}
     >
+      {isForgeSelected && <Center
+        w={"81px"}
+        h={"24px"}
+        pos={"absolute"}
+        top={0}
+        left={0}
+        rounded={"8px 0px 8px 0px"}
+        bgColor={"#1C1C1C"}
+        fontWeight={700}
+        fontSize={12}
+        textAlign={"center"}
+        fontFamily={theme.fonts.Quicksand}
+      >
+        selected
+      </Center>}
       <Box
         w={"100%"}
         h={"100%"}
@@ -257,44 +282,7 @@ const GemCard = ({
             ) : (
               ""
             )}
-            {mode === "forge" && (
-              <Grid
-                pos={"absolute"}
-                top={0}
-                right={0}
-                w={53}
-                h={"full"}
-                bg={"#00000080"}
-                fontSize={16}
-                templateColumns={"repeat(2, 1fr)"}
-              >
-                <GridItem
-                  textAlign={"center"}
-                  borderBottom={"1px solid #164355"}
-                  borderRight={"1px solid #164355"}
-                  w={"100%"}
-                >
-                  {pieces.topLeft}
-                </GridItem>
-                <GridItem
-                  textAlign={"center"}
-                  borderBottom={"1px solid #164355"}
-                  w={"100%"}
-                >
-                  {pieces.topRight}
-                </GridItem>
-                <GridItem
-                  textAlign={"center"}
-                  borderRight={"1px solid #164355"}
-                  w={"100%"}
-                >
-                  {pieces.bottomLeft}
-                </GridItem>
-                <GridItem w={"100%"} textAlign={"center"}>
-                  {pieces.bottomRight}
-                </GridItem>
-              </Grid>
-            )}
+            {mode === "forge" && <RarityViewer pieces={pieces} />}
           </Flex>
         </Flex>
 

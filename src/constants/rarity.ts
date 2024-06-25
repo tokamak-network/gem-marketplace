@@ -1,8 +1,8 @@
 export const rarityList = [
   "base",
   "common",
-  "uncommon",
   "rare",
+  "unique",
   "epic",
   "legendary",
   "mythic",
