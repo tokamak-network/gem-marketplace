@@ -3,8 +3,8 @@ import { atom, selector } from "recoil";
 type RarityStatusType = {
   [base: string]: boolean | "",
   common: boolean | "",
-  uncommon: boolean | "",
   rare: boolean | "",
+  unique: boolean | "",
   epic: boolean | "",
   legendary: boolean | "",
   mythic: boolean | "",
@@ -16,8 +16,8 @@ export const rarityStatus = atom<RarityStatusType>({
   default: {
     base: false,
     common: false,
-    uncommon: false,
     rare: false,
+    unique: false,
     epic: false,
     legendary: false,
     mythic: false,

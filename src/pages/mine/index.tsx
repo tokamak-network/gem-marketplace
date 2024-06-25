@@ -24,7 +24,6 @@ const MinePage = () => {
             <GemCard
               mode="mine"
               key={key}
-              rarity="Mythic"
               rarityScore={1}
               staked={253.2}
               dailyChange={16.7}
