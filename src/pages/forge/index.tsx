@@ -9,13 +9,12 @@ import GemCard from "@/components/common/GemCard";
 import ForgeIcon from "@/assets/icon/forge.svg";
 import { GemList } from "@/constants";
 import { selectedForgeGem, SelectedForgeGemType } from "@/recoil/forge/atom";
-import GemShape from "@/components/common/GemShape";
+import ForgeContainer from "./ForgeContainer";
 
 const ForgePage = () => {
   const [storedValue] = useLocalStorage("forge-guide", true);
   const [isGuideModal, setGuideModal] = useState(storedValue);
   const [selectedGems] = useRecoilState<SelectedForgeGemType>(selectedForgeGem);
-  const { firstSelectedGem, secondSelectedGem } = selectedGems;
 
   return (
     <Box>
@@ -24,35 +23,8 @@ const ForgePage = () => {
         onClose={() => setGuideModal(false)}
       />
 
-      <Center mt={100} columnGap={6}>
-        <Center w={212} h={272} border={"1px solid white"} rounded={8}>
-          {firstSelectedGem !== null && (
-            <GemShape
-              pieces={{
-                topLeft: firstSelectedGem?.topLeft,
-                topRight: firstSelectedGem?.topRight,
-                bottomLeft: firstSelectedGem?.bottomLeft,
-                bottomRight: firstSelectedGem?.bottomRight,
-              }}
-              gemBgColor={firstSelectedGem.gemBgColor}
-            />
-          )}
-        </Center>
+      <ForgeContainer />
 
-        <Center w={212} h={272} border={"1px solid white"} rounded={8}>
-          {secondSelectedGem !== null && (
-            <GemShape
-              pieces={{
-                topLeft: secondSelectedGem?.topLeft,
-                topRight: secondSelectedGem?.topRight,
-                bottomLeft: secondSelectedGem?.bottomLeft,
-                bottomRight: secondSelectedGem?.bottomRight,
-              }}
-              gemBgColor={secondSelectedGem.gemBgColor}
-            />
-          )}
-        </Center>
-      </Center>
       <Center mt={34}>
         <Button
           p={4}

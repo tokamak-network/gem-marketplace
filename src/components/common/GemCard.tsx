@@ -81,7 +81,7 @@ const GemCard = ({
         bottomLeft: pieces.bottomLeft,
         bottomRight: pieces.bottomRight,
         gemBgColor: gemBgColor,
-        lastMineTime: lastMineTime
+        lastMineTime: lastMineTime,
       };
 
       if (firstSelectedGem === null && secondSelectedGem === null) {
@@ -167,20 +167,22 @@ const GemCard = ({
             backfaceVisibility: "hidden",
           }}
         >
-          <Box
-            pos={"absolute"}
-            top={"10px"}
-            right={"10px"}
-            cursor={"pointer"}
-            zIndex={10}
-            onClick={(e) => {
-              setSaved((prev) => !prev);
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-          >
-            <SavedIcon isFill={isSaved} />
-          </Box>
+          {mode !== "forge" && (
+            <Box
+              pos={"absolute"}
+              top={"10px"}
+              right={"10px"}
+              cursor={"pointer"}
+              zIndex={10}
+              onClick={(e) => {
+                setSaved((prev) => !prev);
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              <SavedIcon isFill={isSaved} />
+            </Box>
+          )}
 
           <Center w={"full"} h={"full"} bg={""}>
             <GemShape

@@ -18,6 +18,8 @@ const GemShape = ({
   const [combinedGem, setCombinedGem] = useState<string>("");
   const [bgGemShape, setBgGemShape] = useState<string>("");
 
+  console.log(gemBgColor)
+
   useEffect(() => {
     mergeImages(
       [
