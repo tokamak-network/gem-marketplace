@@ -13,3 +13,8 @@ export const selectedForgeGem = atom<SelectedForgeGemType>({
     secondSelectedGem: null
   }
 })
+
+export const forgeConfirmModalStatus = atom<boolean>({
+  key: "forgeConfirmModalStatus",
+  default: false
+})

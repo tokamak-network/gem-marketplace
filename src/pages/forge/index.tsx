@@ -6,10 +6,12 @@ import { useRecoilState } from "recoil";
 import ForgingIntroModal from "@/components/modal/ForgingIntroModal";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import GemCard from "@/components/common/GemCard";
-import ForgeIcon from "@/assets/icon/forge.svg";
 import { GemList } from "@/constants";
-import { selectedForgeGem, SelectedForgeGemType } from "@/recoil/forge/atom";
 import ForgeContainer from "./ForgeContainer";
+import {
+  selectedForgeGem,
+  SelectedForgeGemType,
+} from "@/recoil/forge/atom";
 
 const ForgePage = () => {
   const [storedValue] = useLocalStorage("forge-guide", true);
@@ -24,28 +26,6 @@ const ForgePage = () => {
       />
 
       <ForgeContainer />
-
-      <Center mt={34}>
-        <Button
-          p={4}
-          bgColor={"#191A22"}
-          color={"white"}
-          _hover={{ bgColor: "#222222" }}
-          columnGap={"6px"}
-          rounded={"full"}
-          isDisabled={
-            selectedGems.firstSelectedGem === null &&
-            selectedGems.secondSelectedGem === null
-          }
-          _disabled={{
-            backgroundColor: "#5C5C5C",
-            opacity: 0.5,
-            cursor: "not-allowed",
-          }}
-        >
-          <Image alt="forge" src={ForgeIcon} width={24} height={24} /> Forge
-        </Button>
-      </Center>
 
       <Flex mt={"72px"} gap={4} flexWrap={"wrap"}>
         {GemList.map((item, key) => {

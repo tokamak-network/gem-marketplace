@@ -1,15 +1,19 @@
-import { Box, Center } from "@chakra-ui/react";
+import { Box, Button, Center } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import GemCard from "@/components/common/GemCard";
 import { selectedForgeGem, SelectedForgeGemType } from "@/recoil/forge/atom";
 import CloseIcon from "@/assets/icon/close.svg";
 import Image from "next/image";
+import ForgeIcon from "@/assets/icon/forge.svg";
+import { forgeConfirmModalStatus } from "@/recoil/forge/atom";
 
 const ForgeContainer = () => {
   const [selectedGems, setSelectedGems] =
     useRecoilState<SelectedForgeGemType>(selectedForgeGem);
   const { firstSelectedGem, secondSelectedGem } = selectedGems;
-
+  const [isForgeConfirm, setForgeConfirm] = useRecoilState(
+    forgeConfirmModalStatus
+  );
   enum SelectedGem {
     FIRST,
     SECOND,
@@ -24,74 +28,99 @@ const ForgeContainer = () => {
   };
 
   return (
-    <Center mt={100} columnGap={6}>
-      <Center
-        pos={"relative"}
-        bg={""}
-        w={212}
-        h={274}
-        border={"1px solid white"}
-        rounded={8}
-      >
-        {firstSelectedGem !== null && (
-          <Box
-            pos={"absolute"}
-            zIndex={1}
-            w={"16px"}
-            h={"16px"}
-            p={0}
-            cursor={"pointer"}
-            top={2}
-            right={2}
-            onClick={() => handleCancelItem(SelectedGem.FIRST)}
-          >
-            <Image alt="close" src={CloseIcon} />
-          </Box>
-        )}
-        {firstSelectedGem !== null && (
-          <GemCard
-            mode="forge"
-            gemInfo={firstSelectedGem}
-            rarityScore={1}
-            staked={253.2}
-            dailyChange={16.7}
-          />
-        )}
+    <Box>
+      <Center mt={100} columnGap={6}>
+        <Center
+          pos={"relative"}
+          bg={""}
+          w={212}
+          h={274}
+          border={"1px solid white"}
+          rounded={8}
+        >
+          {firstSelectedGem !== null && (
+            <Box
+              pos={"absolute"}
+              zIndex={1}
+              w={"16px"}
+              h={"16px"}
+              p={0}
+              cursor={"pointer"}
+              top={2}
+              right={2}
+              onClick={() => handleCancelItem(SelectedGem.FIRST)}
+            >
+              <Image alt="close" src={CloseIcon} />
+            </Box>
+          )}
+          {firstSelectedGem !== null && (
+            <GemCard
+              mode="forge"
+              gemInfo={firstSelectedGem}
+              rarityScore={1}
+              staked={253.2}
+              dailyChange={16.7}
+            />
+          )}
+        </Center>
+
+        <Center
+          pos={"relative"}
+          w={212}
+          h={274}
+          border={"1px solid white"}
+          rounded={8}
+        >
+          {secondSelectedGem !== null && (
+            <Box
+              zIndex={1}
+              pos={"absolute"}
+              w={"16px"}
+              h={"16px"}
+              p={0}
+              cursor={"pointer"}
+              top={2}
+              right={2}
+              onClick={() => handleCancelItem(SelectedGem.SECOND)}
+            >
+              <Image alt="close" src={CloseIcon} />
+            </Box>
+          )}
+          {secondSelectedGem !== null && (
+            <GemCard
+              mode="forge"
+              gemInfo={secondSelectedGem}
+              rarityScore={1}
+              staked={253.2}
+              dailyChange={16.7}
+            />
+          )}
+        </Center>
       </Center>
 
-      <Center
-        pos={"relative"}
-        w={212}
-        h={274}
-        border={"1px solid white"}
-        rounded={8}
-      >
-        {secondSelectedGem !== null && (
-          <Box
-            zIndex={1}
-            pos={"absolute"}
-            w={"16px"}
-            h={"16px"}
-            p={0}
-            cursor={"pointer"}
-            top={2}
-            right={2}
-            onClick={() => handleCancelItem(SelectedGem.SECOND)}
-          >
-            <Image alt="close" src={CloseIcon} />
-          </Box>
-        )}
-        {secondSelectedGem !== null && (
-          <GemCard
-            mode="forge"
-            gemInfo={secondSelectedGem}
-            rarityScore={1}
-            staked={253.2}
-            dailyChange={16.7}
-          />
-        )}
+      <Center mt={34}>
+        <Button
+          p={4}
+          bgColor={"#191A22"}
+          color={"white"}
+          _hover={{ bgColor: "#222222" }}
+          columnGap={"6px"}
+          rounded={"full"}
+          isDisabled={
+            selectedGems.firstSelectedGem === null &&
+            selectedGems.secondSelectedGem === null
+          }
+          _disabled={{
+            backgroundColor: "#5C5C5C",
+            opacity: 0.5,
+            cursor: "not-allowed",
+          }}
+          onClick={() => setForgeConfirm(true)}
+        >
+          <Image alt="forge" src={ForgeIcon} width={24} height={24} /> Forge
+        </Button>
       </Center>
-    </Center>
+    </Box>
   );
 };
 

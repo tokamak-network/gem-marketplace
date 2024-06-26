@@ -157,6 +157,7 @@ const GemCard = ({
       opacity={isForgeActive || isForgeSelected ? 1 : 0.25}
       boxShadow={isForgeSelected ? "0px 0px 25px 0px #0068FF" : ""}
       border={isForgeSelected ? "1px solid #FFFFFF" : ""}
+      transition={"0.2s"}
     >
       {isForgeSelected && <Center
         w={"81px"}
