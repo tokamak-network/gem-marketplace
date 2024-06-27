@@ -19,7 +19,7 @@ interface GemCardType {
   rarityScore: number;
   staked: number;
   dailyChange: number;
-  mode?: "market" | "forge" | "mine";
+  mode?: "market" | "forge" | "mine" | "common";
   gemInfo: GemStandard;
 }
 
@@ -136,7 +136,7 @@ const GemCard = ({
         rarity === firstSelectedGem?.rarity ||
         rarity === secondSelectedGem?.rarity
       )
-      return true;
+        return true;
     }
   }, [firstSelectedGem, secondSelectedGem]);
 
@@ -154,26 +154,38 @@ const GemCard = ({
       cursor={"pointer"}
       onClick={handleCardClick}
       rounded={8}
-      opacity={isForgeActive || isForgeSelected ? 1 : 0.25}
-      boxShadow={isForgeSelected ? "0px 0px 25px 0px #0068FF" : ""}
-      border={isForgeSelected ? "1px solid #FFFFFF" : ""}
+      opacity={
+        mode === "forge" ? (isForgeActive || isForgeSelected ? 1 : 0.25) : 1
+      }
+      boxShadow={
+        (isForgeSelected && mode === "forge") || mode === "common"
+          ? "0px 0px 25px 0px #0068FF"
+          : ""
+      }
+      border={
+        (isForgeSelected && mode === "forge") || mode === "common"
+          ? "1px solid #FFFFFF"
+          : ""
+      }
       transition={"0.2s"}
     >
-      {isForgeSelected && <Center
-        w={"81px"}
-        h={"24px"}
-        pos={"absolute"}
-        top={0}
-        left={0}
-        rounded={"8px 0px 8px 0px"}
-        bgColor={"#1C1C1C"}
-        fontWeight={700}
-        fontSize={12}
-        textAlign={"center"}
-        fontFamily={theme.fonts.Quicksand}
-      >
-        selected
-      </Center>}
+      {isForgeSelected && mode === "forge" && (
+        <Center
+          w={"81px"}
+          h={"24px"}
+          pos={"absolute"}
+          top={0}
+          left={0}
+          rounded={"8px 0px 8px 0px"}
+          bgColor={"#1C1C1C"}
+          fontWeight={700}
+          fontSize={12}
+          textAlign={"center"}
+          fontFamily={theme.fonts.Quicksand}
+        >
+          selected
+        </Center>
+      )}
       <Box
         w={"100%"}
         h={"100%"}
@@ -195,7 +207,7 @@ const GemCard = ({
             backfaceVisibility: "hidden",
           }}
         >
-          {mode !== "forge" && (
+          {(mode === "mine" || mode === "market") && (
             <Box
               pos={"absolute"}
               top={"10px"}
@@ -285,7 +297,9 @@ const GemCard = ({
             ) : (
               ""
             )}
-            {mode === "forge" && <RarityViewer pieces={pieces} />}
+            {(mode === "forge" || mode === "common") && (
+              <RarityViewer pieces={pieces} />
+            )}
           </Flex>
         </Flex>
 

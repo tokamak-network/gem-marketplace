@@ -18,3 +18,8 @@ export const forgeConfirmModalStatus = atom<boolean>({
   key: "forgeConfirmModalStatus",
   default: false
 })
+
+export const forgeSuccessModalStatus = atom<boolean>({
+  key: "forgeSuccessModalStatus",
+  default: false
+})

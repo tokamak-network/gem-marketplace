@@ -11,9 +11,7 @@ const ForgeContainer = () => {
   const [selectedGems, setSelectedGems] =
     useRecoilState<SelectedForgeGemType>(selectedForgeGem);
   const { firstSelectedGem, secondSelectedGem } = selectedGems;
-  const [isForgeConfirm, setForgeConfirm] = useRecoilState(
-    forgeConfirmModalStatus
-  );
+  const [, setForgeConfirm] = useRecoilState(forgeConfirmModalStatus);
   enum SelectedGem {
     FIRST,
     SECOND,
@@ -55,7 +53,7 @@ const ForgeContainer = () => {
           )}
           {firstSelectedGem !== null && (
             <GemCard
-              mode="forge"
+              mode="common"
               gemInfo={firstSelectedGem}
               rarityScore={1}
               staked={253.2}
@@ -88,7 +86,7 @@ const ForgeContainer = () => {
           )}
           {secondSelectedGem !== null && (
             <GemCard
-              mode="forge"
+              mode="common"
               gemInfo={secondSelectedGem}
               rarityScore={1}
               staked={253.2}
@@ -101,9 +99,14 @@ const ForgeContainer = () => {
       <Center mt={34}>
         <Button
           p={4}
-          bgColor={"#191A22"}
+          bgColor={"#0380FF"}
+          colorScheme={
+            selectedGems.firstSelectedGem === null &&
+            selectedGems.secondSelectedGem === null
+              ? ""
+              : "blue"
+          }
           color={"white"}
-          _hover={{ bgColor: "#222222" }}
           columnGap={"6px"}
           rounded={"full"}
           isDisabled={

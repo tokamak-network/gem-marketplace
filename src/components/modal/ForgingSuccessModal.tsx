@@ -7,37 +7,30 @@ import {
   ModalCloseButton,
   Flex,
   Text,
-  useTheme,
   Button,
   Center,
 } from "@chakra-ui/react";
 
-import {
-  forgeConfirmModalStatus,
-  forgeSuccessModalStatus,
-} from "@/recoil/forge/atom";
+import { forgeSuccessModalStatus } from "@/recoil/forge/atom";
 import { useRecoilState } from "recoil";
 
 import ForgeIcon from "@/assets/icon/forge.svg";
+import GemIcon from "@/assets/icon/mine.svg";
+import GemCard from "../common/GemCard";
+import { RarityType } from "@/types";
 
-const ForgeConfirmModal = () => {
-  const [isForgeConfirm, setForgeConfirm] = useRecoilState(
-    forgeConfirmModalStatus
-  );
-  const [, setForgeSuccess] = useRecoilState(
-    forgeSuccessModalStatus
-  );
-  const theme = useTheme();
+const ForgeSuccessModal = () => {
+  const [isModal, setShowModal] = useRecoilState(forgeSuccessModalStatus);
 
   return (
     <Modal
-      isOpen={isForgeConfirm}
-      onClose={() => setForgeConfirm(false)}
-      size={"xl"}
+      isOpen={isModal}
+      onClose={() => setShowModal(false)}
+      size={"2xl"}
       isCentered
     >
       <ModalOverlay />
-      <ModalContent bgColor={"#21232D"}>
+      <ModalContent bgColor={"#21232D"} rounded={16}>
         <ModalCloseButton />
         <ModalBody padding={0}>
           <Flex w={"100%"} flexDir={"column"} p={"37px 52px 44px 52px"}>
@@ -47,27 +40,34 @@ const ForgeConfirmModal = () => {
               textAlign={"center"}
               textTransform={"uppercase"}
             >
-              forging
+              FORGED A NEW GEM!
             </Text>
 
-            <Text
-              mt={6}
-              fontFamily={theme.fonts.Inter}
-              fontSize={28}
-              fontWeight={400}
-              lineHeight={"34.57px"}
-              textAlign={"center"}
-            >
-              Combine two gems to obtain a higher quality Gem.
-            </Text>
+            <Center mt={8}>
+              <GemCard
+                mode="common"
+                dailyChange={16.7}
+                staked={92.36}
+                rarityScore={1}
+                gemInfo={{
+                  topLeft: 6,
+                  topRight: 5,
+                  bottomLeft: 5,
+                  bottomRight: 5,
+                  gemBgColor: ["#0BFFF0", "#0075FF"],
+                  id: 30,
+                  lastMineTime: 324234234,
+                  rarity: RarityType.LEGENDARY,
+                }}
+              />
+            </Center>
 
             <Text
-              fontFamily={theme.fonts.Inter}
               mt={14}
-              fontSize={20}
+              fontSize={18}
               fontWeight={400}
               textAlign={"center"}
-              lineHeight={"24px"}
+              lineHeight={"27px"}
             >
               Forging burns your two gems in order to mint a newer gem with
               higher quality and value.
@@ -77,14 +77,15 @@ const ForgeConfirmModal = () => {
               <Button
                 w={183}
                 h={65}
-                colorScheme="alpha"
-                border={"2px solid #0380FF"}
                 rounded={8}
-                fontSize={24}
+                bgColor={"#0380FF"}
+                colorScheme="blue"
                 fontWeight={600}
-                onClick={() => setForgeConfirm(false)}
+                fontSize={24}
+                columnGap={2}
               >
-                Cancel
+                <Image width={23} height={23} alt="gem" src={GemIcon} />
+                Mine
               </Button>
               <Button
                 w={183}
@@ -95,10 +96,6 @@ const ForgeConfirmModal = () => {
                 fontWeight={600}
                 fontSize={24}
                 columnGap={2}
-                onClick={() => {
-                  setForgeConfirm(false);
-                  setForgeSuccess(true);
-                }}
               >
                 <Image width={23} height={23} alt="forge" src={ForgeIcon} />
                 <Text>Forge</Text>
@@ -111,4 +108,4 @@ const ForgeConfirmModal = () => {
   );
 };
 
-export default ForgeConfirmModal;
+export default ForgeSuccessModal;
