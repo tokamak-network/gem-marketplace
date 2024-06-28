@@ -50,17 +50,17 @@ const GemCard = ({
 
   useEffect(() => {
     const currentTimestamp = Date.now();
-    // const interval = setInterval(() => {
-    //   if (currentTimestamp / 1000 - lastMineTime > COOLDOWN) {
-    //     setReadyForMine(true);
-    //     setTimeRemaining(0);
-    //   } else {
-    //     setTimeRemaining(
-    //       COOLDOWN + lastMineTime - Math.floor(currentTimestamp / 1000)
-    //     );
-    //   }
-    // }, 1000);
-    // return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      if (currentTimestamp / 1000 - lastMineTime > COOLDOWN) {
+        setReadyForMine(true);
+        setTimeRemaining(0);
+      } else {
+        setTimeRemaining(
+          COOLDOWN + lastMineTime - Math.floor(currentTimestamp / 1000)
+        );
+      }
+    }, 1000);
+    return () => clearInterval(interval);
   }, [timeRemaining]);
 
   const handleCardClick = useCallback(() => {

@@ -15,6 +15,7 @@ import {
 import {
   forgeConfirmModalStatus,
   forgeSuccessModalStatus,
+  selectedForgeGem,
 } from "@/recoil/forge/atom";
 import { useRecoilState } from "recoil";
 
@@ -24,9 +25,8 @@ const ForgeConfirmModal = () => {
   const [isForgeConfirm, setForgeConfirm] = useRecoilState(
     forgeConfirmModalStatus
   );
-  const [, setForgeSuccess] = useRecoilState(
-    forgeSuccessModalStatus
-  );
+  const [, setForgeSuccess] = useRecoilState(forgeSuccessModalStatus);
+  const [, setForgeGems] = useRecoilState(selectedForgeGem);
   const theme = useTheme();
 
   return (
@@ -98,6 +98,10 @@ const ForgeConfirmModal = () => {
                 onClick={() => {
                   setForgeConfirm(false);
                   setForgeSuccess(true);
+                  setForgeGems({
+                    firstSelectedGem: null,
+                    secondSelectedGem: null,
+                  });
                 }}
               >
                 <Image width={23} height={23} alt="forge" src={ForgeIcon} />

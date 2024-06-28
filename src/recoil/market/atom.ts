@@ -1,15 +1,17 @@
 import { atom, selector } from "recoil";
+import { GemList } from "@/constants";
+import { GemStandard } from "@/types";
 
 type RarityStatusType = {
-  [base: string]: boolean | "",
-  common: boolean | "",
-  rare: boolean | "",
-  unique: boolean | "",
-  epic: boolean | "",
-  legendary: boolean | "",
-  mythic: boolean | "",
-  heirloom: boolean | ""
-}
+  [base: string]: boolean | "";
+  common: boolean | "";
+  rare: boolean | "";
+  unique: boolean | "";
+  epic: boolean | "";
+  legendary: boolean | "";
+  mythic: boolean | "";
+  heirloom: boolean | "";
+};
 
 export const rarityStatus = atom<RarityStatusType>({
   key: "rarityStatus",
@@ -21,22 +23,22 @@ export const rarityStatus = atom<RarityStatusType>({
     epic: false,
     legendary: false,
     mythic: false,
-    heirloom: false
-  }
-})
+    heirloom: false,
+  },
+});
 
 type ColorStatusType = {
   [ruby: string]: boolean;
-  amber: boolean,
-  topaz: boolean,
-  emerald: boolean,
-  turquoise: boolean,
-  sapphire: boolean,
-  amethyst: boolean,
-  garnet: boolean,
-  diamond: boolean,
-  onyx: boolean,
-}
+  amber: boolean;
+  topaz: boolean;
+  emerald: boolean;
+  turquoise: boolean;
+  sapphire: boolean;
+  amethyst: boolean;
+  garnet: boolean;
+  diamond: boolean;
+  onyx: boolean;
+};
 
 export const colorStatus = atom<ColorStatusType>({
   key: "colorStatus",
@@ -51,10 +53,26 @@ export const colorStatus = atom<ColorStatusType>({
     garnet: false,
     diamond: false,
     onyx: false,
-  }
-})
+  },
+});
 
 export const gemPackModalStatus = atom<boolean>({
   key: "gemPackModalStatus",
-  default: false
-})
+  default: false,
+});
+
+export const activeRarityListSelector = selector<{
+  activeRarityList: GemStandard[];
+}>({
+  key: "activeRarityListSelector",
+  get: ({ get }) => {
+    const raritySelected = get(rarityStatus);
+    const activeRarityList = GemList.filter(
+      (item) => raritySelected[item.rarity] === true
+    );
+    for (let item in raritySelected) {
+      if (raritySelected[item] === true) return { activeRarityList };
+    }
+    return { activeRarityList: GemList };
+  },
+});

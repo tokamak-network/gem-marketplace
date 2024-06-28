@@ -33,5 +33,5 @@ export type GemStandard = {
   bottomRight: number;
   gemBgColor: string[];
   lastMineTime: number;
-  rarity?: RarityType;
+  rarity: RarityType;
 };
