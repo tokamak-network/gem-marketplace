@@ -1,5 +1,6 @@
 import { Box, Flex, Text, useTheme } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
+import { useSearchParams } from "next/navigation";
 import { gemPackModalStatus } from "@/recoil/market/atom";
 
 import PriceContainer from "@/components/common/PriceContainer";
@@ -8,6 +9,7 @@ import GemPackModal from "@/components/modal/GemPackModal";
 import GEM from "@/assets/images/sample_gem.png";
 import Image from "next/image";
 import GemCard from "@/components/common/GemCard";
+import GemItem from "./GemItem";
 
 import { GemList } from "@/constants";
 
@@ -15,8 +17,11 @@ const MarketPage = () => {
   const theme = useTheme();
   const [gemPackModalState, setGemPackModalState] =
     useRecoilState(gemPackModalStatus);
+  const searchParams = useSearchParams();
+  const search = searchParams.get("asset");
 
   return (
+    search ? <GemItem id={Number(search)}/> :
     <>
       <Flex columnGap={4} mt={73}>
         <Flex

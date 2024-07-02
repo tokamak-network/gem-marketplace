@@ -7,16 +7,15 @@ import { rarityStatus } from "@/recoil/market/atom";
 
 import { rarityList } from "@/constants/rarity";
 
-const RarityItem = ({ rarity }: { rarity: string }) => {
+export const RarityItem = ({ rarity }: { rarity: string }) => {
   const [rarityState, setRarityState] = useRecoilState(rarityStatus);
   const handleRarity = (rarity: string) => {
     setRarityState((prev) => ({ ...prev, ...{ [rarity]: !prev[rarity] } }));
-
   };
 
   const defaultState = useMemo(() => {
     for (let item of rarityList) {
-      if (rarityState[item] !== false ) return false;
+      if (rarityState[item] !== false) return false;
     }
     return true;
   }, [rarityState]);

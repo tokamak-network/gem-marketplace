@@ -1,8 +1,16 @@
-const SavedIcon = ({ isFill }: { isFill?: boolean }) => {
+const SavedIcon = ({
+  width = 16,
+  height = 13,
+  isFill,
+}: {
+  width?: number;
+  height?: number;
+  isFill?: boolean;
+}) => {
   return (
     <svg
-      width="16"
-      height="13"
+      width={width}
+      height={height}
       viewBox="0 0 26 20"
       fill={isFill ? "#FFF" : "none"}
       xmlns="http://www.w3.org/2000/svg"

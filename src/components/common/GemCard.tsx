@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { Box, Flex, Text, Progress, Center, useTheme } from "@chakra-ui/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import PriceContainer from "./PriceContainer";
@@ -16,14 +17,18 @@ import GemIcon from "@/assets/icon/mine.svg";
 import GemShape from "./GemShape";
 
 interface GemCardType {
+  width?: number;
+  height?: number;
   rarityScore: number;
   staked: number;
   dailyChange: number;
-  mode?: "market" | "forge" | "mine" | "common";
+  mode?: "market" | "forge" | "mine" | "common" | "normal";
   gemInfo: GemStandard;
 }
 
 const GemCard = ({
+  width = 212,
+  height = 272,
   mode = "market",
   rarityScore,
   staked,
@@ -39,6 +44,7 @@ const GemCard = ({
   const [selectedGems, setSelectedGems] = useRecoilState(selectedForgeGem);
   const { firstSelectedGem, secondSelectedGem } = selectedGems;
   const theme = useTheme();
+  const router = useRouter();
 
   const { id, lastMineTime, gemBgColor, rarity } = gemInfo;
   const pieces = {
@@ -126,6 +132,9 @@ const GemCard = ({
         }
       }
     }
+    if (mode === "market") {
+      router.push(`/market?asset=${gemInfo.id}`);
+    }
   }, [firstSelectedGem, secondSelectedGem]);
 
   const isForgeActive = useMemo(() => {
@@ -147,8 +156,8 @@ const GemCard = ({
   return (
     <Box
       pos={"relative"}
-      w={212}
-      h={272}
+      w={width}
+      h={height}
       bgGradient={"radial(#6F97FF, #1F25A4)"}
       sx={{ perspective: "1000px" }}
       cursor={"pointer"}
@@ -207,7 +216,7 @@ const GemCard = ({
             backfaceVisibility: "hidden",
           }}
         >
-          {(mode === "mine" || mode === "market") && (
+          {(mode === "mine" || mode === "market" || mode === "normal") && (
             <Box
               pos={"absolute"}
               top={"10px"}
@@ -220,7 +229,11 @@ const GemCard = ({
                 e.stopPropagation();
               }}
             >
-              <SavedIcon isFill={isSaved} />
+              <SavedIcon
+                width={mode === "normal" ? 34 : 16}
+                height={mode === "normal" ? 28 : 13}
+                isFill={isSaved}
+              />
             </Box>
           )}
 
@@ -240,67 +253,72 @@ const GemCard = ({
             />
           )}
 
-          <Flex
-            pos={"relative"}
-            w={"full"}
-            h={53}
-            bgColor={"#00000080"}
-            justify={"space-between"}
-            align={"center"}
-            p={"10px"}
-          >
-            <Flex flexDir={"column"} justify={"space-between"}>
-              <Text fontSize={14} fontWeight={600} textTransform={"capitalize"}>
-                {rarity} {rarityScore}%
-              </Text>
-              <Flex columnGap={1} align={"center"}>
-                <Text fontSize={10} fontWeight={400}>
-                  Staked ${staked}{" "}
+          {mode !== "normal" && (
+            <Flex
+              pos={"relative"}
+              w={"full"}
+              h={53}
+              bgColor={"#00000080"}
+              justify={"space-between"}
+              align={"center"}
+              p={"10px"}
+            >
+              <Flex flexDir={"column"} justify={"space-between"}>
+                <Text
+                  fontSize={14}
+                  fontWeight={600}
+                  textTransform={"capitalize"}
+                >
+                  {rarity} {rarityScore}%
                 </Text>
-                <Image alt="arrow" src={HighArrow} />
-                <Text color={"#61FF00"} fontSize={10} fontWeight={400}>
-                  {dailyChange}%
-                </Text>
+                <Flex columnGap={1} align={"center"}>
+                  <Text fontSize={10} fontWeight={400}>
+                    Staked ${staked}{" "}
+                  </Text>
+                  <Image alt="arrow" src={HighArrow} />
+                  <Text color={"#61FF00"} fontSize={10} fontWeight={400}>
+                    {dailyChange}%
+                  </Text>
+                </Flex>
               </Flex>
-            </Flex>
 
-            {mode === "market" && <PriceContainer price={100} />}
-            {mode === "mine" && isReadyForMine ? (
-              <Center
-                pos={"absolute"}
-                h={53}
-                top={0}
-                left={0}
-                w={"full"}
-                bg={"#191A22D9"}
-                columnGap={"6px"}
-                transition={"0.5s"}
-                _hover={{ bgColor: "#004422", fontSize: 24 }}
-                onMouseEnter={() => SetHoverMine(true)}
-                onMouseLeave={() => SetHoverMine(false)}
-                onClick={() => {
-                  console.log("heyhey");
-                  seMineModalState({ isOpen: true, mineTime: 2342347 });
-                }}
-              >
-                <Text>{isHoverMine ? "Mine" : "Ready to mine"}</Text>
-                <Image alt="gem" src={GemIcon} width={16} height={16}></Image>
-              </Center>
-            ) : mode === "mine" && !isReadyForMine ? (
-              <Box pos={"absolute"} w={"50px"} top={2} right={2}>
-                <Text fontSize={10}>
-                  {`${Math.floor(timeRemaining / 3600)} : ${Math.floor(
-                    (timeRemaining % 3600) / 60
-                  )} : ${Math.floor((timeRemaining % 3600) % 60)}`}
-                </Text>
-              </Box>
-            ) : (
-              ""
-            )}
-            {(mode === "forge" || mode === "common") && (
-              <RarityViewer pieces={pieces} />
-            )}
-          </Flex>
+              {mode === "market" && <PriceContainer price={100} />}
+              {mode === "mine" && isReadyForMine ? (
+                <Center
+                  pos={"absolute"}
+                  h={53}
+                  top={0}
+                  left={0}
+                  w={"full"}
+                  bg={"#191A22D9"}
+                  columnGap={"6px"}
+                  transition={"0.5s"}
+                  _hover={{ bgColor: "#004422", fontSize: 24 }}
+                  onMouseEnter={() => SetHoverMine(true)}
+                  onMouseLeave={() => SetHoverMine(false)}
+                  onClick={() => {
+                    seMineModalState({ isOpen: true, mineTime: 2342347 });
+                  }}
+                >
+                  <Text>{isHoverMine ? "Mine" : "Ready to mine"}</Text>
+                  <Image alt="gem" src={GemIcon} width={16} height={16}></Image>
+                </Center>
+              ) : mode === "mine" && !isReadyForMine ? (
+                <Box pos={"absolute"} w={"50px"} top={2} right={2}>
+                  <Text fontSize={10}>
+                    {`${Math.floor(timeRemaining / 3600)} : ${Math.floor(
+                      (timeRemaining % 3600) / 60
+                    )} : ${Math.floor((timeRemaining % 3600) % 60)}`}
+                  </Text>
+                </Box>
+              ) : (
+                ""
+              )}
+              {(mode === "forge" || mode === "common") && (
+                <RarityViewer pieces={pieces} />
+              )}
+            </Flex>
+          )}
         </Flex>
 
         <Box
