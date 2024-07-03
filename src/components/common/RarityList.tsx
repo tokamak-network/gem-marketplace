@@ -7,7 +7,13 @@ import { rarityStatus } from "@/recoil/market/atom";
 
 import { rarityList } from "@/constants/rarity";
 
-export const RarityItem = ({ rarity }: { rarity: string }) => {
+export const RarityItem = ({
+  rarity,
+  active = false,
+}: {
+  rarity: string;
+  active?: boolean;
+}) => {
   const [rarityState, setRarityState] = useRecoilState(rarityStatus);
   const handleRarity = (rarity: string) => {
     setRarityState((prev) => ({ ...prev, ...{ [rarity]: !prev[rarity] } }));
@@ -32,7 +38,7 @@ export const RarityItem = ({ rarity }: { rarity: string }) => {
       pos={"relative"}
       opacity={defaultState || rarityState[rarity] ? 1 : 0.5}
       border={"1px solid"}
-      borderColor={rarityState[rarity] ? "white" : "transparent"}
+      borderColor={rarityState[rarity] || active ? "white" : "transparent"}
       transition={"0.1s"}
     >
       <Box pos={"absolute"} top={"-1px"} left={"-16px"}>
@@ -43,7 +49,12 @@ export const RarityItem = ({ rarity }: { rarity: string }) => {
           height={30}
         />
       </Box>
-      <Text color={"white"} fontSize={12} fontWeight={500}>
+      <Text
+        color={"white"}
+        fontSize={12}
+        fontWeight={500}
+        textTransform={"capitalize"}
+      >
         {rarity}
       </Text>
     </Center>

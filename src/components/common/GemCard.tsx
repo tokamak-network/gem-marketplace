@@ -156,13 +156,13 @@ const GemCard = ({
   return (
     <Box
       pos={"relative"}
-      w={width}
-      h={height}
+      minW={width}
+      minH={height}
       bgGradient={"radial(#6F97FF, #1F25A4)"}
       sx={{ perspective: "1000px" }}
       cursor={"pointer"}
       onClick={handleCardClick}
-      rounded={8}
+      rounded={mode === "normal" ? 17 : 8}
       opacity={
         mode === "forge" ? (isForgeActive || isForgeSelected ? 1 : 0.25) : 1
       }

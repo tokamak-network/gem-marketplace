@@ -1,20 +1,27 @@
 import { useMemo } from "react";
-import { Center, Flex, Text } from "@chakra-ui/react";
+import { Center, Flex, Text, useTheme } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 
 import { colorStatus } from "@/recoil/market/atom";
 
 import { colorList, colorBorderList } from "@/constants/rarity";
 
-const ColorItem = ({ color }: { color: string }) => {
+export const ColorItem = ({
+  color,
+  active = false,
+}: {
+  color: string;
+  active?: boolean;
+}) => {
   const [colorState, setColorState] = useRecoilState(colorStatus);
   const handleRarity = (color: string) => {
-    setColorState((prev) => ({...prev, ...{[color] : !prev[color]}}));
-  }
+    setColorState((prev) => ({ ...prev, ...{ [color]: !prev[color] } }));
+  };
+  const theme = useTheme();
 
   const defaultState = useMemo(() => {
-    for(let item of Object.keys(colorList)) {
-      if (colorState[item] !== false ) return false;
+    for (let item of Object.keys(colorList)) {
+      if (colorState[item] !== false) return false;
     }
     return true;
   }, [colorState]);
@@ -30,9 +37,15 @@ const ColorItem = ({ color }: { color: string }) => {
       onClick={() => handleRarity(color)}
       opacity={defaultState || colorState[color] ? 1 : 0.5}
       border={"1px solid"}
-      borderColor={colorState[color] ? colorBorderList[color] : "transparent"}
+      borderColor={colorState[color] || active ? colorBorderList[color] : "transparent"}
     >
-      <Text textTransform={"capitalize"} color={"white"} fontSize={12} fontWeight={500}>
+      <Text
+        fontFamily={theme.fonts.Inter}
+        textTransform={"capitalize"}
+        color={"white"}
+        fontSize={12}
+        fontWeight={500}
+      >
         {color}
       </Text>
     </Center>
@@ -55,7 +68,7 @@ const ColorList = () => {
         color
       </Text>
       {Object.keys(colorList).map((item, key) => (
-        <ColorItem key={key} color={item}/>
+        <ColorItem key={key} color={item} />
       ))}
     </Flex>
   );
