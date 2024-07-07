@@ -5,36 +5,46 @@ import {
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton,
-  Button,
+  Text,
+  useTheme,
 } from "@chakra-ui/react";
 
 import { useRecoilState } from "recoil";
 import { activityContainerStatus } from "@/recoil/activity/atom";
+import ActivityFilterBar from "@/pages/activity/ActivityFilterBar";
+import NoActivityContainer from "@/pages/activity/NoActivityAlert";
 
 const ActivityContainer = () => {
   const [isOpen, setOpen] = useRecoilState(activityContainerStatus);
+  const theme = useTheme();
+
   return (
     <Drawer
+      size={"sm"}
       isOpen={isOpen}
       placement="left"
       onClose={() => setOpen(false)}
-      
     >
-      <DrawerOverlay ml={243}/> 
-      <DrawerContent ml={243} bgColor={"#0D0E16"}>
-        <DrawerCloseButton />
-        <DrawerHeader>Create your account</DrawerHeader>
+      <DrawerOverlay ml={243} />
+      <DrawerContent
+        sx={{ width: "375px!important" }}
+        ml={243}
+        bgColor={"#0D0E16"}
+        py={46}
+        px={30}
+      >
+        <DrawerHeader p={0}>
+          <Text fontFamily={theme.fonts.Inter} fontSize={24} fontWeight={600}>
+            Activity
+          </Text>
+          <ActivityFilterBar />
+        </DrawerHeader>
 
-        <DrawerBody>
+        <DrawerBody p={0}>
+          <NoActivityContainer />
         </DrawerBody>
 
-        <DrawerFooter>
-          <Button variant="outline" mr={3} onClick={() => setOpen(false)}>
-            Cancel
-          </Button>
-          <Button colorScheme="blue">Save</Button>
-        </DrawerFooter>
+        <DrawerFooter></DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

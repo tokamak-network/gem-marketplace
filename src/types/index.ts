@@ -35,3 +35,5 @@ export type GemStandard = {
   lastMineTime: number;
   rarity: RarityType;
 };
+
+export type ActivityFilterType = "all" | "mine" | "forge" | "buysell";
