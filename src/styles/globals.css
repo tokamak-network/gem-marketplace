@@ -31,3 +31,7 @@ body {
     text-wrap: balance;
   }
 }
+
+.chakra-modal__content-container {
+  margin-left: 243px;
+}

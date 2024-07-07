@@ -2,6 +2,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import Sidebar from "./sidebar";
 import Header from "./header";
 import Modals from "./modals";
+import Drawers from "../drawer";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -12,6 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         {children}
       </Box>
       <Modals />
+      <Drawers />
     </Flex>
   );
 };
