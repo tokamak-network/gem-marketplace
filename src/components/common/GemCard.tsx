@@ -19,6 +19,8 @@ import GemShape from "./GemShape";
 interface GemCardType {
   width?: number;
   height?: number;
+  gemWidth?: number;
+  gemHeight?: number;
   rarityScore: number;
   staked: number;
   dailyChange: number;
@@ -29,6 +31,8 @@ interface GemCardType {
 const GemCard = ({
   width = 212,
   height = 272,
+  gemWidth = 120,
+  gemHeight = 120,
   mode = "market",
   rarityScore,
   staked,
@@ -243,6 +247,8 @@ const GemCard = ({
               gradient="linear"
               pieces={pieces}
               gemBgColor={gemBgColor}
+              width={gemWidth}
+              height={gemHeight}
             />
           </Center>
 

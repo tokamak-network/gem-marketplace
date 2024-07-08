@@ -26,6 +26,8 @@ const GemItem = ({ id }: ItemProps) => {
         rarityScore={10}
         gemInfo={gemItem[0]}
         dailyChange={16.7}
+        gemWidth={316}
+        gemHeight={316}
       />
       <Flex w={"full"} flexDir={"column"} py={6}>
         <Flex columnGap={4} ml={"15px"} mb={6}>
