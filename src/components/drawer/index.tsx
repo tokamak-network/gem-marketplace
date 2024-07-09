@@ -1,4 +1,4 @@
-import ActivityContainer from "./ActivityContainer";
+import ActivityContainer from "../activity/ActivityContainer";
 
 const Drawers = () => {
   return (

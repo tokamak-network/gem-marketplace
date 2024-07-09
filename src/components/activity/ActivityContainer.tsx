@@ -11,8 +11,10 @@ import {
 
 import { useRecoilState } from "recoil";
 import { activityContainerStatus } from "@/recoil/activity/atom";
-import ActivityFilterBar from "@/pages/activity/ActivityFilterBar";
-import NoActivityContainer from "@/pages/activity/NoActivityAlert";
+import ActivityFilterBar from "@/components/activity/ActivityFilterBar";
+import NoActivityContainer from "@/components/activity/NoActivityAlert";
+
+import AccountStatus from "./AccountStatus";
 
 const ActivityContainer = () => {
   const [isOpen, setOpen] = useRecoilState(activityContainerStatus);
@@ -34,6 +36,8 @@ const ActivityContainer = () => {
         px={30}
       >
         <DrawerHeader p={0}>
+          <AccountStatus/>
+
           <Text fontFamily={theme.fonts.Inter} fontSize={24} fontWeight={600}>
             Activity
           </Text>

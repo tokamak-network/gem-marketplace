@@ -2,14 +2,21 @@ import Image from "next/image";
 import { Flex, Text } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import { trimAddress } from "@/utils";
+import { activityContainerStatus } from "@/recoil/activity/atom";
+import { useRecoilState } from "recoil";
 
 import useConnectWallet from "@/hooks/account/useConnectWallet";
 import ThanosSymbol from "@/assets/icon/thanos.svg";
 
 const Account = () => {
   const { isConnected, address } = useAccount();
+  const [, setOpenActivity] = useRecoilState(activityContainerStatus);
 
-  const { connetAndDisconntWallet } = useConnectWallet();
+  const { connectToWallet } = useConnectWallet();
+  const handleConnect = () => {
+    connectToWallet();
+    isConnected && setOpenActivity(true);
+  }
 
   return (
     <Flex
@@ -17,7 +24,7 @@ const Account = () => {
       w={"full"}
       align={"center"}
       columnGap={3}
-      onClick={connetAndDisconntWallet}
+      onClick={handleConnect}
       cursor={"pointer"}
     >
       <Image src={ThanosSymbol} alt="thanos" width={24} height={24} />
