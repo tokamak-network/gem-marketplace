@@ -6,10 +6,11 @@ import { PieceDir, PieceInfo, GradientType } from "@/types";
 
 interface GemProps {
   pieces: PieceInfo;
-  gemBgColor: string[];
+  gemBgColor?: string[];
   gradient?: GradientType;
   width?: number;
   height?: number;
+  isOnlyFrame?: boolean;
 }
 
 const GemShape = ({
@@ -18,6 +19,7 @@ const GemShape = ({
   gradient = "solid",
   width = 120,
   height = 120,
+  isOnlyFrame = false,
 }: GemProps) => {
   const [combinedGem, setCombinedGem] = useState<string>("");
   const [bgGemShape, setBgGemShape] = useState<string>("");
@@ -88,22 +90,24 @@ const GemShape = ({
 
   return (
     <Box pos={"relative"} w={width} h={height}>
-      <Box
-        style={{
-          maskImage: `url("${bgGemShape}")`,
-          background:
-            gemBgColor.length === 1
-              ? gemBgColor[0]
-              : `linear-gradient(${gemBgColor[0]}, ${gemBgColor[1]})`,
-          maskSize: "100% 100%",
-        }}
-        pos={"absolute"}
-        zIndex={-1}
-        left={0}
-        top={0}
-        w={width}
-        h={height}
-      />
+      {!isOnlyFrame && (
+        <Box
+          style={{
+            maskImage: `url("${bgGemShape}")`,
+            background:
+              gemBgColor.length === 1
+                ? gemBgColor[0]
+                : `linear-gradient(${gemBgColor[0]}, ${gemBgColor[1]})`,
+            maskSize: "100% 100%",
+          }}
+          pos={"absolute"}
+          zIndex={-1}
+          left={0}
+          top={0}
+          w={width}
+          h={height}
+        />
+      )}
       <Box pos={"absolute"} left={0}>
         {combinedGem && (
           <Image width={width} height={height} alt="" src={combinedGem} />

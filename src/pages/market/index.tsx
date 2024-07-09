@@ -1,7 +1,7 @@
 import { Box, Flex, Text, useTheme } from "@chakra-ui/react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useSearchParams } from "next/navigation";
-import { gemPackModalStatus } from "@/recoil/market/atom";
+import { activeRarityListSelector, gemPackModalStatus } from "@/recoil/market/atom";
 
 import PriceContainer from "@/components/common/PriceContainer";
 import GemPackModal from "@/components/modal/GemPackModal";
@@ -19,6 +19,7 @@ const MarketPage = () => {
     useRecoilState(gemPackModalStatus);
   const searchParams = useSearchParams();
   const search = searchParams.get("asset");
+  const {activeRarityList} = useRecoilValue(activeRarityListSelector);
 
   return (
     search ? <GemItem id={Number(search)}/> :
@@ -107,7 +108,7 @@ const MarketPage = () => {
       </Flex>
 
       <Flex mt={4} gap={4} flexWrap={"wrap"}>
-        {GemList.map((item, key) => {
+        {activeRarityList.map((item, key) => {
           return (
             <GemCard
               key={key}
