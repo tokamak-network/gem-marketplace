@@ -2,17 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { Flex, Text, useTheme, Box } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
+import Account from "../account/Account";
 
 import Logo from "@/assets/icon/symbol.svg";
 import Market from "@/assets/icon/market.svg";
-import Saved from "@/assets/icon/saved.svg";
 import Mine from "@/assets/icon/mine.svg";
 import Forge from "@/assets/icon/forge.svg";
-import Gemonomics from "@/assets/icon/gemonomics.svg";
 import Chest from "@/assets/icon/chest.svg";
-import Wallet from "@/assets/icon/wallet.svg";
-import Activity from "@/assets/icon/activity.svg";
+import Github from "@/assets/icon/github.svg";
 import Settings from "@/assets/icon/setting.svg";
+import Community from "@/assets/icon/community.svg";
+import Guide from "@/assets/icon/guide.svg";
 
 interface MenuType {
   children: React.ReactNode;
@@ -23,18 +23,18 @@ interface MenuType {
 const Sidebar = () => {
   const theme = useTheme();
   const pathname = usePathname();
-  const pathName = pathname.substring(1,pathname.length);
+  const pathName = pathname.substring(1, pathname.length);
 
   const CustomMenuItem = ({ children, icon, link }: MenuType) => {
     const isActive = pathName === link;
     return (
       <Link href={`/${link}`}>
         <Flex
-          color={isActive ? "white" : "#FFFFFF80"}
           pl={isActive ? 8 : 9}
           my={4}
           borderLeft={isActive ? "4px solid #0075FF" : ""}
           columnGap={3}
+          opacity={isActive ? 1 : 0.5}
         >
           <Image alt={link} src={icon} width={24} height={24} />
           <Text fontWeight={600}>{children}</Text>
@@ -80,38 +80,36 @@ const Sidebar = () => {
         </Text>
       </Flex>
 
-      <MenuTitle>Marketplace</MenuTitle>
-      <CustomMenuItem icon={Market} link="market">
-        Market
-      </CustomMenuItem>
-      <CustomMenuItem icon={Saved} link="saved">
-        Saved
-      </CustomMenuItem>
+      <MenuTitle>Account</MenuTitle>
+      <Account />
 
       <Box h={4} />
 
       <MenuTitle>Gems</MenuTitle>
+      <CustomMenuItem icon={Market} link="market">
+        Market
+      </CustomMenuItem>
       <CustomMenuItem icon={Mine} link="mine">
         Mine
       </CustomMenuItem>
       <CustomMenuItem icon={Forge} link="forge">
         Forge
       </CustomMenuItem>
-      <CustomMenuItem icon={Gemonomics} link="gemonomics">
-        Gemonomics
+      <CustomMenuItem icon={Community} link="community">
+        Community
       </CustomMenuItem>
-
-      <Box h={4} />
-
-      <MenuTitle>Account</MenuTitle>
       <CustomMenuItem icon={Chest} link="chest">
         Chest
       </CustomMenuItem>
-      <CustomMenuItem icon={Wallet} link="wallet">
-        Wallet
+      <Box h={4} />
+
+      <MenuTitle>Account</MenuTitle>
+
+      <CustomMenuItem icon={Guide} link="guide">
+        Help/Guide
       </CustomMenuItem>
-      <CustomMenuItem icon={Activity} link="activity">
-        Activity
+      <CustomMenuItem icon={Github} link="activity">
+        Github
       </CustomMenuItem>
       <CustomMenuItem icon={Settings} link="settings">
         Settings

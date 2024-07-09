@@ -98,6 +98,8 @@ const ForgeContainer = () => {
 
       <Center mt={34}>
         <Button
+          w={196}
+          h={65}
           p={4}
           bgColor={"#0380FF"}
           colorScheme={
@@ -108,7 +110,7 @@ const ForgeContainer = () => {
           }
           color={"white"}
           columnGap={"6px"}
-          rounded={"full"}
+          rounded={"8px"}
           isDisabled={
             selectedGems.firstSelectedGem === null &&
             selectedGems.secondSelectedGem === null
@@ -118,6 +120,7 @@ const ForgeContainer = () => {
             opacity: 0.5,
             cursor: "not-allowed",
           }}
+          fontSize={24}
           onClick={() => setForgeConfirm(true)}
         >
           <Image alt="forge" src={ForgeIcon} width={24} height={24} /> Forge
