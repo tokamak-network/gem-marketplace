@@ -8,7 +8,7 @@ export function trimAddress(args: {
     return "";
   }
   const { address, firstChar, lastChar, dots } = args;
-  const firstChatAt = address.substring(0, firstChar ?? 4);
+  const firstChatAt = address.substring(0, firstChar ?? 6);
   const lastCharAt = address.substring(address.length - (lastChar ?? 4));
   return `${firstChatAt}${dots ?? "..."}${lastCharAt}`;
 }

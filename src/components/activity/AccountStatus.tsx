@@ -1,7 +1,11 @@
-import { Box, Center, Flex, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, Text, useToast } from "@chakra-ui/react";
 import Image from "next/image";
 import { useAccount } from "wagmi";
+import { useRecoilState } from "recoil";
+import useConnectWallet from "@/hooks/account/useConnectWallet";
+import { activityContainerStatus } from "@/recoil/activity/atom";
 import { trimAddress } from "@/utils";
+import copy from "copy-to-clipboard";
 
 import ThanosSymbol from "@/assets/icon/thanos.svg";
 import ClipboardIcon from "@/assets/icon/clipboard.svg";
@@ -10,6 +14,21 @@ import LogoutIcon from "@/assets/icon/logout.svg";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
+  const { disconnectToWallet } = useConnectWallet();
+  const [, setOpenActivity] = useRecoilState(activityContainerStatus);
+  const toast = useToast();
+
+  const handleClipboard = () => {
+    copy(address !== undefined ? address : "");
+
+    toast({
+      title: "Copied to Clipboard",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+      position: 'top',
+    });
+  };
 
   return (
     <Box w={"full"} p={"20px"} rounded={8} bgColor={"#1B1D28"} mb={"30px"}>
@@ -25,7 +44,9 @@ const AccountStatus = () => {
           <Text fontSize={16} fontWeight={500}>
             {trimAddress({ address })}
           </Text>
-          <Image src={ClipboardIcon} alt="clipboard" width={16} height={16} />
+          <Box onClick={handleClipboard} cursor={"pointer"}>
+            <Image src={ClipboardIcon} alt="clipboard" width={16} height={16} />
+          </Box>
         </Flex>
       </Flex>
 
@@ -55,6 +76,9 @@ const AccountStatus = () => {
             w={"32px"}
             height={"32px"}
             cursor={"pointer"}
+            onClick={() => {
+              disconnectToWallet(), setOpenActivity(false);
+            }}
           >
             <Image width={16} height={16} alt="logout" src={LogoutIcon} />
           </Center>

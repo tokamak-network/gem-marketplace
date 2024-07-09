@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { Flex, Text } from "@chakra-ui/react";
+import { useRecoilState } from "recoil";
 import { useAccount } from "wagmi";
 import { trimAddress } from "@/utils";
 import { activityContainerStatus } from "@/recoil/activity/atom";
-import { useRecoilState } from "recoil";
 
 import useConnectWallet from "@/hooks/account/useConnectWallet";
 import ThanosSymbol from "@/assets/icon/thanos.svg";
