@@ -6,8 +6,9 @@ import useConnectWallet from "@/hooks/account/useConnectWallet";
 import { activityContainerStatus } from "@/recoil/activity/atom";
 import { trimAddress } from "@/utils";
 import copy from "copy-to-clipboard";
+import { NetworkSymbol } from "../common/NetworkSymbol";
 
-import ThanosSymbol from "@/assets/icon/thanos.svg";
+import ThanosSymbol from "@/assets/icon/network/thanos_circle.svg";
 import ClipboardIcon from "@/assets/icon/clipboard.svg";
 import UserGuideIcon from "@/assets/icon/userguide.svg";
 import LogoutIcon from "@/assets/icon/logout.svg";
@@ -34,7 +35,7 @@ const AccountStatus = () => {
     <Box w={"full"} p={"20px"} rounded={8} bgColor={"#1B1D28"} mb={"30px"}>
       <Flex justify={"space-between"} align={"center"}>
         <Flex columnGap={3} align={"center"}>
-          <Image alt="thanos" src={ThanosSymbol} width={32} height={32} />
+          <NetworkSymbol w={32} h={32} network={chain?.id}/>
           <Text fontSize={16} fontWeight={500}>
             {chain?.name}
           </Text>

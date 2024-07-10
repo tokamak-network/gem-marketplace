@@ -6,15 +6,16 @@ import { trimAddress } from "@/utils";
 import { activityContainerStatus } from "@/recoil/activity/atom";
 
 import useConnectWallet from "@/hooks/account/useConnectWallet";
-import ThanosSymbol from "@/assets/icon/thanos.svg";
+import ThanosSymbol from "@/assets/icon/network/thanos_circle.svg";
+import { NetworkSymbol } from "../common/NetworkSymbol";
 
 const Account = () => {
-  const { isConnected, address } = useAccount();
+  const { isConnected, address, chain } = useAccount();
   const [, setOpenActivity] = useRecoilState(activityContainerStatus);
 
   const { connectToWallet } = useConnectWallet();
   const handleConnect = () => {
-    connectToWallet();
+    !isConnected && connectToWallet();
     isConnected && setOpenActivity(true);
   }
 
@@ -27,7 +28,7 @@ const Account = () => {
       onClick={handleConnect}
       cursor={"pointer"}
     >
-      <Image src={ThanosSymbol} alt="thanos" width={24} height={24} />
+      <NetworkSymbol network={chain?.id} w={24} h={24}/>
       <Text fontSize={14} fontWeight={500}>
         {isConnected ? trimAddress({ address }) : "Connect Wallet"}
       </Text>

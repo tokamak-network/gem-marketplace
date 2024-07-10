@@ -37,3 +37,9 @@ export type GemStandard = {
 };
 
 export type ActivityFilterType = "all" | "mine" | "forge" | "buysell";
+
+export enum ImageFileType {
+  JPEG = ".jpg",
+  PNG = ".png",
+  SVG = ".svg",
+}
