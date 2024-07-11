@@ -7,7 +7,7 @@ export const config = createConfig({
   chains: [mainnet, sepolia, titan, titan_sepolia],
   connectors: [
     injected(),
-    metaMask(),
+    // metaMask(),
     safe(),
   ],
   transports: {
