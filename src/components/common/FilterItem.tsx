@@ -5,17 +5,19 @@ interface FilterItemProps {
   handleFilter?: () => void;
   active?: boolean;
   children: React.ReactNode;
+  h: number;
 }
 
 const FilterItem = ({
   handleFilter,
   active,
-  children
+  children,
+  h = 30,
 }: FilterItemProps) =>  {
   return (
     <Center
       p={"12px"}
-      h={"30px"}
+      h={`${h}px`}
       rounded={"full"}
       bgColor={"#2A2C3A"}
       columnGap={"10px"}

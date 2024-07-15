@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import FilterItem from "@/components/common/FilterItem";
-import { LeaderboardStatus } from "@/recoil/community/atom";
+import { LeaderboardStatus, epochStatus } from "@/recoil/community/atom";
 import { useRecoilState } from "recoil";
 
 const TypeFilterBar = () => {
@@ -44,14 +44,12 @@ const TypeFilterBar = () => {
           value: true,
           myself: true,
         });
-      }
-      else {
+      } else {
         setFileterStatus((prev) => ({
           ...prev,
           ...{ [filter]: !prev[filter] },
         }));
       }
-
     }
   };
 
@@ -59,6 +57,73 @@ const TypeFilterBar = () => {
     <Flex columnGap={4}>
       {filterMenuList.map((item, key) => (
         <FilterItem
+          h={30}
+          key={key}
+          active={filterStatus[item]}
+          handleFilter={() => handleFilter(item)}
+        >
+          {item === "myself" ? "Find Me" : item}
+        </FilterItem>
+      ))}
+    </Flex>
+  );
+};
+
+const EpochFilterBar = () => {
+  const epochMenuList = ["all", "1y", "1m", "7d", "24h"];
+  const [filterStatus, setFileterStatus] = useRecoilState(epochStatus);
+
+  const handleFilter = (filter: string) => {
+    if (filterStatus["all"] === true) {
+      if (filter === "all") return;
+
+      setFileterStatus((prev) => ({
+        ...prev,
+        ...{ ["all"]: false, [filter]: !prev[filter] },
+      }));
+    } else {
+      const checkedFilterMenuList = epochMenuList.filter(
+        (item) => item !== "all" && item !== filter
+      );
+      let isBeforeOverall = true;
+      let isBeforeNone = true;
+
+      for (let item of checkedFilterMenuList) {
+        if (filterStatus[item] === false) {
+          isBeforeOverall = false;
+          break;
+        }
+      }
+
+      for (let item of checkedFilterMenuList) {
+        if (filterStatus[item] === true) {
+          isBeforeNone = false;
+          break;
+        }
+      }
+
+      if (isBeforeNone || isBeforeOverall || filter === "overall") {
+        setFileterStatus({
+          all: true,
+          "1y": true,
+          "1m": true,
+          "7d": true,
+          "24h": true,
+        });
+      } else {
+        setFileterStatus((prev) => ({
+          ...prev,
+          ...{ [filter]: !prev[filter] },
+        }));
+      }
+    }
+  };
+
+  return (
+    <Flex columnGap={4}>
+      {epochMenuList.map((item, key) => (
+        <FilterItem
+          h={25}
           key={key}
           active={filterStatus[item]}
           handleFilter={() => handleFilter(item)}
@@ -74,12 +139,15 @@ const CommunityLeaderboard = () => {
   return (
     <Box
       w={"100%"}
+      mt={10}
       rounded={16}
       bgColor={"#FFFFFF08"}
       p={"20px 20px 10px 10px"}
     >
       <Flex justify={"space-between"}>
         <TypeFilterBar />
+
+        <EpochFilterBar />
       </Flex>
     </Box>
   );
