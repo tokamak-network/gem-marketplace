@@ -10,7 +10,7 @@ import { COOLDOWN } from "@/constants";
 import { useRecoilState } from "recoil";
 import { miningModalStatus } from "@/recoil/mine/atom";
 import { selectedForgeGem } from "@/recoil/forge/atom";
-import { GemStandard } from "@/types";
+import { GemStandard, CardType } from "@/types";
 import RarityViewer from "./RarityViewer";
 
 import GemIcon from "@/assets/icon/mine.svg";
@@ -24,7 +24,7 @@ interface GemCardType {
   rarityScore: number;
   staked: number;
   dailyChange: number;
-  mode?: "market" | "forge" | "mine" | "common" | "normal";
+  mode?: CardType;
   gemInfo: GemStandard;
 }
 

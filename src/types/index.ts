@@ -43,3 +43,5 @@ export enum ImageFileType {
   PNG = ".png",
   SVG = ".svg",
 }
+
+export type CardType = "market" | "forge" | "mine" | "common" | "normal";
