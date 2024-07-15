@@ -2,7 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Flex, Text, useTheme, Box } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
+import { useRecoilState } from "recoil";
+
 import Account from "../account/Account";
+
+import { settingsContainerStatus } from "@/recoil/settings/atoms";
 
 import Logo from "@/assets/icon/symbol.svg";
 import Market from "@/assets/icon/market.svg";
@@ -24,6 +28,7 @@ const Sidebar = () => {
   const theme = useTheme();
   const pathname = usePathname();
   const pathName = pathname.substring(1, pathname.length);
+  const [isSettings, setSettings] = useRecoilState(settingsContainerStatus);
 
   const CustomMenuItem = ({ children, icon, link }: MenuType) => {
     const isActive = pathName === link;
@@ -40,6 +45,22 @@ const Sidebar = () => {
           <Text fontWeight={600}>{children}</Text>
         </Flex>
       </Link>
+    );
+  };
+
+  const SettingMenuItem = () => {
+    return (
+      <Flex
+        pl={9}
+        my={4}
+        columnGap={3}
+        opacity={isSettings ? 1 : 0.5}
+        cursor={"pointer"}
+        onClick={() => setSettings(true)}
+      >
+        <Image alt={"settings"} src={Settings} width={24} height={24} />
+        <Text fontWeight={600}>Settings</Text>
+      </Flex>
     );
   };
 
@@ -111,9 +132,7 @@ const Sidebar = () => {
       <CustomMenuItem icon={Github} link="activity">
         Github
       </CustomMenuItem>
-      <CustomMenuItem icon={Settings} link="settings">
-        Settings
-      </CustomMenuItem>
+      <SettingMenuItem />
     </Flex>
   );
 };
