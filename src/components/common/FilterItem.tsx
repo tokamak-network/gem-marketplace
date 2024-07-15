@@ -1,4 +1,4 @@
-import { Center, Text } from "@chakra-ui/react";
+import { Center, Text, useTheme } from "@chakra-ui/react";
 import React from "react";
 
 interface FilterItemProps {
@@ -13,7 +13,9 @@ const FilterItem = ({
   active,
   children,
   h = 30,
-}: FilterItemProps) =>  {
+}: FilterItemProps) => {
+  const theme = useTheme();
+
   return (
     <Center
       p={"12px"}
@@ -35,11 +37,12 @@ const FilterItem = ({
         fontSize={12}
         fontWeight={500}
         textTransform={"capitalize"}
+        fontFamily={theme.fonts.Inter}
       >
         {children}
       </Text>
     </Center>
-  )
-}
+  );
+};
 
 export default FilterItem;

@@ -10,10 +10,10 @@ type LeaderboardStatusType = {
 
 type EpochStatusType = {
   [all: string]: boolean;
-  "1y": boolean;
-  "1m": boolean;
-  "7d": boolean;
-  "24h": boolean;
+  "1Y": boolean;
+  "1M": boolean;
+  "7D": boolean;
+  "24H": boolean;
 }
 
 export const LeaderboardStatus = atom<LeaderboardStatusType>({

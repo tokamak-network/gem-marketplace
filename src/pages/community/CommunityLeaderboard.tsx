@@ -70,7 +70,7 @@ const TypeFilterBar = () => {
 };
 
 const EpochFilterBar = () => {
-  const epochMenuList = ["all", "1y", "1m", "7d", "24h"];
+  const epochMenuList = ["all", "1Y", "1M", "7D", "24H"];
   const [filterStatus, setFileterStatus] = useRecoilState(epochStatus);
 
   const handleFilter = (filter: string) => {
@@ -105,10 +105,10 @@ const EpochFilterBar = () => {
       if (isBeforeNone || isBeforeOverall || filter === "overall") {
         setFileterStatus({
           all: true,
-          "1y": true,
-          "1m": true,
-          "7d": true,
-          "24h": true,
+          "1Y": true,
+          "1M": true,
+          "7D": true,
+          "24H": true,
         });
       } else {
         setFileterStatus((prev) => ({
