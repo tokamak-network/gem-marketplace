@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useAccount } from "wagmi";
-import ApexCharts from 'apexcharts';
+import ApexCharts from "apexcharts";
 
 import { GemList } from "@/constants";
 import { GemStandard } from "@/types";
@@ -28,58 +28,61 @@ const GemItem = ({ id }: ItemProps) => {
   const [modalStatus, setModalStatus] = useRecoilState(obtainModalStatus);
 
   const handleClick = () => {
-    isConnected ? setModalStatus(true) : connectToWallet()
+    isConnected
+      ? setModalStatus({ isOpen: true, gemId: id })
+      : connectToWallet();
   };
 
-  const series = [{
-    name: "Desktops",
-    data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-}];
+  const series = [
+    {
+      name: "Desktops",
+      data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
+    },
+  ];
   const options: any = {
     chart: {
       height: "100%",
-      type: 'line',
+      type: "line",
       zoom: {
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     colors: ["#61FF00"],
     tooltip: {
-      enabled: false
+      enabled: false,
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     stroke: {
-      curve: 'smooth'
+      curve: "smooth",
     },
     grid: {
-      show: false
+      show: false,
     },
     xaxis: {
       labels: {
-        show: false
+        show: false,
       },
       axisBorder: {
-        show: false
+        show: false,
       },
       axisTicks: {
-        show: false
-      }
+        show: false,
+      },
     },
     yaxis: {
       labels: {
-        show: false
+        show: false,
       },
       axisBorder: {
-        show: false
+        show: false,
       },
       axisTicks: {
-        show: false
-      }
+        show: false,
+      },
     },
   };
-
 
   return (
     <Flex flexDir={"column"} w={"100%"} h={"100%"}>
@@ -106,7 +109,13 @@ const GemItem = ({ id }: ItemProps) => {
             {gemItem[0].rarity} Gem #{gemItem[0].id}
           </Text>
 
-            <ReactApexChart options={options} series={series} type="line" width={400} height={150} />
+          <ReactApexChart
+            options={options}
+            series={series}
+            type="line"
+            width={400}
+            height={150}
+          />
 
           <Text fontSize={14} fontWeight={400} opacity={0.5}>
             Staked TON

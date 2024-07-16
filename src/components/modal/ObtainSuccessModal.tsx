@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -9,13 +8,10 @@ import {
   Flex,
   Center,
   Text,
-  useTheme,
-  Checkbox,
   Button,
   Box,
 } from "@chakra-ui/react";
 
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useRecoilState } from "recoil";
 import { obtainModalStatus } from "@/recoil/market/atom";
 
@@ -23,21 +19,20 @@ import ForgeIcon from "@/assets/icon/forge.svg";
 import GemIcon from "@/assets/icon/mine.svg";
 import GemCard from "../common/GemCard";
 import { GemList } from "@/constants";
+import { GemStandard } from "@/types";
 
 const ObtainSuccessModal = () => {
   const [modalStatus, setModalStatus] = useRecoilState(obtainModalStatus);
-  const [isChecked, setChecked] = useState(false);
-  const theme = useTheme();
-  const [storageValue, setValue] = useLocalStorage("mining-detail", true);
   const handleClose = () => {
-    if (isChecked) setValue(false);
-    setModalStatus(false);
+    setModalStatus({ isOpen: false });
   };
-  const gemItem = GemList[10];
+  const gemItem = GemList.filter(
+    (item: GemStandard) => item.id === modalStatus.gemId
+  );
 
   return (
     <Modal
-      isOpen={modalStatus}
+      isOpen={modalStatus.isOpen}
       onClose={() => handleClose()}
       size={"4xl"}
       isCentered
@@ -53,12 +48,17 @@ const ObtainSuccessModal = () => {
               height={581}
               staked={128.2907}
               rarityScore={10}
-              gemInfo={gemItem}
+              gemInfo={gemItem[0]}
               dailyChange={16.7}
               gemWidth={316}
               gemHeight={316}
             />
-            <Flex w={"100%"} flexDir={"column"} justify={"space-between"} p={"87px 26px 30px 26px"}>
+            <Flex
+              w={"100%"}
+              flexDir={"column"}
+              justify={"space-between"}
+              p={"87px 26px 30px 26px"}
+            >
               <Box>
                 <Text
                   fontWeight={600}

@@ -61,9 +61,17 @@ export const gemPackModalStatus = atom<boolean>({
   default: false,
 });
 
-export const obtainModalStatus = atom<boolean>({
+type ObtainModalStatusType = {
+  isOpen: boolean;
+  gemId?: number;
+}
+
+export const obtainModalStatus = atom<ObtainModalStatusType>({
   key: "obtainModalStatus",
-  default: false,
+  default: {
+    isOpen: false,
+    gemId: 0,
+  },
 });
 
 export const activeRarityListSelector = selector<{
