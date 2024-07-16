@@ -1,6 +1,7 @@
 import ForgeConfirmModal from "../modal/ForgeConfirmModal";
 import MiningModal from "../modal/MiningModal";
 import ForgeSuccessModal from "../modal/ForgingSuccessModal";
+import ObtainSuccessModal from "../modal/ObtainSuccessModal";
 
 const Modals = () => {
   return (
@@ -8,6 +9,7 @@ const Modals = () => {
       <MiningModal />
       <ForgeConfirmModal />
       <ForgeSuccessModal />
+      <ObtainSuccessModal />
     </>
   );
 };

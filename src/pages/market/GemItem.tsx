@@ -8,13 +8,14 @@ import GemCard from "@/components/common/GemCard";
 import { RarityItem } from "@/components/common/RarityList";
 import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
 import { ColorItem } from "@/components/common/ColorList";
+import { obtainModalStatus } from "@/recoil/market/atom";
+import { useRecoilState } from "recoil";
 
 import useConnectWallet from "@/hooks/account/useConnectWallet";
 
 import TonIcon from "@/assets/icon/ton.svg";
 import WalletIcon from "@/assets/icon/wallet.svg";
 import ReactApexChart from "react-apexcharts";
-import { m } from "framer-motion";
 
 interface ItemProps {
   id: number;
@@ -24,9 +25,10 @@ const GemItem = ({ id }: ItemProps) => {
   const gemItem = GemList.filter((item: GemStandard) => item.id === id);
   const { connectToWallet } = useConnectWallet();
   const { isConnected, address, chain } = useAccount();
+  const [modalStatus, setModalStatus] = useRecoilState(obtainModalStatus);
 
   const handleClick = () => {
-    !isConnected && connectToWallet();
+    isConnected ? setModalStatus(true) : connectToWallet()
   };
 
   const series = [{

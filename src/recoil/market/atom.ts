@@ -61,6 +61,11 @@ export const gemPackModalStatus = atom<boolean>({
   default: false,
 });
 
+export const obtainModalStatus = atom<boolean>({
+  key: "obtainModalStatus",
+  default: false,
+});
+
 export const activeRarityListSelector = selector<{
   activeRarityList: GemStandard[];
 }>({
