@@ -3,6 +3,9 @@ import FilterItem from "@/components/common/FilterItem";
 import { LeaderboardStatus, epochStatus } from "@/recoil/community/atom";
 import { useRecoilState } from "recoil";
 
+import LeaderboardTable from "./LeaderboardTable";
+import CommunityChat from "./CommunityChat";
+
 const TypeFilterBar = () => {
   const [filterStatus, setFileterStatus] = useRecoilState(LeaderboardStatus);
   const filterMenuList = ["overall", "mine", "forge", "value", "myself"];
@@ -54,7 +57,7 @@ const TypeFilterBar = () => {
   };
 
   return (
-    <Flex columnGap={4}>
+    <Flex columnGap={4} pl={4}>
       {filterMenuList.map((item, key) => (
         <FilterItem
           h={30}
@@ -146,8 +149,12 @@ const CommunityLeaderboard = () => {
     >
       <Flex justify={"space-between"}>
         <TypeFilterBar />
-
         <EpochFilterBar />
+      </Flex>
+
+      <Flex mt={"30px"} columnGap={5}>
+        <LeaderboardTable />
+        <CommunityChat/>
       </Flex>
     </Box>
   );
