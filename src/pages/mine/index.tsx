@@ -28,6 +28,7 @@ const MinePage = () => {
               staked={253.2}
               dailyChange={16.7}
               gemInfo={item}
+              
             />
           );
         })}

@@ -50,7 +50,7 @@ const GemCard = ({
   const theme = useTheme();
   const router = useRouter();
 
-  const { id, lastMineTime, gemBgColor, rarity } = gemInfo;
+  const { id, lastMineTime, gemBgColor, rarity, isMining } = gemInfo;
   const pieces = {
     topLeft: gemInfo.topLeft,
     topRight: gemInfo.topRight,
@@ -268,29 +268,49 @@ const GemCard = ({
               bgColor={"#00000080"}
               justify={"space-between"}
               align={"center"}
-              p={"10px"}
             >
-              <Flex flexDir={"column"} justify={"space-between"}>
-                <Text
-                  fontSize={14}
-                  fontWeight={600}
-                  textTransform={"capitalize"}
-                >
-                  {rarity} {rarityScore}%
-                </Text>
-                <Flex columnGap={1} align={"center"}>
-                  <Text fontSize={10} fontWeight={400}>
-                    Staked ${staked}{" "}
+              {mode === "mine" && isReadyForMine && isMining === true ? (
+                <Flex w={"full"} justify={"center"} align={"end"} columnGap={1} p={"20px"}>
+                  <Text fontSize={18} textAlign={"center"}>
+                    Mining...{" "}
                   </Text>
-                  <Image alt="arrow" src={HighArrow} />
-                  <Text color={"#61FF00"} fontSize={10} fontWeight={400}>
-                    {dailyChange}%
+                  <Text
+                    fontSize={12}
+                    textAlign={"center"}
+                    opacity={0.5}
+                    lineHeight={"23px"}
+                  >
+                    21:34:12
                   </Text>
                 </Flex>
-              </Flex>
+              ) : mode === "mine" && isReadyForMine && isMining === false ? (
+                <Flex w={"full"} h={"full"} justify={"center"} align={"center"} bgColor={"#0380FF"} p={"20px"}>
+                  <Text fontSize={18}>Collect Gem</Text>
+                  <Image alt="gem" src={GemIcon}/>
+                </Flex>
+              ) : (
+                <Flex flexDir={"column"} justify={"space-between"} p={"10px"}>
+                  <Text
+                    fontSize={14}
+                    fontWeight={600}
+                    textTransform={"capitalize"}
+                  >
+                    {rarity} {rarityScore}%
+                  </Text>
+                  <Flex columnGap={1} align={"center"}>
+                    <Text fontSize={10} fontWeight={400}>
+                      Staked ${staked}{" "}
+                    </Text>
+                    <Image alt="arrow" src={HighArrow} />
+                    <Text color={"#61FF00"} fontSize={10} fontWeight={400}>
+                      {dailyChange}%
+                    </Text>
+                  </Flex>
+                </Flex>
+              )}
 
               {mode === "market" && <PriceContainer price={100} />}
-              {mode === "mine" && isReadyForMine ? (
+              {isMining === null && mode === "mine" && isReadyForMine ? (
                 <Center
                   pos={"absolute"}
                   h={53}

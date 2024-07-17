@@ -46,6 +46,9 @@ const GemItem = ({ id }: ItemProps) => {
       zoom: {
         enabled: false,
       },
+      toolbar: {
+        show: false
+      }
     },
     colors: ["#61FF00"],
     tooltip: {

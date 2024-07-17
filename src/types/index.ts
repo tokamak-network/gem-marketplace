@@ -34,6 +34,7 @@ export type GemStandard = {
   gemBgColor: string[];
   lastMineTime: number;
   rarity: RarityType;
+  isMining?: boolean | null;
 };
 
 export type ActivityFilterType = "all" | "mine" | "forge" | "buysell";

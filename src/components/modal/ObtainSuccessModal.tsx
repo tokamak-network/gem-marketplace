@@ -11,6 +11,7 @@ import {
   Button,
   Box,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 import { useRecoilState } from "recoil";
 import { obtainModalStatus } from "@/recoil/market/atom";
@@ -22,6 +23,7 @@ import { GemList } from "@/constants";
 import { GemStandard } from "@/types";
 
 const ObtainSuccessModal = () => {
+  const router = useRouter();
   const [modalStatus, setModalStatus] = useRecoilState(obtainModalStatus);
   const handleClose = () => {
     setModalStatus({ isOpen: false });
@@ -100,6 +102,10 @@ const ObtainSuccessModal = () => {
                   fontWeight={600}
                   fontSize={24}
                   columnGap={2}
+                  onClick={() => {
+                    router.push("/mine");
+                    setModalStatus({isOpen: false});
+                  }}
                 >
                   <Image width={23} height={23} alt="gem" src={GemIcon} />
                   Mine
@@ -113,6 +119,10 @@ const ObtainSuccessModal = () => {
                   fontWeight={600}
                   fontSize={24}
                   columnGap={2}
+                  onClick={() => {
+                    router.push("/forge");
+                    setModalStatus({isOpen: false});
+                  }}
                 >
                   <Image width={23} height={23} alt="forge" src={ForgeIcon} />
                   <Text>Forge</Text>
