@@ -59,7 +59,7 @@ const CollectMinedGemModal = () => {
             </Text>
 
             <Center mt={8}>
-              <GemShape pieces={gemItem[0]} />
+              <GemShape pieces={gemItem[0]} gemBgColor={gemItem[0]?.gemBgColor}/>
             </Center>
 
             <Text

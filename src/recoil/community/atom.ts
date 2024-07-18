@@ -31,9 +31,9 @@ export const epochStatus = atom<EpochStatusType>({
   key: "epochStatus",
   default: {
     all: true,
-    "1y": false,
-    "1m": false,
-    "7d": false,
-    "24h": false,
+    "1Y": false,
+    "1M": false,
+    "7D": false,
+    "24H": false,
   },
 });
