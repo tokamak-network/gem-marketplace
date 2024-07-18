@@ -5,6 +5,11 @@ type MiningModalStatus = {
   mineTime?: number;
 }
 
+type MiningResultStatus = {
+  isOpen: boolean;
+  minedGemId?: number;
+};
+
 export const miningModalStatus = atom<MiningModalStatus>({
   key: "mineModalStatus",
   default: {
@@ -13,10 +18,10 @@ export const miningModalStatus = atom<MiningModalStatus>({
   }
 });
 
-export const miningResultStatus = atom<MiningModalStatus>({
+export const miningResultStatus = atom<MiningResultStatus>({
   key: "mineResultStatus",
   default: {
     isOpen: false,
-    mineTime: 0
+    minedGemId: 0
   }
 });

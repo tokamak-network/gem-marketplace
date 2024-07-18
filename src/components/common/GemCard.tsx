@@ -8,7 +8,7 @@ import HighArrow from "@/assets/icon/higharrow.svg";
 import SavedIcon from "./SavedIcon";
 import { COOLDOWN } from "@/constants";
 import { useRecoilState } from "recoil";
-import { miningModalStatus } from "@/recoil/mine/atom";
+import { miningModalStatus, miningResultStatus } from "@/recoil/mine/atom";
 import { selectedForgeGem } from "@/recoil/forge/atom";
 import { GemStandard, CardType } from "@/types";
 import RarityViewer from "./RarityViewer";
@@ -46,6 +46,8 @@ const GemCard = ({
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
   const [, seMineModalState] = useRecoilState(miningModalStatus);
   const [selectedGems, setSelectedGems] = useRecoilState(selectedForgeGem);
+  const [collectGemStatus, setCollectGemStatus] =
+    useRecoilState(miningResultStatus);
   const { firstSelectedGem, secondSelectedGem } = selectedGems;
   const theme = useTheme();
   const router = useRouter();
@@ -270,7 +272,13 @@ const GemCard = ({
               align={"center"}
             >
               {mode === "mine" && isReadyForMine && isMining === true ? (
-                <Flex w={"full"} justify={"center"} align={"end"} columnGap={1} p={"20px"}>
+                <Flex
+                  w={"full"}
+                  justify={"center"}
+                  align={"end"}
+                  columnGap={1}
+                  p={"20px"}
+                >
                   <Text fontSize={18} textAlign={"center"}>
                     Mining...{" "}
                   </Text>
@@ -284,9 +292,19 @@ const GemCard = ({
                   </Text>
                 </Flex>
               ) : mode === "mine" && isReadyForMine && isMining === false ? (
-                <Flex w={"full"} h={"full"} justify={"center"} align={"center"} bgColor={"#0380FF"} p={"20px"}>
+                <Flex
+                  w={"full"}
+                  h={"full"}
+                  justify={"center"}
+                  align={"center"}
+                  bgColor={"#0380FF"}
+                  p={"20px"}
+                  onClick={() => {
+                    setCollectGemStatus({ isOpen: true, minedGemId: id });
+                  }}
+                >
                   <Text fontSize={18}>Collect Gem</Text>
-                  <Image alt="gem" src={GemIcon}/>
+                  <Image alt="gem" src={GemIcon} />
                 </Flex>
               ) : (
                 <Flex flexDir={"column"} justify={"space-between"} p={"10px"}>
