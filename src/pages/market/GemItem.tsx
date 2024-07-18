@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useAccount } from "wagmi";
-import ApexCharts from "apexcharts";
+import dynamic from "next/dynamic";
 
 import { GemList } from "@/constants";
 import { GemStandard } from "@/types";
@@ -15,7 +15,7 @@ import useConnectWallet from "@/hooks/account/useConnectWallet";
 
 import TonIcon from "@/assets/icon/ton.svg";
 import WalletIcon from "@/assets/icon/wallet.svg";
-import ReactApexChart from "react-apexcharts";
+const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface ItemProps {
   id: number;

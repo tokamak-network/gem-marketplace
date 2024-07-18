@@ -1,5 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
-import ApexChart from "react-apexcharts";
+import dynamic from "next/dynamic";
+const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const series = [76];
 const options: any = {
