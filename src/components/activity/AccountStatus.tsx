@@ -4,7 +4,6 @@ import {
   Flex,
   Text,
   useToast,
-  Select,
   Menu,
   MenuButton,
   Button,
@@ -12,24 +11,28 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import { useState } from "react";
 import { useAccount } from "wagmi";
 import { useRecoilState } from "recoil";
+import { useSwitchChain } from "wagmi";
 import useConnectWallet from "@/hooks/account/useConnectWallet";
 import { activityContainerStatus } from "@/recoil/activity/atom";
 import { trimAddress } from "@/utils";
 import copy from "copy-to-clipboard";
 import { NetworkSymbol } from "../common/NetworkSymbol";
 
-import ThanosSymbol from "@/assets/icon/network/thanos_circle.svg";
 import ClipboardIcon from "@/assets/icon/clipboard.svg";
 import UserGuideIcon from "@/assets/icon/userguide.svg";
 import LogoutIcon from "@/assets/icon/logout.svg";
+import { newtorkList } from "@/constants/networks";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
   const { disconnectToWallet } = useConnectWallet();
   const [, setOpenActivity] = useRecoilState(activityContainerStatus);
   const toast = useToast();
+  const { switchChainAsync } = useSwitchChain();
+  const [isNetworkMenuOpen, setNetworkMenuOpen] = useState<Boolean>(false);
 
   const handleClipboard = () => {
     copy(address !== undefined ? address : "");
@@ -43,10 +46,14 @@ const AccountStatus = () => {
     });
   };
 
+  const handleNetworkSwitch = async (chainId: number) => {
+    await switchChainAsync({ chainId });
+  };
+
   return (
     <Box w={"full"} p={"20px"} rounded={8} bgColor={"#1B1D28"} mb={"30px"}>
       <Flex justify={"space-between"} align={"center"}>
-        <Menu>
+        <Menu closeOnSelect={false}>
           <MenuButton
             as={Button}
             bgColor={"transparent"}
@@ -65,11 +72,24 @@ const AccountStatus = () => {
               </Text>
             </Flex>
           </MenuButton>
-          <MenuList bgColor={"#1B1D28"} border={"1px solid #313442"} fontWeight={500} fontSize={14}>
-            <MenuItem _hover={{bgColor: "#2A2C3A"}} bgColor={"#1B1D28"}>Thanos</MenuItem>
-            <MenuItem _hover={{bgColor: "#2A2C3A"}} bgColor={"#1B1D28"}>Thanos Sepolia</MenuItem>
-            <MenuItem _hover={{bgColor: "#2A2C3A"}} bgColor={"#1B1D28"}>Titan</MenuItem>
-            <MenuItem _hover={{bgColor: "#2A2C3A"}} bgColor={"#1B1D28"}>Ethereum</MenuItem>
+          <MenuList
+            bgColor={"#1B1D28"}
+            border={"1px solid #313442"}
+            fontWeight={500}
+            fontSize={14}
+          >
+            {newtorkList.map((item, key) => (
+              <MenuItem
+                key={key}
+                _hover={{ bgColor: "#2A2C3A" }}
+                bgColor={"#1B1D28"}
+                onClick={() => handleNetworkSwitch(item.id)}
+                columnGap={"6px"}
+              >
+                <Image alt={item.name} src={item.icon} width={20} height={20} />
+                {item.name}
+              </MenuItem>
+            ))}
           </MenuList>
         </Menu>
 
