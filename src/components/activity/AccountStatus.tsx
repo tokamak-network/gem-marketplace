@@ -32,7 +32,7 @@ const AccountStatus = () => {
   const [, setOpenActivity] = useRecoilState(activityContainerStatus);
   const toast = useToast();
   const { switchChainAsync } = useSwitchChain();
-  const [isNetworkMenuOpen, setNetworkMenuOpen] = useState<Boolean>(false);
+  const [isNetworkMenuOpen, setNetworkMenuOpen] = useState<boolean>(false);
 
   const handleClipboard = () => {
     copy(address !== undefined ? address : "");
@@ -47,14 +47,24 @@ const AccountStatus = () => {
   };
 
   const handleNetworkSwitch = async (chainId: number) => {
-    await switchChainAsync({ chainId });
+    if (chainId === chain?.id) {
+      setNetworkMenuOpen(false);
+      return;
+    }
+    try {
+      await switchChainAsync({ chainId })
+    } catch(error) {
+      return;
+    };
+    setNetworkMenuOpen(false);
   };
 
   return (
     <Box w={"full"} p={"20px"} rounded={8} bgColor={"#1B1D28"} mb={"30px"}>
       <Flex justify={"space-between"} align={"center"}>
-        <Menu closeOnSelect={false}>
+        <Menu closeOnSelect={false} isOpen={isNetworkMenuOpen}>
           <MenuButton
+            onClick={() => setNetworkMenuOpen((prev) => !prev)}
             as={Button}
             bgColor={"transparent"}
             color={"white"}
