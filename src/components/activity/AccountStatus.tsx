@@ -24,9 +24,8 @@ import LogoutIcon from "@/assets/icon/logout.svg";
 import { newtorkList } from "@/constants/networks";
 
 import ClipboardIcon from "@/assets/icon/clipboard.svg";
-import UserGuideIcon from "@/assets/icon/userguide.svg";
-import TON from "@/assets/icon/ton.svg";
-import Thanos from "@/assets/icon/network/thanos_circle.svg";
+// import UserGuideIcon from "@/assets/icon/userguide.svg";
+import { tokenList } from "@/constants";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
@@ -137,22 +136,30 @@ const AccountStatus = () => {
         </Flex>
       </Flex>
 
-      <Flex justify={"space-between"} align={"end"} mt={2}>
-        {/* <Box>
+      {tokenList.map((item, key) => (
+        <Flex key={key} justify={"space-between"} align={"center"} mt={2}>
+          <Center columnGap={2}>
+            <Image alt="ton" src={item.icon} width={24} height={24} />
+            <Text fontSize={12} fontWeight={500} color={"#5D6978"}>
+              {item.symbol}
+            </Text>
+          </Center>
+
+          <Flex flexDir={"column"} align={"end"}>
+            <Text fontWeight={600} fontSize={16}>2000.00</Text>
+            <Text color={"#5D6978"} fontSize={12}>2433.57</Text>
+          </Flex>
+        </Flex>
+      ))}
+      {/* <Flex justify={"space-between"} align={"end"} mt={2}>
+        <Box>
           <Text fontSize={14} color={"#5D6978"} lineHeight={"50px"}>
             TON Balance
           </Text>
           <Text fontSize={28} fontWeight={600} lineHeight={"26px"}>
             2000.00
           </Text>
-        </Box> */}
-
-        <Center>
-          <Image alt="ton" src={TON} width={24} height={24} />
-          <Text fontSize={12} fontWeight={500} color={"#5D6978"}>
-            TON
-          </Text>
-        </Center>
+        </Box>
 
         <Flex columnGap={2}>
           <Center
@@ -177,7 +184,7 @@ const AccountStatus = () => {
             <Image width={16} height={16} alt="logout" src={LogoutIcon} />
           </Center>
         </Flex>
-      </Flex>
+      </Flex> */}
     </Box>
   );
 };

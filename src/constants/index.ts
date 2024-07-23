@@ -1,8 +1,7 @@
 import { GemStandard, RarityType } from "@/types";
 import TON from "@/assets/icon/ton.svg";
 import Thanos from "@/assets/icon/network/thanos_circle.svg";
-
-export const COOLDOWN = 60 * 60 * 24; // 1 day
+import { TON_ADDRESS_BY_CHAINID, WSWTON_ADDRESS_BY_CHAINID } from "./tokens";
 
 export const GemList: GemStandard[] = [
   { id: 1, rarity: RarityType.EPIC, topLeft: 5, topRight: 5, bottomLeft: 5, bottomRight: 5, gemBgColor: ["#05E0FE", "#0D6CFA"], lastMineTime: 1721245218, isMining: null },
@@ -20,3 +19,16 @@ export const GemList: GemStandard[] = [
   { id: 13, rarity: RarityType.UNIQUE, topLeft: 4, topRight: 5, bottomLeft: 4, bottomRight: 4, gemBgColor: ["#05E0FE", "#0D6CFA"], lastMineTime: 1721245218, isMining: false  },
   { id: 14, rarity: RarityType.RARE, topLeft: 3, topRight: 3, bottomLeft: 4, bottomRight: 4, gemBgColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
 ];
+
+export const tokenList = [
+  {
+    symbol: "TON",
+    address: [],
+    icon: TON
+  },
+  {
+    symbol: "WSWTON",
+    address: WSWTON_ADDRESS_BY_CHAINID,
+    icon: Thanos
+  },
+]

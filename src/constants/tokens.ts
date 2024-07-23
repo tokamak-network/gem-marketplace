@@ -1,4 +1,5 @@
 import { SupportedChainId } from "@/types/network/supportedNetworks";
+import { MAINNET_CONTRACTS, TOKAMAK_CONTRACTS } from "./contracts";
 
 export const TON_ADDRESS_BY_CHAINID: Record<number, string> = {
   [SupportedChainId.MAINNET]: MAINNET_CONTRACTS.TON_ADDRESS,
