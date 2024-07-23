@@ -20,11 +20,13 @@ import { activityContainerStatus } from "@/recoil/activity/atom";
 import { trimAddress } from "@/utils";
 import copy from "copy-to-clipboard";
 import { NetworkSymbol } from "../common/NetworkSymbol";
+import LogoutIcon from "@/assets/icon/logout.svg";
+import { newtorkList } from "@/constants/networks";
 
 import ClipboardIcon from "@/assets/icon/clipboard.svg";
 import UserGuideIcon from "@/assets/icon/userguide.svg";
-import LogoutIcon from "@/assets/icon/logout.svg";
-import { newtorkList } from "@/constants/networks";
+import TON from "@/assets/icon/ton.svg";
+import Thanos from "@/assets/icon/network/thanos_circle.svg";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
@@ -52,16 +54,21 @@ const AccountStatus = () => {
       return;
     }
     try {
-      await switchChainAsync({ chainId })
-    } catch(error) {
+      await switchChainAsync({ chainId });
+    } catch (error) {
       return;
-    };
+    }
     setNetworkMenuOpen(false);
   };
 
   return (
-    <Box w={"full"} p={"20px"} rounded={8} bgColor={"#1B1D28"} mb={"30px"}>
-      <Flex justify={"space-between"} align={"center"}>
+    <Box w={"full"} p={"16px"} rounded={8} bgColor={"#1B1D28"} mb={"30px"}>
+      <Flex
+        justify={"space-between"}
+        align={"center"}
+        borderBottom={"1px solid #FFFFFF10"}
+        pb={3}
+      >
         <Menu closeOnSelect={false} isOpen={isNetworkMenuOpen}>
           <MenuButton
             onClick={() => setNetworkMenuOpen((prev) => !prev)}
@@ -73,11 +80,14 @@ const AccountStatus = () => {
             _hover={{ bgColor: "#2A2C3A" }}
             _active={{ bgColor: "#2A2C3A" }}
             px={"6px"}
-            pr={3}
+            pr={2}
           >
             <Flex columnGap={2} align={"center"}>
               <NetworkSymbol w={32} h={32} network={chain?.id} />
-              <Text fontSize={16} fontWeight={500}>
+              <Text
+                fontSize={chain?.id === 111551118080 ? 12 : 16}
+                fontWeight={500}
+              >
                 {chain?.name}
               </Text>
             </Flex>
@@ -104,24 +114,45 @@ const AccountStatus = () => {
         </Menu>
 
         <Flex columnGap={2} align={"center"}>
-          <Text fontSize={16} fontWeight={500}>
-            {trimAddress({ address })}
-          </Text>
           <Box onClick={handleClipboard} cursor={"pointer"}>
             <Image src={ClipboardIcon} alt="clipboard" width={16} height={16} />
           </Box>
+
+          <Text fontSize={16} fontWeight={500}>
+            {trimAddress({ address })}
+          </Text>
+
+          <Center
+            bgColor={"#2A2C3A"}
+            rounded={"full"}
+            w={7}
+            height={7}
+            cursor={"pointer"}
+            onClick={() => {
+              disconnectToWallet(), setOpenActivity(false);
+            }}
+          >
+            <Image width={16} height={16} alt="logout" src={LogoutIcon} />
+          </Center>
         </Flex>
       </Flex>
 
       <Flex justify={"space-between"} align={"end"} mt={2}>
-        <Box>
+        {/* <Box>
           <Text fontSize={14} color={"#5D6978"} lineHeight={"50px"}>
             TON Balance
           </Text>
           <Text fontSize={28} fontWeight={600} lineHeight={"26px"}>
             2000.00
           </Text>
-        </Box>
+        </Box> */}
+
+        <Center>
+          <Image alt="ton" src={TON} width={24} height={24} />
+          <Text fontSize={12} fontWeight={500} color={"#5D6978"}>
+            TON
+          </Text>
+        </Center>
 
         <Flex columnGap={2}>
           <Center

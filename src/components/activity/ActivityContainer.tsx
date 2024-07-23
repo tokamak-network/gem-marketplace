@@ -29,7 +29,7 @@ const ActivityContainer = () => {
     >
       <DrawerOverlay ml={243} />
       <DrawerContent
-        sx={{ width: "375px!important" }}
+        sx={{ width: "400px!important" }}
         ml={243}
         bgColor={"#0D0E16"}
         py={46}

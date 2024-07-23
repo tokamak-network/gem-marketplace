@@ -1,4 +1,6 @@
 import { GemStandard, RarityType } from "@/types";
+import TON from "@/assets/icon/ton.svg";
+import Thanos from "@/assets/icon/network/thanos_circle.svg";
 
 export const COOLDOWN = 60 * 60 * 24; // 1 day
 
