@@ -3,7 +3,7 @@ import { useAccount } from "wagmi";
 import dynamic from "next/dynamic";
 
 import { GemList } from "@/constants";
-import { GemStandard } from "@/types";
+import { CardType, GemStandard } from "@/types";
 import GemCard from "@/components/common/GemCard";
 import { RarityItem } from "@/components/common/RarityList";
 import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
@@ -15,13 +15,16 @@ import useConnectWallet from "@/hooks/account/useConnectWallet";
 
 import TonIcon from "@/assets/icon/ton.svg";
 import WalletIcon from "@/assets/icon/wallet.svg";
-const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 
 interface ItemProps {
   id: number;
+  mode: CardType;
 }
 
-const GemItem = ({ id }: ItemProps) => {
+const GemItemView = ({ id, mode }: ItemProps) => {
   const gemItem = GemList.filter((item: GemStandard) => item.id === id);
   const { connectToWallet } = useConnectWallet();
   const { isConnected, address, chain } = useAccount();
@@ -47,8 +50,8 @@ const GemItem = ({ id }: ItemProps) => {
         enabled: false,
       },
       toolbar: {
-        show: false
-      }
+        show: false,
+      },
     },
     colors: ["#61FF00"],
     tooltip: {
@@ -142,26 +145,28 @@ const GemItem = ({ id }: ItemProps) => {
             </Text>
           </Flex>
 
-          <Button
-            w={"full"}
-            maxW={624}
-            h={"65px"}
-            columnGap={2}
-            alignItems={"center"}
-            justifyContent={"center"}
-            colorScheme="blue"
-            bgColor={"#0380FF"}
-            onClick={handleClick}
-          >
-            {isConnected ? (
-              <Image alt="ton" src={TonIcon} width={27} height={27} />
-            ) : (
-              <Image alt="wallet" src={WalletIcon} width={22} height={23} />
-            )}
-            <Text fontSize={24} fontWeight={600}>
-              {isConnected ? "135 TON" : "Connect Wallet"}
-            </Text>
-          </Button>
+          {mode === "market" && (
+            <Button
+              w={"full"}
+              maxW={624}
+              h={"65px"}
+              columnGap={2}
+              alignItems={"center"}
+              justifyContent={"center"}
+              colorScheme="blue"
+              bgColor={"#0380FF"}
+              onClick={handleClick}
+            >
+              {isConnected ? (
+                <Image alt="ton" src={TonIcon} width={27} height={27} />
+              ) : (
+                <Image alt="wallet" src={WalletIcon} width={22} height={23} />
+              )}
+              <Text fontSize={24} fontWeight={600}>
+                {isConnected ? "135 TON" : "Connect Wallet"}
+              </Text>
+            </Button>
+          )}
         </Flex>
       </Flex>
 
@@ -173,4 +178,4 @@ const GemItem = ({ id }: ItemProps) => {
   );
 };
 
-export default GemItem;
+export default GemItemView;

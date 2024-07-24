@@ -141,6 +141,9 @@ const GemCard = ({
     if (mode === "market") {
       router.push(`/market?asset=${gemInfo.id}`);
     }
+    else if (mode === "chest") {
+      router.push(`/chest?asset=${gemInfo.id}`);
+    }
   }, [firstSelectedGem, secondSelectedGem]);
 
   const isForgeActive = useMemo(() => {

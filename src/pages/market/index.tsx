@@ -9,9 +9,7 @@ import GemPackModal from "@/components/modal/GemPackModal";
 import GEM from "@/assets/images/sample_gem.png";
 import Image from "next/image";
 import GemCard from "@/components/common/GemCard";
-import GemItem from "./GemItem";
-
-import { GemList } from "@/constants";
+import GemItemView from "@/components/common/GemItemView";
 
 const MarketPage = () => {
   const theme = useTheme();
@@ -22,7 +20,7 @@ const MarketPage = () => {
   const {activeRarityList} = useRecoilValue(activeRarityListSelector);
 
   return (
-    search ? <GemItem id={Number(search)}/> :
+    search ? <GemItemView id={Number(search)} mode="market"/> :
     <>
       <Flex columnGap={4} mt={73}>
         <Flex
