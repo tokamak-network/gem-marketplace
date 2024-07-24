@@ -4,6 +4,7 @@ import ForgeSuccessModal from "../modal/ForgingSuccessModal";
 import ObtainSuccessModal from "../modal/ObtainSuccessModal";
 import CollectMinedGemModal from "../modal/CollectMinedGemModal";
 import SellGemModal from "../modal/SellGemModal";
+import BurnGemModal from "../modal/BurnModal";
 
 const Modals = () => {
   return (
@@ -14,6 +15,7 @@ const Modals = () => {
       <ObtainSuccessModal />
       <CollectMinedGemModal />
       <SellGemModal />
+      <BurnGemModal />
     </>
   );
 };
