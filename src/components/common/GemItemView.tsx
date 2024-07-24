@@ -10,6 +10,7 @@ import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
 import { ColorItem } from "@/components/common/ColorList";
 import { obtainModalStatus } from "@/recoil/market/atom";
 import { useRecoilState } from "recoil";
+import { sellGemModalStatus, burnGemModalStatus } from "@/recoil/chest/atom";
 
 import useConnectWallet from "@/hooks/account/useConnectWallet";
 
@@ -28,7 +29,9 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const gemItem = GemList.filter((item: GemStandard) => item.id === id);
   const { connectToWallet } = useConnectWallet();
   const { isConnected, address, chain } = useAccount();
-  const [modalStatus, setModalStatus] = useRecoilState(obtainModalStatus);
+  const [, setModalStatus] = useRecoilState(obtainModalStatus);
+  const [, setSellGemModalStatus] = useRecoilState(sellGemModalStatus);
+  const [, burnSellGemModalStatus] = useRecoilState(burnGemModalStatus);
 
   const handleClick = () => {
     isConnected
@@ -145,7 +148,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
             </Text>
           </Flex>
 
-          {mode === "market" && (
+          {mode === "market" ? (
             <Button
               w={"full"}
               maxW={624}
@@ -166,6 +169,41 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                 {isConnected ? "135 TON" : "Connect Wallet"}
               </Text>
             </Button>
+          ) : mode === "chest" ? (
+            <Flex w={"100%"} columnGap={6}>
+              <Button
+                w={"full"}
+                maxW={624}
+                h={"65px"}
+                columnGap={2}
+                alignItems={"center"}
+                justifyContent={"center"}
+                colorScheme="blue"
+                bgColor={"#0380FF"}
+                onClick={() => {
+                  setSellGemModalStatus(true);
+                }}
+              >
+                Sell
+              </Button>
+              <Button
+                w={"full"}
+                maxW={624}
+                h={"65px"}
+                columnGap={2}
+                alignItems={"center"}
+                justifyContent={"center"}
+                colorScheme="blue"
+                bgColor={"transparent"}
+                onClick={() => burnSellGemModalStatus(true)}
+                border={"1px solid #0380FF"}
+                _hover={{ bgColor: "#111111" }}
+              >
+                Burn
+              </Button>
+            </Flex>
+          ) : (
+            ""
           )}
         </Flex>
       </Flex>
