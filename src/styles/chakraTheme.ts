@@ -7,6 +7,7 @@ import "@fontsource/poppins/400.css"
 import "@fontsource/inter/400.css";
 import "@fontsource/inter/600.css";
 import "@fontsource/quicksand";
+import "@fontsource/quicksand/700.css";
 import { Quicksand } from "next/font/google";
 
 const fonts = {

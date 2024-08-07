@@ -16,6 +16,7 @@ import RarityViewer from "./RarityViewer";
 import GemIcon from "@/assets/icon/mine.svg";
 import GemShape from "./GemShape";
 import PreviousMap from "postcss/lib/previous-map";
+import { rarityStatus } from "@/recoil/market/atom";
 
 interface GemCardType {
   width?: number;
@@ -47,13 +48,15 @@ const GemCard = ({
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
   const [, seMineModalState] = useRecoilState(miningModalStatus);
   const [selectedGems, setSelectedGems] = useRecoilState(selectedForgeGem);
-  
+
   const [collectGemStatus, setCollectGemStatus] =
-  useRecoilState(miningResultStatus);
+    useRecoilState(miningResultStatus);
   const { firstSelectedGem, secondSelectedGem } = selectedGems;
 
-  const [selectedGemsInfo, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
+  const [selectedGemsInfo, setSelectedGemsInfo] =
+    useRecoilState(selectedForgeGems);
   const { selectedRarity, selectedGemsList } = selectedGemsInfo;
+  const [rarityState, setRarityState] = useRecoilState(rarityStatus);
 
   const theme = useTheme();
   const router = useRouter();
@@ -146,33 +149,50 @@ const GemCard = ({
     // }
 
     if (mode === "forge") {
-      if (selectedGemsList.length === 0 ) {
-        setSelectedGemsInfo({selectedRarity: gemInfo.rarity, selectedGemsList: [gemInfo]})
-      }
-      else {
+      if (selectedGemsList.length === 0) {
+        setSelectedGemsInfo({
+          selectedRarity: gemInfo.rarity,
+          selectedGemsList: [gemInfo],
+        });
+        setRarityState({
+          base: false,
+          common: false,
+          rare: false,
+          unique: false,
+          epic: false,
+          legendary: false,
+          mythic: false,
+          heirloom: false,
+        });
+        setRarityState((prev) => ({ ...prev, ...{ [gemInfo.rarity]: true } }));
+      } else {
         let filterList = selectedGemsList.filter((item) => item.id === id);
 
         if (filterList.length > 0) {
-          let newList = selectedGemsList;
-          selectedGemsList.map((item, key) => {
-            item.id === id && newList.slice(key)
-          })
-          setSelectedGemsInfo(prev => ({...prev, selectedGemsList: newList}));
+          let resultList = selectedGemsList.filter((item) => item.id !== id);
+          setSelectedGemsInfo((prev) => ({
+            ...prev,
+            selectedGemsList: [...resultList],
+          }));
           return;
         }
-        if (Object.keys(RarityType).indexOf(selectedRarity) + 1 > selectedGemsList.length) {
-          let newList = [...selectedGemsList, gemInfo]
-          setSelectedGemsInfo(prev => ({...prev, selectedGemsList: newList}));
-        }
-        else {
+        if (
+          Object.keys(RarityType).indexOf(selectedRarity) + 1 >
+          selectedGemsList.length
+        ) {
+          let newList = [...selectedGemsList, gemInfo];
+          setSelectedGemsInfo((prev) => ({
+            ...prev,
+            selectedGemsList: newList,
+          }));
+        } else {
           return;
         }
       }
     }
     if (mode === "market") {
       router.push(`/market?asset=${gemInfo.id}`);
-    }
-    else if (mode === "chest") {
+    } else if (mode === "chest") {
       router.push(`/chest?asset=${gemInfo.id}`);
     }
   }, [selectedGemsList, selectedRarity]);
@@ -195,7 +215,7 @@ const GemCard = ({
 
   const isForgeSelected = useMemo(() => {
     const selected = selectedGemsList.filter((item) => item.id === id);
-    return selected.length > 0 ? true: false;
+    return selected.length > 0 ? true : false;
   }, [selectedGemsList, selectedRarity]);
 
   return (
@@ -212,16 +232,16 @@ const GemCard = ({
       // opacity={
       //   mode === "forge" ? (isForgeActive || isForgeSelected ? 1 : 0.25) : 1
       // }
-      // boxShadow={
-      //   (isForgeSelected && mode === "forge") || mode === "common"
-      //     ? "0px 0px 25px 0px #0068FF"
-      //     : ""
-      // }
-      // border={
-      //   (isForgeSelected && mode === "forge") || mode === "common"
-      //     ? "1px solid #FFFFFF"
-      //     : ""
-      // }
+      boxShadow={
+        (isForgeSelected && mode === "forge") || mode === "common"
+          ? "0px 0px 25px 0px #0068FF"
+          : ""
+      }
+      border={
+        (isForgeSelected && mode === "forge") || mode === "common"
+          ? "1px solid #FFFFFF"
+          : ""
+      }
       transition={"0.2s"}
     >
       {isForgeSelected && mode === "forge" && (
@@ -232,11 +252,12 @@ const GemCard = ({
           top={0}
           left={0}
           rounded={"8px 0px 8px 0px"}
-          bgColor={"#1C1C1C"}
+          bgColor={"#FFFFFF"}
           fontWeight={700}
           fontSize={12}
           textAlign={"center"}
           fontFamily={theme.fonts.Quicksand}
+          color={"#000000"}
         >
           selected
         </Center>
