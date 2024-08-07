@@ -9,7 +9,7 @@ import SavedIcon from "./SavedIcon";
 import { COOLDOWN } from "@/constants";
 import { useRecoilState } from "recoil";
 import { miningModalStatus, miningResultStatus } from "@/recoil/mine/atom";
-import { selectedForgeGem, selectedForgeGems } from "@/recoil/forge/atom";
+import { forgeConfirmModalStatus, selectedForgeGem, selectedForgeGems } from "@/recoil/forge/atom";
 import { GemStandard, CardType, RarityType } from "@/types";
 import RarityViewer from "./RarityViewer";
 
@@ -57,6 +57,7 @@ const GemCard = ({
     useRecoilState(selectedForgeGems);
   const { selectedRarity, selectedGemsList } = selectedGemsInfo;
   const [rarityState, setRarityState] = useRecoilState(rarityStatus);
+  const [, setForgeConfirm] = useRecoilState(forgeConfirmModalStatus);
 
   const theme = useTheme();
   const router = useRouter();
@@ -149,6 +150,9 @@ const GemCard = ({
     // }
 
     if (mode === "forge") {
+      setSelectedGemsInfo((prev) => ({...prev, 
+        selectedRarity: gemInfo.rarity,
+      }))
       if (selectedGemsList.length === 0) {
         setSelectedGemsInfo({
           selectedRarity: gemInfo.rarity,
@@ -164,14 +168,17 @@ const GemCard = ({
           mythic: false,
           heirloom: false,
         });
-        setRarityState((prev) => ({ ...prev, ...{ [gemInfo.rarity]: true } }));
+        setRarityState((prev) => ({
+          ...prev,
+          ...{ [gemInfo.rarity.toLocaleLowerCase()]: true },
+        }));
       } else {
         let filterList = selectedGemsList.filter((item) => item.id === id);
 
         if (filterList.length > 0) {
           let resultList = selectedGemsList.filter((item) => item.id !== id);
           setSelectedGemsInfo((prev) => ({
-            ...prev,
+            selectedRarity: gemInfo.rarity,
             selectedGemsList: [...resultList],
           }));
           return;
@@ -180,9 +187,12 @@ const GemCard = ({
           Object.keys(RarityType).indexOf(selectedRarity) + 1 >
           selectedGemsList.length
         ) {
+          if (Object.keys(RarityType).indexOf(selectedRarity) === selectedGemsList.length) {
+            setForgeConfirm(true);
+          }
           let newList = [...selectedGemsList, gemInfo];
           setSelectedGemsInfo((prev) => ({
-            ...prev,
+            selectedRarity: gemInfo.rarity,
             selectedGemsList: newList,
           }));
         } else {
@@ -197,17 +207,17 @@ const GemCard = ({
     }
   }, [selectedGemsList, selectedRarity]);
 
-  const isForgeActive = useMemo(() => {
-    if (firstSelectedGem === null && secondSelectedGem === null) return true;
-    else {
-      if (firstSelectedGem !== null && secondSelectedGem !== null) return false;
-      if (
-        rarity === firstSelectedGem?.rarity ||
-        rarity === secondSelectedGem?.rarity
-      )
-        return true;
-    }
-  }, [firstSelectedGem, secondSelectedGem]);
+  // const isForgeActive = useMemo(() => {
+  //   if (firstSelectedGem === null && secondSelectedGem === null) return true;
+  //   else {
+  //     if (firstSelectedGem !== null && secondSelectedGem !== null) return false;
+  //     if (
+  //       rarity === firstSelectedGem?.rarity ||
+  //       rarity === secondSelectedGem?.rarity
+  //     )
+  //       return true;
+  //   }
+  // }, [firstSelectedGem, secondSelectedGem]);
 
   // const isForgeSelected = useMemo(() => {
   //   return id === firstSelectedGem?.id || id === secondSelectedGem?.id;
@@ -245,22 +255,43 @@ const GemCard = ({
       transition={"0.2s"}
     >
       {isForgeSelected && mode === "forge" && (
-        <Center
-          w={"81px"}
-          h={"24px"}
-          pos={"absolute"}
-          top={0}
-          left={0}
-          rounded={"8px 0px 8px 0px"}
-          bgColor={"#FFFFFF"}
-          fontWeight={700}
-          fontSize={12}
-          textAlign={"center"}
-          fontFamily={theme.fonts.Quicksand}
-          color={"#000000"}
-        >
-          selected
-        </Center>
+        <>
+          <Center
+            w={"81px"}
+            h={"24px"}
+            pos={"absolute"}
+            top={0}
+            left={0}
+            rounded={"8px 0px 8px 0px"}
+            bgColor={"#FFFFFF"}
+            fontWeight={700}
+            fontSize={12}
+            textAlign={"center"}
+            fontFamily={theme.fonts.Quicksand}
+            color={"#000000"}
+          >
+            selected
+          </Center>
+
+          <Center
+            w={"81px"}
+            h={"24px"}
+            pos={"absolute"}
+            top={0}
+            right={0}
+            rounded={"8px 0px 8px 0px"}
+            bgColor={"#FFFFFF"}
+            fontWeight={700}
+            fontSize={12}
+            textAlign={"center"}
+            fontFamily={theme.fonts.Quicksand}
+            color={"#000000"}
+          >
+            {`${selectedGemsList.indexOf(gemInfo) + 1} of ${
+              Object.keys(RarityType).indexOf(selectedRarity) + 1
+            }`}
+          </Center>
+        </>
       )}
       <Box
         w={"100%"}
@@ -373,7 +404,7 @@ const GemCard = ({
                     fontWeight={600}
                     textTransform={"capitalize"}
                   >
-                    {rarity} {rarityScore}%
+                    {rarity.toLowerCase()} {rarityScore}%
                   </Text>
                   <Flex columnGap={1} align={"center"}>
                     <Text fontSize={10} fontWeight={400} opacity={0.5}>

@@ -74,7 +74,7 @@ const ForgeConfirmModal = () => {
             </Text>
 
             <Center columnGap={4} mt={57}>
-              <Button
+              {/* <Button
                 w={183}
                 h={65}
                 colorScheme="alpha"
@@ -85,7 +85,7 @@ const ForgeConfirmModal = () => {
                 onClick={() => setForgeConfirm(false)}
               >
                 Cancel
-              </Button>
+              </Button> */}
               <Button
                 w={183}
                 h={65}

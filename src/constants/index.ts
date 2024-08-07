@@ -18,6 +18,15 @@ export const GemList: GemStandard[] = [
   { id: 12, rarity: RarityType.COMMON, topLeft: 2, topRight: 3, bottomLeft: 3, bottomRight: 3, gemBgColor: ["#05E0FE", "#0D6CFA"], lastMineTime: 1719982751, isMining: false  },
   { id: 13, rarity: RarityType.UNIQUE, topLeft: 4, topRight: 5, bottomLeft: 4, bottomRight: 4, gemBgColor: ["#05E0FE", "#0D6CFA"], lastMineTime: 1721245218, isMining: false  },
   { id: 14, rarity: RarityType.RARE, topLeft: 3, topRight: 3, bottomLeft: 4, bottomRight: 4, gemBgColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
+  { id: 15, rarity: RarityType.RARE, topLeft: 3, topRight: 3, bottomLeft: 4, bottomRight: 4, gemBgColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
+  { id: 16, rarity: RarityType.RARE, topLeft: 3, topRight: 3, bottomLeft: 4, bottomRight: 4, gemBgColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
+  { id: 17, rarity: RarityType.RARE, topLeft: 3, topRight: 3, bottomLeft: 4, bottomRight: 4, gemBgColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
+  { id: 18, rarity: RarityType.RARE, topLeft: 3, topRight: 3, bottomLeft: 4, bottomRight: 4, gemBgColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
+  { id: 19, rarity: RarityType.RARE, topLeft: 3, topRight: 3, bottomLeft: 4, bottomRight: 4, gemBgColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
+  { id: 20, rarity: RarityType.RARE, topLeft: 3, topRight: 3, bottomLeft: 4, bottomRight: 4, gemBgColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
+  { id: 21, rarity: RarityType.RARE, topLeft: 3, topRight: 3, bottomLeft: 4, bottomRight: 4, gemBgColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
+  { id: 22, rarity: RarityType.RARE, topLeft: 3, topRight: 3, bottomLeft: 4, bottomRight: 4, gemBgColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
+  { id: 23, rarity: RarityType.COMMON, topLeft: 3, topRight: 2, bottomLeft: 2, bottomRight: 3, gemBgColor: ["#05FED1", "#0DFA88"], lastMineTime: 1719447784, isMining: true   },
 ];
 
 export const COOLDOWN = 60 * 60 * 24;
