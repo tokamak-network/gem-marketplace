@@ -21,7 +21,7 @@ const ForgePage = () => {
         onClose={() => setGuideModal(false)}
       />
 
-      <ForgeContainer />
+      {/* <ForgeContainer /> */}
 
       <Flex mt={"72px"} gap={4} flexWrap={"wrap"}>
         {activeRarityList.map((item, key) => {

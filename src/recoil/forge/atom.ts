@@ -1,9 +1,15 @@
 import { atom } from "recoil";
 import { GemStandard } from "@/types";
+import { RarityType } from "@/types";
 
 export type SelectedForgeGemType = {  
   firstSelectedGem: GemStandard | null,
   secondSelectedGem: GemStandard | null
+}
+
+type SelectedGemsType = {
+  selectedRarity: RarityType;
+  selectedGemsList: GemStandard[];
 }
 
 export const selectedForgeGem = atom<SelectedForgeGemType>({
@@ -11,6 +17,14 @@ export const selectedForgeGem = atom<SelectedForgeGemType>({
   default: {
     firstSelectedGem: null,
     secondSelectedGem: null
+  }
+})
+
+export const selectedForgeGems = atom<SelectedGemsType>({
+  key: "selectedForgeGems",
+  default: {
+    selectedRarity: RarityType.NONE,
+    selectedGemsList: []
   }
 })
 

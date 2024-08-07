@@ -9,12 +9,13 @@ import SavedIcon from "./SavedIcon";
 import { COOLDOWN } from "@/constants";
 import { useRecoilState } from "recoil";
 import { miningModalStatus, miningResultStatus } from "@/recoil/mine/atom";
-import { selectedForgeGem } from "@/recoil/forge/atom";
-import { GemStandard, CardType } from "@/types";
+import { selectedForgeGem, selectedForgeGems } from "@/recoil/forge/atom";
+import { GemStandard, CardType, RarityType } from "@/types";
 import RarityViewer from "./RarityViewer";
 
 import GemIcon from "@/assets/icon/mine.svg";
 import GemShape from "./GemShape";
+import PreviousMap from "postcss/lib/previous-map";
 
 interface GemCardType {
   width?: number;
@@ -46,9 +47,14 @@ const GemCard = ({
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
   const [, seMineModalState] = useRecoilState(miningModalStatus);
   const [selectedGems, setSelectedGems] = useRecoilState(selectedForgeGem);
+  
   const [collectGemStatus, setCollectGemStatus] =
-    useRecoilState(miningResultStatus);
+  useRecoilState(miningResultStatus);
   const { firstSelectedGem, secondSelectedGem } = selectedGems;
+
+  const [selectedGemsInfo, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
+  const { selectedRarity, selectedGemsList } = selectedGemsInfo;
+
   const theme = useTheme();
   const router = useRouter();
 
@@ -76,65 +82,90 @@ const GemCard = ({
   }, [timeRemaining]);
 
   const handleCardClick = useCallback(() => {
-    if (mode === "forge" && (isForgeActive || isForgeSelected)) {
-      const selectedGem: GemStandard = {
-        id: id,
-        topLeft: pieces.topLeft,
-        topRight: pieces.topRight,
-        bottomLeft: pieces.bottomLeft,
-        bottomRight: pieces.bottomRight,
-        gemBgColor: gemBgColor,
-        lastMineTime: lastMineTime,
-        rarity: rarity,
-      };
+    // if (mode === "forge" && (isForgeActive || isForgeSelected)) {
+    //   const selectedGem: GemStandard = {
+    //     id: id,
+    //     topLeft: pieces.topLeft,
+    //     topRight: pieces.topRight,
+    //     bottomLeft: pieces.bottomLeft,
+    //     bottomRight: pieces.bottomRight,
+    //     gemBgColor: gemBgColor,
+    //     lastMineTime: lastMineTime,
+    //     rarity: rarity,
+    //   };
 
-      if (firstSelectedGem === null && secondSelectedGem === null) {
-        setSelectedGems((prev) => ({
-          ...prev,
-          ...{ firstSelectedGem: selectedGem },
-        }));
+    //   if (firstSelectedGem === null && secondSelectedGem === null) {
+    //     setSelectedGems((prev) => ({
+    //       ...prev,
+    //       ...{ firstSelectedGem: selectedGem },
+    //     }));
+    //   }
+
+    //   if (firstSelectedGem !== null && secondSelectedGem === null) {
+    //     if (firstSelectedGem.id === id) {
+    //       setSelectedGems((prev) => ({
+    //         ...prev,
+    //         ...{ firstSelectedGem: null },
+    //       }));
+    //     } else {
+    //       setSelectedGems((prev) => ({
+    //         ...prev,
+    //         ...{ secondSelectedGem: selectedGem },
+    //       }));
+    //     }
+    //   }
+
+    //   if (firstSelectedGem === null && secondSelectedGem !== null) {
+    //     if (secondSelectedGem.id === id) {
+    //       setSelectedGems((prev) => ({
+    //         ...prev,
+    //         ...{ secondSelectedGem: null },
+    //       }));
+    //     } else {
+    //       setSelectedGems((prev) => ({
+    //         ...prev,
+    //         ...{ firstSelectedGem: selectedGem },
+    //       }));
+    //     }
+    //   }
+
+    //   if (firstSelectedGem !== null && secondSelectedGem !== null) {
+    //     if (firstSelectedGem.id === id) {
+    //       setSelectedGems((prev) => ({
+    //         ...prev,
+    //         ...{ firstSelectedGem: null },
+    //       }));
+    //     }
+    //     if (secondSelectedGem.id === id) {
+    //       setSelectedGems((prev) => ({
+    //         ...prev,
+    //         ...{ secondSelectedGem: null },
+    //       }));
+    //     }
+    //   }
+    // }
+
+    if (mode === "forge") {
+      if (selectedGemsList.length === 0 ) {
+        setSelectedGemsInfo({selectedRarity: gemInfo.rarity, selectedGemsList: [gemInfo]})
       }
+      else {
+        let filterList = selectedGemsList.filter((item) => item.id === id);
 
-      if (firstSelectedGem !== null && secondSelectedGem === null) {
-        if (firstSelectedGem.id === id) {
-          setSelectedGems((prev) => ({
-            ...prev,
-            ...{ firstSelectedGem: null },
-          }));
-        } else {
-          setSelectedGems((prev) => ({
-            ...prev,
-            ...{ secondSelectedGem: selectedGem },
-          }));
+        if (filterList.length > 0) {
+          let newList = selectedGemsList;
+          selectedGemsList.map((item, key) => {
+            item.id === id && newList.slice(key)
+          })
+          setSelectedGemsInfo(prev => ({...prev, selectedGemsList: newList}));
+          return;
         }
-      }
-
-      if (firstSelectedGem === null && secondSelectedGem !== null) {
-        if (secondSelectedGem.id === id) {
-          setSelectedGems((prev) => ({
-            ...prev,
-            ...{ secondSelectedGem: null },
-          }));
-        } else {
-          setSelectedGems((prev) => ({
-            ...prev,
-            ...{ firstSelectedGem: selectedGem },
-          }));
+        if (Object.keys(RarityType).indexOf(selectedRarity) + 1 > selectedGemsList.length) {
+          let newList = [...selectedGemsList, gemInfo]
+          setSelectedGemsInfo(prev => ({...prev, selectedGemsList: newList}));
         }
-      }
-
-      if (firstSelectedGem !== null && secondSelectedGem !== null) {
-        if (firstSelectedGem.id === id) {
-          setSelectedGems((prev) => ({
-            ...prev,
-            ...{ firstSelectedGem: null },
-          }));
-        }
-        if (secondSelectedGem.id === id) {
-          setSelectedGems((prev) => ({
-            ...prev,
-            ...{ secondSelectedGem: null },
-          }));
+        else {
+          return;
         }
       }
     }
@@ -144,7 +175,7 @@ const GemCard = ({
     else if (mode === "chest") {
       router.push(`/chest?asset=${gemInfo.id}`);
     }
-  }, [firstSelectedGem, secondSelectedGem]);
+  }, [selectedGemsList, selectedRarity]);
 
   const isForgeActive = useMemo(() => {
     if (firstSelectedGem === null && secondSelectedGem === null) return true;
@@ -158,9 +189,14 @@ const GemCard = ({
     }
   }, [firstSelectedGem, secondSelectedGem]);
 
+  // const isForgeSelected = useMemo(() => {
+  //   return id === firstSelectedGem?.id || id === secondSelectedGem?.id;
+  // }, [firstSelectedGem, secondSelectedGem]);
+
   const isForgeSelected = useMemo(() => {
-    return id === firstSelectedGem?.id || id === secondSelectedGem?.id;
-  }, [firstSelectedGem, secondSelectedGem]);
+    const selected = selectedGemsList.filter((item) => item.id === id);
+    return selected.length > 0 ? true: false;
+  }, [selectedGemsList, selectedRarity]);
 
   return (
     <Box
@@ -173,19 +209,19 @@ const GemCard = ({
       cursor={"pointer"}
       onClick={handleCardClick}
       rounded={mode === "normal" ? 17 : 8}
-      opacity={
-        mode === "forge" ? (isForgeActive || isForgeSelected ? 1 : 0.25) : 1
-      }
-      boxShadow={
-        (isForgeSelected && mode === "forge") || mode === "common"
-          ? "0px 0px 25px 0px #0068FF"
-          : ""
-      }
-      border={
-        (isForgeSelected && mode === "forge") || mode === "common"
-          ? "1px solid #FFFFFF"
-          : ""
-      }
+      // opacity={
+      //   mode === "forge" ? (isForgeActive || isForgeSelected ? 1 : 0.25) : 1
+      // }
+      // boxShadow={
+      //   (isForgeSelected && mode === "forge") || mode === "common"
+      //     ? "0px 0px 25px 0px #0068FF"
+      //     : ""
+      // }
+      // border={
+      //   (isForgeSelected && mode === "forge") || mode === "common"
+      //     ? "1px solid #FFFFFF"
+      //     : ""
+      // }
       transition={"0.2s"}
     >
       {isForgeSelected && mode === "forge" && (
