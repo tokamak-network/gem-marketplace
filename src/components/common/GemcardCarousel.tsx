@@ -26,7 +26,7 @@ const responsive = {
 
 const GemcardCarousel = () => {
   return (
-    <Box h={"100px"}>
+    <Box h={"350px"}>
       <Carousel
         swipeable={true}
         draggable={true}
@@ -40,10 +40,12 @@ const GemcardCarousel = () => {
         transitionDuration={500}
         containerClass="carousel-container"
         itemClass="carousel-item"
+        dotListClass="carousel-dot-list"
         
         removeArrowOnDeviceType={["tablet", "mobile"]}
       >
         {GemList.map((item, key) => (
+          key < 5 &&
             <GemCard
               mode="forge"
               key={key}

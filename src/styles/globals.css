@@ -36,6 +36,26 @@ body {
   margin-left: 243px;
 }
 
+.carousel-container {
+  height: 350px;
+}
+
 .carousel-item  {
   margin: 0px 50px;
+}
+
+.carousel-dot-list {
+  bottom: 0px!important;
+}
+
+.react-multi-carousel-dot--active button {
+  border: none!important;
+  background: white!important;
+}
+.react-multi-carousel-dot button {
+  width: 7px!important;
+  height: 7px!important;
+  border: none!important;
+  margin: 5px!important;
+  background: #FFFFFF40;
 }

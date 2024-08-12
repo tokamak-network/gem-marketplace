@@ -42,17 +42,17 @@ const ForgeConfirmModal = () => {
         <ModalCloseButton />
         <ModalBody padding={0}>
           <Flex w={"100%"} flexDir={"column"} p={"37px 52px 44px 52px"}>
-            <Text
-              fontWeight={700}
-              fontSize={48}
-              textAlign={"center"}
-            >
+            <Text fontWeight={700} fontSize={48} textAlign={"center"}>
               Select Gem
             </Text>
 
             <GemcardCarousel />
 
-            <Center columnGap={4} mt={57}>
+            <Text mt={"30px"} fontSize={18} textAlign={"center"}>
+              Select 1 of these Gems to Forge.
+            </Text>
+
+            <Center columnGap={4} mt={9}>
               <Button
                 w={183}
                 h={65}
