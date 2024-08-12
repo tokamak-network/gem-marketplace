@@ -86,7 +86,7 @@ const GemShape = ({
     ).then((blob) => {
       setBgGemShape(blob);
     });
-  }, []);
+  }, [pieces]);
 
   return (
     <Box pos={"relative"} w={width} h={height}>

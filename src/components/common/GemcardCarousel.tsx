@@ -36,7 +36,6 @@ const GemcardCarousel = () => {
         infinite={true}
         autoPlaySpeed={1000}
         keyBoardControl={true}
-        customTransition="all .5"
         transitionDuration={500}
         containerClass="carousel-container"
         itemClass="carousel-item"
