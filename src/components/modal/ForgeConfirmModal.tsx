@@ -20,6 +20,7 @@ import {
 import { useRecoilState } from "recoil";
 
 import ForgeIcon from "@/assets/icon/forge.svg";
+import GemcardCarousel from "../common/GemcardCarousel";
 
 const ForgeConfirmModal = () => {
   const [isForgeConfirm, setForgeConfirm] = useRecoilState(
@@ -45,47 +46,13 @@ const ForgeConfirmModal = () => {
               fontWeight={700}
               fontSize={48}
               textAlign={"center"}
-              textTransform={"uppercase"}
             >
-              forging
+              Select Gem
             </Text>
 
-            <Text
-              mt={6}
-              fontFamily={theme.fonts.Inter}
-              fontSize={28}
-              fontWeight={400}
-              lineHeight={"34.57px"}
-              textAlign={"center"}
-            >
-              Combine two gems to obtain a higher quality Gem.
-            </Text>
-
-            <Text
-              fontFamily={theme.fonts.Inter}
-              mt={14}
-              fontSize={20}
-              fontWeight={400}
-              textAlign={"center"}
-              lineHeight={"24px"}
-            >
-              Forging burns your two gems in order to mint a newer gem with
-              higher quality and value.
-            </Text>
+            <GemcardCarousel />
 
             <Center columnGap={4} mt={57}>
-              {/* <Button
-                w={183}
-                h={65}
-                colorScheme="alpha"
-                border={"2px solid #0380FF"}
-                rounded={8}
-                fontSize={24}
-                fontWeight={600}
-                onClick={() => setForgeConfirm(false)}
-              >
-                Cancel
-              </Button> */}
               <Button
                 w={183}
                 h={65}

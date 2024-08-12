@@ -9,7 +9,11 @@ import SavedIcon from "./SavedIcon";
 import { COOLDOWN } from "@/constants";
 import { useRecoilState } from "recoil";
 import { miningModalStatus, miningResultStatus } from "@/recoil/mine/atom";
-import { forgeConfirmModalStatus, selectedForgeGem, selectedForgeGems } from "@/recoil/forge/atom";
+import {
+  forgeConfirmModalStatus,
+  selectedForgeGem,
+  selectedForgeGems,
+} from "@/recoil/forge/atom";
 import { GemStandard, CardType, RarityType } from "@/types";
 import RarityViewer from "./RarityViewer";
 
@@ -150,9 +154,10 @@ const GemCard = ({
     // }
 
     if (mode === "forge") {
-      setSelectedGemsInfo((prev) => ({...prev, 
+      setSelectedGemsInfo((prev) => ({
+        ...prev,
         selectedRarity: gemInfo.rarity,
-      }))
+      }));
       if (selectedGemsList.length === 0) {
         setSelectedGemsInfo({
           selectedRarity: gemInfo.rarity,
@@ -187,7 +192,10 @@ const GemCard = ({
           Object.keys(RarityType).indexOf(selectedRarity) + 1 >
           selectedGemsList.length
         ) {
-          if (Object.keys(RarityType).indexOf(selectedRarity) === selectedGemsList.length) {
+          if (
+            Object.keys(RarityType).indexOf(selectedRarity) ===
+            selectedGemsList.length
+          ) {
             setForgeConfirm(true);
           }
           let newList = [...selectedGemsList, gemInfo];
@@ -257,8 +265,9 @@ const GemCard = ({
       {isForgeSelected && mode === "forge" && (
         <>
           <Center
-            w={"81px"}
+            w={"fit-content"}
             h={"24px"}
+            px={4}
             pos={"absolute"}
             top={0}
             left={0}
@@ -270,10 +279,12 @@ const GemCard = ({
             fontFamily={theme.fonts.Quicksand}
             color={"#000000"}
           >
-            selected
+            {`selected ${selectedGemsList.indexOf(gemInfo) + 1} of ${
+              Object.keys(RarityType).indexOf(selectedRarity) + 1
+            }`}
           </Center>
 
-          <Center
+          {/* <Center
             w={"81px"}
             h={"24px"}
             pos={"absolute"}
@@ -290,7 +301,7 @@ const GemCard = ({
             {`${selectedGemsList.indexOf(gemInfo) + 1} of ${
               Object.keys(RarityType).indexOf(selectedRarity) + 1
             }`}
-          </Center>
+          </Center> */}
         </>
       )}
       <Box
