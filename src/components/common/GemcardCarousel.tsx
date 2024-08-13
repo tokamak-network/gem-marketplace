@@ -32,22 +32,22 @@ const GemcardCarousel = () => {
 
   return (
     <Box h={"350px"}>
-      <Carousel
-        swipeable={true}
-        draggable={true}
-        showDots={true}
-        responsive={responsive}
-        ssr={true} // means to render carousel on server-side.
-        autoPlaySpeed={1000}
-        keyBoardControl={true}
-        transitionDuration={500}
-        containerClass="carousel-container"
-        itemClass="carousel-item"
-        dotListClass="carousel-dot-list"
-        removeArrowOnDeviceType={["tablet", "mobile"]}
-      >
-        {colorCombo?.length > 0 &&
-          colorCombo.map((item: any, key: number) => (
+      {colorCombo && colorCombo.length > 0 && (
+        <Carousel
+          swipeable={true}
+          draggable={true}
+          showDots={true}
+          responsive={responsive}
+          ssr={true} // means to render carousel on server-side.
+          autoPlaySpeed={1000}
+          keyBoardControl={true}
+          transitionDuration={500}
+          containerClass="carousel-container"
+          itemClass="carousel-item"
+          dotListClass="carousel-dot-list"
+          removeArrowOnDeviceType={["tablet", "mobile"]}
+        >
+          {colorCombo.map((item: any, key: number) => (
             <GemCard
               mode="forgeFinal"
               key={key}
@@ -63,7 +63,8 @@ const GemcardCarousel = () => {
               dailyChange={16.7}
             />
           ))}
-      </Carousel>
+        </Carousel>
+      )}
     </Box>
   );
 };

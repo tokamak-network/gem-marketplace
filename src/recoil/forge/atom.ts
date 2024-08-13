@@ -59,7 +59,7 @@ export const forgeResultSelector = selector<{
     let newColorCombo;
     if (
       Object.keys(RarityType).indexOf(selectedRarity) + 1 ===
-      selectedGemsList.length && selectedGemsList.length > 0 // check if the counts of selected gems reach to the criteria
+      selectedGemsList.length && selectedGemsList && selectedGemsList.length > 0 // check if the counts of selected gems reach to the criteria
     ) {
       for (let item of selectedGemsList) {
         sumOfQuadrants[0] += item.quadrants[0];
