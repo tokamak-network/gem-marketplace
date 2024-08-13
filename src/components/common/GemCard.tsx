@@ -152,7 +152,7 @@ const GemCard = ({
     //     }
     //   }
     // }
-
+console.log(selectedGemsInfo)
     if (mode === "forge") {
       setSelectedGemsInfo((prev) => ({
         ...prev,
@@ -163,24 +163,30 @@ const GemCard = ({
           selectedRarity: gemInfo.rarity,
           selectedGemsList: [gemInfo],
         });
-        setRarityState({
-          base: false,
-          common: false,
-          rare: false,
-          unique: false,
-          epic: false,
-          legendary: false,
-          mythic: false,
-          heirloom: false,
-        });
-        setRarityState((prev) => ({
-          ...prev,
+        setRarityState(() => ({
+          ...{
+            base: false,
+            common: false,
+            rare: false,
+            unique: false,
+            epic: false,
+            legendary: false,
+            mythic: false,
+            heirloom: false,
+          },
           ...{ [gemInfo.rarity.toLocaleLowerCase()]: true },
         }));
       } else {
         let filterList = selectedGemsList.filter((item) => item.id === id);
 
         if (filterList.length > 0) {
+          if (selectedGemsList.length === 1) {
+            setSelectedGemsInfo({
+              selectedRarity: RarityType.NONE,
+              selectedGemsList: [],
+            });
+            return;
+          }
           let resultList = selectedGemsList.filter((item) => item.id !== id);
           setSelectedGemsInfo((prev) => ({
             selectedRarity: gemInfo.rarity,
@@ -199,7 +205,7 @@ const GemCard = ({
             setForgeConfirm(true);
           }
           let newList = [...selectedGemsList, gemInfo];
-          setSelectedGemsInfo((prev) => ({
+          setSelectedGemsInfo(() => ({
             selectedRarity: gemInfo.rarity,
             selectedGemsList: newList,
           }));
@@ -213,7 +219,7 @@ const GemCard = ({
     } else if (mode === "chest") {
       router.push(`/chest?asset=${gemInfo.id}`);
     }
-  }, [selectedGemsList, selectedRarity]);
+  }, [selectedGemsList, selectedRarity, selectedGemsInfo, gemInfo]);
 
   // const isForgeActive = useMemo(() => {
   //   if (firstSelectedGem === null && secondSelectedGem === null) return true;

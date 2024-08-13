@@ -16,11 +16,13 @@ import {
   forgeConfirmModalStatus,
   forgeSuccessModalStatus,
   selectedForgeGem,
+  selectedForgeGems,
 } from "@/recoil/forge/atom";
 import { useRecoilState } from "recoil";
 
 import ForgeIcon from "@/assets/icon/forge.svg";
 import GemcardCarousel from "../common/GemcardCarousel";
+import { RarityType } from "@/types";
 
 const ForgeConfirmModal = () => {
   const [isForgeConfirm, setForgeConfirm] = useRecoilState(
@@ -29,11 +31,17 @@ const ForgeConfirmModal = () => {
   const [, setForgeSuccess] = useRecoilState(forgeSuccessModalStatus);
   const [, setForgeGems] = useRecoilState(selectedForgeGem);
   const theme = useTheme();
-
+  const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
   return (
     <Modal
       isOpen={isForgeConfirm}
-      onClose={() => setForgeConfirm(false)}
+      onClose={() => {
+        setForgeConfirm(false);
+        setSelectedGemsInfo({
+          selectedRarity: RarityType.NONE,
+          selectedGemsList: [],
+        });
+      }}
       size={"xl"}
       isCentered
     >
