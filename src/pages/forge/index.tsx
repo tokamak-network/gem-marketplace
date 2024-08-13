@@ -4,8 +4,8 @@ import { Box, Flex } from "@chakra-ui/react";
 import ForgingIntroModal from "@/components/modal/ForgingIntroModal";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import GemCard from "@/components/common/GemCard";
-import { GemList } from "@/constants";
-import ForgeContainer from "./ForgeContainer";
+// import { GemList } from "@/constants";
+// import ForgeContainer from "./ForgeContainer";
 import { useRecoilValue } from "recoil";
 import { activeRarityListSelector } from "@/recoil/market/atom";
 

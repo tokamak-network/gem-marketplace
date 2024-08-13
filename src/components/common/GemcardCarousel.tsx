@@ -54,10 +54,6 @@ const GemcardCarousel = () => {
               dailyChange={16.7}
             ></GemCard>
           ))}
-        {/* <Box height={"100px"}>Item 1</Box>
-        <Box height={"100px"}>Item 2</Box>
-        <Box height={"100px"}>Item 3</Box>
-        <Box height={"100px"}>Item 4</Box> */}
       </Carousel>
     </Box>
   );

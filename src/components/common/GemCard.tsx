@@ -19,7 +19,6 @@ import RarityViewer from "./RarityViewer";
 
 import GemIcon from "@/assets/icon/mine.svg";
 import GemShape from "./GemShape";
-import PreviousMap from "postcss/lib/previous-map";
 import { rarityStatus } from "@/recoil/market/atom";
 
 interface GemCardType {
@@ -32,6 +31,7 @@ interface GemCardType {
   dailyChange: number;
   mode?: CardType;
   gemInfo: GemStandard;
+  customGemColor?: string[]
 }
 
 const GemCard = ({
@@ -44,6 +44,7 @@ const GemCard = ({
   staked,
   dailyChange,
   gemInfo,
+  customGemColor
 }: GemCardType) => {
   const [isSaved, setSaved] = useState<boolean>(false);
   const [isFlip, setFlip] = useState<boolean>(false);
@@ -350,7 +351,7 @@ const GemCard = ({
             <GemShape
               gradient="linear"
               quadrants={quadrants}
-              gemColor={gemColor}
+              gemColor={customGemColor ? customGemColor : gemColor}
               width={gemWidth}
               height={gemHeight}
             />

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { cloneElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import mergeImages from "merge-images";
 import { PieceDir, PieceInfo, GradientType } from "@/types";
@@ -16,7 +16,6 @@ interface GemProps {
 const GemShape = ({
   quadrants,
   gemColor = ["#0000FF"],
-  gradient = "solid",
   width = 120,
   height = 120,
   isOnlyFrame = false,

@@ -50,10 +50,7 @@ const ForgeSuccessModal = () => {
                 staked={92.36}
                 rarityScore={1}
                 gemInfo={{
-                  topLeft: 6,
-                  topRight: 5,
-                  bottomLeft: 5,
-                  bottomRight: 5,
+                  quadrants: [6,5,5,5],
                   gemColor: ["#0BFFF0", "#0075FF"],
                   id: 30,
                   lastMineTime: 324234234,
