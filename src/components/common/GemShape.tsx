@@ -5,7 +5,7 @@ import mergeImages from "merge-images";
 import { PieceDir, PieceInfo, GradientType } from "@/types";
 
 interface GemProps {
-  pieces: PieceInfo;
+  quadrants: number[];
   gemBgColor?: string[];
   gradient?: GradientType;
   width?: number;
@@ -14,7 +14,7 @@ interface GemProps {
 }
 
 const GemShape = ({
-  pieces,
+  quadrants,
   gemBgColor = ["#0000FF"],
   gradient = "solid",
   width = 120,
@@ -28,22 +28,22 @@ const GemShape = ({
     mergeImages(
       [
         {
-          src: `/assets/gem_pieces/${pieces[PieceDir.topLeft]}_1.svg`,
+          src: `/assets/gem_pieces/${quadrants[0]}_1.svg`,
           x: 0,
           y: 0,
         },
         {
-          src: `/assets/gem_pieces/${pieces[PieceDir.topRight]}_2.svg`,
+          src: `/assets/gem_pieces/${quadrants[1]}_2.svg`,
           x: 160,
           y: 0,
         },
         {
-          src: `/assets/gem_pieces/${pieces[PieceDir.bottomLeft]}_3.svg`,
+          src: `/assets/gem_pieces/${quadrants[2]}_3.svg`,
           x: 0,
           y: 160,
         },
         {
-          src: `/assets/gem_pieces/${pieces[PieceDir.bottomRight]}_4.svg`,
+          src: `/assets/gem_pieces/${quadrants[3]}_4.svg`,
           x: 160,
           y: 160,
         },
@@ -59,22 +59,22 @@ const GemShape = ({
     mergeImages(
       [
         {
-          src: `/assets/gem_pieces/${pieces[PieceDir.topLeft]}_1 copy.svg`,
+          src: `/assets/gem_pieces/${quadrants[0]}_1 copy.svg`,
           x: 0,
           y: 0,
         },
         {
-          src: `/assets/gem_pieces/${pieces[PieceDir.topRight]}_2 copy.svg`,
+          src: `/assets/gem_pieces/${quadrants[1]}_2 copy.svg`,
           x: 160,
           y: 0,
         },
         {
-          src: `/assets/gem_pieces/${pieces[PieceDir.bottomLeft]}_3 copy.svg`,
+          src: `/assets/gem_pieces/${quadrants[2]}_3 copy.svg`,
           x: 0,
           y: 160,
         },
         {
-          src: `/assets/gem_pieces/${pieces[PieceDir.bottomRight]}_4 copy.svg`,
+          src: `/assets/gem_pieces/${quadrants[3]}_4 copy.svg`,
           x: 160,
           y: 160,
         },
@@ -86,7 +86,7 @@ const GemShape = ({
     ).then((blob) => {
       setBgGemShape(blob);
     });
-  }, [pieces]);
+  }, [quadrants]);
 
   return (
     <Box pos={"relative"} w={width} h={height}>

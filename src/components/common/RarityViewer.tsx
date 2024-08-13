@@ -2,7 +2,7 @@ import { Box, Grid, GridItem } from "@chakra-ui/react";
 import { PieceInfo } from "@/types";
 import GemShape from "./GemShape";
 
-const RarityViewer = ({ pieces }: { pieces: PieceInfo }) => {
+const RarityViewer = ({ quadrants }: { quadrants: number[] }) => {
   return (
     <Grid
       pos={"absolute"}
@@ -21,7 +21,7 @@ const RarityViewer = ({ pieces }: { pieces: PieceInfo }) => {
         zIndex={-1}
         bgColor={"transparent"}
       >
-        <GemShape pieces={pieces} isOnlyFrame width={52} height={52} />
+        <GemShape quadrants={quadrants} isOnlyFrame width={52} height={52} />
       </Box>
       <GridItem
         zIndex={2}
@@ -30,24 +30,24 @@ const RarityViewer = ({ pieces }: { pieces: PieceInfo }) => {
         borderRight={"2px solid #00000080"}
         w={"100%"}
       >
-        {pieces.topLeft}
+        {quadrants[0]}
       </GridItem>
       <GridItem
         textAlign={"center"}
         borderBottom={"2px solid #00000080"}
         w={"100%"}
       >
-        {pieces.topRight}
+        {quadrants[1]}
       </GridItem>
       <GridItem
         textAlign={"center"}
         borderRight={"2px solid #00000080"}
         w={"100%"}
       >
-        {pieces.bottomLeft}
+        {quadrants[2]}
       </GridItem>
       <GridItem w={"100%"} textAlign={"center"}>
-        {pieces.bottomRight}
+        {quadrants[3]}
       </GridItem>
     </Grid>
   );

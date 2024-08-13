@@ -66,13 +66,7 @@ const GemCard = ({
   const theme = useTheme();
   const router = useRouter();
 
-  const { id, lastMineTime, gemBgColor, rarity, isMining } = gemInfo;
-  const pieces = {
-    topLeft: gemInfo.topLeft,
-    topRight: gemInfo.topRight,
-    bottomLeft: gemInfo.bottomLeft,
-    bottomRight: gemInfo.bottomRight,
-  };
+  const { id, lastMineTime, gemBgColor, rarity, isMining, quadrants } = gemInfo;
 
   useEffect(() => {
     const currentTimestamp = Date.now();
@@ -152,7 +146,7 @@ const GemCard = ({
     //     }
     //   }
     // }
-console.log(selectedGemsInfo)
+
     if (mode === "forge") {
       setSelectedGemsInfo((prev) => ({
         ...prev,
@@ -355,7 +349,7 @@ console.log(selectedGemsInfo)
           <Center w={"full"} h={"full"} bg={""}>
             <GemShape
               gradient="linear"
-              pieces={pieces}
+              quadrants={quadrants}
               gemBgColor={gemBgColor}
               width={gemWidth}
               height={gemHeight}
@@ -468,7 +462,7 @@ console.log(selectedGemsInfo)
                 ""
               )}
               {(mode === "forge" || mode === "common") && (
-                <RarityViewer pieces={pieces} />
+                <RarityViewer quadrants={quadrants} />
               )}
             </Flex>
           )}
