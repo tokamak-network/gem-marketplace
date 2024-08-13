@@ -7,7 +7,6 @@ import {
   ModalCloseButton,
   Flex,
   Text,
-  useTheme,
   Button,
   Center,
 } from "@chakra-ui/react";
@@ -17,9 +16,8 @@ import {
   forgeSuccessModalStatus,
   selectedForgeGem,
   selectedForgeGems,
-  forgeResultSelector,
 } from "@/recoil/forge/atom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 import ForgeIcon from "@/assets/icon/forge.svg";
 import GemcardCarousel from "../common/GemcardCarousel";
@@ -31,9 +29,8 @@ const ForgeConfirmModal = () => {
   );
   const [, setForgeSuccess] = useRecoilState(forgeSuccessModalStatus);
   const [, setForgeGems] = useRecoilState(selectedForgeGem);
-  const { forgeResultQuadrant, colorCombo } = useRecoilValue(forgeResultSelector);
   const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
-  
+
   return (
     <Modal
       isOpen={isForgeConfirm}
@@ -48,10 +45,10 @@ const ForgeConfirmModal = () => {
       isCentered
     >
       <ModalOverlay />
-      <ModalContent bgColor={"#21232D"}>
+      <ModalContent w={600} bgColor={"#21232D"}>
         <ModalCloseButton />
         <ModalBody padding={0}>
-          <Flex w={"100%"} flexDir={"column"} p={"37px 52px 44px 52px"}>
+          <Flex w={"100%"} flexDir={"column"} p={"37px 0px 44px 0px"}>
             <Text fontWeight={700} fontSize={48} textAlign={"center"}>
               Select Gem
             </Text>
