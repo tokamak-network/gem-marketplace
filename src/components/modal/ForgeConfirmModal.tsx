@@ -31,9 +31,9 @@ const ForgeConfirmModal = () => {
   );
   const [, setForgeSuccess] = useRecoilState(forgeSuccessModalStatus);
   const [, setForgeGems] = useRecoilState(selectedForgeGem);
-  const { forgeResultList } = useRecoilValue(forgeResultSelector);
+  const { forgeResultQuadrant, colorCombo } = useRecoilValue(forgeResultSelector);
   const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
-  console.log(forgeResultList);
+  
   return (
     <Modal
       isOpen={isForgeConfirm}

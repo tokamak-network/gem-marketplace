@@ -3,6 +3,8 @@ import Carousel from "react-multi-carousel";
 import GemCard from "./GemCard";
 import { GemList } from "@/constants";
 import "react-multi-carousel/lib/styles.css";
+import { useRecoilValue } from "recoil";
+import { forgeResultSelector } from "@/recoil/forge/atom";
 
 const responsive = {
   superLargeDesktop: {
@@ -25,6 +27,9 @@ const responsive = {
 };
 
 const GemcardCarousel = () => {
+  const { forgeResultQuadrant, colorCombo, forgedRarity } =
+    useRecoilValue(forgeResultSelector);
+
   return (
     <Box h={"350px"}>
       <Carousel
@@ -40,19 +45,24 @@ const GemcardCarousel = () => {
         containerClass="carousel-container"
         itemClass="carousel-item"
         dotListClass="carousel-dot-list"
-        
         removeArrowOnDeviceType={["tablet", "mobile"]}
       >
-        {GemList.map((item, key) => (
-          key < 5 &&
+        {colorCombo?.length > 0 &&
+          colorCombo.map((item: any, key: number) => (
             <GemCard
-              mode="forge"
+              mode="forgeFinal"
               key={key}
-              gemInfo={item}
+              gemInfo={{
+                id: -1,
+                quadrants: forgeResultQuadrant,
+                gemColor: item,
+                lastMineTime: 0,
+                rarity: forgedRarity,
+              }}
               rarityScore={1}
               staked={253.2}
               dailyChange={16.7}
-            ></GemCard>
+            />
           ))}
       </Carousel>
     </Box>

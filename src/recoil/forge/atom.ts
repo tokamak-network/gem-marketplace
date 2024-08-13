@@ -1,6 +1,7 @@
 import { atom, selector } from "recoil";
 import { GemStandard } from "@/types";
 import { RarityType } from "@/types";
+import { forgeGemsColor } from "@/utils";
 
 export type SelectedForgeGemType = {
   firstSelectedGem: GemStandard | null;
@@ -39,18 +40,26 @@ export const forgeSuccessModalStatus = atom<boolean>({
 });
 
 export const forgeResultSelector = selector<{
-  forgeResultList: number[];
+  forgeResultQuadrant: number[];
+  colorCombo: any;
+  forgedRarity: RarityType;
 }>({
   key: "forgeResultSelector",
   get: ({ get }) => {
     const raritySelected = get(selectedForgeGems);
     const { selectedRarity, selectedGemsList } = raritySelected;
 
-    let sumOfQuadrants: number[] = [0,0,0,0];
-    let forgedQuadrants: number[] = [0,0,0,0];
+    const forgedGemRarity =
+      Object.values(RarityType)[
+        Object.keys(RarityType).indexOf(selectedRarity) + 1
+      ];
+
+    let sumOfQuadrants: number[] = [0, 0, 0, 0];
+    let forgedQuadrants: number[] = [0, 0, 0, 0];
+    let newColorCombo;
     if (
       Object.keys(RarityType).indexOf(selectedRarity) + 1 ===
-      selectedGemsList.length // check if the counts of selected gems reach to the criteria
+      selectedGemsList.length && selectedGemsList.length > 0 // check if the counts of selected gems reach to the criteria
     ) {
       for (let item of selectedGemsList) {
         sumOfQuadrants[0] += item.quadrants[0];
@@ -63,10 +72,10 @@ export const forgeResultSelector = selector<{
       sumOfQuadrants[2] %= 2;
       sumOfQuadrants[3] %= 2;
 
-
       let baseValue = Object.keys(RarityType).indexOf(selectedRarity) + 2; // basic quadrants value of the target gem
 
-      if ( // if all the mod result is 0 or 1, make the result as a perfect gem
+      if (
+        // if all the mod result is 0 or 1, make the result as a perfect gem
         (sumOfQuadrants[0] === 1 &&
           sumOfQuadrants[1] === 1 &&
           sumOfQuadrants[2] === 1 &&
@@ -76,17 +85,26 @@ export const forgeResultSelector = selector<{
           sumOfQuadrants[2] === 0 &&
           sumOfQuadrants[3] === 0)
       ) {
-        forgedQuadrants[0] = forgedQuadrants[1] = forgedQuadrants[2] = forgedQuadrants[3] = baseValue;
-      }
-      else {
+        forgedQuadrants[0] =
+          forgedQuadrants[1] =
+          forgedQuadrants[2] =
+          forgedQuadrants[3] =
+            baseValue;
+      } else {
         for (let i = 0; i < 4; i++) {
           forgedQuadrants[i] = baseValue + sumOfQuadrants[i];
         }
       }
 
       // get the possible combinations of forge color
-      
+      const color1 = selectedGemsList[0].gemColor;
+      const color2 = selectedGemsList[1].gemColor;
+      newColorCombo = forgeGemsColor(color1, color2);
     }
-    return { forgeResultList: forgedQuadrants };
+    return {
+      forgeResultQuadrant: forgedQuadrants,
+      colorCombo: newColorCombo,
+      forgedRarity: forgedGemRarity,
+    };
   },
 });
