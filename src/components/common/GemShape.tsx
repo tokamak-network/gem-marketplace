@@ -6,7 +6,7 @@ import { PieceDir, PieceInfo, GradientType } from "@/types";
 
 interface GemProps {
   quadrants: number[];
-  gemBgColor?: string[];
+  gemColor?: string[];
   gradient?: GradientType;
   width?: number;
   height?: number;
@@ -15,7 +15,7 @@ interface GemProps {
 
 const GemShape = ({
   quadrants,
-  gemBgColor = ["#0000FF"],
+  gemColor = ["#0000FF"],
   gradient = "solid",
   width = 120,
   height = 120,
@@ -95,9 +95,9 @@ const GemShape = ({
           style={{
             maskImage: `url("${bgGemShape}")`,
             background:
-              gemBgColor.length === 1
-                ? gemBgColor[0]
-                : `linear-gradient(${gemBgColor[0]}, ${gemBgColor[1]})`,
+              gemColor.length === 1
+                ? gemColor[0]
+                : `linear-gradient(${gemColor[0]}, ${gemColor[1]})`,
             maskSize: "100% 100%",
           }}
           pos={"absolute"}

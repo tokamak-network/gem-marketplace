@@ -29,7 +29,7 @@ export type GradientType = "solid" | "linear" | "gradient";
 export type GemStandard = {
   id: number;
   quadrants: number[];
-  gemBgColor: string[];
+  gemColor: string[];
   lastMineTime: number;
   rarity: RarityType;
   isMining?: boolean | null;

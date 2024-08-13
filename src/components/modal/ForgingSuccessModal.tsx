@@ -54,7 +54,7 @@ const ForgeSuccessModal = () => {
                   topRight: 5,
                   bottomLeft: 5,
                   bottomRight: 5,
-                  gemBgColor: ["#0BFFF0", "#0075FF"],
+                  gemColor: ["#0BFFF0", "#0075FF"],
                   id: 30,
                   lastMineTime: 324234234,
                   rarity: RarityType.LEGENDARY,

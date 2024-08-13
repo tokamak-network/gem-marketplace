@@ -50,7 +50,7 @@ export const forgeResultSelector = selector<{
     let forgedQuadrants: number[] = [0,0,0,0];
     if (
       Object.keys(RarityType).indexOf(selectedRarity) + 1 ===
-      selectedGemsList.length
+      selectedGemsList.length // check if the counts of selected gems reach to the criteria
     ) {
       for (let item of selectedGemsList) {
         sumOfQuadrants[0] += item.quadrants[0];
@@ -58,17 +58,15 @@ export const forgeResultSelector = selector<{
         sumOfQuadrants[2] += item.quadrants[2];
         sumOfQuadrants[3] += item.quadrants[3];
       }
-      console.log({sumOfQuadrants});
-
       sumOfQuadrants[0] %= 2;
       sumOfQuadrants[1] %= 2;
       sumOfQuadrants[2] %= 2;
       sumOfQuadrants[3] %= 2;
 
 
-      let baseValue = Object.keys(RarityType).indexOf(selectedRarity) + 2;
+      let baseValue = Object.keys(RarityType).indexOf(selectedRarity) + 2; // basic quadrants value of the target gem
 
-      if (
+      if ( // if all the mod result is 0 or 1, make the result as a perfect gem
         (sumOfQuadrants[0] === 1 &&
           sumOfQuadrants[1] === 1 &&
           sumOfQuadrants[2] === 1 &&
@@ -85,6 +83,9 @@ export const forgeResultSelector = selector<{
           forgedQuadrants[i] = baseValue + sumOfQuadrants[i];
         }
       }
+
+      // get the possible combinations of forge color
+      
     }
     return { forgeResultList: forgedQuadrants };
   },

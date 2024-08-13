@@ -66,7 +66,7 @@ const GemCard = ({
   const theme = useTheme();
   const router = useRouter();
 
-  const { id, lastMineTime, gemBgColor, rarity, isMining, quadrants } = gemInfo;
+  const { id, lastMineTime, gemColor, rarity, isMining, quadrants } = gemInfo;
 
   useEffect(() => {
     const currentTimestamp = Date.now();
@@ -91,7 +91,7 @@ const GemCard = ({
     //     topRight: pieces.topRight,
     //     bottomLeft: pieces.bottomLeft,
     //     bottomRight: pieces.bottomRight,
-    //     gemBgColor: gemBgColor,
+    //     gemColor: gemColor,
     //     lastMineTime: lastMineTime,
     //     rarity: rarity,
     //   };
@@ -350,7 +350,7 @@ const GemCard = ({
             <GemShape
               gradient="linear"
               quadrants={quadrants}
-              gemBgColor={gemBgColor}
+              gemColor={gemColor}
               width={gemWidth}
               height={gemHeight}
             />
