@@ -17,8 +17,9 @@ import {
   forgeSuccessModalStatus,
   selectedForgeGem,
   selectedForgeGems,
+  forgeResultSelector,
 } from "@/recoil/forge/atom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import ForgeIcon from "@/assets/icon/forge.svg";
 import GemcardCarousel from "../common/GemcardCarousel";
@@ -30,8 +31,9 @@ const ForgeConfirmModal = () => {
   );
   const [, setForgeSuccess] = useRecoilState(forgeSuccessModalStatus);
   const [, setForgeGems] = useRecoilState(selectedForgeGem);
-  const theme = useTheme();
+  const { forgeResultList } = useRecoilValue(forgeResultSelector);
   const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
+  console.log(forgeResultList);
   return (
     <Modal
       isOpen={isForgeConfirm}
