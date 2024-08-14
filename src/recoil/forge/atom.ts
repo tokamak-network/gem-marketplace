@@ -100,6 +100,7 @@ export const forgeResultSelector = selector<{
       const color1 = selectedGemsList[0].gemColor;
       const color2 = selectedGemsList[1].gemColor;
       newColorCombo = forgeGemsColor(color1, color2);
+      console.log(newColorCombo)
     }
     return {
       forgeResultQuadrant: forgedQuadrants,

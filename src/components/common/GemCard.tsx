@@ -462,7 +462,7 @@ const GemCard = ({
               ) : (
                 ""
               )}
-              {(mode === "forge" || mode === "common") && (
+              {(mode === "forge" || mode === "common" || mode === "forgeFinal") && (
                 <RarityViewer quadrants={quadrants} />
               )}
             </Flex>

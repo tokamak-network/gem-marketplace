@@ -41,7 +41,8 @@ body {
 }
 
 .carousel-item  {
-  margin: 0px 30px;
+  /* margin: 0px 30px; */
+  /* margin-left: 30px; */
 }
 
 .carousel-dot-list {

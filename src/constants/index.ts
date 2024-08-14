@@ -12,10 +12,11 @@ export const GemList: GemStandard[] = [
   { id: 6, rarity: RarityType.LEGENDARY, quadrants:[6,6,6,7], gemColor: ["#0094FF"], lastMineTime: 1719447784, isMining: false  },
   { id: 7, rarity: RarityType.EPIC, quadrants:[6,6,5,5], gemColor: ["#05E0FE", "#0D6CFA"], lastMineTime: 1719447784, isMining: null   },
   { id: 8, rarity: RarityType.COMMON, quadrants:[3,2,2,2], gemColor: ["#05FED1", "#0DFA88"], lastMineTime: 1719447784, isMining: true   },
+  { id: 12, rarity: RarityType.COMMON, quadrants:[2,3,3,3], gemColor: ["#05E0FE", "#0D6CFA"], lastMineTime: 1719982751, isMining: false  },
+  { id: 23, rarity: RarityType.COMMON, quadrants:[3,2,2,3], gemColor: ["#4299FF", "#FFB801"], lastMineTime: 1719447784, isMining: true   },
   { id: 9, rarity: RarityType.BASE, quadrants:[1,1,1,1], gemColor: ["#0094FF"], lastMineTime: 1719982751, isMining: true   },
   { id: 10, rarity: RarityType.MYTHIC, quadrants:[7,7,7,7], gemColor: ["#FFB801", "#AE01FF"], lastMineTime: 1719982751, isMining: true  },
   { id: 11, rarity: RarityType.UNIQUE, quadrants:[4,4,4,5], gemColor: ["#05E0FE", "#0D6CFA"], lastMineTime: 1719982751, isMining: true  },
-  { id: 12, rarity: RarityType.COMMON, quadrants:[2,3,3,3], gemColor: ["#05E0FE", "#0D6CFA"], lastMineTime: 1719982751, isMining: false  },
   { id: 13, rarity: RarityType.UNIQUE, quadrants:[4,5,4,4], gemColor: ["#05E0FE", "#0D6CFA"], lastMineTime: 1721245218, isMining: false  },
   { id: 14, rarity: RarityType.RARE, quadrants:[3,3,4,4], gemColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
   { id: 15, rarity: RarityType.RARE, quadrants:[3,3,4,4], gemColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
@@ -26,7 +27,6 @@ export const GemList: GemStandard[] = [
   { id: 20, rarity: RarityType.RARE, quadrants:[3,3,4,4], gemColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
   { id: 21, rarity: RarityType.RARE, quadrants:[3,3,4,4], gemColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
   { id: 22, rarity: RarityType.RARE, quadrants:[3,3,4,4], gemColor: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
-  { id: 23, rarity: RarityType.COMMON, quadrants:[3,2,2,3], gemColor: ["#05FED1", "#0DFA88"], lastMineTime: 1719447784, isMining: true   },
 ];
 
 export const COOLDOWN = 60 * 60 * 24;

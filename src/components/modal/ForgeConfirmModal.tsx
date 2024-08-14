@@ -45,10 +45,10 @@ const ForgeConfirmModal = () => {
       isCentered
     >
       <ModalOverlay />
-      <ModalContent w={600} bgColor={"#21232D"}>
+      <ModalContent bgColor={"#21232D"}>
         <ModalCloseButton />
         <ModalBody padding={0}>
-          <Flex w={"100%"} flexDir={"column"} p={"37px 0px 44px 0px"}>
+          <Flex flexDir={"column"} p={"37px 30px 44px 30px"}>
             <Text fontWeight={700} fontSize={48} textAlign={"center"}>
               Select Gem
             </Text>

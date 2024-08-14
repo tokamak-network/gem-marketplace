@@ -11,18 +11,21 @@ const responsive = {
     // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
     items: 5,
+    slidesToSlide: 2
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 3,
+    items: 2,
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
-    items: 2,
+    items: 3,
+    slidesToSlide: 3
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
     items: 1,
+    slidesToSlide: 2
   },
 };
 
@@ -34,17 +37,15 @@ const GemcardCarousel = () => {
     <Box h={"350px"}>
       {colorCombo && colorCombo.length > 0 && (
         <Carousel
-          swipeable={true}
-          draggable={true}
           showDots={true}
           responsive={responsive}
           ssr={true} // means to render carousel on server-side.
-          autoPlaySpeed={1000}
           keyBoardControl={true}
           transitionDuration={500}
           containerClass="carousel-container"
           itemClass="carousel-item"
           dotListClass="carousel-dot-list"
+          partialVisible
           removeArrowOnDeviceType={["tablet", "mobile"]}
         >
           {colorCombo.map((item: any, key: number) => (
