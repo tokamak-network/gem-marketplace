@@ -54,7 +54,7 @@ export function forgeGemsColor(gem1: string[], gem2: string[]) {
           newGradients.push([gem1[0], gem2[1]]);
           newGradients.push([gem1[1], gem2[0]]);
           newGradients.push([gem1[1], gem2[1]]);
-          return newGradients; // Two Same Gradient but 1 Colour Repetition -> 3 Gradient
+          return newGradients; // Two Same Gradient but 1 Color Repetition -> 3 Gradient
       } else {
           let newGradients = [];
           newGradients.push([gem1[0], gem2[0]]);

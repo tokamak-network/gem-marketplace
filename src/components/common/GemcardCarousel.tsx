@@ -1,10 +1,10 @@
 import { Box } from "@chakra-ui/react";
 import Carousel from "react-multi-carousel";
 import GemCard from "./GemCard";
-import { GemList } from "@/constants";
-import "react-multi-carousel/lib/styles.css";
 import { useRecoilValue } from "recoil";
 import { forgeResultSelector } from "@/recoil/forge/atom";
+
+import "react-multi-carousel/lib/styles.css";
 
 const responsive = {
   superLargeDesktop: {

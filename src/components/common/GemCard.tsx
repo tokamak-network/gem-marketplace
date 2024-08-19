@@ -31,7 +31,7 @@ interface GemCardType {
   dailyChange: number;
   mode?: CardType;
   gemInfo: GemStandard;
-  customGemColor?: string[]
+  customGemColor?: string[];
 }
 
 const GemCard = ({
@@ -44,7 +44,7 @@ const GemCard = ({
   staked,
   dailyChange,
   gemInfo,
-  customGemColor
+  customGemColor,
 }: GemCardType) => {
   const [isSaved, setSaved] = useState<boolean>(false);
   const [isFlip, setFlip] = useState<boolean>(false);
@@ -209,10 +209,12 @@ const GemCard = ({
         }
       }
     }
-    if (mode === "market") {
+    else if (mode === "market") {
       router.push(`/market?asset=${gemInfo.id}`);
     } else if (mode === "chest") {
       router.push(`/chest?asset=${gemInfo.id}`);
+    } else if (mode === "forgeFinal") {
+      
     }
   }, [selectedGemsList, selectedRarity, selectedGemsInfo, gemInfo]);
 
@@ -409,6 +411,16 @@ const GemCard = ({
                   <Text fontSize={18}>Collect Gem</Text>
                   <Image alt="gem" src={GemIcon} />
                 </Flex>
+              ) : mode === "forgeFinal" ? (
+                <Flex p={"10px"} flexDir={"column"}>
+                  <Text
+                    fontSize={10}
+                    opacity={0.5}
+                  >{`Staked Value $${staked}`}</Text>
+                  <Text fontSize={14} fontWeight={600}>
+                    6 TITANWSTON
+                  </Text>
+                </Flex>
               ) : (
                 <Flex flexDir={"column"} justify={"space-between"} p={"10px"}>
                   <Text
@@ -462,7 +474,9 @@ const GemCard = ({
               ) : (
                 ""
               )}
-              {(mode === "forge" || mode === "common" || mode === "forgeFinal") && (
+              {(mode === "forge" ||
+                mode === "common" ||
+                mode === "forgeFinal") && (
                 <RarityViewer quadrants={quadrants} />
               )}
             </Flex>

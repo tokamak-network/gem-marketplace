@@ -12,6 +12,7 @@ const PriceContainer = ({
   return (
     <Center
       w={61}
+      mr={"10px"}
       h={"32px"}
       columnGap={"6px"}
       rounded={"full"}
