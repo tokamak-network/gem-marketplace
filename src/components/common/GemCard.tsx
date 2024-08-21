@@ -1,7 +1,15 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Box, Flex, Text, Progress, Center, useTheme } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Progress,
+  Center,
+  useTheme,
+  Tooltip,
+} from "@chakra-ui/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import PriceContainer from "./PriceContainer";
 import HighArrow from "@/assets/icon/higharrow.svg";
@@ -20,6 +28,7 @@ import RarityViewer from "./RarityViewer";
 import GemIcon from "@/assets/icon/mine.svg";
 import GemShape from "./GemShape";
 import { rarityStatus } from "@/recoil/market/atom";
+import MinePreview from "../tooltipLabel/MinePreview";
 
 interface GemCardType {
   width?: number;
@@ -208,13 +217,11 @@ const GemCard = ({
           return;
         }
       }
-    }
-    else if (mode === "market") {
+    } else if (mode === "market") {
       router.push(`/market?asset=${gemInfo.id}`);
     } else if (mode === "chest") {
       router.push(`/chest?asset=${gemInfo.id}`);
     } else if (mode === "forgeFinal") {
-      
     }
   }, [selectedGemsList, selectedRarity, selectedGemsInfo, gemInfo]);
 
@@ -422,47 +429,62 @@ const GemCard = ({
                     6 TITANWSTON
                   </Text>
                 </Flex>
-              ) : ( mode !== "mine" &&
-                <Flex flexDir={"column"} justify={"space-between"} p={"10px"}>
-                  <Text
-                    fontSize={14}
-                    fontWeight={600}
-                    textTransform={"capitalize"}
-                  >
-                    {rarity.toLowerCase()} {rarityScore}%
-                  </Text>
-                  <Flex columnGap={1} align={"center"}>
-                    <Text fontSize={10} fontWeight={400} opacity={0.5}>
-                      Staked ${staked}{" "}
+              ) : (
+                mode !== "mine" && (
+                  <Flex flexDir={"column"} justify={"space-between"} p={"10px"}>
+                    <Text
+                      fontSize={14}
+                      fontWeight={600}
+                      textTransform={"capitalize"}
+                    >
+                      {rarity.toLowerCase()} {rarityScore}%
                     </Text>
-                    <Image alt="arrow" src={HighArrow} />
-                    <Text color={"#61FF00"} fontSize={10} fontWeight={400}>
-                      {dailyChange}%
-                    </Text>
+                    <Flex columnGap={1} align={"center"}>
+                      <Text fontSize={10} fontWeight={400} opacity={0.5}>
+                        Staked ${staked}{" "}
+                      </Text>
+                      <Image alt="arrow" src={HighArrow} />
+                      <Text color={"#61FF00"} fontSize={10} fontWeight={400}>
+                        {dailyChange}%
+                      </Text>
+                    </Flex>
                   </Flex>
-                </Flex>
+                )
               )}
 
               {mode === "market" && <PriceContainer price={100} />}
               {isMining === null && mode === "mine" && isReadyForMine ? (
-                <Center
-                  h={53}
-                  top={0}
-                  left={0}
-                  w={"full"}
-                  bg={"#191A22D9"}
-                  columnGap={"6px"}
-                  transition={"0.5s"}
-                  _hover={{ bgColor: "#000000" }}
-                  onMouseEnter={() => SetHoverMine(true)}
-                  onMouseLeave={() => SetHoverMine(false)}
-                  onClick={() => {
-                    seMineModalState({ isOpen: true, mineTime: 2342347 });
-                  }}
+                <Tooltip
+                  w={"232px"}
+                  hasArrow
+                  bg={"#000000E5"}
+                  label={<MinePreview rarity={rarity} />}
+                  placement={"top"}
                 >
-                  <Text>{isHoverMine ? "Mine Gem" : "Ready to mine"}</Text>
-                  <Image alt="gem" src={GemIcon} width={16} height={16}></Image>
-                </Center>
+                  <Center
+                    h={53}
+                    top={0}
+                    left={0}
+                    w={"full"}
+                    bg={"#191A22D9"}
+                    columnGap={"6px"}
+                    transition={"0.5s"}
+                    _hover={{ bgColor: "#000000" }}
+                    onMouseEnter={() => SetHoverMine(true)}
+                    onMouseLeave={() => SetHoverMine(false)}
+                    onClick={() => {
+                      seMineModalState({ isOpen: true, mineTime: 2342347 });
+                    }}
+                  >
+                    <Text>{isHoverMine ? "Mine Gem" : "Ready to mine"}</Text>
+                    <Image
+                      alt="gem"
+                      src={GemIcon}
+                      width={16}
+                      height={16}
+                    ></Image>
+                  </Center>
+                </Tooltip>
               ) : mode === "mine" && !isReadyForMine ? (
                 <Box pos={"absolute"} w={"50px"} top={2} right={2}>
                   <Text fontSize={10}>
