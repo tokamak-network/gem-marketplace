@@ -12,8 +12,6 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import PriceContainer from "./PriceContainer";
-import HighArrow from "@/assets/icon/higharrow.svg";
-import SavedIcon from "./SavedIcon";
 import { COOLDOWN } from "@/constants";
 import { useRecoilState } from "recoil";
 import { miningModalStatus, miningResultStatus } from "@/recoil/mine/atom";
@@ -24,11 +22,16 @@ import {
 } from "@/recoil/forge/atom";
 import { GemStandard, CardType, RarityType } from "@/types";
 import RarityViewer from "./RarityViewer";
+import MinePreview from "../tooltipLabel/MinePreview";
 
-import GemIcon from "@/assets/icon/mine.svg";
 import GemShape from "./GemShape";
 import { rarityStatus } from "@/recoil/market/atom";
-import MinePreview from "../tooltipLabel/MinePreview";
+
+import GemIcon from "@/assets/icon/mine.svg";
+import HighArrow from "@/assets/icon/higharrow.svg";
+import SavedIcon from "./SavedIcon";
+import InfoIcon from "@/assets/icon/info.svg";
+import MineProbability from "../tooltipLabel/MineProbability";
 
 interface GemCardType {
   width?: number;
@@ -335,7 +338,7 @@ const GemCard = ({
             backfaceVisibility: "hidden",
           }}
         >
-          {(mode === "mine" || mode === "market" || mode === "normal") && (
+          {mode === "market" || mode === "normal" ? (
             <Box
               pos={"absolute"}
               top={"10px"}
@@ -354,6 +357,21 @@ const GemCard = ({
                 isFill={isSaved}
               />
             </Box>
+          ) : mode === "mine" ? (
+            <Tooltip bg={"#000000E5"} label={<MineProbability/>} hasArrow>
+            <Flex
+              columnGap={1}
+              pos={"absolute"}
+              top={"10px"}
+              right={"10px"}
+              opacity={0.5}
+            >
+              <Text fontSize={10}>Probability:</Text>
+              <Image alt="info" src={InfoIcon} width={8} height={8} />
+            </Flex>
+            </Tooltip>
+          ) : (
+            <></>
           )}
 
           <Center w={"full"} h={"full"} bg={""}>
