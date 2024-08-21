@@ -358,17 +358,17 @@ const GemCard = ({
               />
             </Box>
           ) : mode === "mine" ? (
-            <Tooltip bg={"#000000E5"} label={<MineProbability/>} hasArrow>
-            <Flex
-              columnGap={1}
-              pos={"absolute"}
-              top={"10px"}
-              right={"10px"}
-              opacity={0.5}
-            >
-              <Text fontSize={10}>Probability:</Text>
-              <Image alt="info" src={InfoIcon} width={8} height={8} />
-            </Flex>
+            <Tooltip bg={"#000000E5"} label={<MineProbability />} hasArrow>
+              <Flex
+                columnGap={1}
+                pos={"absolute"}
+                top={"10px"}
+                right={"10px"}
+                opacity={0.5}
+              >
+                <Text fontSize={10}>Probability:</Text>
+                <Image alt="info" src={InfoIcon} width={8} height={8} />
+              </Flex>
             </Tooltip>
           ) : (
             <></>
@@ -405,20 +405,16 @@ const GemCard = ({
                 <Flex
                   w={"full"}
                   justify={"center"}
-                  align={"end"}
+                  align={"center"}
                   columnGap={1}
-                  p={"20px"}
+                  h={"53px"}
+                  bgColor={"#00000080"}
+                  color={"#FFFFFF80"}
+                  _hover={{ bgColor: "#000000", color: "#FFFFFF" }}
+                  transition={"0.2s"}
                 >
                   <Text fontSize={18} textAlign={"center"}>
-                    Mining...{" "}
-                  </Text>
-                  <Text
-                    fontSize={12}
-                    textAlign={"center"}
-                    opacity={0.5}
-                    lineHeight={"23px"}
-                  >
-                    21:34:12
+                    Cancel Mine
                   </Text>
                 </Flex>
               ) : mode === "mine" && isReadyForMine && isMining === false ? (
@@ -484,7 +480,7 @@ const GemCard = ({
                     top={0}
                     left={0}
                     w={"full"}
-                    bg={"#191A22D9"}
+                    bg={"#00000080"}
                     columnGap={"6px"}
                     transition={"0.5s"}
                     _hover={{ bgColor: "#000000" }}

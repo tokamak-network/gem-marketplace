@@ -13,11 +13,15 @@ const MineProbability = () => {
         borderBottom={"1px solid #FFFFFF40"}
       >
         <Text>823</Text>
-        <Text>Active Miners</Text>
+        <Text fontSize={12} fontWeight={400} color={"#FFFFFF80"}>
+          Active Miners
+        </Text>
       </Box>
       <Box textAlign={"center"} py={3} fontSize={16} fontWeight={600}>
         <Text>1,259</Text>
-        <Text>Gems Vailable</Text>
+        <Text fontSize={12} fontWeight={400} color={"#FFFFFF80"}>
+          Gems Vailable
+        </Text>
       </Box>
       <Box textAlign={"center"} py={3}>
         <Text fontSize={16} fontWeight={600}>
