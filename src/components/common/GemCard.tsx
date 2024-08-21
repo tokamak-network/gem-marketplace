@@ -404,12 +404,13 @@ const GemCard = ({
                   align={"center"}
                   bgColor={"#0380FF"}
                   p={"20px"}
+                  columnGap={"6px"}
                   onClick={() => {
                     setCollectGemStatus({ isOpen: true, minedGemId: id });
                   }}
                 >
                   <Text fontSize={18}>Collect Gem</Text>
-                  <Image alt="gem" src={GemIcon} />
+                  <Image alt="gem" src={GemIcon} width={16} height={16} />
                 </Flex>
               ) : mode === "forgeFinal" ? (
                 <Flex p={"10px"} flexDir={"column"}>
@@ -421,7 +422,7 @@ const GemCard = ({
                     6 TITANWSTON
                   </Text>
                 </Flex>
-              ) : (
+              ) : ( mode !== "mine" &&
                 <Flex flexDir={"column"} justify={"space-between"} p={"10px"}>
                   <Text
                     fontSize={14}
@@ -445,7 +446,6 @@ const GemCard = ({
               {mode === "market" && <PriceContainer price={100} />}
               {isMining === null && mode === "mine" && isReadyForMine ? (
                 <Center
-                  pos={"absolute"}
                   h={53}
                   top={0}
                   left={0}
@@ -453,14 +453,14 @@ const GemCard = ({
                   bg={"#191A22D9"}
                   columnGap={"6px"}
                   transition={"0.5s"}
-                  _hover={{ bgColor: "#004422", fontSize: 24 }}
+                  _hover={{ bgColor: "#000000" }}
                   onMouseEnter={() => SetHoverMine(true)}
                   onMouseLeave={() => SetHoverMine(false)}
                   onClick={() => {
                     seMineModalState({ isOpen: true, mineTime: 2342347 });
                   }}
                 >
-                  <Text>{isHoverMine ? "Mine" : "Ready to mine"}</Text>
+                  <Text>{isHoverMine ? "Mine Gem" : "Ready to mine"}</Text>
                   <Image alt="gem" src={GemIcon} width={16} height={16}></Image>
                 </Center>
               ) : mode === "mine" && !isReadyForMine ? (
