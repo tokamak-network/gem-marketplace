@@ -4,7 +4,7 @@ const MineProbability = () => {
   const theme = useTheme();
 
   return (
-    <Flex flexDir={"column"} p={"15px"} fontFamily={theme.fonts.Inter}>
+    <Flex flexDir={"column"} p={"0px 15px"} fontFamily={theme.fonts.Inter}>
       <Box
         textAlign={"center"}
         py={3}
@@ -23,11 +23,11 @@ const MineProbability = () => {
           Gems Vailable
         </Text>
       </Box>
-      <Box textAlign={"center"} py={3}>
+      <Box textAlign={"center"} pb={3}>
         <Text fontSize={16} fontWeight={600}>
           =
         </Text>
-        <Text mt={"14px"} fontSize={24} fontWeight={700}>
+        <Text fontSize={24} fontWeight={700}>
           99.9%
         </Text>
       </Box>

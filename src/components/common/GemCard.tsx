@@ -384,7 +384,7 @@ const GemCard = ({
             />
           </Center>
 
-          {mode === "mine" && (
+          {mode === "mine" && isMining && (
             <Progress
               value={((COOLDOWN - timeRemaining) / COOLDOWN) * 100}
               colorScheme="green"
@@ -411,6 +411,8 @@ const GemCard = ({
                   bgColor={"#00000080"}
                   color={"#FFFFFF80"}
                   _hover={{ bgColor: "#000000", color: "#FFFFFF" }}
+                  rounded={"0px 0px 8px 8px"}
+                  border={"1px solid #FFFFFF40"}
                   transition={"0.2s"}
                 >
                   <Text fontSize={18} textAlign={"center"}>
@@ -486,6 +488,8 @@ const GemCard = ({
                     _hover={{ bgColor: "#000000" }}
                     onMouseEnter={() => SetHoverMine(true)}
                     onMouseLeave={() => SetHoverMine(false)}
+                    border={"1px solid #FFFFFF40"}
+                    rounded={"0px 0px 8px 8px"}
                     onClick={() => {
                       seMineModalState({ isOpen: true, mineTime: 2342347 });
                     }}
