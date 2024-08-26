@@ -21,6 +21,8 @@ import ColorIcon from "@/assets/icon/color.svg";
 import CooldownIcon from "@/assets/icon/cooldown.svg";
 import MiningIcon from "@/assets/icon/mine.svg";
 import forgeIcon from "@/assets/icon/forge.svg";
+import SavedIcon from "./SavedIcon";
+import ShareIcon from "@/assets/icon/share.svg";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -115,9 +117,21 @@ const GemItemView = ({ id, mode }: ItemProps) => {
           gemHeight={316}
         />
         <Flex w={"full"} flexDir={"column"}>
-          <Text fontWeight={700} fontSize={48} textTransform="capitalize">
-            {gemItem[0].rarity} Gem #{gemItem[0].id}
-          </Text>
+          <Flex justify={"space-between"}>
+            <Text fontWeight={700} fontSize={48} textTransform="capitalize">
+              {gemItem[0].rarity} Gem #{gemItem[0].id}
+            </Text>
+
+            <Flex columnGap={2}>
+              <Center w={8} h={8} rounded={"8px"} bgColor={"#2A2C3A"}>
+                <SavedIcon width={16} height={16} isFill={false}/>
+              </Center>
+
+              <Center w={8} h={8} rounded={"8px"} bgColor={"#2A2C3A"}>
+                <Image alt="share" src={ShareIcon} width={16} height={16}/>
+              </Center>
+            </Flex>
+          </Flex>
 
           <Flex flexDir={"column"} rowGap={22} my={"52px"}>
             <Flex>

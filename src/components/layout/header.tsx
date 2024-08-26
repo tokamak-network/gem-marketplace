@@ -9,7 +9,7 @@ const Header = () => {
   const pathName = pathname.substring(1, pathname.length);
   console.log(pathName);
 
-  return search || pathName === "community" || pathName === "market/gemPack" ? (
+  return search || pathName === "community" || pathName === "market/gempack" ? (
     <></>
   ) : (
     <>

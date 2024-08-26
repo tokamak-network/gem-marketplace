@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Box, Center, Flex, Text, useTheme } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useSearchParams } from "next/navigation";
+
 import {
   activeRarityListSelector,
   gemPackModalStatus,
@@ -14,6 +15,7 @@ import GemItemView from "@/components/common/GemItemView";
 
 import GEM from "@/assets/images/sample_gem.png";
 import PumpkinGem from "@/assets/images/pumpkingem.png";
+import Link from "next/link";
 
 const MarketPage = () => {
   const theme = useTheme();
@@ -69,10 +71,9 @@ const MarketPage = () => {
             px={"9px"}
             align={"center"}
           >
-            <PriceContainer
-              price={10}
-              onClick={() => setGemPackModalState(true)}
-            />
+            <Link href={"/market/gempack"}>
+              <PriceContainer price={10} />
+            </Link>
           </Flex>
         </Flex>
         <GemPackModal
