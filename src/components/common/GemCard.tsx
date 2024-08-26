@@ -17,8 +17,8 @@ import { useRecoilState } from "recoil";
 import { miningModalStatus, miningResultStatus } from "@/recoil/mine/atom";
 import {
   forgeConfirmModalStatus,
-  selectedForgeGem,
   selectedForgeGems,
+  selectedFinalForge
 } from "@/recoil/forge/atom";
 import { GemStandard, CardType, RarityType } from "@/types";
 import RarityViewer from "./RarityViewer";
@@ -64,17 +64,16 @@ const GemCard = ({
   const [isReadyForMine, setReadyForMine] = useState<boolean>(false);
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
   const [, seMineModalState] = useRecoilState(miningModalStatus);
-  const [selectedGems, setSelectedGems] = useRecoilState(selectedForgeGem);
 
-  const [collectGemStatus, setCollectGemStatus] =
+  const [, setCollectGemStatus] =
     useRecoilState(miningResultStatus);
-  const { firstSelectedGem, secondSelectedGem } = selectedGems;
 
   const [selectedGemsInfo, setSelectedGemsInfo] =
     useRecoilState(selectedForgeGems);
   const { selectedRarity, selectedGemsList } = selectedGemsInfo;
-  const [rarityState, setRarityState] = useRecoilState(rarityStatus);
+  const [, setRarityState] = useRecoilState(rarityStatus);
   const [, setForgeConfirm] = useRecoilState(forgeConfirmModalStatus);
+  const [finalForgeItem, setFinalForgeGem] = useRecoilState(selectedFinalForge)
 
   const theme = useTheme();
   const router = useRouter();
@@ -225,6 +224,7 @@ const GemCard = ({
     } else if (mode === "chest") {
       router.push(`/chest?asset=${gemInfo.id}`);
     } else if (mode === "forgeFinal") {
+      setFinalForgeGem({color: [...gemColor]});
     }
   }, [selectedGemsList, selectedRarity, selectedGemsInfo, gemInfo]);
 
@@ -249,6 +249,10 @@ const GemCard = ({
     return selected.length > 0 ? true : false;
   }, [selectedGemsList, selectedRarity]);
 
+  const isFinalForgeItemSelected = useMemo(() => {
+    return gemColor.toString() === finalForgeItem.color.toString()
+  }, [finalForgeItem, gemColor])
+
   return (
     <Box
       pos={"relative"}
@@ -269,13 +273,13 @@ const GemCard = ({
           : ""
       }
       border={
-        (isForgeSelected && mode === "forge") || mode === "common"
+        (isForgeSelected && mode === "forge") || mode === "common" || (isFinalForgeItemSelected && mode === "forgeFinal")
           ? "1px solid #FFFFFF"
           : ""
       }
       transition={"0.2s"}
     >
-      {isForgeSelected && mode === "forge" && (
+      {((isForgeSelected && mode === "forge") || (isFinalForgeItemSelected && mode === "forgeFinal")) && (
         <>
           <Center
             w={"fit-content"}
@@ -292,9 +296,10 @@ const GemCard = ({
             fontFamily={theme.fonts.Quicksand}
             color={"#000000"}
           >
-            {`selected ${selectedGemsList.indexOf(gemInfo) + 1} of ${
+            
+            {(isForgeSelected && mode === "forge") ? `selected ${selectedGemsList.indexOf(gemInfo) + 1} of ${
               Object.keys(RarityType).indexOf(selectedRarity) + 1
-            }`}
+            }` : isFinalForgeItemSelected && mode === "forgeFinal" ? "Selected" : ""}
           </Center>
 
           {/* <Center

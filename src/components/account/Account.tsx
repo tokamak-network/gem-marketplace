@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Flex, Text } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { useAccount } from "wagmi";
@@ -6,7 +5,6 @@ import { trimAddress } from "@/utils";
 import { activityContainerStatus } from "@/recoil/activity/atom";
 
 import useConnectWallet from "@/hooks/account/useConnectWallet";
-import ThanosSymbol from "@/assets/icon/network/thanos_circle.svg";
 import { NetworkSymbol } from "../common/NetworkSymbol";
 
 const Account = () => {

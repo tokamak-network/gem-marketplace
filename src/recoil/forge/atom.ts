@@ -111,7 +111,7 @@ export const forgeResultSelector = selector<{
 
 type SelectedForgeGem = {
   color: string[];
-  rarity: RarityType;
+  rarity?: RarityType;
 }
 
 export const selectedFinalForge = atom<SelectedForgeGem>({

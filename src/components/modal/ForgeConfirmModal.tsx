@@ -16,6 +16,7 @@ import {
   forgeSuccessModalStatus,
   selectedForgeGem,
   selectedForgeGems,
+  selectedFinalForge
 } from "@/recoil/forge/atom";
 import { useRecoilState } from "recoil";
 
@@ -30,6 +31,7 @@ const ForgeConfirmModal = () => {
   const [, setForgeSuccess] = useRecoilState(forgeSuccessModalStatus);
   const [, setForgeGems] = useRecoilState(selectedForgeGem);
   const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
+  const [finalForgeGem, setFinalForgeGem] = useRecoilState(selectedFinalForge);
 
   return (
     <Modal
@@ -40,6 +42,7 @@ const ForgeConfirmModal = () => {
           selectedRarity: RarityType.NONE,
           selectedGemsList: [],
         });
+        setFinalForgeGem({color: []});
       }}
       size={"xl"}
       isCentered
@@ -69,6 +72,8 @@ const ForgeConfirmModal = () => {
                 fontWeight={600}
                 fontSize={24}
                 columnGap={2}
+                isDisabled={finalForgeGem.color.length === 0}
+                _disabled={{bgColor: "#5C5C5C", _hover:{bgColor: "#5C5C5C"}, cursor:"not-allowed"}}
                 onClick={() => {
                   setForgeConfirm(false);
                   setForgeSuccess(true);
