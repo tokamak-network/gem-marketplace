@@ -11,7 +11,10 @@ import {
   Center,
 } from "@chakra-ui/react";
 
-import { forgeSuccessModalStatus } from "@/recoil/forge/atom";
+import {
+  forgeSuccessModalStatus,
+  selectedForgeGems,
+} from "@/recoil/forge/atom";
 import { useRecoilState } from "recoil";
 
 import ForgeIcon from "@/assets/icon/forge.svg";
@@ -21,11 +24,18 @@ import { RarityType } from "@/types";
 
 const ForgeSuccessModal = () => {
   const [isModal, setShowModal] = useRecoilState(forgeSuccessModalStatus);
+  const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
 
   return (
     <Modal
       isOpen={isModal}
-      onClose={() => setShowModal(false)}
+      onClose={() => {
+        setShowModal(false);
+        setSelectedGemsInfo({
+          selectedRarity: RarityType.NONE,
+          selectedGemsList: [],
+        });
+      }}
       size={"2xl"}
       isCentered
     >
@@ -50,7 +60,7 @@ const ForgeSuccessModal = () => {
                 staked={92.36}
                 rarityScore={1}
                 gemInfo={{
-                  quadrants: [6,5,5,5],
+                  quadrants: [6, 5, 5, 5],
                   gemColor: ["#0BFFF0", "#0075FF"],
                   id: 30,
                   lastMineTime: 324234234,

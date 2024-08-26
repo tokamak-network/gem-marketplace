@@ -19,6 +19,7 @@ import Forge1 from "@/assets/images/forge1.png";
 import Forge2 from "@/assets/images/forge2.png";
 import Forge3 from "@/assets/images/forge3.png";
 import ArrorRight from "@/assets/icon/right_arrow.svg";
+import ForgeIcon from "@/assets/icon/forge.svg";
 
 const ForgingIntroModal = (props: any) => {
   const { isOpen, onClose } = props;
@@ -28,7 +29,7 @@ const ForgingIntroModal = (props: any) => {
   const handleClose = () => {
     if (isChecked) {
       setValue(false);
-    } 
+    }
     onClose();
   };
 
@@ -69,6 +70,7 @@ const ForgingIntroModal = (props: any) => {
 
             <Flex w={"full"} justify={"space-between"} my={"50px"}>
               <Image alt="gempack" src={Forge1} />
+              <Image width={45} height={45} alt="forge" src={ForgeIcon} />
               <Center columnGap={"14px"}>
                 <Image alt="gempack" src={Forge2} />
                 <Image alt="arrow" src={ArrorRight} />
