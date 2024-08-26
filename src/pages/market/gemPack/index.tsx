@@ -4,7 +4,6 @@ import { Box, Button, Flex, Text, useTheme } from "@chakra-ui/react";
 
 import { GemList } from "@/constants";
 import { CardType, GemStandard } from "@/types";
-import GemCard from "@/components/common/GemCard";
 import { obtainModalStatus } from "@/recoil/market/atom";
 import { useRecoilState } from "recoil";
 

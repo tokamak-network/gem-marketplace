@@ -1,15 +1,19 @@
-import { Box, Flex, Text, useTheme } from "@chakra-ui/react";
+import Image from "next/image";
+import { Box, Center, Flex, Text, useTheme } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useSearchParams } from "next/navigation";
-import { activeRarityListSelector, gemPackModalStatus } from "@/recoil/market/atom";
+import {
+  activeRarityListSelector,
+  gemPackModalStatus,
+} from "@/recoil/market/atom";
 
 import PriceContainer from "@/components/common/PriceContainer";
 import GemPackModal from "@/components/modal/GemPackModal";
-
-import GEM from "@/assets/images/sample_gem.png";
-import Image from "next/image";
 import GemCard from "@/components/common/GemCard";
 import GemItemView from "@/components/common/GemItemView";
+
+import GEM from "@/assets/images/sample_gem.png";
+import PumpkinGem from "@/assets/images/pumpkingem.png";
 
 const MarketPage = () => {
   const theme = useTheme();
@@ -17,10 +21,11 @@ const MarketPage = () => {
     useRecoilState(gemPackModalStatus);
   const searchParams = useSearchParams();
   const search = searchParams.get("asset");
-  const {activeRarityList} = useRecoilValue(activeRarityListSelector);
+  const { activeRarityList } = useRecoilValue(activeRarityListSelector);
 
-  return (
-    search ? <GemItemView id={Number(search)} mode="market"/> :
+  return search ? (
+    <GemItemView id={Number(search)} mode="market" />
+  ) : (
     <>
       <Flex columnGap={4} mt={73}>
         <Flex
@@ -85,6 +90,9 @@ const MarketPage = () => {
           pb={"20px"}
           px={"30px"}
         >
+          <Center objectPosition={"50% 50%"} zIndex={100}>
+            <Image alt="pumpkingem" src={PumpkinGem} />
+          </Center>
           <Box pos={"absolute"} top={0} left={0}>
             <Image
               alt="halloween"
@@ -98,7 +106,7 @@ const MarketPage = () => {
             top={0}
             left={0}
             zIndex={10}
-            bgGradient={"radial-gradient(#00000000, #000000D9)"}
+            bgGradient={"radial-gradient(#00000080, #000000FF)"}
             w={"full"}
             h={272}
           ></Box>
