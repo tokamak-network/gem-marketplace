@@ -7,8 +7,9 @@ const Header = () => {
   const search = searchParams.get("asset");
   const pathname = usePathname();
   const pathName = pathname.substring(1, pathname.length);
+  console.log(pathName);
 
-  return search || pathName === "community" ? (
+  return search || pathName === "community" || pathName === "market/gemPack" ? (
     <></>
   ) : (
     <>

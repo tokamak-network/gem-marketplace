@@ -178,7 +178,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
             <Flex>
               <Flex minW={173} columnGap={3} align={"center"}>
-                <Image alt="rarity" src={CooldownIcon} width={16} height={16} />
+                <Image alt="rarity" src={MiningIcon} width={16} height={16} />
                 <Text
                   fontFamily={theme.fonts.Inter}
                   fontSize={16}
@@ -199,13 +199,13 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
             <Flex>
               <Flex minW={173} columnGap={3} align={"center"}>
-                <Image alt="rarity" src={CooldownIcon} width={16} height={16} />
+                <Image alt="rarity" src={forgeIcon} width={16} height={16} />
                 <Text
                   fontFamily={theme.fonts.Inter}
                   fontSize={16}
                   color={"#FFFFFF80"}
                 >
-                  Cooldown Time:
+                  Forge:
                 </Text>
               </Flex>
 
