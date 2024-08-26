@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { useAccount } from "wagmi";
+import { Box, Button, Center, Flex, Text, useTheme } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 
 import { GemList } from "@/constants";
 import { CardType, GemStandard } from "@/types";
 import GemCard from "@/components/common/GemCard";
 import { RarityItem } from "@/components/common/RarityList";
-import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
 import { ColorItem } from "@/components/common/ColorList";
 import { obtainModalStatus } from "@/recoil/market/atom";
 import { useRecoilState } from "recoil";
@@ -16,6 +16,12 @@ import useConnectWallet from "@/hooks/account/useConnectWallet";
 
 import TonIcon from "@/assets/icon/ton.svg";
 import WalletIcon from "@/assets/icon/wallet.svg";
+import StarIcon from "@/assets/icon/star.svg";
+import ColorIcon from "@/assets/icon/color.svg";
+import CooldownIcon from "@/assets/icon/cooldown.svg";
+import MiningIcon from "@/assets/icon/mine.svg";
+import forgeIcon from "@/assets/icon/forge.svg";
+
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
@@ -38,6 +44,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       ? setModalStatus({ isOpen: true, gemId: id })
       : connectToWallet();
   };
+  const theme = useTheme();
 
   const series = [
     {
@@ -107,29 +114,118 @@ const GemItemView = ({ id, mode }: ItemProps) => {
           gemWidth={316}
           gemHeight={316}
         />
-        <Flex w={"full"} flexDir={"column"} py={6}>
-          <Flex columnGap={4} ml={"15px"} mb={6}>
-            <RarityItem active rarity={gemItem[0].rarity} />
-            <ColorItem active color="garnet" />
-            <ColorItem active color="topaz" />
-          </Flex>
-
+        <Flex w={"full"} flexDir={"column"}>
           <Text fontWeight={700} fontSize={48} textTransform="capitalize">
             {gemItem[0].rarity} Gem #{gemItem[0].id}
           </Text>
 
-          <ReactApexChart
-            options={options}
-            series={series}
-            type="line"
-            width={400}
-            height={150}
-          />
+          <Flex flexDir={"column"} rowGap={22} my={"52px"}>
+            <Flex>
+              <Flex minW={173} columnGap={3} align={"center"}>
+                <Image alt="rarity" src={StarIcon} width={16} height={16} />
+                <Text
+                  fontFamily={theme.fonts.Inter}
+                  fontSize={16}
+                  color={"#FFFFFF80"}
+                >
+                  Rarity:
+                </Text>
+              </Flex>
+
+              <Box ml={"12px"}>
+                <RarityItem active rarity={gemItem[0].rarity} />
+              </Box>
+            </Flex>
+
+            <Flex>
+              <Flex minW={173} columnGap={3} align={"center"}>
+                <Image alt="rarity" src={ColorIcon} width={16} height={16} />
+                <Text
+                  fontFamily={theme.fonts.Inter}
+                  fontSize={16}
+                  color={"#FFFFFF80"}
+                >
+                  Color:
+                </Text>
+              </Flex>
+
+              <Flex columnGap={3}>
+                <ColorItem active color="garnet" />
+                <ColorItem active color="topaz" />
+              </Flex>
+            </Flex>
+
+            <Flex>
+              <Flex minW={173} columnGap={3} align={"center"}>
+                <Image alt="rarity" src={CooldownIcon} width={16} height={16} />
+                <Text
+                  fontFamily={theme.fonts.Inter}
+                  fontSize={16}
+                  color={"#FFFFFF80"}
+                >
+                  Cooldown Time:
+                </Text>
+              </Flex>
+
+              <Text
+                fontFamily={theme.fonts.Inter}
+                fontWeight={500}
+                fontSize={16}
+              >
+                Slow (30d)
+              </Text>
+            </Flex>
+
+            <Flex>
+              <Flex minW={173} columnGap={3} align={"center"}>
+                <Image alt="rarity" src={CooldownIcon} width={16} height={16} />
+                <Text
+                  fontFamily={theme.fonts.Inter}
+                  fontSize={16}
+                  color={"#FFFFFF80"}
+                >
+                  Mining Power:
+                </Text>
+              </Flex>
+
+              <Text
+                fontFamily={theme.fonts.Inter}
+                fontWeight={500}
+                fontSize={16}
+              >
+                Common - Mythic
+              </Text>
+            </Flex>
+
+            <Flex>
+              <Flex minW={173} columnGap={3} align={"center"}>
+                <Image alt="rarity" src={CooldownIcon} width={16} height={16} />
+                <Text
+                  fontFamily={theme.fonts.Inter}
+                  fontSize={16}
+                  color={"#FFFFFF80"}
+                >
+                  Cooldown Time:
+                </Text>
+              </Flex>
+
+              <Text
+                fontFamily={theme.fonts.Inter}
+                fontWeight={500}
+                fontSize={16}
+              >
+                Common - Mythic
+              </Text>
+            </Flex>
+          </Flex>
+
+          {/* <ReactAp
+           */}
 
           <Text fontSize={14} fontWeight={400} opacity={0.5}>
-            Staked TON
+            Backed by
           </Text>
-          <Flex align={"end"} columnGap={17} mb={10}>
+          <Flex align={"end"} columnGap={17} mb={9}>
             <Center columnGap={3}>
               <Image alt="ton" src={TonIcon} width={32} height={32} />
               <Text fontSize={32} fontWeight={600}>
@@ -137,38 +233,37 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               </Text>
             </Center>
 
-            <Text
-              pb={"6px"}
-              fontSize={20}
-              fontWeight={600}
-              lineHeight={"30px"}
-              opacity={0.5}
-            >
-              $253.203547
+            <Text pb={"6px"} fontSize={14} lineHeight={"30px"} opacity={0.5}>
+              $253.20
             </Text>
           </Flex>
 
           {mode === "market" ? (
-            <Button
-              w={"full"}
-              maxW={624}
-              h={"65px"}
-              columnGap={2}
-              alignItems={"center"}
-              justifyContent={"center"}
-              colorScheme="blue"
-              bgColor={"#0380FF"}
-              onClick={handleClick}
-            >
-              {isConnected ? (
-                <Image alt="ton" src={TonIcon} width={27} height={27} />
-              ) : (
-                <Image alt="wallet" src={WalletIcon} width={22} height={23} />
-              )}
-              <Text fontSize={24} fontWeight={600}>
-                {isConnected ? "135 TON" : "Connect Wallet"}
+            <Box>
+              <Text pb={"6px"} fontSize={14} lineHeight={"30px"} opacity={0.5}>
+                BUY GEM WITH:
               </Text>
-            </Button>
+              <Button
+                w={"full"}
+                maxW={624}
+                h={"65px"}
+                columnGap={2}
+                alignItems={"center"}
+                justifyContent={"center"}
+                colorScheme="blue"
+                bgColor={"#0380FF"}
+                onClick={handleClick}
+              >
+                {isConnected ? (
+                  <Image alt="ton" src={TonIcon} width={27} height={27} />
+                ) : (
+                  <Image alt="wallet" src={WalletIcon} width={22} height={23} />
+                )}
+                <Text fontSize={24} fontWeight={600}>
+                  {isConnected ? "135 TON" : "Connect Wallet"}
+                </Text>
+              </Button>
+            </Box>
           ) : mode === "chest" ? (
             <Flex w={"100%"} columnGap={6}>
               <Button
