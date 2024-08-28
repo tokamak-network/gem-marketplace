@@ -390,11 +390,17 @@ const GemCard = ({
           </Center>
 
           {mode === "mine" && isMining && (
+            <>
+            <Center justifyContent={"space-between"} px={2}>
+              <Text fontSize={10} color="#FFFFFF80">Time Remaining</Text>
+              <Text fontSize={12}>21:43:17</Text>
+            </Center>
             <Progress
               value={((COOLDOWN - timeRemaining) / COOLDOWN) * 100}
               colorScheme="green"
               h={"2px"}
             />
+            </>
           )}
 
           {mode !== "normal" && (
