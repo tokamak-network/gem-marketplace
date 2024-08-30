@@ -27,7 +27,7 @@ const GemPack = ({ id, mode }: ItemProps) => {
 
   const handleClick = () => {
     isConnected
-      ? setModalStatus({ isOpen: true, gemId: id })
+      ? setModalStatus({ isOpen: true, gemId: 3 })
       : connectToWallet();
   };
   const theme = useTheme();

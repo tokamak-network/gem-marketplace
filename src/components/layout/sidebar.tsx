@@ -9,6 +9,7 @@ import Account from "../account/Account";
 import { settingsContainerStatus } from "@/recoil/settings/atoms";
 
 import Logo from "@/assets/icon/symbol.svg";
+import GemstonLogo from "@/assets/icon/gemston_logo.svg";
 import Market from "@/assets/icon/market.svg";
 import Mine from "@/assets/icon/mine.svg";
 import Forge from "@/assets/icon/forge.svg";
@@ -89,22 +90,21 @@ const Sidebar = () => {
       minW={"243px"}
       borderRight={"2px solid #1E2033"}
     >
-      <Flex align={"center"} columnGap={"10px"} p={9}>
-        <Image alt="logo" src={Logo} width={36} height={36} />
+      <Flex align={"center"} flexDir={"column"} rowGap={"10px"} p={9}>
+        <Image alt="logo" src={GemstonLogo} width={36} height={36} />
         <Text
-          fontFamily={theme.fonts.OpenSans}
-          fontSize={20}
-          fontWeight={700}
+          fontFamily={theme.fonts.Zcool}
+          fontSize={38}
           color={"white"}
         >
-          Project Opal
+          GemSTON
         </Text>
       </Flex>
 
       <MenuTitle>Account</MenuTitle>
       <Account />
 
-      <Box h={4} />
+      <Box h={6} />
 
       <MenuTitle>Gems</MenuTitle>
       <CustomMenuItem icon={Market} link="market">

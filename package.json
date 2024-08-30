@@ -17,6 +17,7 @@
     "@fontsource/open-sans": "^5.0.28",
     "@fontsource/poppins": "^5.0.14",
     "@fontsource/quicksand": "^5.0.18",
+    "@fontsource/zcool-xiaowei": "^5.0.13",
     "@types/merge-images": "^1.2.4",
     "apexcharts": "^3.50.0",
     "framer-motion": "^11.2.9",

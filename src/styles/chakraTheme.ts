@@ -9,13 +9,14 @@ import "@fontsource/inter/400.css";
 import "@fontsource/inter/600.css";
 import "@fontsource/quicksand";
 import "@fontsource/quicksand/700.css";
-import { Quicksand } from "next/font/google";
+import "@fontsource/zcool-xiaowei";
 
 const fonts = {
   Poppins: "Poppins",
   Inter: "Inter",
   openSans: "Open Sans, sans-serif",
-  quicksand: "Quicksand"
+  quicksand: "Quicksand",
+  zcool: "ZCOOL XiaoWei"
 };
 
 const theme = extendTheme({
@@ -23,8 +24,8 @@ const theme = extendTheme({
     body: fonts.Poppins,
     Inter: fonts.Inter,
     OpenSans: fonts.openSans,
-    Quicksand: fonts.quicksand
-    
+    Quicksand: fonts.quicksand,
+    Zcool: fonts.zcool
   },
 
   breakpoints: {
