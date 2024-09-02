@@ -9,6 +9,13 @@ import { RecoilRoot } from "recoil";
 import { CacheProvider } from "@chakra-ui/next-js";
 import { WagmiProvider } from "wagmi";
 import { config } from "@/config/wagmi";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: "https://graph-node.titan-sepolia.tokamak.network/subgraphs/name/tokamak/gem-nft-subgraph/",
+  cache: new InMemoryCache(),
+});
+
 const Layout = dynamic(() => import("../components/layout"), { ssr: false });
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -20,9 +27,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <ChakraProvider resetCSS theme={theme}>
           <WagmiProvider config={config}>
             <QueryClientProvider client={queryClient}>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              <ApolloProvider client={client}>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </ApolloProvider>
             </QueryClientProvider>
           </WagmiProvider>
         </ChakraProvider>
