@@ -61,8 +61,8 @@ const ForgeSuccessModal = () => {
                 rarityScore={1}
                 gemInfo={{
                   quadrants: [6, 5, 5, 5],
-                  gemColor: ["#0BFFF0", "#0075FF"],
-                  id: 30,
+                  color: [2,3],
+                  tokenID: 30,
                   lastMineTime: 324234234,
                   rarity: RarityType.LEGENDARY,
                 }}

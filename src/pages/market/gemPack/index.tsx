@@ -20,7 +20,7 @@ interface ItemProps {
 }
 
 const GemPack = ({ id, mode }: ItemProps) => {
-  const gemItem = GemList.filter((item: GemStandard) => item.id === id);
+  const gemItem = GemList.filter((item: GemStandard) => Number(item.tokenID) === Number(id));
   const { connectToWallet } = useConnectWallet();
   const { isConnected } = useAccount();
   const [, setModalStatus] = useRecoilState(obtainModalStatus);

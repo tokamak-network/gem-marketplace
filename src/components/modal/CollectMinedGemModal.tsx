@@ -24,7 +24,7 @@ import GemShape from "../common/GemShape";
 const CollectMinedGemModal = () => {
   const [modalStatus, setModalStatus] = useRecoilState(miningResultStatus);
   const gemItem = GemList.filter(
-    (item: GemStandard) => item.id === modalStatus.minedGemId
+    (item: GemStandard) => Number(item.tokenID) === Number(modalStatus.minedGemId)
   );
   const theme = useTheme();
 
@@ -59,7 +59,7 @@ const CollectMinedGemModal = () => {
             </Text>
 
             <Center mt={8}>
-              <GemShape quadrants={gemItem[0]?.quadrants} gemColor={gemItem[0]?.gemColor}/>
+              <GemShape quadrants={gemItem[0]?.quadrants} gemColor={gemItem[0]?.color}/>
             </Center>
 
             <Text

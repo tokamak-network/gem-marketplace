@@ -29,7 +29,7 @@ const ObtainSuccessModal = () => {
     setModalStatus({ isOpen: false });
   };
   const gemItem = GemList.filter(
-    (item: GemStandard) => item.id === modalStatus.gemId
+    (item: GemStandard) => Number(item.tokenID) === Number(modalStatus.gemId)
   );
 
   return (

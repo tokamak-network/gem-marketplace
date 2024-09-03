@@ -184,7 +184,7 @@ const GemCard = ({
           ...{ [gemInfo.rarity.toLocaleLowerCase()]: true },
         }));
       } else {
-        let filterList = selectedGemsList.filter((item) => item.tokenID === tokenID);
+        let filterList = selectedGemsList.filter((item) => Number(item.tokenID) === Number(tokenID));
 
         if (filterList.length > 0) {
           if (selectedGemsList.length === 1) {
@@ -194,7 +194,7 @@ const GemCard = ({
             });
             return;
           }
-          let resultList = selectedGemsList.filter((item) => item.tokenID !== tokenID);
+          let resultList = selectedGemsList.filter((item) => Number(item.tokenID) !== Number(tokenID));
           setSelectedGemsInfo((prev) => ({
             selectedRarity: gemInfo.rarity,
             selectedGemsList: [...resultList],
@@ -246,7 +246,7 @@ const GemCard = ({
   // }, [firstSelectedGem, secondSelectedGem]);
 
   const isForgeSelected = useMemo(() => {
-    const selected = selectedGemsList.filter((item) => item.tokenID === tokenID);
+    const selected = selectedGemsList.filter((item) => Number(item.tokenID) === Number(tokenID));
     return selected.length > 0 ? true : false;
   }, [selectedGemsList, selectedRarity]);
 
