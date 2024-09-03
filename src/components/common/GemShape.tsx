@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import mergeImages from "merge-images";
 import { PieceDir, PieceInfo, GradientType } from "@/types";
-
+import { colorList } from "@/constants/rarity";
 interface GemProps {
   quadrants: number[];
-  gemColor?: string[];
+  gemColor?: number[];
   gradient?: GradientType;
   width?: number;
   height?: number;
@@ -15,7 +15,7 @@ interface GemProps {
 
 const GemShape = ({
   quadrants,
-  gemColor = ["#0000FF"],
+  gemColor = [0],
   width = 120,
   height = 120,
   isOnlyFrame = false,
@@ -95,8 +95,10 @@ const GemShape = ({
             maskImage: `url("${bgGemShape}")`,
             background:
               gemColor.length === 1
-                ? gemColor[0]
-                : `linear-gradient(${gemColor[0]}, ${gemColor[1]})`,
+                ? colorList[Object.keys(colorList)[gemColor[0]]]
+                : `linear-gradient(${
+                    colorList[Object.keys(colorList)[gemColor[0]]]
+                  }, ${colorList[Object.keys(colorList)[gemColor[1]]]})`,
             maskSize: "100% 100%",
           }}
           pos={"absolute"}

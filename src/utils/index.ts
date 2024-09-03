@@ -13,9 +13,9 @@ export function trimAddress(args: {
   return `${firstChatAt}${dots ?? "..."}${lastCharAt}`;
 }
 
-export function forgeGemsColor(gem1: string[], gem2: string[]) {
+export function forgeGemsColor(gem1: number[], gem2: number[]) {
   // Helper function to check if an array contains an element
-  function contains(array: string[], element: string) {
+  function contains(array: number[], element: number) {
       return array.indexOf(element) !== -1;
   }
 

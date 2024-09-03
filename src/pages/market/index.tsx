@@ -16,6 +16,7 @@ import GemItemView from "@/components/common/GemItemView";
 import GEM from "@/assets/images/sample_gem.png";
 import PumpkinGem from "@/assets/images/pumpkingem.png";
 import Link from "next/link";
+import { useFilteredList } from "@/hooks/useFilteredList";
 
 const MarketPage = () => {
   const theme = useTheme();
@@ -23,7 +24,8 @@ const MarketPage = () => {
     useRecoilState(gemPackModalStatus);
   const searchParams = useSearchParams();
   const search = searchParams.get("asset");
-  const { activeRarityList } = useRecoilValue(activeRarityListSelector);
+
+  const {activeGemList} = useFilteredList();
 
   return search ? (
     <GemItemView id={Number(search)} mode="market" />
@@ -115,7 +117,7 @@ const MarketPage = () => {
       </Flex>
 
       <Flex mt={4} gap={4} flexWrap={"wrap"}>
-        {activeRarityList.map((item, key) => {
+        {activeGemList?.map((item: any, key: number) => {
           return (
             <GemCard
               key={key}

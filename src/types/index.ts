@@ -6,7 +6,6 @@ export enum PieceDir {
 }
 
 export enum RarityType {
-  BASE = "BASE",
   COMMON = "COMMON",
   RARE = "RARE",
   UNIQUE = "UNIQUE",
@@ -29,7 +28,7 @@ export type GradientType = "solid" | "linear" | "gradient";
 export type GemStandard = {
   id: number;
   quadrants: number[];
-  gemColor: string[];
+  color: number[];
   lastMineTime: number;
   rarity: RarityType;
   isMining?: boolean | null;

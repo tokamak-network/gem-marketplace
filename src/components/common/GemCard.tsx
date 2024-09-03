@@ -32,6 +32,7 @@ import HighArrow from "@/assets/icon/higharrow.svg";
 import SavedIcon from "./SavedIcon";
 import InfoIcon from "@/assets/icon/info.svg";
 import MineProbability from "../tooltipLabel/MineProbability";
+import { rarityList } from "@/constants/rarity";
 
 interface GemCardType {
   width?: number;
@@ -43,7 +44,7 @@ interface GemCardType {
   dailyChange: number;
   mode?: CardType;
   gemInfo: GemStandard;
-  customGemColor?: string[];
+  customGemColor?: number[];
 }
 
 const GemCard = ({
@@ -78,7 +79,7 @@ const GemCard = ({
   const theme = useTheme();
   const router = useRouter();
 
-  const { id, lastMineTime, gemColor, rarity, isMining, quadrants } = gemInfo;
+  const { id, lastMineTime, color, rarity, isMining, quadrants } = gemInfo;
 
   useEffect(() => {
     const currentTimestamp = Date.now();
@@ -162,11 +163,11 @@ const GemCard = ({
     if (mode === "forge") {
       setSelectedGemsInfo((prev) => ({
         ...prev,
-        selectedRarity: gemInfo.rarity,
+        selectedRarity: rarity,
       }));
       if (selectedGemsList.length === 0) {
         setSelectedGemsInfo({
-          selectedRarity: gemInfo.rarity,
+          selectedRarity: rarity,
           selectedGemsList: [gemInfo],
         });
         setRarityState(() => ({
@@ -224,7 +225,7 @@ const GemCard = ({
     } else if (mode === "chest") {
       router.push(`/chest?asset=${gemInfo.id}`);
     } else if (mode === "forgeFinal") {
-      setFinalForgeGem({color: [...gemColor]});
+      setFinalForgeGem({color: [...color]});
     }
   }, [selectedGemsList, selectedRarity, selectedGemsInfo, gemInfo]);
 
@@ -250,8 +251,8 @@ const GemCard = ({
   }, [selectedGemsList, selectedRarity]);
 
   const isFinalForgeItemSelected = useMemo(() => {
-    return gemColor.toString() === finalForgeItem.color.toString()
-  }, [finalForgeItem, gemColor])
+    return color === finalForgeItem.color
+  }, [finalForgeItem, color])
 
   return (
     <Box
@@ -383,7 +384,7 @@ const GemCard = ({
             <GemShape
               gradient="linear"
               quadrants={quadrants}
-              gemColor={customGemColor ? customGemColor : gemColor}
+              gemColor={customGemColor ? customGemColor : color}
               width={gemWidth}
               height={gemHeight}
             />
@@ -464,7 +465,7 @@ const GemCard = ({
                       fontWeight={600}
                       textTransform={"capitalize"}
                     >
-                      {rarity.toLowerCase()} {rarityScore}%
+                      {rarityList[Number(rarity)]} {rarityScore}%
                     </Text>
                     <Flex columnGap={1} align={"center"}>
                       <Text fontSize={10} fontWeight={400} opacity={0.5}>
