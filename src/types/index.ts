@@ -26,12 +26,13 @@ export type PieceInfo = {
 export type GradientType = "solid" | "linear" | "gradient";
 
 export type GemStandard = {
-  id: number;
+  tokenID: number;
   quadrants: number[];
   color: number[];
   lastMineTime: number;
   rarity: RarityType;
   isMining?: boolean | null;
+  value?: number;
 };
 
 export type ActivityFilterType = "all" | "mine" | "forge" | "buysell";

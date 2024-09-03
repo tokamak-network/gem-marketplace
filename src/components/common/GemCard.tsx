@@ -79,7 +79,7 @@ const GemCard = ({
   const theme = useTheme();
   const router = useRouter();
 
-  const { id, lastMineTime, color, rarity, isMining, quadrants } = gemInfo;
+  const { tokenID, lastMineTime, color, rarity, isMining, quadrants } = gemInfo;
 
   useEffect(() => {
     const currentTimestamp = Date.now();
@@ -184,7 +184,7 @@ const GemCard = ({
           ...{ [gemInfo.rarity.toLocaleLowerCase()]: true },
         }));
       } else {
-        let filterList = selectedGemsList.filter((item) => item.id === id);
+        let filterList = selectedGemsList.filter((item) => item.tokenID === tokenID);
 
         if (filterList.length > 0) {
           if (selectedGemsList.length === 1) {
@@ -194,7 +194,7 @@ const GemCard = ({
             });
             return;
           }
-          let resultList = selectedGemsList.filter((item) => item.id !== id);
+          let resultList = selectedGemsList.filter((item) => item.tokenID !== tokenID);
           setSelectedGemsInfo((prev) => ({
             selectedRarity: gemInfo.rarity,
             selectedGemsList: [...resultList],
@@ -221,9 +221,9 @@ const GemCard = ({
         }
       }
     } else if (mode === "market") {
-      router.push(`/market?asset=${gemInfo.id}`);
+      router.push(`/market?asset=${gemInfo.tokenID}`);
     } else if (mode === "chest") {
-      router.push(`/chest?asset=${gemInfo.id}`);
+      router.push(`/chest?asset=${gemInfo.tokenID}`);
     } else if (mode === "forgeFinal") {
       setFinalForgeGem({color: [...color]});
     }
@@ -246,7 +246,7 @@ const GemCard = ({
   // }, [firstSelectedGem, secondSelectedGem]);
 
   const isForgeSelected = useMemo(() => {
-    const selected = selectedGemsList.filter((item) => item.id === id);
+    const selected = selectedGemsList.filter((item) => item.tokenID === tokenID);
     return selected.length > 0 ? true : false;
   }, [selectedGemsList, selectedRarity]);
 
@@ -441,7 +441,7 @@ const GemCard = ({
                   p={"20px"}
                   columnGap={"6px"}
                   onClick={() => {
-                    setCollectGemStatus({ isOpen: true, minedGemId: id });
+                    setCollectGemStatus({ isOpen: true, minedGemId: tokenID });
                   }}
                 >
                   <Text fontSize={18}>Collect Gem</Text>

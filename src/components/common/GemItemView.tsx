@@ -3,7 +3,6 @@ import { useAccount } from "wagmi";
 import { Box, Button, Center, Flex, Text, useTheme } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 
-import { GemList } from "@/constants";
 import { CardType, GemStandard } from "@/types";
 import GemCard from "@/components/common/GemCard";
 import { RarityItem } from "@/components/common/RarityList";
@@ -23,6 +22,9 @@ import MiningIcon from "@/assets/icon/mine.svg";
 import forgeIcon from "@/assets/icon/forge.svg";
 import SavedIcon from "./SavedIcon";
 import ShareIcon from "@/assets/icon/share.svg";
+import { useGetMargetGems } from "@/hooks/useGetMargetGems";
+import { rarityList } from "@/constants/rarity";
+import { useMemo } from "react";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -34,13 +36,22 @@ interface ItemProps {
 }
 
 const GemItemView = ({ id, mode }: ItemProps) => {
-  const gemItem = GemList.filter((item: GemStandard) => item.id === id);
+  const gemList = useGetMargetGems();
   const { connectToWallet } = useConnectWallet();
   const { isConnected, address, chain } = useAccount();
   const [, setModalStatus] = useRecoilState(obtainModalStatus);
   const [, setSellGemModalStatus] = useRecoilState(sellGemModalStatus);
   const [, burnSellGemModalStatus] = useRecoilState(burnGemModalStatus);
 
+  const gemItem = useMemo(
+    () =>
+      gemList?.filter(
+        (item: GemStandard) => Number(item.tokenID) === Number(id)
+      ),
+    [gemList]
+  );
+
+  console.log(gemList);
   const handleClick = () => {
     isConnected
       ? setModalStatus({ isOpen: true, gemId: id })
@@ -119,16 +130,16 @@ const GemItemView = ({ id, mode }: ItemProps) => {
         <Flex w={"full"} flexDir={"column"}>
           <Flex justify={"space-between"}>
             <Text fontWeight={700} fontSize={48} textTransform="capitalize">
-              {gemItem[0].rarity} Gem #{gemItem[0].id}
+              {rarityList[gemItem[0]?.rarity]} Gem #{gemItem[0]?.tokenID}
             </Text>
 
             <Flex columnGap={2}>
               <Center w={8} h={8} rounded={"8px"} bgColor={"#2A2C3A"}>
-                <SavedIcon width={16} height={16} isFill={false}/>
+                <SavedIcon width={16} height={16} isFill={false} />
               </Center>
 
               <Center w={8} h={8} rounded={"8px"} bgColor={"#2A2C3A"}>
-                <Image alt="share" src={ShareIcon} width={16} height={16}/>
+                <Image alt="share" src={ShareIcon} width={16} height={16} />
               </Center>
             </Flex>
           </Flex>
@@ -147,7 +158,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               </Flex>
 
               <Box ml={"12px"}>
-                <RarityItem active rarity={gemItem[0].rarity} />
+                <RarityItem active rarity={rarityList[gemItem[0]?.rarity]} />
               </Box>
             </Flex>
 

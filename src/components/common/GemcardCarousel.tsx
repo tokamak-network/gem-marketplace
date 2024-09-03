@@ -53,9 +53,9 @@ const GemcardCarousel = () => {
               mode="forgeFinal"
               key={key}
               gemInfo={{
-                id: -1,
+                tokenID: -1,
                 quadrants: forgeResultQuadrant,
-                gemColor: item,
+                color: item,
                 lastMineTime: 0,
                 rarity: forgedRarity,
               }}
