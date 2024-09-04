@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useMemo } from "react";
 import { useAccount } from "wagmi";
 import { Box, Button, Center, Flex, Text, useTheme } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
@@ -24,7 +25,7 @@ import SavedIcon from "./SavedIcon";
 import ShareIcon from "@/assets/icon/share.svg";
 import { useGetMargetGems } from "@/hooks/useGetMargetGems";
 import { rarityList } from "@/constants/rarity";
-import { useMemo } from "react";
+import { useBuyGem } from "@/hooks/useBuyGem";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -42,6 +43,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const [, setModalStatus] = useRecoilState(obtainModalStatus);
   const [, setSellGemModalStatus] = useRecoilState(sellGemModalStatus);
   const [, burnSellGemModalStatus] = useRecoilState(burnGemModalStatus);
+  const { callBuyGem, isPending, isSuccess } = useBuyGem({ tokenID: id, payWithWSTON: false });
 
   const gemItem = useMemo(
     () =>
@@ -51,11 +53,9 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     [gemList]
   );
 
-  console.log(gemList);
   const handleClick = () => {
-    isConnected
-      ? setModalStatus({ isOpen: true, gemId: id })
-      : connectToWallet();
+    !isConnected && connectToWallet();
+    callBuyGem();
   };
   const theme = useTheme();
 

@@ -21,14 +21,16 @@ import GemIcon from "@/assets/icon/mine.svg";
 import GemCard from "../common/GemCard";
 import { GemList } from "@/constants";
 import { GemStandard } from "@/types";
+import { useGetMargetGems } from "@/hooks/useGetMargetGems";
 
 const ObtainSuccessModal = () => {
   const router = useRouter();
   const [modalStatus, setModalStatus] = useRecoilState(obtainModalStatus);
+  const gemList = useGetMargetGems();
   const handleClose = () => {
     setModalStatus({ isOpen: false });
   };
-  const gemItem = GemList.filter(
+  const gemItem = gemList.filter(
     (item: GemStandard) => Number(item.tokenID) === Number(modalStatus.gemId)
   );
 

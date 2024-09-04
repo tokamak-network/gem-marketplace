@@ -465,7 +465,7 @@ const GemCard = ({
                       fontWeight={600}
                       textTransform={"capitalize"}
                     >
-                      {rarityList[Number(rarity)]} {rarityScore}%
+                      {rarityList[Number(rarity)]} #{tokenID}
                     </Text>
                     <Flex columnGap={1} align={"center"}>
                       <Text fontSize={10} fontWeight={400} opacity={0.5}>

@@ -14,7 +14,7 @@ export default function useConnectWallet() {
 
   const disconnectToWallet = () => {
     disconnect();
-  };
+  };  
 
   const connetAndDisconntWallet = () => {
     isConnected ? disconnect() : connectToWallet();

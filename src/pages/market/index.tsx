@@ -26,7 +26,6 @@ const MarketPage = () => {
   const search = searchParams.get("asset");
 
   const {activeGemList} = useFilteredList();
-
   return search ? (
     <GemItemView id={Number(search)} mode="market" />
   ) : (
