@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useWriteContract } from "wagmi";
-import { abi } from "@/abi/marketplace.json";
+import MarketplaceABI from "@/abi/marketplace.json";
 import { useAccount } from "wagmi";
 
 export const useBuyGem = ({
@@ -15,7 +15,7 @@ export const useBuyGem = ({
 
   const callBuyGem = useCallback(() => {
     writeContract({
-      abi,
+      abi: MarketplaceABI,
       address: address as `0x${string}`,
       functionName: "buyGem",
       args: [tokenID, payWithWSTON],

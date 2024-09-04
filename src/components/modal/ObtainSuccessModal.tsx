@@ -19,9 +19,9 @@ import { obtainModalStatus } from "@/recoil/market/atom";
 import ForgeIcon from "@/assets/icon/forge.svg";
 import GemIcon from "@/assets/icon/mine.svg";
 import GemCard from "../common/GemCard";
-import { GemList } from "@/constants";
 import { GemStandard } from "@/types";
 import { useGetMargetGems } from "@/hooks/useGetMargetGems";
+import { useMemo } from "react";
 
 const ObtainSuccessModal = () => {
   const router = useRouter();
@@ -30,8 +30,12 @@ const ObtainSuccessModal = () => {
   const handleClose = () => {
     setModalStatus({ isOpen: false });
   };
-  const gemItem = gemList.filter(
-    (item: GemStandard) => Number(item.tokenID) === Number(modalStatus.gemId)
+  const gemItem = useMemo(
+    () =>
+      gemList?.filter(
+        (item: GemStandard) => Number(item.tokenID) === Number(modalStatus.gemId)
+      ),
+    [gemList]
   );
 
   return (
@@ -52,7 +56,7 @@ const ObtainSuccessModal = () => {
               height={581}
               staked={128.2907}
               rarityScore={10}
-              gemInfo={gemItem[0]}
+              gemInfo={gemItem && gemItem[0]}
               dailyChange={16.7}
               gemWidth={316}
               gemHeight={316}

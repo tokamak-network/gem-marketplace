@@ -1,7 +1,15 @@
 import Image from "next/image";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useAccount } from "wagmi";
-import { Box, Button, Center, Flex, Text, useTheme } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Text,
+  useTheme,
+  Spinner,
+} from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 
 import { CardType, GemStandard } from "@/types";
@@ -10,11 +18,13 @@ import { RarityItem } from "@/components/common/RarityList";
 import { ColorItem } from "@/components/common/ColorList";
 import { obtainModalStatus } from "@/recoil/market/atom";
 import { useRecoilState } from "recoil";
+
 import { sellGemModalStatus, burnGemModalStatus } from "@/recoil/chest/atom";
 
 import useConnectWallet from "@/hooks/account/useConnectWallet";
 
 import TonIcon from "@/assets/icon/ton.svg";
+import WSTONIcon from "@/assets/icon/wswton.svg";
 import WalletIcon from "@/assets/icon/wallet.svg";
 import StarIcon from "@/assets/icon/star.svg";
 import ColorIcon from "@/assets/icon/color.svg";
@@ -27,9 +37,9 @@ import { useGetMargetGems } from "@/hooks/useGetMargetGems";
 import { rarityList } from "@/constants/rarity";
 import { useBuyGem } from "@/hooks/useBuyGem";
 
-const ReactApexChart = dynamic(() => import("react-apexcharts"), {
-  ssr: false,
-});
+// const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+//   ssr: false,
+// });
 
 interface ItemProps {
   id: number;
@@ -43,7 +53,11 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const [, setModalStatus] = useRecoilState(obtainModalStatus);
   const [, setSellGemModalStatus] = useRecoilState(sellGemModalStatus);
   const [, burnSellGemModalStatus] = useRecoilState(burnGemModalStatus);
-  const { callBuyGem, isPending, isSuccess } = useBuyGem({ tokenID: id, payWithWSTON: false });
+  const [payOption, setPayOption] = useState(false);
+  const { callBuyGem, isPending, isSuccess } = useBuyGem({
+    tokenID: id,
+    payWithWSTON: payOption,
+  });
 
   const gemItem = useMemo(
     () =>
@@ -268,26 +282,99 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               <Text pb={"6px"} fontSize={14} lineHeight={"30px"} opacity={0.5}>
                 BUY GEM WITH:
               </Text>
-              <Button
-                w={"full"}
-                maxW={624}
-                h={"65px"}
-                columnGap={2}
-                alignItems={"center"}
-                justifyContent={"center"}
-                colorScheme="blue"
-                bgColor={"#0380FF"}
-                onClick={handleClick}
-              >
-                {isConnected ? (
-                  <Image alt="ton" src={TonIcon} width={27} height={27} />
-                ) : (
-                  <Image alt="wallet" src={WalletIcon} width={22} height={23} />
-                )}
-                <Text fontSize={24} fontWeight={600}>
-                  {isConnected ? "135 TON" : "Connect Wallet"}
-                </Text>
-              </Button>
+              <Center columnGap={"10px"}>
+                <Button
+                  w={"full"}
+                  maxW={624}
+                  h={"65px"}
+                  columnGap={2}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  colorScheme="blue"
+                  bgColor={"#0380FF"}
+                  onClick={() => {
+                    handleClick();
+                    setPayOption(true);
+                  }}
+                  isDisabled={isPending}
+                >
+                  {!isPending &&
+                    (isConnected ? (
+                      <Image alt="ton" src={WSTONIcon} width={27} height={27} />
+                    ) : (
+                      <Image
+                        alt="wallet"
+                        src={WalletIcon}
+                        width={22}
+                        height={23}
+                      />
+                    ))}
+                  <Text fontSize={24} fontWeight={600}>
+                    {isConnected ? (
+                      isPending ? (
+                        <Spinner
+                          thickness="4px"
+                          speed="0.65s"
+                          emptyColor="gray.200"
+                          color="blue.500"
+                          size="md"
+                        />
+                      ) : (
+                        "135 TITANWSTON"
+                      )
+                    ) : (
+                      "Connect Wallet"
+                    )}
+                  </Text>
+                </Button>
+
+                <Text fontSize={14}>or</Text>
+
+                <Button
+                  w={"full"}
+                  maxW={624}
+                  h={"65px"}
+                  columnGap={2}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  colorScheme="blue"
+                  bgColor={"#0380FF"}
+                  onClick={() => {
+                    handleClick();
+                    setPayOption(false);
+                  }}
+                  isDisabled={isPending}
+                >
+                  {!isPending &&
+                    (isConnected ? (
+                      <Image alt="ton" src={TonIcon} width={27} height={27} />
+                    ) : (
+                      <Image
+                        alt="wallet"
+                        src={WalletIcon}
+                        width={22}
+                        height={23}
+                      />
+                    ))}
+                  <Text fontSize={24} fontWeight={600}>
+                    {isConnected ? (
+                      isPending ? (
+                        <Spinner
+                          thickness="4px"
+                          speed="0.65s"
+                          emptyColor="gray.200"
+                          color="blue.500"
+                          size="md"
+                        />
+                      ) : (
+                        "135 TON"
+                      )
+                    ) : (
+                      "Connect Wallet"
+                    )}
+                  </Text>
+                </Button>
+              </Center>
             </Box>
           ) : mode === "chest" ? (
             <Flex w={"100%"} columnGap={6}>
