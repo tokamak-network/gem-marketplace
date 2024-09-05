@@ -1,6 +1,5 @@
 import { useRecoilState } from "recoil";
 import { rarityStatus } from "@/recoil/market/atom";
-import { useGetMargetGems } from "./useGetMargetGems";
 import { rarityList } from "@/constants/rarity";
 import { useMemo } from "react";
 import { GemStandard } from "@/types";

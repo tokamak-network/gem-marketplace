@@ -33,11 +33,11 @@ export const COOLDOWN = 60 * 60 * 24;
 export const tokenList = [
   {
     symbol: "TON",
-    address: [],
+    address: TON_ADDRESS_BY_CHAINID,
     icon: TON
   },
   {
-    symbol: "WSWTON",
+    symbol: "WSTON",
     address: WSWTON_ADDRESS_BY_CHAINID,
     icon: Thanos
   },

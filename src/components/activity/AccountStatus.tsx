@@ -12,9 +12,8 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { useState } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useSwitchChain, useChainId } from "wagmi";
 import { useRecoilState } from "recoil";
-import { useSwitchChain } from "wagmi";
 import useConnectWallet from "@/hooks/account/useConnectWallet";
 import { activityContainerStatus } from "@/recoil/activity/atom";
 import { trimAddress } from "@/utils";
@@ -24,8 +23,12 @@ import LogoutIcon from "@/assets/icon/logout.svg";
 import { newtorkList } from "@/constants/networks";
 
 import ClipboardIcon from "@/assets/icon/clipboard.svg";
-// import UserGuideIcon from "@/assets/icon/userguide.svg";
 import { tokenList } from "@/constants";
+import { useTokenBalance } from "@/hooks/useTokenBalance";
+import {
+  TON_ADDRESS_BY_CHAINID,
+  WSWTON_ADDRESS_BY_CHAINID,
+} from "@/constants/tokens";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
@@ -34,6 +37,13 @@ const AccountStatus = () => {
   const toast = useToast();
   const { switchChainAsync } = useSwitchChain();
   const [isNetworkMenuOpen, setNetworkMenuOpen] = useState<boolean>(false);
+
+  const TONBalance = useTokenBalance({
+    tokenAddress: TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
+  });
+  const WSTONBalance = useTokenBalance({
+    tokenAddress: WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
+  });
 
   const handleClipboard = () => {
     copy(address !== undefined ? address : "");
@@ -146,8 +156,16 @@ const AccountStatus = () => {
           </Center>
 
           <Flex flexDir={"column"} align={"end"}>
-            <Text fontWeight={600} fontSize={16}>2000.00</Text>
-            <Text color={"#5D6978"} fontSize={12}>2433.57</Text>
+            <Text fontWeight={600} fontSize={16}>
+              {item.symbol === "TON"
+                ? TONBalance?.parsedBalance
+                : item.symbol === "WSTON"
+                ? WSTONBalance?.parsedBalance
+                : ""}
+            </Text>
+            <Text color={"#5D6978"} fontSize={12}>
+              2433.57
+            </Text>
           </Flex>
         </Flex>
       ))}
