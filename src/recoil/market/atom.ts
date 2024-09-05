@@ -16,7 +16,6 @@ type RarityStatusType = {
 export const rarityStatus = atom<RarityStatusType>({
   key: "rarityStatus",
   default: {
-    base: false,
     common: false,
     rare: false,
     unique: false,
