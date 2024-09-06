@@ -14,8 +14,6 @@ export const useTokenBalance = ({
     token: tokenAddress,
   });
 
-  console.log(data);
-
   return useMemo(() => {
     if(data) {
       return {

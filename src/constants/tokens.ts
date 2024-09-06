@@ -9,6 +9,14 @@ export const TON_ADDRESS_BY_CHAINID: Record<number, string> = {
 
 export const WSWTON_ADDRESS_BY_CHAINID:Record<number, string> = {
   [SupportedChainId.MAINNET]: "",
-  [SupportedChainId.TITAN_SEPOLIA]: "0x256Cf034962292C111436F43e5d92a9EC24dcD3C",
+  [SupportedChainId.TITAN_SEPOLIA]: TITAN_SEPOLIA_CONTRACTS.WSTON_ADDRESS,
   [SupportedChainId.THANOS_SEPOLIA]: ""
+}
+
+export const FACTORY_ADDRESS:Record<number, string> = {
+  [SupportedChainId.TITAN_SEPOLIA] : TITAN_SEPOLIA_CONTRACTS.GEMFACTORY,
+}
+
+export const MARKETPLACE_ADDRESS:Record<number, string> = {
+  [SupportedChainId.TITAN_SEPOLIA] : TITAN_SEPOLIA_CONTRACTS.MARKETPLACE,
 }
