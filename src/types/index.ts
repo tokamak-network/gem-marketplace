@@ -32,7 +32,7 @@ export type GemStandard = {
   lastMineTime: number;
   rarity: RarityType;
   isMining?: boolean | null;
-  value?: number;
+  value?: bigint;
 };
 
 export type ActivityFilterType = "all" | "mine" | "forge" | "buysell";

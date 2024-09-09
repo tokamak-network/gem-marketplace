@@ -173,7 +173,7 @@ export const useWriteErc20 = /*#__PURE__*/ createUseWriteContract({
 })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"`approve`"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"approve"`
  */
 export const useWriteErc20Approve = /*#__PURE__*/ createUseWriteContract({
   abi: erc20Abi,

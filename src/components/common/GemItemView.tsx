@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useAccount } from "wagmi";
 import {
   Box,
@@ -36,6 +36,14 @@ import ShareIcon from "@/assets/icon/share.svg";
 import { useGetMargetGems } from "@/hooks/useGetMargetGems";
 import { rarityList } from "@/constants/rarity";
 import { useBuyGem } from "@/hooks/useBuyGem";
+import {
+  TON_ADDRESS_BY_CHAINID,
+  WSWTON_ADDRESS_BY_CHAINID,
+} from "@/constants/tokens";
+import { useTonORWSTONApprove } from "@/hooks/useApprove";
+import { formatUnits } from "viem";
+import { useApproval } from "@/hooks/useApproval";
+import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 
 // const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 //   ssr: false,
@@ -54,12 +62,23 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const [, setSellGemModalStatus] = useRecoilState(sellGemModalStatus);
   const [, burnSellGemModalStatus] = useRecoilState(burnGemModalStatus);
   const [payOption, setPayOption] = useState(false);
-  const { callBuyGem, isPending, isSuccess } = useBuyGem({
+  const { callBuyGem, isPending, isSuccess, error } = useBuyGem({
     tokenID: id,
     payWithWSTON: payOption,
   });
+  const { waitForTransactionReceipt } = useWaitForTransaction();
 
-  const gemItem = useMemo(
+  const contract_address = useMemo(
+    () =>
+      payOption
+        ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
+        : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
+    [payOption]
+  );
+
+  const decimals = useMemo(() => (payOption ? 27 : 18), [payOption]);
+
+  const gemItem: GemStandard[] = useMemo(
     () =>
       gemList?.filter(
         (item: GemStandard) => Number(item.tokenID) === Number(id)
@@ -67,10 +86,25 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     [gemList]
   );
 
-  const handleClick = () => {
+  const allowance = useApproval(contract_address, decimals);
+
+  const {
+    callApprove,
+    isSuccess: approveSuccess,
+    isPending: isPendingApproval,
+  } = useTonORWSTONApprove(
+    payOption ? gemItem[0]?.value! : BigInt(formatUnits(gemItem[0]?.value!, 9)),
+    contract_address
+  );
+
+  const handleClick = useCallback(async () => {
     !isConnected && connectToWallet();
-    callBuyGem();
-  };
+
+    const txHash = await callApprove();
+    await waitForTransactionReceipt(txHash);
+    await callBuyGem();
+  }, [approveSuccess, payOption]);
+
   const theme = useTheme();
 
   const series = [
@@ -144,7 +178,8 @@ const GemItemView = ({ id, mode }: ItemProps) => {
         <Flex w={"full"} flexDir={"column"}>
           <Flex justify={"space-between"}>
             <Text fontWeight={700} fontSize={48} textTransform="capitalize">
-              {rarityList[gemItem[0]?.rarity]} Gem #{gemItem[0]?.tokenID}
+              {rarityList[Number(gemItem[0]?.rarity)]} Gem #
+              {gemItem[0]?.tokenID}
             </Text>
 
             <Flex columnGap={2}>
@@ -172,7 +207,10 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               </Flex>
 
               <Box ml={"12px"}>
-                <RarityItem active rarity={rarityList[gemItem[0]?.rarity]} />
+                <RarityItem
+                  active
+                  rarity={rarityList[Number(gemItem[0]?.rarity)]}
+                />
               </Box>
             </Flex>
 
@@ -293,10 +331,10 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   colorScheme="blue"
                   bgColor={"#0380FF"}
                   onClick={() => {
-                    handleClick();
                     setPayOption(true);
+                    handleClick();
                   }}
-                  isDisabled={isPending}
+                  isDisabled={isPending || isPendingApproval}
                 >
                   {!isPending &&
                     (isConnected ? (
@@ -311,7 +349,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     ))}
                   <Text fontSize={24} fontWeight={600}>
                     {isConnected ? (
-                      isPending ? (
+                      isPending || isPendingApproval ? (
                         <Spinner
                           thickness="4px"
                           speed="0.65s"
@@ -340,10 +378,10 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   colorScheme="blue"
                   bgColor={"#0380FF"}
                   onClick={() => {
-                    handleClick();
                     setPayOption(false);
+                    handleClick();
                   }}
-                  isDisabled={isPending}
+                  isDisabled={isPending || isPendingApproval}
                 >
                   {!isPending &&
                     (isConnected ? (
@@ -358,7 +396,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     ))}
                   <Text fontSize={24} fontWeight={600}>
                     {isConnected ? (
-                      isPending ? (
+                      isPending || isPendingApproval ? (
                         <Spinner
                           thickness="4px"
                           speed="0.65s"

@@ -1,3 +1,5 @@
+import { formatUnits } from "viem";
+
 export function trimAddress(args: {
   address: string | `0x${string}` | undefined;
   firstChar?: number;
@@ -65,3 +67,8 @@ export function forgeGemsColor(gem1: number[], gem2: number[]) {
       }
   }
 }
+
+export function bnToNumber(value: bigint, decimals: number = 18) {
+    if (!value) return '0';
+    return formatUnits(value, decimals);
+  }

@@ -11,11 +11,11 @@ export const useBuyGem = ({
   tokenID: number;
   payWithWSTON: boolean;
 }) => {
-  const { writeContract, isError, isPending, isSuccess, error } = useWriteContract();
+  const { writeContractAsync, isError, isPending, isSuccess, error } = useWriteContract();
   const { chain } = useAccount();
 
-  const callBuyGem = useCallback(() => {
-    writeContract({
+  const callBuyGem = useCallback(async () => {
+    await writeContractAsync({
       abi: MarketplaceABI,
       address: MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
       functionName: "buyGem",
