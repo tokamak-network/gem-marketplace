@@ -33,3 +33,10 @@ export const GET_USER_GEMS = gql`
     }
   }
 `
+export const GET_MARKET_PRICE = gql`
+  query GetTokenMarketData($tokenName: String!) @api(contextKey: "apiName") {
+    getTokenMarketData(tokenName: $tokenName) {
+      current_price
+    }
+  }
+`;

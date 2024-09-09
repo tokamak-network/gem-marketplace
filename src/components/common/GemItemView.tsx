@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { useCallback, useMemo, useState } from "react";
-import { useAccount } from "wagmi";
+import { useCallback, useMemo } from "react";
+import { useAccount, useBalance } from "wagmi";
 import {
   Box,
   Button,
@@ -10,7 +10,7 @@ import {
   useTheme,
   Spinner,
 } from "@chakra-ui/react";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 
 import { CardType, GemStandard } from "@/types";
 import GemCard from "@/components/common/GemCard";
@@ -61,12 +61,33 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const [, setModalStatus] = useRecoilState(obtainModalStatus);
   const [, setSellGemModalStatus] = useRecoilState(sellGemModalStatus);
   const [, burnSellGemModalStatus] = useRecoilState(burnGemModalStatus);
-  const [payOption, setPayOption] = useState(false);
+
+  const { waitForTransactionReceipt } = useWaitForTransaction();
+
+  const gemItem: GemStandard[] = useMemo(
+    () =>
+      gemList?.filter(
+        (item: GemStandard) => Number(item.tokenID) === Number(id)
+      ),
+    [gemList]
+  );
+  const WSTONBalance = useBalance({
+    address: address,
+    token: WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
+  });
+
+  const payOption = useMemo(
+    () =>
+      Number(formatUnits(WSTONBalance?.data?.value! ?? "0", 27)) >
+      Number(formatUnits(gemItem[0].value!, 27)),
+
+    [WSTONBalance, gemItem]
+  );
+
   const { callBuyGem, isPending, isSuccess, error } = useBuyGem({
     tokenID: id,
     payWithWSTON: payOption,
   });
-  const { waitForTransactionReceipt } = useWaitForTransaction();
 
   const contract_address = useMemo(
     () =>
@@ -77,14 +98,6 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   );
 
   const decimals = useMemo(() => (payOption ? 27 : 18), [payOption]);
-
-  const gemItem: GemStandard[] = useMemo(
-    () =>
-      gemList?.filter(
-        (item: GemStandard) => Number(item.tokenID) === Number(id)
-      ),
-    [gemList]
-  );
 
   const allowance = useApproval(contract_address, decimals);
 
@@ -321,97 +334,100 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                 BUY GEM WITH:
               </Text>
               <Center columnGap={"10px"}>
-                <Button
-                  w={"full"}
-                  maxW={624}
-                  h={"65px"}
-                  columnGap={2}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  colorScheme="blue"
-                  bgColor={"#0380FF"}
-                  onClick={() => {
-                    setPayOption(true);
-                    handleClick();
-                  }}
-                  isDisabled={isPending || isPendingApproval}
-                >
-                  {!isPending &&
-                    (isConnected ? (
-                      <Image alt="ton" src={WSTONIcon} width={27} height={27} />
-                    ) : (
-                      <Image
-                        alt="wallet"
-                        src={WalletIcon}
-                        width={22}
-                        height={23}
-                      />
-                    ))}
-                  <Text fontSize={24} fontWeight={600}>
-                    {isConnected ? (
-                      isPending || isPendingApproval ? (
-                        <Spinner
-                          thickness="4px"
-                          speed="0.65s"
-                          emptyColor="gray.200"
-                          color="blue.500"
-                          size="md"
+                {payOption ? (
+                  <Button
+                    w={"full"}
+                    maxW={624}
+                    h={"65px"}
+                    columnGap={2}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    colorScheme="blue"
+                    bgColor={"#0380FF"}
+                    onClick={() => {
+                      handleClick();
+                    }}
+                    isDisabled={isPending || isPendingApproval}
+                  >
+                    {!isPending && !isPendingApproval &&
+                      (isConnected ? (
+                        <Image
+                          alt="ton"
+                          src={WSTONIcon}
+                          width={27}
+                          height={27}
                         />
                       ) : (
-                        "135 TITANWSTON"
-                      )
-                    ) : (
-                      "Connect Wallet"
-                    )}
-                  </Text>
-                </Button>
-
-                <Text fontSize={14}>or</Text>
-
-                <Button
-                  w={"full"}
-                  maxW={624}
-                  h={"65px"}
-                  columnGap={2}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  colorScheme="blue"
-                  bgColor={"#0380FF"}
-                  onClick={() => {
-                    setPayOption(false);
-                    handleClick();
-                  }}
-                  isDisabled={isPending || isPendingApproval}
-                >
-                  {!isPending &&
-                    (isConnected ? (
-                      <Image alt="ton" src={TonIcon} width={27} height={27} />
-                    ) : (
-                      <Image
-                        alt="wallet"
-                        src={WalletIcon}
-                        width={22}
-                        height={23}
-                      />
-                    ))}
-                  <Text fontSize={24} fontWeight={600}>
-                    {isConnected ? (
-                      isPending || isPendingApproval ? (
-                        <Spinner
-                          thickness="4px"
-                          speed="0.65s"
-                          emptyColor="gray.200"
-                          color="blue.500"
-                          size="md"
+                        <Image
+                          alt="wallet"
+                          src={WalletIcon}
+                          width={22}
+                          height={23}
                         />
+                      ))}
+                    <Text fontSize={24} fontWeight={600}>
+                      {isConnected ? (
+                        isPending || isPendingApproval ? (
+                          <Spinner
+                            thickness="4px"
+                            speed="0.65s"
+                            emptyColor="gray.200"
+                            color="blue.500"
+                            size="md"
+                          />
+                        ) : (
+                          `${formatUnits(gemItem[0].value!, 27)} TITANWSTON`
+                        )
                       ) : (
-                        "135 TON"
-                      )
-                    ) : (
-                      "Connect Wallet"
-                    )}
-                  </Text>
-                </Button>
+                        "Connect Wallet"
+                      )}
+                    </Text>
+                  </Button>
+                ) : (
+                  <Button
+                    w={"full"}
+                    maxW={624}
+                    h={"65px"}
+                    columnGap={2}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    colorScheme="blue"
+                    bgColor={"#0380FF"}
+                    onClick={() => {
+                      handleClick();
+                    }}
+                    isDisabled={isPending || isPendingApproval}
+                  >
+                    {!isPending &&
+                      (isConnected ? (
+                        <Image alt="ton" src={TonIcon} width={27} height={27} />
+                      ) : (
+                        <Image
+                          alt="wallet"
+                          src={WalletIcon}
+                          width={22}
+                          height={23}
+                        />
+                      ))}
+                    <Text fontSize={24} fontWeight={600}>
+                      {isConnected ? (
+                        isPending || isPendingApproval ? (
+                          <Spinner
+                            thickness="4px"
+                            speed="0.65s"
+                            emptyColor="gray.200"
+                            color="blue.500"
+                            size="md"
+                          />
+                        ) : (
+                          "135 TON"
+                        )
+                      ) : (
+                        "Connect Wallet"
+                      )}
+                    </Text>
+                  </Button>
+                )}
               </Center>
             </Box>
           ) : mode === "chest" ? (

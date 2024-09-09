@@ -11,7 +11,7 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount, useSwitchChain, useChainId } from "wagmi";
 import { useRecoilState } from "recoil";
 import useConnectWallet from "@/hooks/account/useConnectWallet";
@@ -29,6 +29,7 @@ import {
   TON_ADDRESS_BY_CHAINID,
   WSWTON_ADDRESS_BY_CHAINID,
 } from "@/constants/tokens";
+import { fetchMarketPrice } from "@/utils/price";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
@@ -37,6 +38,7 @@ const AccountStatus = () => {
   const toast = useToast();
   const { switchChainAsync } = useSwitchChain();
   const [isNetworkMenuOpen, setNetworkMenuOpen] = useState<boolean>(false);
+  const [tonPrice, setTonPrice] = useState(0);
 
   const TONBalance = useTokenBalance({
     tokenAddress: TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
@@ -164,7 +166,7 @@ const AccountStatus = () => {
                 : ""}
             </Text>
             <Text color={"#5D6978"} fontSize={12}>
-              2433.57
+              {tonPrice}
             </Text>
           </Flex>
         </Flex>
