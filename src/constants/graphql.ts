@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const GET_ALL_MARGET_GEMS = gql`
-  query GetAllMargetGems {
-    nfts {
+export const GET_ALL_MARKET_GEMS = gql`
+  query GetAllMarketGems($user: String!) {
+    nfts (where: {owner_not: $user, isForSale: true}) {
       tokenID
       color
       gemCooldownPeriod

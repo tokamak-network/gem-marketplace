@@ -17,7 +17,7 @@ import GEM from "@/assets/images/sample_gem.png";
 import PumpkinGem from "@/assets/images/pumpkingem.png";
 import Link from "next/link";
 import { useFilteredList } from "@/hooks/useFilteredList";
-import { useGetMargetGems } from "@/hooks/useGetMargetGems";
+import { useGetMarketGems } from "@/hooks/useGetMarketGems";
 
 const MarketPage = () => {
   const theme = useTheme();
@@ -25,7 +25,7 @@ const MarketPage = () => {
     useRecoilState(gemPackModalStatus);
   const searchParams = useSearchParams();
   const search = searchParams.get("asset");
-  const gemList = useGetMargetGems();
+  const gemList = useGetMarketGems();
 
   const {activeGemList} = useFilteredList(gemList);
   return search ? (

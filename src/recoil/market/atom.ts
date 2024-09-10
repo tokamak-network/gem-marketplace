@@ -3,8 +3,7 @@ import { GemList } from "@/constants";
 import { GemStandard } from "@/types";
 
 type RarityStatusType = {
-  [base: string]: boolean | "";
-  common: boolean | "";
+  [common: string]: boolean | "";
   rare: boolean | "";
   unique: boolean | "";
   epic: boolean | "";

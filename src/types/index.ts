@@ -6,14 +6,14 @@ export enum PieceDir {
 }
 
 export enum RarityType {
-  COMMON = "COMMON",
-  RARE = "RARE",
-  UNIQUE = "UNIQUE",
-  EPIC = "EPIC",
-  LEGENDARY = "LEGENDARY",
-  MYTHIC = "MYTHIC",
-  HEIRLOOM = "HEIRLOOM",
-  NONE = "none"
+  common = "common",
+  rare = "rare",
+  unique = "unique",
+  eqic = "eqic",
+  legendary = "legendary",
+  mythic = "mythic",
+  heirloom = "heirloom",
+  none = "none"
 }
 
 export type PieceInfo = {

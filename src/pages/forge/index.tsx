@@ -4,15 +4,15 @@ import { Box, Flex } from "@chakra-ui/react";
 import ForgingIntroModal from "@/components/modal/ForgingIntroModal";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import GemCard from "@/components/common/GemCard";
-// import { GemList } from "@/constants";
-// import ForgeContainer from "./ForgeContainer";
-import { useRecoilValue } from "recoil";
-import { activeRarityListSelector } from "@/recoil/market/atom";
+import { useGetUserGems } from "@/hooks/useGetUserGems";
+import { useFilteredList } from "@/hooks/useFilteredList";
+import { GemStandard } from "@/types";
 
 const ForgePage = () => {
   const [storedValue] = useLocalStorage("forge-guide", true);
   const [isGuideModal, setGuideModal] = useState(storedValue);
-  const {activeRarityList} = useRecoilValue(activeRarityListSelector);
+  const gemListForUser = useGetUserGems();
+  const { activeGemList } = useFilteredList(gemListForUser);
 
   return (
     <Box>
@@ -24,7 +24,7 @@ const ForgePage = () => {
       {/* <ForgeContainer /> */}
 
       <Flex mt={"72px"} gap={4} flexWrap={"wrap"}>
-        {activeRarityList.map((item, key) => {
+        {activeGemList?.map((item: GemStandard, key: number) => {
           return (
             <GemCard
               mode="forge"

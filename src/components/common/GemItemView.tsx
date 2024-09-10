@@ -33,7 +33,7 @@ import MiningIcon from "@/assets/icon/mine.svg";
 import forgeIcon from "@/assets/icon/forge.svg";
 import SavedIcon from "./SavedIcon";
 import ShareIcon from "@/assets/icon/share.svg";
-import { useGetMargetGems } from "@/hooks/useGetMargetGems";
+import { useGetMarketGems } from "@/hooks/useGetMarketGems";
 import { rarityList } from "@/constants/rarity";
 import { useBuyGem } from "@/hooks/useBuyGem";
 import {
@@ -55,7 +55,7 @@ interface ItemProps {
 }
 
 const GemItemView = ({ id, mode }: ItemProps) => {
-  const gemList = useGetMargetGems();
+  const gemList = useGetMarketGems();
   const { connectToWallet } = useConnectWallet();
   const { isConnected, address, chain } = useAccount();
   const [, setModalStatus] = useRecoilState(obtainModalStatus);

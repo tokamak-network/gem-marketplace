@@ -5,7 +5,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import MiningIntroModal from "@/components/modal/MiningIntroModal";
 import GemCard from "@/components/common/GemCard";
-import { useGetUserGems } from "@/hooks/useGetMargetGems";
+import { useGetUserGems } from "@/hooks/useGetUserGems";
 import { GemStandard } from "@/types";
 
 const MinePage = () => {

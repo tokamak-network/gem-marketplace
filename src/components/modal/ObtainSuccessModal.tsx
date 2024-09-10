@@ -20,13 +20,13 @@ import ForgeIcon from "@/assets/icon/forge.svg";
 import GemIcon from "@/assets/icon/mine.svg";
 import GemCard from "../common/GemCard";
 import { GemStandard } from "@/types";
-import { useGetMargetGems } from "@/hooks/useGetMargetGems";
+import { useGetMarketGems } from "@/hooks/useGetMarketGems";
 import { useMemo } from "react";
 
 const ObtainSuccessModal = () => {
   const router = useRouter();
   const [modalStatus, setModalStatus] = useRecoilState(obtainModalStatus);
-  const gemList = useGetMargetGems();
+  const gemList = useGetMarketGems();
   const handleClose = () => {
     setModalStatus({ isOpen: false });
   };

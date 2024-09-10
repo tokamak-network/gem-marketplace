@@ -172,7 +172,6 @@ const GemCard = ({
         });
         setRarityState(() => ({
           ...{
-            base: false,
             common: false,
             rare: false,
             unique: false,
@@ -181,7 +180,7 @@ const GemCard = ({
             mythic: false,
             heirloom: false,
           },
-          ...{ [gemInfo.rarity.toLocaleLowerCase()]: true },
+          ...{ [rarityList[Number(gemInfo.rarity)]]: true },
         }));
       } else {
         let filterList = selectedGemsList.filter((item) => Number(item.tokenID) === Number(tokenID));
@@ -189,7 +188,7 @@ const GemCard = ({
         if (filterList.length > 0) {
           if (selectedGemsList.length === 1) {
             setSelectedGemsInfo({
-              selectedRarity: RarityType.NONE,
+              selectedRarity: RarityType.none,
               selectedGemsList: [],
             });
             return;
@@ -202,11 +201,11 @@ const GemCard = ({
           return;
         }
         if (
-          Object.keys(RarityType).indexOf(selectedRarity) + 1 >
+          Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) + 1 >
           selectedGemsList.length
         ) {
           if (
-            Object.keys(RarityType).indexOf(selectedRarity) ===
+            Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) ===
             selectedGemsList.length
           ) {
             setForgeConfirm(true);
@@ -299,7 +298,7 @@ const GemCard = ({
           >
             
             {(isForgeSelected && mode === "forge") ? `selected ${selectedGemsList.indexOf(gemInfo) + 1} of ${
-              Object.keys(RarityType).indexOf(selectedRarity) + 1
+              Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) + 2
             }` : isFinalForgeItemSelected && mode === "forgeFinal" ? "Selected" : ""}
           </Center>
 
