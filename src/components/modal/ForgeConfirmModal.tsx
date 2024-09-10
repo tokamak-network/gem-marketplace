@@ -39,7 +39,7 @@ const ForgeConfirmModal = () => {
       onClose={() => {
         setForgeConfirm(false);
         setSelectedGemsInfo({
-          selectedRarity: RarityType.NONE,
+          selectedRarity: RarityType.none,
           selectedGemsList: [],
         });
         setFinalForgeGem({color: []});

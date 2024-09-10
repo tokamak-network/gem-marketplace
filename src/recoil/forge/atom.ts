@@ -2,6 +2,7 @@ import { atom, selector } from "recoil";
 import { GemStandard } from "@/types";
 import { RarityType } from "@/types";
 import { forgeGemsColor } from "@/utils";
+import { rarityList } from "@/constants/rarity";
 
 export type SelectedForgeGemType = {
   firstSelectedGem: GemStandard | null;
@@ -24,7 +25,7 @@ export const selectedForgeGem = atom<SelectedForgeGemType>({
 export const selectedForgeGems = atom<SelectedGemsType>({
   key: "selectedForgeGems",
   default: {
-    selectedRarity: RarityType.NONE,
+    selectedRarity: RarityType.none,
     selectedGemsList: [],
   },
 });
@@ -51,14 +52,14 @@ export const forgeResultSelector = selector<{
 
     const forgedGemRarity =
       Object.values(RarityType)[
-        Object.keys(RarityType).indexOf(selectedRarity) + 1
+        Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) + 1
       ];
 
     let sumOfQuadrants: number[] = [0, 0, 0, 0];
     let forgedQuadrants: number[] = [0, 0, 0, 0];
     let newColorCombo;
     if (
-      Object.keys(RarityType).indexOf(selectedRarity) + 1 ===
+      Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) + 2 ===
       selectedGemsList.length && selectedGemsList && selectedGemsList.length > 0 // check if the counts of selected gems reach to the criteria
     ) {
       for (let item of selectedGemsList) {
@@ -72,8 +73,7 @@ export const forgeResultSelector = selector<{
       sumOfQuadrants[2] %= 2;
       sumOfQuadrants[3] %= 2;
 
-      let baseValue = Object.keys(RarityType).indexOf(selectedRarity) + 2; // basic quadrants value of the target gem
-
+      let baseValue = Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) + 2; // basic quadrants value of the target gem
       if (
         // if all the mod result is 0 or 1, make the result as a perfect gem
         (sumOfQuadrants[0] === 1 &&
@@ -118,6 +118,6 @@ export const selectedFinalForge = atom<SelectedForgeGem>({
   key: "selectedFinalForge",
   default: {
     color: [],
-    rarity: RarityType.NONE
+    rarity: RarityType.none
   }
 })

@@ -60,7 +60,6 @@ const GemCard = ({
   customGemColor,
 }: GemCardType) => {
   const [isSaved, setSaved] = useState<boolean>(false);
-  const [isFlip, setFlip] = useState<boolean>(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
   const [isReadyForMine, setReadyForMine] = useState<boolean>(false);
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
@@ -201,11 +200,11 @@ const GemCard = ({
           return;
         }
         if (
-          Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) + 1 >
+          Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) + 2 >
           selectedGemsList.length
         ) {
           if (
-            Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) ===
+            Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) + 1 ===
             selectedGemsList.length
           ) {
             setForgeConfirm(true);

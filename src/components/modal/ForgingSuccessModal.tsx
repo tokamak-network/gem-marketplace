@@ -32,7 +32,7 @@ const ForgeSuccessModal = () => {
       onClose={() => {
         setShowModal(false);
         setSelectedGemsInfo({
-          selectedRarity: RarityType.NONE,
+          selectedRarity: RarityType.none,
           selectedGemsList: [],
         });
       }}
@@ -64,7 +64,7 @@ const ForgeSuccessModal = () => {
                   color: [2,3],
                   tokenID: 30,
                   lastMineTime: 324234234,
-                  rarity: RarityType.LEGENDARY,
+                  rarity: RarityType.legendary,
                 }}
               />
             </Center>
