@@ -10,7 +10,6 @@ import {
   useTheme,
   Spinner,
 } from "@chakra-ui/react";
-// import dynamic from "next/dynamic";
 
 import { CardType, GemStandard } from "@/types";
 import GemCard from "@/components/common/GemCard";
@@ -45,10 +44,6 @@ import { formatUnits } from "viem";
 import { useApproval } from "@/hooks/useApproval";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 
-// const ReactApexChart = dynamic(() => import("react-apexcharts"), {
-//   ssr: false,
-// });
-
 interface ItemProps {
   id: number;
   mode: CardType;
@@ -71,6 +66,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       ),
     [gemList]
   );
+  console.log(gemItem)
   const WSTONBalance = useBalance({
     address: address,
     token: WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
@@ -79,7 +75,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const payOption = useMemo(
     () =>
       Number(formatUnits(WSTONBalance?.data?.value! ?? "0", 27)) >
-      Number(formatUnits(gemItem[0].value!, 27)),
+      Number(formatUnits(gemItem ? gemItem[0].value! : BigInt("0"), 27)),
 
     [WSTONBalance, gemItem]
   );
@@ -106,7 +102,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     isSuccess: approveSuccess,
     isPending: isPendingApproval,
   } = useTonORWSTONApprove(
-    payOption ? gemItem[0]?.value! : BigInt(formatUnits(gemItem[0]?.value!, 9)),
+    payOption ? gemItem ? gemItem[0]?.value! : BigInt("0") : BigInt(formatUnits(gemItem ? gemItem[0]?.value! : BigInt("0"), 9)),
     contract_address
   );
 
@@ -120,61 +116,8 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
   const theme = useTheme();
 
-  const series = [
-    {
-      name: "Desktops",
-      data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
-    },
-  ];
-  const options: any = {
-    chart: {
-      height: "100%",
-      type: "line",
-      zoom: {
-        enabled: false,
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    colors: ["#61FF00"],
-    tooltip: {
-      enabled: false,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "smooth",
-    },
-    grid: {
-      show: false,
-    },
-    xaxis: {
-      labels: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
-    },
-    yaxis: {
-      labels: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
-    },
-  };
-
   return (
+    gemItem &&
     <Flex flexDir={"column"} w={"100%"} h={"100%"}>
       <Flex columnGap={"40px"}>
         <GemCard
@@ -474,6 +417,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
         <Box w={"100%"} h={"100%"} bgColor={"#191A22"} rounded={16} />
       </Flex>
     </Flex>
+        
   );
 };
 

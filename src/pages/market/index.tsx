@@ -1,10 +1,9 @@
 import Image from "next/image";
 import { Box, Center, Flex, Text, useTheme } from "@chakra-ui/react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useSearchParams } from "next/navigation";
 
 import {
-  activeRarityListSelector,
   gemPackModalStatus,
 } from "@/recoil/market/atom";
 
@@ -18,13 +17,14 @@ import PumpkinGem from "@/assets/images/pumpkingem.png";
 import Link from "next/link";
 import { useFilteredList } from "@/hooks/useFilteredList";
 import { useGetMarketGems } from "@/hooks/useGetMarketGems";
+import { useMemo } from "react";
 
 const MarketPage = () => {
   const theme = useTheme();
   const [gemPackModalState, setGemPackModalState] =
     useRecoilState(gemPackModalStatus);
   const searchParams = useSearchParams();
-  const search = searchParams.get("asset");
+  const search = useMemo(() => searchParams.get("asset"), [searchParams]);
   const gemList = useGetMarketGems();
 
   const {activeGemList} = useFilteredList(gemList);
