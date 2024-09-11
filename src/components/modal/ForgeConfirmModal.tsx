@@ -9,6 +9,7 @@ import {
   Text,
   Button,
   Center,
+  Spinner,
 } from "@chakra-ui/react";
 
 import {
@@ -16,13 +17,14 @@ import {
   forgeSuccessModalStatus,
   selectedForgeGem,
   selectedForgeGems,
-  selectedFinalForge
+  selectedFinalForge,
 } from "@/recoil/forge/atom";
 import { useRecoilState } from "recoil";
 
 import ForgeIcon from "@/assets/icon/forge.svg";
 import GemcardCarousel from "../common/GemcardCarousel";
 import { RarityType } from "@/types";
+import { useForgeGems } from "@/hooks/useForgeGems";
 
 const ForgeConfirmModal = () => {
   const [isForgeConfirm, setForgeConfirm] = useRecoilState(
@@ -33,6 +35,12 @@ const ForgeConfirmModal = () => {
   const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
   const [finalForgeGem, setFinalForgeGem] = useRecoilState(selectedFinalForge);
 
+  const { callForgeGems, isPending, isSuccess } = useForgeGems();
+
+  const handleForge = () => {
+    callForgeGems();
+  };
+
   return (
     <Modal
       isOpen={isForgeConfirm}
@@ -42,7 +50,7 @@ const ForgeConfirmModal = () => {
           selectedRarity: RarityType.none,
           selectedGemsList: [],
         });
-        setFinalForgeGem({color: []});
+        setFinalForgeGem({ color: [] });
       }}
       size={"xl"}
       isCentered
@@ -73,18 +81,27 @@ const ForgeConfirmModal = () => {
                 fontSize={24}
                 columnGap={2}
                 isDisabled={finalForgeGem.color.length === 0}
-                _disabled={{bgColor: "#5C5C5C", _hover:{bgColor: "#5C5C5C"}, cursor:"not-allowed"}}
-                onClick={() => {
-                  setForgeConfirm(false);
-                  setForgeSuccess(true);
-                  setForgeGems({
-                    firstSelectedGem: null,
-                    secondSelectedGem: null,
-                  });
+                _disabled={{
+                  bgColor: "#5C5C5C",
+                  _hover: { bgColor: "#5C5C5C" },
+                  cursor: "not-allowed",
                 }}
+                onClick={handleForge}
               >
-                <Image width={23} height={23} alt="forge" src={ForgeIcon} />
-                <Text>Forge</Text>
+                {isPending ? (
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="md"
+                  />
+                ) : (
+                  <>
+                    <Image width={23} height={23} alt="forge" src={ForgeIcon} />
+                    <Text>Forge</Text>
+                  </>
+                )}
               </Button>
             </Center>
           </Flex>
