@@ -18,7 +18,7 @@ import { rarityStatus } from "@/recoil/market/atom";
 import {
   forgeConfirmModalStatus,
   selectedForgeGems,
-  selectedFinalForge
+  selectedFinalForge,
 } from "@/recoil/forge/atom";
 import GemShape from "./GemShape";
 import { COOLDOWN } from "@/constants";
@@ -34,6 +34,7 @@ import HighArrow from "@/assets/icon/higharrow.svg";
 import SavedIcon from "./SavedIcon";
 import InfoIcon from "@/assets/icon/info.svg";
 import { rarityList } from "@/constants/rarity";
+import { arraysEqual } from "@/utils";
 
 interface GemCardType {
   width?: number;
@@ -66,15 +67,14 @@ const GemCard = ({
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
   const [, seMineModalState] = useRecoilState(miningModalStatus);
 
-  const [, setCollectGemStatus] =
-    useRecoilState(miningResultStatus);
+  const [, setCollectGemStatus] = useRecoilState(miningResultStatus);
 
   const [selectedGemsInfo, setSelectedGemsInfo] =
     useRecoilState(selectedForgeGems);
   const { selectedRarity, selectedGemsList } = selectedGemsInfo;
   const [, setRarityState] = useRecoilState(rarityStatus);
   const [, setForgeConfirm] = useRecoilState(forgeConfirmModalStatus);
-  const [finalForgeItem, setFinalForgeGem] = useRecoilState(selectedFinalForge)
+  const [finalForgeItem, setFinalForgeGem] = useRecoilState(selectedFinalForge);
 
   const theme = useTheme();
   const router = useRouter();
@@ -120,7 +120,9 @@ const GemCard = ({
           ...{ [rarityList[Number(gemInfo.rarity)]]: true },
         }));
       } else {
-        let filterList = selectedGemsList.filter((item) => Number(item.tokenID) === Number(tokenID));
+        let filterList = selectedGemsList.filter(
+          (item) => Number(item.tokenID) === Number(tokenID)
+        );
 
         if (filterList.length > 0) {
           if (selectedGemsList.length === 1) {
@@ -130,7 +132,9 @@ const GemCard = ({
             });
             return;
           }
-          let resultList = selectedGemsList.filter((item) => Number(item.tokenID) !== Number(tokenID));
+          let resultList = selectedGemsList.filter(
+            (item) => Number(item.tokenID) !== Number(tokenID)
+          );
           setSelectedGemsInfo((prev) => ({
             selectedRarity: gemInfo.rarity,
             selectedGemsList: [...resultList],
@@ -138,11 +142,15 @@ const GemCard = ({
           return;
         }
         if (
-          Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) + 2 >
+          Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) +
+            2 >
           selectedGemsList.length
         ) {
           if (
-            Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) + 1 ===
+            Object.keys(RarityType).indexOf(
+              rarityList[Number(selectedRarity)]
+            ) +
+              1 ===
             selectedGemsList.length
           ) {
             setForgeConfirm(true);
@@ -161,18 +169,20 @@ const GemCard = ({
     } else if (mode === "chest") {
       router.push(`/chest?asset=${gemInfo.tokenID}`);
     } else if (mode === "forgeFinal") {
-      setFinalForgeGem({color: [...color]});
+      setFinalForgeGem({ color: [...color] });
     }
   }, [selectedGemsList, selectedRarity, selectedGemsInfo, gemInfo]);
 
   const isForgeSelected = useMemo(() => {
-    const selected = selectedGemsList.filter((item) => Number(item.tokenID) === Number(tokenID));
+    const selected = selectedGemsList.filter(
+      (item) => Number(item.tokenID) === Number(tokenID)
+    );
     return selected.length > 0 ? true : false;
   }, [selectedGemsList, selectedRarity]);
 
   const isFinalForgeItemSelected = useMemo(() => {
-    return color === finalForgeItem.color
-  }, [finalForgeItem, color])
+    return arraysEqual(color, finalForgeItem.color);
+  }, [finalForgeItem, color]);
 
   return (
     <Box
@@ -194,13 +204,16 @@ const GemCard = ({
           : ""
       }
       border={
-        (isForgeSelected && mode === "forge") || mode === "common" || (isFinalForgeItemSelected && mode === "forgeFinal")
+        (isForgeSelected && mode === "forge") ||
+        mode === "common" ||
+        (isFinalForgeItemSelected && mode === "forgeFinal")
           ? "1px solid #FFFFFF"
           : ""
       }
       transition={"0.2s"}
     >
-      {((isForgeSelected && mode === "forge") || (isFinalForgeItemSelected && mode === "forgeFinal")) && (
+      {((isForgeSelected && mode === "forge") ||
+        (isFinalForgeItemSelected && mode === "forgeFinal")) && (
         <>
           <Center
             w={"fit-content"}
@@ -217,10 +230,15 @@ const GemCard = ({
             fontFamily={theme.fonts.Quicksand}
             color={"#000000"}
           >
-            
-            {(isForgeSelected && mode === "forge") ? `selected ${selectedGemsList.indexOf(gemInfo) + 1} of ${
-              Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) + 2
-            }` : isFinalForgeItemSelected && mode === "forgeFinal" ? "Selected" : ""}
+            {isForgeSelected && mode === "forge"
+              ? `selected ${selectedGemsList.indexOf(gemInfo) + 1} of ${
+                  Object.keys(RarityType).indexOf(
+                    rarityList[Number(selectedRarity)]
+                  ) + 2
+                }`
+              : isFinalForgeItemSelected && mode === "forgeFinal"
+                ? "Selected"
+                : ""}
           </Center>
         </>
       )}
@@ -293,15 +311,17 @@ const GemCard = ({
 
           {mode === "mine" && isMining && (
             <>
-            <Center justifyContent={"space-between"} px={2}>
-              <Text fontSize={10} color="#FFFFFF80">Time Remaining</Text>
-              <Text fontSize={12}>21:43:17</Text>
-            </Center>
-            <Progress
-              value={((COOLDOWN - timeRemaining) / COOLDOWN) * 100}
-              colorScheme="green"
-              h={"2px"}
-            />
+              <Center justifyContent={"space-between"} px={2}>
+                <Text fontSize={10} color="#FFFFFF80">
+                  Time Remaining
+                </Text>
+                <Text fontSize={12}>21:43:17</Text>
+              </Center>
+              <Progress
+                value={((COOLDOWN - timeRemaining) / COOLDOWN) * 100}
+                colorScheme="green"
+                h={"2px"}
+              />
             </>
           )}
 

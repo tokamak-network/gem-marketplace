@@ -18,57 +18,69 @@ export function trimAddress(args: {
 export function forgeGemsColor(gem1: number[], gem2: number[]) {
   // Helper function to check if an array contains an element
   function contains(array: number[], element: number) {
-      return array.indexOf(element) !== -1;
+    return array.indexOf(element) !== -1;
   }
 
   // Check if both gems are solid (i.e., arrays with one element)
   if (gem1.length === 1 && gem2.length === 1) {
-      if (gem1[0] === gem2[0]) {
-          return [gem1]; // Same Solid -> Same Solid
-      } else {
-          return [gem1, gem2]; // Different Solid -> Gradient
-      }
+    if (gem1[0] === gem2[0]) {
+      return [gem1]; // Same Solid -> Same Solid
+    } else {
+      return [gem1, gem2]; // Different Solid -> Gradient
+    }
   }
 
   // Check if one gem is a gradient and the other is solid
   if (gem1.length === 2 && gem2.length === 1) {
-      if (contains(gem1, gem2[0])) {
-          return [gem1]; // One Gradient + One Solid (exists in Gradient) -> Same Gradient
-      } else {
-          return [[gem1[0], gem2[0]], [gem1[1], gem2[0]]]; // One Gradient + One Solid (not exist in Gradient) -> 2 Gradient
-      }
+    if (contains(gem1, gem2[0])) {
+      return [gem1]; // One Gradient + One Solid (exists in Gradient) -> Same Gradient
+    } else {
+      return [
+        [gem1[0], gem2[0]],
+        [gem1[1], gem2[0]],
+      ]; // One Gradient + One Solid (not exist in Gradient) -> 2 Gradient
+    }
   }
   if (gem1.length === 1 && gem2.length === 2) {
-      if (contains(gem2, gem1[0])) {
-          return [gem2]; // One Gradient + One Solid (exists in Gradient) -> Same Gradient
-      } else {
-          return [[gem2[0], gem1[0]], [gem2[1], gem1[0]]]; // One Gradient + One Solid (not exist in Gradient) -> 2 Gradient
-      }
+    if (contains(gem2, gem1[0])) {
+      return [gem2]; // One Gradient + One Solid (exists in Gradient) -> Same Gradient
+    } else {
+      return [
+        [gem2[0], gem1[0]],
+        [gem2[1], gem1[0]],
+      ]; // One Gradient + One Solid (not exist in Gradient) -> 2 Gradient
+    }
   }
 
   // Check if both gems are gradients (i.e., arrays with two elements)
   if (gem1.length === 2 && gem2.length === 2) {
-      if (gem1[0] === gem2[0] && gem1[1] === gem2[1]) {
-          return [gem1]; // Same Gradient -> Same Gradient
-      } else if (contains(gem1, gem2[0]) || contains(gem1, gem2[1])) {
-          let newGradients = [];
-          newGradients.push([gem1[0], gem2[0]]);
-          newGradients.push([gem1[0], gem2[1]]);
-          newGradients.push([gem1[1], gem2[0]]);
-          newGradients.push([gem1[1], gem2[1]]);
-          return newGradients; // Two Same Gradient but 1 Color Repetition -> 3 Gradient
-      } else {
-          let newGradients = [];
-          newGradients.push([gem1[0], gem2[0]]);
-          newGradients.push([gem1[0], gem2[1]]);
-          newGradients.push([gem1[1], gem2[0]]);
-          newGradients.push([gem1[1], gem2[1]]);
-          return newGradients; // Two Different Gradient -> 4 Gradient
+    const newGradients: number[][] = [];
+
+    // Handle case where one or both gems are repeated elements like [0, 0]
+    const combinations = [
+      [gem1[0], gem2[0]],
+      [gem1[0], gem2[1]],
+      [gem1[1], gem2[0]],
+      [gem1[1], gem2[1]],
+    ];
+
+    // Filter out duplicates by checking if a gradient already exists in the result
+    combinations.forEach((gradient) => {
+      if (!newGradients.some((existing) => existing[0] === gradient[0] && existing[1] === gradient[1])) {
+        newGradients.push(gradient);
       }
+    });
+
+    return newGradients; // Return the unique gradients
   }
 }
 
 export function bnToNumber(value: bigint, decimals: number = 18) {
-    if (!value) return '0';
-    return formatUnits(value, decimals);
-  }
+  if (!value) return "0";
+  return formatUnits(value, decimals);
+}
+
+export function arraysEqual(arr1: number[], arr2: number[]) {
+    if (arr1.length !== arr2.length) return false; // Arrays must have the same length
+    return arr1.every((value, index) => value === arr2[index]); // Compare each element
+}

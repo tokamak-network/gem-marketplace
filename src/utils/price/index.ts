@@ -10,7 +10,6 @@ export async function fetchMarketPrice(
 ): Promise<number | undefined> {
   try {
     const tokenName = changeTokenNameForAPI(tokenId);
-    console.log(tokenName)
     const apolloClient = new ApolloClient({
       uri: process.env.NEXT_PUBLIC_PRICE_API,
       cache: new InMemoryCache(),

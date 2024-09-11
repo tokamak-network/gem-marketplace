@@ -17,6 +17,7 @@ import { RarityItem } from "@/components/common/RarityList";
 import { ColorItem } from "@/components/common/ColorList";
 import { obtainModalStatus } from "@/recoil/market/atom";
 import { useRecoilState } from "recoil";
+import { formatUnits } from "viem";
 
 import { sellGemModalStatus, burnGemModalStatus } from "@/recoil/chest/atom";
 
@@ -40,7 +41,6 @@ import {
   WSWTON_ADDRESS_BY_CHAINID,
 } from "@/constants/tokens";
 import { useTonORWSTONApprove } from "@/hooks/useApprove";
-import { formatUnits } from "viem";
 import { useApproval } from "@/hooks/useApproval";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 
@@ -66,7 +66,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       ),
     [gemList]
   );
-  console.log(gemItem);
+
   const WSTONBalance = useBalance({
     address: address,
     token: WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,

@@ -9,7 +9,7 @@ export enum RarityType {
   common = "common",
   rare = "rare",
   unique = "unique",
-  eqic = "eqic",
+  epic = "epic",
   legendary = "legendary",
   mythic = "mythic",
   heirloom = "heirloom",

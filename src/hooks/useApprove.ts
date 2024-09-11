@@ -17,7 +17,7 @@ export const useTonORWSTONApprove = (
       args: [MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`, amount],
     });
     return txHash;
-  }, [isPending, isSuccess]);
+  }, [contractAddress, amount]);
 
   return { callApprove, isPending, isSuccess, error };
 };
