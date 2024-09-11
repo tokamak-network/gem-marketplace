@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import {
   Box,
@@ -10,28 +11,28 @@ import {
   useTheme,
   Tooltip,
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import PriceContainer from "./PriceContainer";
-import { COOLDOWN } from "@/constants";
 import { useRecoilState } from "recoil";
+
 import { miningModalStatus, miningResultStatus } from "@/recoil/mine/atom";
+import { rarityStatus } from "@/recoil/market/atom";
 import {
   forgeConfirmModalStatus,
   selectedForgeGems,
   selectedFinalForge
 } from "@/recoil/forge/atom";
+import GemShape from "./GemShape";
+import { COOLDOWN } from "@/constants";
 import { GemStandard, CardType, RarityType } from "@/types";
+
+import PriceContainer from "./PriceContainer";
 import RarityViewer from "./RarityViewer";
 import MinePreview from "../tooltipLabel/MinePreview";
-
-import GemShape from "./GemShape";
-import { rarityStatus } from "@/recoil/market/atom";
+import MineProbability from "../tooltipLabel/MineProbability";
 
 import GemIcon from "@/assets/icon/mine.svg";
 import HighArrow from "@/assets/icon/higharrow.svg";
 import SavedIcon from "./SavedIcon";
 import InfoIcon from "@/assets/icon/info.svg";
-import MineProbability from "../tooltipLabel/MineProbability";
 import { rarityList } from "@/constants/rarity";
 
 interface GemCardType {
@@ -96,69 +97,6 @@ const GemCard = ({
   }, [timeRemaining]);
 
   const handleCardClick = useCallback(() => {
-    // if (mode === "forge" && (isForgeActive || isForgeSelected)) {
-    //   const selectedGem: GemStandard = {
-    //     id: id,
-    //     topLeft: pieces.topLeft,
-    //     topRight: pieces.topRight,
-    //     bottomLeft: pieces.bottomLeft,
-    //     bottomRight: pieces.bottomRight,
-    //     gemColor: gemColor,
-    //     lastMineTime: lastMineTime,
-    //     rarity: rarity,
-    //   };
-
-    //   if (firstSelectedGem === null && secondSelectedGem === null) {
-    //     setSelectedGems((prev) => ({
-    //       ...prev,
-    //       ...{ firstSelectedGem: selectedGem },
-    //     }));
-    //   }
-
-    //   if (firstSelectedGem !== null && secondSelectedGem === null) {
-    //     if (firstSelectedGem.id === id) {
-    //       setSelectedGems((prev) => ({
-    //         ...prev,
-    //         ...{ firstSelectedGem: null },
-    //       }));
-    //     } else {
-    //       setSelectedGems((prev) => ({
-    //         ...prev,
-    //         ...{ secondSelectedGem: selectedGem },
-    //       }));
-    //     }
-    //   }
-
-    //   if (firstSelectedGem === null && secondSelectedGem !== null) {
-    //     if (secondSelectedGem.id === id) {
-    //       setSelectedGems((prev) => ({
-    //         ...prev,
-    //         ...{ secondSelectedGem: null },
-    //       }));
-    //     } else {
-    //       setSelectedGems((prev) => ({
-    //         ...prev,
-    //         ...{ firstSelectedGem: selectedGem },
-    //       }));
-    //     }
-    //   }
-
-    //   if (firstSelectedGem !== null && secondSelectedGem !== null) {
-    //     if (firstSelectedGem.id === id) {
-    //       setSelectedGems((prev) => ({
-    //         ...prev,
-    //         ...{ firstSelectedGem: null },
-    //       }));
-    //     }
-    //     if (secondSelectedGem.id === id) {
-    //       setSelectedGems((prev) => ({
-    //         ...prev,
-    //         ...{ secondSelectedGem: null },
-    //       }));
-    //     }
-    //   }
-    // }
-
     if (mode === "forge") {
       setSelectedGemsInfo((prev) => ({
         ...prev,
@@ -227,22 +165,6 @@ const GemCard = ({
     }
   }, [selectedGemsList, selectedRarity, selectedGemsInfo, gemInfo]);
 
-  // const isForgeActive = useMemo(() => {
-  //   if (firstSelectedGem === null && secondSelectedGem === null) return true;
-  //   else {
-  //     if (firstSelectedGem !== null && secondSelectedGem !== null) return false;
-  //     if (
-  //       rarity === firstSelectedGem?.rarity ||
-  //       rarity === secondSelectedGem?.rarity
-  //     )
-  //       return true;
-  //   }
-  // }, [firstSelectedGem, secondSelectedGem]);
-
-  // const isForgeSelected = useMemo(() => {
-  //   return id === firstSelectedGem?.id || id === secondSelectedGem?.id;
-  // }, [firstSelectedGem, secondSelectedGem]);
-
   const isForgeSelected = useMemo(() => {
     const selected = selectedGemsList.filter((item) => Number(item.tokenID) === Number(tokenID));
     return selected.length > 0 ? true : false;
@@ -300,25 +222,6 @@ const GemCard = ({
               Object.keys(RarityType).indexOf(rarityList[Number(selectedRarity)]) + 2
             }` : isFinalForgeItemSelected && mode === "forgeFinal" ? "Selected" : ""}
           </Center>
-
-          {/* <Center
-            w={"81px"}
-            h={"24px"}
-            pos={"absolute"}
-            top={0}
-            right={0}
-            rounded={"8px 0px 8px 0px"}
-            bgColor={"#FFFFFF"}
-            fontWeight={700}
-            fontSize={12}
-            textAlign={"center"}
-            fontFamily={theme.fonts.Quicksand}
-            color={"#000000"}
-          >
-            {`${selectedGemsList.indexOf(gemInfo) + 1} of ${
-              Object.keys(RarityType).indexOf(selectedRarity) + 1
-            }`}
-          </Center> */}
         </>
       )}
       <Box
