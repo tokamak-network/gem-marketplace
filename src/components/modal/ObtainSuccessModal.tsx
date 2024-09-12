@@ -20,23 +20,25 @@ import ForgeIcon from "@/assets/icon/forge.svg";
 import GemIcon from "@/assets/icon/mine.svg";
 import GemCard from "../common/GemCard";
 import { GemStandard } from "@/types";
-import { useGetMarketGems } from "@/hooks/useGetMarketGems";
+import { useGetAllGems } from "@/hooks/useGetMarketGems";
 import { useMemo } from "react";
 
 const ObtainSuccessModal = () => {
   const router = useRouter();
   const [modalStatus, setModalStatus] = useRecoilState(obtainModalStatus);
-  const gemList = useGetMarketGems();
+  const gemList = useGetAllGems();
   const handleClose = () => {
     setModalStatus({ isOpen: false });
   };
   const gemItem = useMemo(
     () =>
       gemList?.filter(
-        (item: GemStandard) => Number(item.tokenID) === Number(modalStatus.gemId)
+        (item: GemStandard) =>
+          Number(item.tokenID) === Number(modalStatus.gemId)
       ),
-    [gemList]
+    [gemList, modalStatus.gemId]
   );
+  console.log(gemItem)
 
   return (
     <Modal
@@ -50,17 +52,19 @@ const ObtainSuccessModal = () => {
         <ModalCloseButton />
         <ModalBody padding={0}>
           <Flex>
-            <GemCard
-              mode="normal"
-              width={453}
-              height={581}
-              staked={128.2907}
-              rarityScore={10}
-              gemInfo={gemItem && gemItem[0]}
-              dailyChange={16.7}
-              gemWidth={316}
-              gemHeight={316}
-            />
+            {gemItem && (
+              <GemCard
+                mode="normal"
+                width={453}
+                height={581}
+                staked={128.2907}
+                rarityScore={10}
+                gemInfo={gemItem[0]}
+                dailyChange={16.7}
+                gemWidth={316}
+                gemHeight={316}
+              />
+            )}
             <Flex
               w={"100%"}
               flexDir={"column"}
@@ -110,7 +114,7 @@ const ObtainSuccessModal = () => {
                   columnGap={2}
                   onClick={() => {
                     router.push("/mine");
-                    setModalStatus({isOpen: false});
+                    setModalStatus({ isOpen: false });
                   }}
                 >
                   <Image width={23} height={23} alt="gem" src={GemIcon} />
@@ -127,7 +131,7 @@ const ObtainSuccessModal = () => {
                   columnGap={2}
                   onClick={() => {
                     router.push("/forge");
-                    setModalStatus({isOpen: false});
+                    setModalStatus({ isOpen: false });
                   }}
                 >
                   <Image width={23} height={23} alt="forge" src={ForgeIcon} />

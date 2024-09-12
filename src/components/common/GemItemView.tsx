@@ -115,7 +115,11 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
     const txHash = await callApprove();
     await waitForTransactionReceipt(txHash);
-    await callBuyGem();
+    
+    try {
+      await callBuyGem();
+      setModalStatus({ isOpen: true, gemId: gemItem[0].tokenID});
+    } catch (e) {}
   }, [approveSuccess, payOption]);
 
   const theme = useTheme();
@@ -266,9 +270,9 @@ const GemItemView = ({ id, mode }: ItemProps) => {
             </Text>
             <Flex align={"end"} columnGap={17} mb={9}>
               <Center columnGap={3}>
-                <Image alt="ton" src={TonIcon} width={32} height={32} />
+                <Image alt="ton" src={WSTONIcon} width={32} height={32} />
                 <Text fontSize={32} fontWeight={600}>
-                  128.2907 TON
+                  {`${formatUnits(gemItem[0].value!, 27)} WSTON`}
                 </Text>
               </Center>
 
@@ -427,7 +431,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                 columnGap={2}
                 rounded={8}
               >
-                <Image src={WalletIcon} width={22} height={23} alt="wallet"/>
+                <Image src={WalletIcon} width={22} height={23} alt="wallet" />
                 Connect Wallet
               </Button>
             )}
