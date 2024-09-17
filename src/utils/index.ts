@@ -21,6 +21,19 @@ export function forgeGemsColor(gem1: number[], gem2: number[]) {
     return array.indexOf(element) !== -1;
   }
 
+  // Helper function to check if an array has both elements the same (i.e., [color, color])
+  function isRepeatedColorGradient(gem: number[]) {
+    return gem.length === 2 && gem[0] === gem[1];
+  }
+
+  // Treat [color, color] as [color] (i.e., as a solid color)
+  if (isRepeatedColorGradient(gem1)) {
+    gem1 = [gem1[0]];
+  }
+  if (isRepeatedColorGradient(gem2)) {
+    gem2 = [gem2[0]];
+  }
+
   // Check if both gems are solid (i.e., arrays with one element)
   if (gem1.length === 1 && gem2.length === 1) {
     if (gem1[0] === gem2[0]) {
@@ -64,10 +77,11 @@ export function forgeGemsColor(gem1: number[], gem2: number[]) {
       [gem1[1], gem2[1]],
     ];
 
-    // Filter out duplicates by checking if a gradient already exists in the result
+    // Filter out duplicates by sorting each gradient before adding it
     combinations.forEach((gradient) => {
-      if (!newGradients.some((existing) => existing[0] === gradient[0] && existing[1] === gradient[1])) {
-        newGradients.push(gradient);
+      const sortedGradient = gradient.sort(); // Sort to treat [0,1] and [1,0] as the same
+      if (!newGradients.some((existing) => existing[0] === sortedGradient[0] && existing[1] === sortedGradient[1])) {
+        newGradients.push(sortedGradient);
       }
     });
 

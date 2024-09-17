@@ -112,14 +112,14 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
   const handleClick = useCallback(async () => {
     !isConnected && connectToWallet();
-
-    const txHash = await callApprove();
-    await waitForTransactionReceipt(txHash);
-    
     try {
+      const txHash = await callApprove();
+      await waitForTransactionReceipt(txHash);
       await callBuyGem();
       setModalStatus({ isOpen: true, gemId: gemItem[0].tokenID});
-    } catch (e) {}
+    } catch (e) {
+      console.log("heyheyhey")
+    }
   }, [approveSuccess, payOption]);
 
   const theme = useTheme();
