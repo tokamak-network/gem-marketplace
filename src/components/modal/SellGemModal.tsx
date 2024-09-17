@@ -15,16 +15,21 @@ import {
 import { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { sellGemModalStatus } from "@/recoil/chest/atom";
+import { useGemApprove } from "@/hooks/useGemApprove";
+import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 
 const SellGemModal = () => {
   const theme = useTheme();
   const [modalStatus, setModalStatus] = useRecoilState(sellGemModalStatus);
   const handleClose = () => {
-    setModalStatus(false);
+    setModalStatus({ isOpen: false, tokenID: 0 });
   };
+  const { callApprove: approveGem } = useGemApprove(modalStatus.tokenID);
+  const { waitForTransactionReceipt } = useWaitForTransaction();
+
   const [inputValue, setInputValue] = useState("0.00");
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
   const handleInput = (e: any) => {
     const value = e.target.value;
     const regex = /^[0-9]*\.?[0-9]*$/;
@@ -40,9 +45,14 @@ const SellGemModal = () => {
     }
   };
 
+  const handleListGem = async () => {
+    const txHash = await approveGem();
+    await waitForTransactionReceipt(txHash);
+  };
+
   return (
     <Modal
-      isOpen={modalStatus}
+      isOpen={modalStatus.isOpen}
       onClose={() => handleClose()}
       size={"xl"}
       isCentered
@@ -96,6 +106,7 @@ const SellGemModal = () => {
                 isDisabled={
                   !inputValue || Number(inputValue) === 0 ? true : false
                 }
+                onClick={handleListGem}
               >
                 Sell
               </Button>

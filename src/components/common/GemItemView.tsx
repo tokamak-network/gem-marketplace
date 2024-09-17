@@ -43,6 +43,7 @@ import {
 import { useTonORWSTONApprove } from "@/hooks/useApprove";
 import { useApproval } from "@/hooks/useApproval";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
+import { useGemApprove } from "@/hooks/useGemApprove";
 
 interface ItemProps {
   id: number;
@@ -391,7 +392,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     colorScheme="blue"
                     bgColor={"#0380FF"}
                     onClick={() => {
-                      setSellGemModalStatus(true);
+                      setSellGemModalStatus({isOpen: true, tokenID: gemItem[0].tokenID});
                     }}
                   >
                     Sell

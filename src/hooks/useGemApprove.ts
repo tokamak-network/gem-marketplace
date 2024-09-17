@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { useAccount, useWriteContract } from "wagmi";
 import { MARKETPLACE_ADDRESS, FACTORY_ADDRESS } from "@/constants/tokens";
-import MarketplaceABI from "@/abi/marketplace.json";
+import GemFactoryABI from "@/abi/gemfactory.json";
 
-export const useTonORWSTONApprove = (
+export const useGemApprove = (
   tokenID: number,
 ) => {
   const { chain } = useAccount();
@@ -11,7 +11,7 @@ export const useTonORWSTONApprove = (
     useWriteContract();
   const callApprove = useCallback(async () => {
     const txHash = await writeContractAsync({
-      abi: MarketplaceABI,
+      abi: GemFactoryABI,
       address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
       functionName: "approve",
       args: [MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`, tokenID],

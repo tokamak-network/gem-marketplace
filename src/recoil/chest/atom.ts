@@ -1,8 +1,14 @@
 import { atom } from "recoil";
 
-export const sellGemModalStatus = atom<boolean>({
+export const sellGemModalStatus = atom<{
+  isOpen: boolean,
+  tokenID: number
+}>({
   key: "sellGemModalStatus",
-  default: false,
+  default: {
+    isOpen: false,
+    tokenID: 0
+  },
 });
 
 export const burnGemModalStatus = atom<boolean>({
