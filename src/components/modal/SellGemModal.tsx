@@ -12,7 +12,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { sellGemModalStatus } from "@/recoil/chest/atom";
 
@@ -23,10 +23,21 @@ const SellGemModal = () => {
     setModalStatus(false);
   };
   const [inputValue, setInputValue] = useState("0.00");
-
+  const inputRef = useRef<HTMLInputElement>(null);
+  
   const handleInput = (e: any) => {
     const value = e.target.value;
-    setInputValue(value.substring(0, value.length - 4));
+    const regex = /^[0-9]*\.?[0-9]*$/;
+    const numericValue = value.replace(/\s?TON$/, "");
+    if (regex.test(numericValue) || numericValue === "") {
+      setInputValue(numericValue);
+    }
+  };
+
+  const handleCursorPosition = () => {
+    if (inputRef.current) {
+      inputRef.current.setSelectionRange(inputValue.length, inputValue.length);
+    }
   };
 
   return (
@@ -64,8 +75,11 @@ const SellGemModal = () => {
               px={7}
               border={"none"}
               bgColor={"#191A22"}
-              value={inputValue + " TON"}
+              value={inputValue ? `${inputValue} TON` : ""}
               onChange={(e) => handleInput(e)}
+              ref={inputRef}
+              onClick={handleCursorPosition}
+              onKeyUp={handleCursorPosition}
             />
 
             <Center columnGap={4} mt={57}>
