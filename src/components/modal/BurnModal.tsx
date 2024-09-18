@@ -9,26 +9,24 @@ import {
   Text,
   Button,
   useTheme,
+  Spinner,
 } from "@chakra-ui/react";
 
 import { useRecoilState } from "recoil";
 import { burnGemModalStatus } from "@/recoil/chest/atom";
+import { useBurnGem } from "@/hooks/useBurnGem";
 
 const BurnGemModal = () => {
   const theme = useTheme();
   const [modalStatus, setModalStatus] = useRecoilState(burnGemModalStatus);
-  const {isOpen, tokenID} = modalStatus;
+  const { isOpen, tokenID } = modalStatus;
+  const { callBurnGem, isPending } = useBurnGem({ tokenID });
   const handleClose = () => {
-    setModalStatus({isOpen: false, tokenID: 0});
+    setModalStatus({ isOpen: false, tokenID: 0 });
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={() => handleClose()}
-      size={"xl"}
-      isCentered
-    >
+    <Modal isOpen={isOpen} onClose={() => handleClose()} size={"xl"} isCentered>
       <ModalOverlay />
       <ModalContent bgColor={"#21232D"} rounded={16}>
         <ModalCloseButton />
@@ -58,8 +56,19 @@ const BurnGemModal = () => {
                 fontWeight={600}
                 fontSize={24}
                 columnGap={2}
+                onClick={() => callBurnGem()}
               >
-                Burn
+                {isPending ? (
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="md"
+                  />
+                ) : (
+                  "Burn"
+                )}
               </Button>
             </Center>
           </Flex>
