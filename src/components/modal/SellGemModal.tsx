@@ -10,6 +10,7 @@ import {
   Button,
   useTheme,
   Input,
+  Spinner,
 } from "@chakra-ui/react";
 
 import { useMemo, useRef, useState } from "react";
@@ -27,7 +28,8 @@ const SellGemModal = () => {
     setModalStatus({ isOpen: false, tokenID: 0 });
   };
   const [inputValue, setInputValue] = useState("0.00");
-  const { callApprove: approveGem, isPending: isPendingApprove } = useGemApprove(modalStatus.tokenID);
+  const { callApprove: approveGem, isPending: isPendingApprove } =
+    useGemApprove(modalStatus.tokenID);
   const { waitForTransactionReceipt } = useWaitForTransaction();
   const { callListGem, isPending: isPendingListGem } = useListGem({
     tokenID: modalStatus.tokenID,
@@ -109,13 +111,26 @@ const SellGemModal = () => {
                 fontWeight={600}
                 fontSize={24}
                 columnGap={2}
-                _disabled={{ bgColor: "#191A22" }}
+                _disabled={{
+                  bgColor: "#191A22",
+                  _hover: { bgColor: "#191A22" },
+                }}
                 isDisabled={
                   !inputValue || Number(inputValue) === 0 ? true : false
                 }
                 onClick={handleListGem}
               >
-                Sell
+                {isPendingApprove || isPendingListGem ? (
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="md"
+                  />
+                ) : (
+                  "Sell"
+                )}
               </Button>
             </Center>
           </Flex>
