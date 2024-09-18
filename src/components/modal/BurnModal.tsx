@@ -17,13 +17,14 @@ import { burnGemModalStatus } from "@/recoil/chest/atom";
 const BurnGemModal = () => {
   const theme = useTheme();
   const [modalStatus, setModalStatus] = useRecoilState(burnGemModalStatus);
+  const {isOpen, tokenID} = modalStatus;
   const handleClose = () => {
-    setModalStatus(false);
+    setModalStatus({isOpen: false, tokenID: 0});
   };
 
   return (
     <Modal
-      isOpen={modalStatus}
+      isOpen={isOpen}
       onClose={() => handleClose()}
       size={"xl"}
       isCentered

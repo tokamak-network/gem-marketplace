@@ -11,7 +11,13 @@ export const sellGemModalStatus = atom<{
   },
 });
 
-export const burnGemModalStatus = atom<boolean>({
+export const burnGemModalStatus = atom<{
+  isOpen: boolean,
+  tokenID: number
+}>({
   key: "burnModalStatus",
-  default: false,
+  default: {
+    isOpen: false,
+    tokenID: 0
+  },
 });

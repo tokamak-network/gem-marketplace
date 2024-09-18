@@ -117,9 +117,9 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       const txHash = await callApprove();
       await waitForTransactionReceipt(txHash);
       await callBuyGem();
-      setModalStatus({ isOpen: true, gemId: gemItem[0].tokenID});
+      setModalStatus({ isOpen: true, gemId: gemItem[0].tokenID });
     } catch (e) {
-      console.log("heyheyhey")
+      console.log("heyheyhey");
     }
   }, [approveSuccess, payOption]);
 
@@ -392,7 +392,10 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     colorScheme="blue"
                     bgColor={"#0380FF"}
                     onClick={() => {
-                      setSellGemModalStatus({isOpen: true, tokenID: gemItem[0].tokenID});
+                      setSellGemModalStatus({
+                        isOpen: true,
+                        tokenID: gemItem[0].tokenID,
+                      });
                     }}
                   >
                     Sell
@@ -406,7 +409,12 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     justifyContent={"center"}
                     colorScheme="blue"
                     bgColor={"transparent"}
-                    onClick={() => burnSellGemModalStatus(true)}
+                    onClick={() =>
+                      burnSellGemModalStatus({
+                        isOpen: true,
+                        tokenID: gemItem[0].tokenID,
+                      })
+                    }
                     border={"1px solid #0380FF"}
                     _hover={{ bgColor: "#111111" }}
                   >
