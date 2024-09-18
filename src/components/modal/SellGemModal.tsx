@@ -12,11 +12,13 @@ import {
   Input,
 } from "@chakra-ui/react";
 
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { sellGemModalStatus } from "@/recoil/chest/atom";
 import { useGemApprove } from "@/hooks/useGemApprove";
+import { useListGem } from "@/hooks/useListGem";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
+import { parseEther } from "viem";
 
 const SellGemModal = () => {
   const theme = useTheme();
@@ -24,10 +26,14 @@ const SellGemModal = () => {
   const handleClose = () => {
     setModalStatus({ isOpen: false, tokenID: 0 });
   };
-  const { callApprove: approveGem } = useGemApprove(modalStatus.tokenID);
-  const { waitForTransactionReceipt } = useWaitForTransaction();
-
   const [inputValue, setInputValue] = useState("0.00");
+  const { callApprove: approveGem, isPending: isPendingApprove } = useGemApprove(modalStatus.tokenID);
+  const { waitForTransactionReceipt } = useWaitForTransaction();
+  const { callListGem, isPending: isPendingListGem } = useListGem({
+    tokenID: modalStatus.tokenID,
+    listPrice: parseEther(inputValue),
+  });
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleInput = (e: any) => {
@@ -48,6 +54,7 @@ const SellGemModal = () => {
   const handleListGem = async () => {
     const txHash = await approveGem();
     await waitForTransactionReceipt(txHash);
+    await callListGem();
   };
 
   return (
@@ -63,7 +70,7 @@ const SellGemModal = () => {
         <ModalBody padding={0}>
           <Flex w={"100%"} flexDir={"column"} p={"37px 52px 44px 52px"}>
             <Text fontWeight={700} fontSize={48} textAlign={"center"}>
-              Sell Gem
+              {parseEther(inputValue)}
             </Text>
 
             <Text

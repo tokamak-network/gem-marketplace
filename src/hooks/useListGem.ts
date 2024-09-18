@@ -6,15 +6,16 @@ import { MARKETPLACE_ADDRESS } from "@/constants/tokens";
 
 export const useListGem = ({
   tokenID,
-  listPrice
+  listPrice,
 }: {
-  tokenID: number
-  listPrice: bigint
+  tokenID: number;
+  listPrice: bigint;
 }) => {
-  const { writeContractAsync, isError, isPending, isSuccess } = useWriteContract();
+  const { writeContractAsync, isError, isPending, isSuccess } =
+    useWriteContract();
   const { chain } = useAccount();
 
-  const callBuyGem = useCallback(async () => {
+  const callListGem = useCallback(async () => {
     await writeContractAsync({
       abi: MarketplaceABI,
       address: MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
@@ -23,5 +24,5 @@ export const useListGem = ({
     });
   }, [tokenID, listPrice]);
 
-  return { callBuyGem, isError, isPending, isSuccess };
+  return { callListGem, isError, isPending, isSuccess };
 };
