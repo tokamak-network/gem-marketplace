@@ -79,17 +79,24 @@ const GemCard = ({
   const theme = useTheme();
   const router = useRouter();
 
-  const { tokenID, lastMineTime, color, rarity, isMining, quadrants } = gemInfo;
+  const { tokenID, gemCooldownPeriod, color, rarity, isMining, quadrants } =
+    gemInfo;
+
+  const gemCooldownDate = useMemo(
+    () => Number(gemCooldownPeriod),
+    [gemCooldownPeriod]
+  );
+  console.log(isMining)
 
   useEffect(() => {
     const currentTimestamp = Date.now();
     const interval = setInterval(() => {
-      if (currentTimestamp / 1000 - lastMineTime > COOLDOWN) {
+      if (currentTimestamp / 1000 > gemCooldownDate) {
         setReadyForMine(true);
         setTimeRemaining(0);
       } else {
         setTimeRemaining(
-          COOLDOWN + lastMineTime - Math.floor(currentTimestamp / 1000)
+          gemCooldownDate - Math.floor(currentTimestamp / 1000)
         );
       }
     }, 1000);
@@ -402,7 +409,7 @@ const GemCard = ({
               )}
 
               {mode === "market" && <PriceContainer price={100} />}
-              {isMining === null && mode === "mine" && isReadyForMine ? (
+              {isMining !== true && mode === "mine" && isReadyForMine ? (
                 <Tooltip
                   w={"232px"}
                   hasArrow

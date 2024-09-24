@@ -4,6 +4,7 @@ import { RarityItem } from "../common/RarityList";
 import { RarityType } from "@/types";
 import StarIcon from "@/assets/icon/star.svg";
 import GemIcon from "@/assets/icon/mine.svg";
+import { rarityList } from "@/constants/rarity";
 
 const MinePreview = ({ rarity }: { rarity: RarityType }) => {
   const theme = useTheme();
@@ -18,7 +19,7 @@ const MinePreview = ({ rarity }: { rarity: RarityType }) => {
           </Text>
         </Flex>
 
-        <RarityItem rarity={rarity} />
+        <RarityItem rarity={rarityList[Number(rarity)]} />
       </Flex>
 
       <Flex justify={"space-between"} align={"center"}>
