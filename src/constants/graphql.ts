@@ -50,6 +50,24 @@ export const GET_USER_GEMS = gql`
     }
   }
 `
+
+export const GET_USER_MINE_GEMS = gql`
+  query GetUserGems($user: String!) {
+    nfts (where: {owner: $user, isForSale_not: true, rarity_not: 0}) {
+      tokenID
+      color
+      gemCooldownPeriod
+      isForSale
+      miningPeriod
+      owner
+      quadrants
+      rarity
+      tokenID
+      value
+    }
+  }
+`
+
 export const GET_MARKET_PRICE = gql`
   query GetTokenMarketData($tokenName: String!) @api(contextKey: "apiName") {
     getTokenMarketData(tokenName: $tokenName) {

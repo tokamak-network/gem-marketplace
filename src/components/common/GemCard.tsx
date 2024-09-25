@@ -23,6 +23,7 @@ import {
 import GemShape from "./GemShape";
 import { COOLDOWN } from "@/constants";
 import { GemStandard, CardType, RarityType } from "@/types";
+import { useStartMiningGem } from "@/hooks/useMineGem";
 
 import PriceContainer from "./PriceContainer";
 import RarityViewer from "./RarityViewer";
@@ -86,7 +87,8 @@ const GemCard = ({
     () => Number(gemCooldownPeriod),
     [gemCooldownPeriod]
   );
-  console.log(isMining)
+
+  const { callStartMining, isPending: isStartMiningPending } = useStartMiningGem(tokenID);
 
   useEffect(() => {
     const currentTimestamp = Date.now();
@@ -95,9 +97,7 @@ const GemCard = ({
         setReadyForMine(true);
         setTimeRemaining(0);
       } else {
-        setTimeRemaining(
-          gemCooldownDate - Math.floor(currentTimestamp / 1000)
-        );
+        setTimeRemaining(gemCooldownDate - Math.floor(currentTimestamp / 1000));
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -432,6 +432,7 @@ const GemCard = ({
                     rounded={"0px 0px 8px 8px"}
                     onClick={() => {
                       seMineModalState({ isOpen: true, mineTime: 2342347 });
+                      callStartMining();
                     }}
                   >
                     <Text>{isHoverMine ? "Mine Gem" : "Ready to mine"}</Text>

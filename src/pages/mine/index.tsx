@@ -5,13 +5,13 @@ import { Box, Flex } from "@chakra-ui/react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import MiningIntroModal from "@/components/modal/MiningIntroModal";
 import GemCard from "@/components/common/GemCard";
-import { useGetUserGems } from "@/hooks/useGetUserGems";
+import { useGetUserMineGems } from "@/hooks/useGetUserGems";
 import { GemStandard } from "@/types";
 
 const MinePage = () => {
   const [storedValue] = useLocalStorage("mine-guide", true);
   const [isGuideModal, setGuideModal] = useState(storedValue);
-  const gemsList = useGetUserGems();
+  const gemsList = useGetUserMineGems();
 
   const handleGuideModal = () => {
     setGuideModal(false);
