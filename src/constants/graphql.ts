@@ -6,7 +6,9 @@ export const GET_ALL_MARKET_GEMS = gql`
       tokenID
       color
       gemCooldownPeriod
+      gemCooldownInitTime
       isForSale
+      isMining
       miningPeriod
       owner
       quadrants
@@ -23,7 +25,9 @@ export const GET_MARKET_GEMS = gql`
       tokenID
       color
       gemCooldownPeriod
+      gemCooldownInitTime
       isForSale
+      isMining
       miningPeriod
       owner
       quadrants
@@ -40,7 +44,9 @@ export const GET_USER_GEMS = gql`
       tokenID
       color
       gemCooldownPeriod
+      gemCooldownInitTime
       isForSale
+      isMining
       miningPeriod
       owner
       quadrants
@@ -57,6 +63,8 @@ export const GET_USER_MINE_GEMS = gql`
       tokenID
       color
       gemCooldownPeriod
+      gemCooldownInitTime
+      isMining
       isForSale
       miningPeriod
       owner

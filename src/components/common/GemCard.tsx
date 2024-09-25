@@ -80,24 +80,21 @@ const GemCard = ({
   const theme = useTheme();
   const router = useRouter();
 
-  const { tokenID, gemCooldownPeriod, color, rarity, isMining, quadrants } =
+  const { tokenID, gemCooldownPeriod, color, rarity, isMining, quadrants, gemCooldownInitTime } =
     gemInfo;
-
-  const gemCooldownDate = useMemo(
-    () => Number(gemCooldownPeriod),
-    [gemCooldownPeriod]
-  );
 
   const { callStartMining, isPending: isStartMiningPending } = useStartMiningGem(tokenID);
 
   useEffect(() => {
     const currentTimestamp = Date.now();
     const interval = setInterval(() => {
-      if (currentTimestamp / 1000 > gemCooldownDate) {
+      if (currentTimestamp / 1000 > (Number(gemCooldownInitTime) + Number(gemCooldownPeriod))) {
+
         setReadyForMine(true);
         setTimeRemaining(0);
       } else {
-        setTimeRemaining(gemCooldownDate - Math.floor(currentTimestamp / 1000));
+        setReadyForMine(false);
+        setTimeRemaining(Number(gemCooldownInitTime) + Number(gemCooldownPeriod) - Math.floor(currentTimestamp / 1000));
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -316,17 +313,21 @@ const GemCard = ({
             />
           </Center>
 
-          {mode === "mine" && isMining && (
+          {(mode === "mine" && isMining) || (mode === "mine" && !isReadyForMine)  && (
             <>
               <Center justifyContent={"space-between"} px={2}>
                 <Text fontSize={10} color="#FFFFFF80">
                   Time Remaining
                 </Text>
-                <Text fontSize={12}>21:43:17</Text>
+                <Text fontSize={12} minW={"74px"}>
+                    {`${Math.floor(timeRemaining / (3600 * 24))} : ${Math.floor((timeRemaining % 3600 * 24)/ 3600)} : ${Math.floor(
+                      (timeRemaining % 3600) / 60
+                    )} : ${Math.floor((timeRemaining % 3600) % 60)}`}
+                    </Text>
               </Center>
               <Progress
-                value={((COOLDOWN - timeRemaining) / COOLDOWN) * 100}
-                colorScheme="green"
+                value={((Math.floor(Date.now() / 1000) - Number(gemCooldownInitTime)) ) / Number(gemCooldownPeriod) * 100}
+                colorScheme="pink"
                 h={"2px"}
               />
             </>
@@ -359,23 +360,25 @@ const GemCard = ({
                     Cancel Mine
                   </Text>
                 </Flex>
-              ) : mode === "mine" && isReadyForMine && isMining === false ? (
-                <Flex
-                  w={"full"}
-                  h={"full"}
-                  justify={"center"}
-                  align={"center"}
-                  bgColor={"#0380FF"}
-                  p={"20px"}
-                  columnGap={"6px"}
-                  onClick={() => {
-                    setCollectGemStatus({ isOpen: true, minedGemId: tokenID });
-                  }}
-                >
-                  <Text fontSize={18}>Collect Gem</Text>
-                  <Image alt="gem" src={GemIcon} width={16} height={16} />
-                </Flex>
-              ) : mode === "forgeFinal" ? (
+              ) 
+              // : mode === "mine" && isMining === false ? (
+              //   <Flex
+              //     w={"full"}
+              //     h={"full"}
+              //     justify={"center"}
+              //     align={"center"}
+              //     bgColor={"#0380FF"}
+              //     p={"20px"}
+              //     columnGap={"6px"}
+              //     onClick={() => {
+              //       setCollectGemStatus({ isOpen: true, minedGemId: tokenID });
+              //     }}
+              //   >
+              //     <Text fontSize={18}>Collect Gem</Text>
+              //     <Image alt="gem" src={GemIcon} width={16} height={16} />
+              //   </Flex>
+              // )
+               : mode === "forgeFinal" ? (
                 <Flex p={"10px"} flexDir={"column"}>
                   <Text
                     fontSize={10}
@@ -445,13 +448,31 @@ const GemCard = ({
                   </Center>
                 </Tooltip>
               ) : mode === "mine" && !isReadyForMine ? (
-                <Box pos={"absolute"} w={"50px"} top={2} right={2}>
-                  <Text fontSize={10}>
-                    {`${Math.floor(timeRemaining / 3600)} : ${Math.floor(
-                      (timeRemaining % 3600) / 60
-                    )} : ${Math.floor((timeRemaining % 3600) % 60)}`}
-                  </Text>
-                </Box>
+
+                  <Center
+                    h={53}
+                    top={0}
+                    left={0}
+                    w={"full"}
+                    bg={"#00000080"}
+                    columnGap={"6px"}
+                    transition={"0.5s"}
+                    _hover={{ bgColor: "#000000" }}
+                    onMouseEnter={() => SetHoverMine(true)}
+                    onMouseLeave={() => SetHoverMine(false)}
+                    border={"1px solid #FFFFFF40"}
+                    textColor={"#FFFFFF80"}
+                    rounded={"0px 0px 8px 8px"}
+                    >
+                      <Text>Cooldown...</Text>
+                    </Center>
+                // <Box pos={"absolute"} w={"50px"} top={2} right={2}>
+                //   <Text fontSize={10}>
+                //     {`${Math.floor(timeRemaining / 3600)} : ${Math.floor(
+                //       (timeRemaining % 3600) / 60
+                //     )} : ${Math.floor((timeRemaining % 3600) % 60)}`}
+                //   </Text>
+                // </Box>
               ) : (
                 ""
               )}
