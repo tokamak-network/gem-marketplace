@@ -14,7 +14,7 @@ export const ColorItem = ({
   active?: boolean;
 }) => {
   const [colorState, setColorState] = useRecoilState(colorStatus);
-  const handleRarity = (color: string) => {
+  const handleColor = (color: string) => {
     setColorState((prev) => ({ ...prev, ...{ [color]: !prev[color] } }));
   };
   const theme = useTheme();
@@ -34,7 +34,7 @@ export const ColorItem = ({
       bgColor={colorList[color]}
       columnGap={"10px"}
       cursor={"pointer"}
-      onClick={() => handleRarity(color)}
+      onClick={() => handleColor(color)}
       opacity={defaultState || colorState[color] ? 1 : 0.5}
       border={"1px solid"}
       borderColor={colorState[color] || active ? colorBorderList[color] : "transparent"}

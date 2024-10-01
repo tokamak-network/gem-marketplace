@@ -28,8 +28,6 @@ export const GemList: GemStandard[] = [
   // { id: 22, rarity: RarityType.RARE, quadrants:[3,3,4,4], color: ["#61FF00", "#4299FF"], lastMineTime: 1719208712, isMining: true  },
 ];
 
-export const COOLDOWN = 60 * 60 * 24;
-
 export const tokenList = [
   {
     symbol: "TON",

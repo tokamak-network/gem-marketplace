@@ -71,19 +71,3 @@ export const obtainModalStatus = atom<ObtainModalStatusType>({
     gemId: 0,
   },
 });
-
-export const activeRarityListSelector = selector<{
-  activeRarityList: GemStandard[];
-}>({
-  key: "activeRarityListSelector",
-  get: ({ get }) => {
-    const raritySelected = get(rarityStatus);
-    const activeRarityList = GemList.filter(
-      (item) => raritySelected[item.rarity.toLocaleLowerCase()] === true
-    );
-    for (let item in raritySelected) {
-      if (raritySelected[item] === true) return { activeRarityList };
-    }
-    return { activeRarityList: GemList };
-  },
-});

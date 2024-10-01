@@ -21,7 +21,6 @@ import {
   selectedFinalForge,
 } from "@/recoil/forge/atom";
 import GemShape from "./GemShape";
-import { COOLDOWN } from "@/constants";
 import { GemStandard, CardType, RarityType } from "@/types";
 import { useStartMiningGem } from "@/hooks/useMineGem";
 
@@ -195,7 +194,7 @@ const GemCard = ({
       w={width}
       h={height}
       minW={width}
-      bgGradient={"radial(#6F97FF, #1F25A4)"}
+      bgColor={"#191A22"}
       sx={{ perspective: "1000px" }}
       cursor={"pointer"}
       onClick={handleCardClick}
