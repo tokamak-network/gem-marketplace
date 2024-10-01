@@ -66,6 +66,7 @@ const GemCard = ({
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
   const [isReadyForMine, setReadyForMine] = useState<boolean>(false);
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
+  const [isHoverCooldown, SetHoverCooldown] = useState<boolean>(false);
   const [, seMineModalState] = useRecoilState(miningModalStatus);
 
   const [, setCollectGemStatus] = useRecoilState(miningResultStatus);
@@ -458,13 +459,13 @@ const GemCard = ({
                     columnGap={"6px"}
                     transition={"0.5s"}
                     _hover={{ bgColor: "#000000" }}
-                    onMouseEnter={() => SetHoverMine(true)}
-                    onMouseLeave={() => SetHoverMine(false)}
+                    onMouseEnter={() => SetHoverCooldown(true)}
+                    onMouseLeave={() => SetHoverCooldown(false)}
                     border={"1px solid #FFFFFF40"}
-                    textColor={"#FFFFFF80"}
+                    textColor={isHoverCooldown ? "#FFFFFF" : "#FFFFFF80"}
                     rounded={"0px 0px 8px 8px"}
                     >
-                      <Text>Cooldown...</Text>
+                      <Text>{isHoverCooldown ? "Speed Up" : "Cooldown..."}</Text>
                     </Center>
                 // <Box pos={"absolute"} w={"50px"} top={2} right={2}>
                 //   <Text fontSize={10}>
