@@ -1,6 +1,4 @@
 import { atom, selector } from "recoil";
-import { GemList } from "@/constants";
-import { GemStandard } from "@/types";
 
 type RarityStatusType = {
   [common: string]: boolean | "";

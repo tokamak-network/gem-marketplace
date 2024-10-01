@@ -8,6 +8,17 @@ export const rarityList = [
   "heirloom",
 ];
 
+export const colorNameList = [
+  "ruby",
+  "amber",
+  "topaz",
+  "emerald",
+  "turquoise",
+  "amethyst",
+  "garnet",
+  "diamond",
+  "onyx"
+]
 
 type ColorListType = {
   [ruby: string]: string;
