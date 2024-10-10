@@ -38,7 +38,6 @@ const ObtainSuccessModal = () => {
       ),
     [gemList, modalStatus.gemId]
   );
-  console.log(gemItem)
 
   return (
     <Modal
