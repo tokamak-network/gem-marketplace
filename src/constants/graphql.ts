@@ -39,8 +39,8 @@ export const GET_MARKET_GEMS = gql`
 `;
 
 export const GET_USER_GEMS = gql`
-    query GetUserGems($offset: Int, $limit: Int) {
-      nfts (offset: $offset, limit: $limit,  where: {owner: $user}) {
+    query GetUserGems($skip: Int, $first: Int, $user: String) {
+      nfts (skip: $skip, first: $first, where: {owner: $user}) {
         tokenID
         color
         gemCooldownPeriod

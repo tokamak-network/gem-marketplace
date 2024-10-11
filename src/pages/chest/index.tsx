@@ -16,7 +16,6 @@ const ChestPage = () => {
   const { activeGemList } = useFilteredList(result);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
-  console.log(activeGemList);
   return search ? (
     <GemItemView id={Number(search)} mode="chest" />
   ) : (
@@ -25,8 +24,12 @@ const ChestPage = () => {
         dataLength={activeGemList.length} //This is important field to render the next data
         next={() => fetchMore({
           variables: {
-            offset: 10
-          }
+            skip: activeGemList.length
+          },
+          updateQuery(previousData, { fetchMoreResult, variables: { skip }}) {
+            console.log([...previousData.nfts, ...fetchMoreResult.nfts]);
+            return {nfts: [...previousData.nfts, ...fetchMoreResult.nfts]}
+          },
         })}
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}

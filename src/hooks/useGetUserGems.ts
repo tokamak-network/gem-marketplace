@@ -8,8 +8,8 @@ export const useGetUserGems = () => {
   const { loading, error, data, fetchMore } = useQuery(GET_USER_GEMS, {
     variables: {
       user: address,
-      offset: 0,
-      limit: 10
+      skip: 0,
+      first: 10
     },
   });
   const result = useMemo(() => data?.nfts, [loading, error, data]);
