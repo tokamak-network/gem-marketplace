@@ -9,11 +9,11 @@ export const useGetUserGems = () => {
     variables: {
       user: address,
       skip: 0,
-      first: 10
+      first: 15,
     },
   });
   const result = useMemo(() => data?.nfts, [loading, error, data]);
-  return {fetchMore, result};
+  return { fetchMore, result };
 };
 
 export const useGetUserMineGems = () => {

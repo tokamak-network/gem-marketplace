@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import GemCard from "@/components/common/GemCard";
 import { useSearchParams } from "next/navigation";
 import GemItemView from "@/components/common/GemItemView";
@@ -12,7 +12,7 @@ const ChestPage = () => {
   const searchParams = useSearchParams();
   const search = searchParams.get("asset");
 
-  const {result, fetchMore} = useGetUserGems();
+  const { result, fetchMore } = useGetUserGems();
   const { activeGemList } = useFilteredList(result);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
@@ -22,15 +22,19 @@ const ChestPage = () => {
     activeGemList && (
       <InfiniteScroll
         dataLength={activeGemList.length} //This is important field to render the next data
-        next={() => fetchMore({
-          variables: {
-            skip: activeGemList.length
-          },
-          updateQuery(previousData, { fetchMoreResult, variables: { skip }}) {
-            console.log([...previousData.nfts, ...fetchMoreResult.nfts]);
-            return {nfts: [...previousData.nfts, ...fetchMoreResult.nfts]}
-          },
-        })}
+        next={() =>
+          fetchMore({
+            variables: {
+              skip: activeGemList.length,
+            },
+            updateQuery(previousData, { fetchMoreResult }) {
+              if (fetchMoreResult.nfts.length < 15) {
+                setHasMore(false);
+              }
+              return { nfts: [...previousData.nfts, ...fetchMoreResult.nfts] };
+            },
+          })
+        }
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
         endMessage={
