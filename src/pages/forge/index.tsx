@@ -11,8 +11,8 @@ import { GemStandard } from "@/types";
 const ForgePage = () => {
   const [storedValue] = useLocalStorage("forge-guide", true);
   const [isGuideModal, setGuideModal] = useState(storedValue);
-  // const gemListForUser = useGetUserGems();
-  // const { activeGemList } = useFilteredList(gemListForUser);
+  const { result: gemListForUser } = useGetUserGems();
+  const { activeGemList } = useFilteredList(gemListForUser);
 
   return (
     <Box>
@@ -23,7 +23,7 @@ const ForgePage = () => {
 
       {/* <ForgeContainer /> */}
 
-      {/* <Flex mt={"72px"} gap={4} flexWrap={"wrap"}>
+      <Flex mt={"72px"} gap={4} flexWrap={"wrap"}>
         {activeGemList?.map((item: GemStandard, key: number) => {
           return (
             <GemCard
@@ -36,7 +36,7 @@ const ForgePage = () => {
             />
           );
         })}
-      </Flex> */}
+      </Flex>
     </Box>
   );
 };
