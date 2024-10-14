@@ -29,8 +29,8 @@ export type GemStandard = {
   tokenID: number;
   quadrants: number[];
   color: number[];
-  gemCooldownPeriod: number;
-  gemCooldownInitTime: number;
+  gemCooldownPeriod?: number;
+  gemCooldownInitTime?: number;
   rarity: RarityType;
   isMining?: boolean | null;
   value?: bigint;

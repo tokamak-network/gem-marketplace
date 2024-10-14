@@ -63,7 +63,6 @@ const ForgeSuccessModal = () => {
                   quadrants: [6, 5, 5, 5],
                   color: [2,3],
                   tokenID: 30,
-                  lastMineTime: 324234234,
                   rarity: RarityType.legendary,
                 }}
               />
