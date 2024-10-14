@@ -3,9 +3,7 @@ import { Box, Center, Flex, Text, useTheme } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { useSearchParams } from "next/navigation";
 
-import {
-  gemPackModalStatus,
-} from "@/recoil/market/atom";
+import { gemPackModalStatus } from "@/recoil/market/atom";
 
 import PriceContainer from "@/components/common/PriceContainer";
 import GemPackModal from "@/components/modal/GemPackModal";
@@ -27,7 +25,7 @@ const MarketPage = () => {
   const search = useMemo(() => searchParams.get("asset"), [searchParams]);
   const gemList = useGetMarketGems();
 
-  const {activeGemList} = useFilteredList(gemList);
+  const { activeGemList } = useFilteredList(gemList);
   return search ? (
     <GemItemView id={Number(search)} mode="market" />
   ) : (
@@ -118,17 +116,19 @@ const MarketPage = () => {
       </Flex>
 
       <Flex mt={4} gap={4} flexWrap={"wrap"}>
-        {activeGemList?.map((item: any, key: number) => {
-          return (
-            <GemCard
-              key={key}
-              rarityScore={1}
-              staked={253.2}
-              dailyChange={16.7}
-              gemInfo={item}
-            />
-          );
-        })}
+        {activeGemList &&
+          activeGemList.length > 0 &&
+          activeGemList.map((item: any, key: number) => {
+            return (
+              <GemCard
+                key={key}
+                rarityScore={1}
+                staked={253.2}
+                dailyChange={16.7}
+                gemInfo={item}
+              />
+            );
+          })}
       </Flex>
     </>
   );

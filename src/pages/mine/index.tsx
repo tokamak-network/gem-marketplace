@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import { Box, Flex } from "@chakra-ui/react";
@@ -23,19 +23,20 @@ const MinePage = () => {
       <MiningIntroModal isOpen={isGuideModal} onClose={handleGuideModal} />
 
       <Flex mt={4} gap={4} flexWrap={"wrap"}>
-        {activeGemList?.map((item: GemStandard, key: number) => {
-          return (
-            <GemCard
-              mode="mine"
-              key={key}
-              rarityScore={1}
-              staked={253.2}
-              dailyChange={16.7}
-              gemInfo={item}
-              
-            />
-          );
-        })}
+        {activeGemList &&
+          activeGemList.length > 0 &&
+          activeGemList.map((item: GemStandard, key: number) => {
+            return (
+              <GemCard
+                mode="mine"
+                key={key}
+                rarityScore={1}
+                staked={253.2}
+                dailyChange={16.7}
+                gemInfo={item}
+              />
+            );
+          })}
       </Flex>
     </>
   );

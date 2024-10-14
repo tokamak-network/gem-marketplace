@@ -24,18 +24,19 @@ const ForgePage = () => {
       {/* <ForgeContainer /> */}
 
       <Flex mt={"72px"} gap={4} flexWrap={"wrap"}>
-        {activeGemList?.map((item: GemStandard, key: number) => {
-          return (
-            <GemCard
-              mode="forge"
-              key={key}
-              gemInfo={item}
-              rarityScore={1}
-              staked={253.2}
-              dailyChange={16.7}
-            />
-          );
-        })}
+        {activeGemList && activeGemList.length > 0 &&
+          activeGemList.map((item: GemStandard, key: number) => {
+            return (
+              <GemCard
+                mode="forge"
+                key={key}
+                gemInfo={item}
+                rarityScore={1}
+                staked={253.2}
+                dailyChange={16.7}
+              />
+            );
+          })}
       </Flex>
     </Box>
   );
