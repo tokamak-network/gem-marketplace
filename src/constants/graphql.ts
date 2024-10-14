@@ -5,7 +5,7 @@ export const GET_ALL_MARKET_GEMS = gql`
     nfts(where: { owner_not: $user, isForSale: true }) {
       tokenID
       color
-      gemCooldownPeriod
+      cooldownDueDate
       gemCooldownInitTime
       isForSale
       isMining
@@ -24,7 +24,7 @@ export const GET_MARKET_GEMS = gql`
     nfts {
       tokenID
       color
-      gemCooldownPeriod
+      cooldownDueDate
       gemCooldownInitTime
       isForSale
       isMining
@@ -43,7 +43,7 @@ export const GET_USER_GEMS = gql`
     nfts(skip: $skip, first: $first, where: { owner: $user }) {
       tokenID
       color
-      gemCooldownPeriod
+      cooldownDueDate
       gemCooldownInitTime
       isForSale
       isMining
@@ -62,7 +62,7 @@ export const GET_USER_MINE_GEMS = gql`
     nfts(where: { owner: $user, isForSale_not: true, rarity_not: 0 }) {
       tokenID
       color
-      gemCooldownPeriod
+      cooldownDueDate
       gemCooldownInitTime
       isMining
       isForSale

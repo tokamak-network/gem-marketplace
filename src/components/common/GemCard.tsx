@@ -82,7 +82,7 @@ const GemCard = ({
 
   const {
     tokenID,
-    gemCooldownPeriod,
+    cooldownDueDate,
     color,
     rarity,
     isMining,
@@ -96,18 +96,13 @@ const GemCard = ({
   useEffect(() => {
     const currentTimestamp = Date.now();
     const interval = setInterval(() => {
-      if (
-        currentTimestamp / 1000 >
-        Number(gemCooldownInitTime) + Number(gemCooldownPeriod)
-      ) {
+      if (currentTimestamp / 1000 > Number(cooldownDueDate)) {
         setReadyForStartMine(true);
         setTimeRemaining(0);
       } else {
         setReadyForStartMine(false);
         setTimeRemaining(
-          Number(gemCooldownInitTime) +
-            Number(gemCooldownPeriod) -
-            Math.floor(currentTimestamp / 1000)
+          Number(cooldownDueDate) - Math.floor(currentTimestamp / 1000)
         );
       }
     }, 1000);
@@ -344,7 +339,7 @@ const GemCard = ({
                   value={
                     ((Math.floor(Date.now() / 1000) -
                       Number(gemCooldownInitTime)) /
-                      Number(gemCooldownPeriod)) *
+                      Number(cooldownDueDate)) *
                     100
                   }
                   colorScheme="pink"
@@ -363,94 +358,96 @@ const GemCard = ({
               align={"center"}
             >
               {mode === "mine" ? (
-                isReadyForStartMine && !isMining ? 
-                <Tooltip
-                w={"232px"}
-                hasArrow
-                bg={"#000000E5"}
-                label={<MinePreview rarity={rarity} />}
-                placement={"top"}
-              >
-                <Center
-                  h={53}
-                  top={0}
-                  left={0}
-                  w={"full"}
-                  bg={"#00000080"}
-                  columnGap={"6px"}
-                  transition={"0.5s"}
-                  _hover={{ bgColor: "#000000" }}
-                  onMouseEnter={() => SetHoverMine(true)}
-                  onMouseLeave={() => SetHoverMine(false)}
-                  border={"1px solid #FFFFFF40"}
-                  rounded={"0px 0px 8px 8px"}
-                  onClick={() => {
-                    seMineModalState({ isOpen: true, mineTime: 2342347 });
-                    callStartMining();
-                  }}
-                >
-                  <Text>{isHoverMine ? "Mine Gem" : "Ready to mine"}</Text>
-                  <Image
-                    alt="gem"
-                    src={GemIcon}
-                    width={16}
-                    height={16}
-                  ></Image>
-                </Center>
-              </Tooltip> :
-              !isReadyForStartMine ? 
-              <Center
-                  h={53}
-                  top={0}
-                  left={0}
-                  w={"full"}
-                  bg={"#00000080"}
-                  columnGap={"6px"}
-                  transition={"0.5s"}
-                  _hover={{ bgColor: "#000000" }}
-                  onMouseEnter={() => SetHoverCooldown(true)}
-                  onMouseLeave={() => SetHoverCooldown(false)}
-                  border={"1px solid #FFFFFF40"}
-                  textColor={isHoverCooldown ? "#FFFFFF" : "#FFFFFF80"}
-                  rounded={"0px 0px 8px 8px"}
-                >
-                  <Text>{isHoverCooldown ? "Speed Up" : "Cooldown..."}</Text>
-                </Center> :
-                isReadyForStartMine === true && isMining === true ?
-                <Flex
-                  w={"full"}
-                  justify={"center"}
-                  align={"center"}
-                  columnGap={1}
-                  h={"53px"}
-                  bgColor={"#00000080"}
-                  color={"#FFFFFF80"}
-                  _hover={{ bgColor: "#000000", color: "#FFFFFF" }}
-                  rounded={"0px 0px 8px 8px"}
-                  border={"1px solid #FFFFFF40"}
-                  transition={"0.2s"}
-                >
-                  <Text fontSize={18} textAlign={"center"}>
-                    Cancel Mine
-                  </Text>
-                </Flex> 
-                // :isReadyForStartMine === true && isMining === false ? 
-                //                 <Flex
-                //   w={"full"}
-                //   h={"full"}
-                //   justify={"center"}
-                //   align={"center"}
-                //   bgColor={"#0380FF"}
-                //   p={"20px"}
-                //   columnGap={"6px"}
-                //   onClick={() => {
-                //     setCollectGemStatus({ isOpen: true, minedGemId: tokenID });
-                //   }}
-                // >
-                //   <Text fontSize={18}>Collect Gem</Text>
-                //   <Image alt="gem" src={GemIcon} width={16} height={16} />
-                // </Flex>  
-                : ""
+                isReadyForStartMine && !isMining ? (
+                  <Tooltip
+                    w={"232px"}
+                    hasArrow
+                    bg={"#000000E5"}
+                    label={<MinePreview rarity={rarity} />}
+                    placement={"top"}
+                  >
+                    <Center
+                      h={53}
+                      top={0}
+                      left={0}
+                      w={"full"}
+                      bg={"#00000080"}
+                      columnGap={"6px"}
+                      transition={"0.5s"}
+                      _hover={{ bgColor: "#000000" }}
+                      onMouseEnter={() => SetHoverMine(true)}
+                      onMouseLeave={() => SetHoverMine(false)}
+                      border={"1px solid #FFFFFF40"}
+                      rounded={"0px 0px 8px 8px"}
+                      onClick={() => {
+                        seMineModalState({ isOpen: true, mineTime: 2342347 });
+                        callStartMining();
+                      }}
+                    >
+                      <Text>{isHoverMine ? "Mine Gem" : "Ready to mine"}</Text>
+                      <Image
+                        alt="gem"
+                        src={GemIcon}
+                        width={16}
+                        height={16}
+                      ></Image>
+                    </Center>
+                  </Tooltip>
+                ) : !isReadyForStartMine ? (
+                  <Center
+                    h={53}
+                    top={0}
+                    left={0}
+                    w={"full"}
+                    bg={"#00000080"}
+                    columnGap={"6px"}
+                    transition={"0.5s"}
+                    _hover={{ bgColor: "#000000" }}
+                    onMouseEnter={() => SetHoverCooldown(true)}
+                    onMouseLeave={() => SetHoverCooldown(false)}
+                    border={"1px solid #FFFFFF40"}
+                    textColor={isHoverCooldown ? "#FFFFFF" : "#FFFFFF80"}
+                    rounded={"0px 0px 8px 8px"}
+                  >
+                    <Text>{isHoverCooldown ? "Speed Up" : "Cooldown..."}</Text>
+                  </Center>
+                ) : isReadyForStartMine === true && isMining === true ? (
+                  <Flex
+                    w={"full"}
+                    justify={"center"}
+                    align={"center"}
+                    columnGap={1}
+                    h={"53px"}
+                    bgColor={"#00000080"}
+                    color={"#FFFFFF80"}
+                    _hover={{ bgColor: "#000000", color: "#FFFFFF" }}
+                    rounded={"0px 0px 8px 8px"}
+                    border={"1px solid #FFFFFF40"}
+                    transition={"0.2s"}
+                  >
+                    <Text fontSize={18} textAlign={"center"}>
+                      Cancel Mine
+                    </Text>
+                  </Flex>
+                ) : (
+                  // :isReadyForStartMine === true && isMining === false ?
+                  //                 <Flex
+                  //   w={"full"}
+                  //   h={"full"}
+                  //   justify={"center"}
+                  //   align={"center"}
+                  //   bgColor={"#0380FF"}
+                  //   p={"20px"}
+                  //   columnGap={"6px"}
+                  //   onClick={() => {
+                  //     setCollectGemStatus({ isOpen: true, minedGemId: tokenID });
+                  //   }}
+                  // >
+                  //   <Text fontSize={18}>Collect Gem</Text>
+                  //   <Image alt="gem" src={GemIcon} width={16} height={16} />
+                  // </Flex>
+                  ""
+                )
               ) : mode === "forgeFinal" ? (
                 <Flex p={"10px"} flexDir={"column"}>
                   <Text
@@ -499,28 +496,29 @@ const GemCard = ({
                     Cancel Mine
                   </Text>
                 </Flex>
-              ) : // : mode === "mine" && isMining === false ? (
-              //   <Flex
-              //     w={"full"}
-              //     h={"full"}
-              //     justify={"center"}
-              //     align={"center"}
-              //     bgColor={"#0380FF"}
-              //     p={"20px"}
-              //     columnGap={"6px"}
-              //     onClick={() => {
-              //       setCollectGemStatus({ isOpen: true, minedGemId: tokenID });
-              //     }}
-              //   >
-              //     <Text fontSize={18}>Collect Gem</Text>
-              //     <Image alt="gem" src={GemIcon} width={16} height={16} />
-              //   </Flex>
-              // )
-<></>
-              }
+              ) : (
+                // : mode === "mine" && isMining === false ? (
+                //   <Flex
+                //     w={"full"}
+                //     h={"full"}
+                //     justify={"center"}
+                //     align={"center"}
+                //     bgColor={"#0380FF"}
+                //     p={"20px"}
+                //     columnGap={"6px"}
+                //     onClick={() => {
+                //       setCollectGemStatus({ isOpen: true, minedGemId: tokenID });
+                //     }}
+                //   >
+                //     <Text fontSize={18}>Collect Gem</Text>
+                //     <Image alt="gem" src={GemIcon} width={16} height={16} />
+                //   </Flex>
+                // )
+                <></>
+              )}
 
               {mode === "market" && <PriceContainer price={100} />}
-              
+
               {(mode === "forge" ||
                 mode === "common" ||
                 mode === "forgeFinal") && (
