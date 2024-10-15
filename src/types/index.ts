@@ -34,6 +34,7 @@ export type GemStandard = {
   rarity: RarityType;
   isMining?: boolean | null;
   value?: bigint;
+  price?: bigint;
 };
 
 export type ActivityFilterType = "all" | "mine" | "forge" | "buysell";

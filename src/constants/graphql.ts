@@ -15,6 +15,7 @@ export const GET_ALL_MARKET_GEMS = gql`
       rarity
       tokenID
       value
+      price
     }
   }
 `;
@@ -34,6 +35,7 @@ export const GET_MARKET_GEMS = gql`
       rarity
       tokenID
       value
+      price
     }
   }
 `;
@@ -53,6 +55,7 @@ export const GET_USER_GEMS = gql`
       rarity
       tokenID
       value
+      price
     }
   }
 `;
@@ -72,6 +75,7 @@ export const GET_USER_MINE_GEMS = gql`
       rarity
       tokenID
       value
+      price
     }
   }
 `;

@@ -294,7 +294,55 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     BUY GEM WITH:
                   </Text>
                   <Center columnGap={"10px"}>
-                    {payOption ? (
+                    {/* {payOption ?  (*/}
+
+                    <Button
+                      w={"full"}
+                      maxW={624}
+                      h={"65px"}
+                      columnGap={2}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      colorScheme="blue"
+                      bgColor={"#0380FF"}
+                      onClick={() => {
+                        handleClick();
+                      }}
+                      isDisabled={isPending || isPendingApproval}
+                    >
+                      {!isPending &&
+                        !isPendingApproval &&
+                        (isConnected ? (
+                          <Image
+                            alt="ton"
+                            src={WSTONIcon}
+                            width={27}
+                            height={27}
+                          />
+                        ) : (
+                          <Image
+                            alt="wallet"
+                            src={WalletIcon}
+                            width={22}
+                            height={23}
+                          />
+                        ))}
+                      <Text fontSize={24} fontWeight={600}>
+                        {isPending || isPendingApproval ? (
+                          <Spinner
+                            thickness="4px"
+                            speed="0.65s"
+                            emptyColor="gray.200"
+                            color="blue.500"
+                            size="md"
+                          />
+                        ) : (
+                          `${formatUnits(gemItem[0].price!, 27)} TITANWSTON`
+                        )}
+                      </Text>
+                    </Button>
+
+                    {/*) : (
                       <Button
                         w={"full"}
                         maxW={624}
@@ -309,53 +357,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                         }}
                         isDisabled={isPending || isPendingApproval}
                       >
-                        {!isPending &&
-                          !isPendingApproval &&
-                          (isConnected ? (
-                            <Image
-                              alt="ton"
-                              src={WSTONIcon}
-                              width={27}
-                              height={27}
-                            />
-                          ) : (
-                            <Image
-                              alt="wallet"
-                              src={WalletIcon}
-                              width={22}
-                              height={23}
-                            />
-                          ))}
-                        <Text fontSize={24} fontWeight={600}>
-                          {isPending || isPendingApproval ? (
-                            <Spinner
-                              thickness="4px"
-                              speed="0.65s"
-                              emptyColor="gray.200"
-                              color="blue.500"
-                              size="md"
-                            />
-                          ) : (
-                            `${formatUnits(gemItem[0].value!, 27)} TITANWSTON`
-                          )}
-                        </Text>
-                      </Button>
-                    ) : (
-                      <Button
-                        w={"full"}
-                        maxW={624}
-                        h={"65px"}
-                        columnGap={2}
-                        alignItems={"center"}
-                        justifyContent={"center"}
-                        colorScheme="blue"
-                        bgColor={"#0380FF"}
-                        onClick={() => {
-                          handleClick();
-                        }}
-                        isDisabled={isPending || isPendingApproval}
-                      >
-                        {!isPending && (
+                        {!isPending && !isPendingApproval && (
                           <Image
                             alt="ton"
                             src={TonIcon}
@@ -377,7 +379,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                           )}
                         </Text>
                       </Button>
-                    )}
+                    )} */}
                   </Center>
                 </Box>
               ) : mode === "chest" ? (

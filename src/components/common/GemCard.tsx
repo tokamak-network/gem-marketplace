@@ -35,6 +35,7 @@ import SavedIcon from "./SavedIcon";
 import InfoIcon from "@/assets/icon/info.svg";
 import { rarityList } from "@/constants/rarity";
 import { arraysEqual } from "@/utils";
+import { formatUnits } from "viem";
 
 interface GemCardType {
   width?: number;
@@ -517,7 +518,7 @@ const GemCard = ({
                 <></>
               )}
 
-              {mode === "market" && <PriceContainer price={100} />}
+              {mode === "market" && <PriceContainer price={Number(formatUnits(gemInfo.price!, 27))} />}
 
               {(mode === "forge" ||
                 mode === "common" ||

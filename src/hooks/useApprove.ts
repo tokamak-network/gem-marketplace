@@ -2,6 +2,9 @@ import { useCallback } from "react";
 import { useAccount, useWriteContract } from "wagmi";
 import { erc20Abi } from "viem";
 import { MARKETPLACE_ADDRESS } from "@/constants/tokens";
+import { writeContract } from "@wagmi/core";
+import { config } from "@/config/wagmi";
+
 export const useTonORWSTONApprove = (
   amount: bigint,
   contractAddress: `0x${string}`
@@ -20,4 +23,18 @@ export const useTonORWSTONApprove = (
   }, [contractAddress, amount]);
 
   return { callApprove, isPending, isSuccess, error };
+};
+
+export const handleApprove = async (
+  market_address: `0x${string}`,
+  contractAddress: `0x${string}`,
+  amount: bigint
+) => {
+  const txHash = await writeContract(config, {
+    abi: erc20Abi,
+    address: contractAddress as `0x${string}`,
+    functionName: "approve",
+    args: [market_address as `0x${string}`, amount],
+  });
+  return txHash;
 };

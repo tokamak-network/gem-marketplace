@@ -37,9 +37,12 @@ export function forgeGemsColor(gem1: number[], gem2: number[]) {
   // Check if both gems are solid (i.e., arrays with one element)
   if (gem1.length === 1 && gem2.length === 1) {
     if (gem1[0] === gem2[0]) {
-      return [gem1]; // Same Solid -> Same Solid
+      return [[gem1, gem1]]; // Same Solid -> Same Solid
     } else {
-      return [gem1, gem2]; // Different Solid -> Gradient
+      return [
+        [gem1, gem1],
+        [gem2, gem2],
+      ]; // Different Solid -> Gradient
     }
   }
 
@@ -80,7 +83,13 @@ export function forgeGemsColor(gem1: number[], gem2: number[]) {
     // Filter out duplicates by sorting each gradient before adding it
     combinations.forEach((gradient) => {
       const sortedGradient = gradient.sort(); // Sort to treat [0,1] and [1,0] as the same
-      if (!newGradients.some((existing) => existing[0] === sortedGradient[0] && existing[1] === sortedGradient[1])) {
+      if (
+        !newGradients.some(
+          (existing) =>
+            existing[0] === sortedGradient[0] &&
+            existing[1] === sortedGradient[1]
+        )
+      ) {
         newGradients.push(sortedGradient);
       }
     });
@@ -95,6 +104,6 @@ export function bnToNumber(value: bigint, decimals: number = 18) {
 }
 
 export function arraysEqual(arr1: number[], arr2: number[]) {
-    if (arr1.length !== arr2.length) return false; // Arrays must have the same length
-    return arr1.every((value, index) => value === arr2[index]); // Compare each element
+  if (arr1.length !== arr2.length) return false; // Arrays must have the same length
+  return arr1.every((value, index) => value === arr2[index]); // Compare each element
 }
