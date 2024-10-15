@@ -1,6 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Flex, Text, useTheme, Box } from "@chakra-ui/react";
+import {
+  Flex,
+  Text,
+  useTheme,
+  Box,
+  Link as ChakraLink,
+} from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import { useRecoilState } from "recoil";
 
@@ -23,6 +29,7 @@ interface MenuType {
   children: React.ReactNode;
   icon: string;
   link: string;
+  newTab?: boolean;
 }
 
 const Sidebar = () => {
@@ -31,10 +38,14 @@ const Sidebar = () => {
   const pathName = pathname.substring(1, pathname.length);
   const [isSettings, setSettings] = useRecoilState(settingsContainerStatus);
 
-  const CustomMenuItem = ({ children, icon, link }: MenuType) => {
+  const CustomMenuItem = ({ children, icon, link, newTab }: MenuType) => {
     const isActive = pathName === link;
     return (
-      <Link href={`/${link}`}>
+      <Link
+        href={newTab ? link : `/${link}`}
+        target={newTab ? "_blank" : ""}
+        rel={newTab ? "noopener noreferrer" : ""}
+      >
         <Flex
           pl={isActive ? 8 : 9}
           my={4}
@@ -92,11 +103,7 @@ const Sidebar = () => {
     >
       <Flex align={"center"} flexDir={"column"} rowGap={"10px"} p={9}>
         <Image alt="logo" src={GemstonLogo} width={36} height={36} />
-        <Text
-          fontFamily={theme.fonts.Zcool}
-          fontSize={38}
-          color={"white"}
-        >
+        <Text fontFamily={theme.fonts.Zcool} fontSize={38} color={"white"}>
           GemSTON
         </Text>
       </Flex>
@@ -126,10 +133,18 @@ const Sidebar = () => {
 
       <MenuTitle>Account</MenuTitle>
 
-      <CustomMenuItem icon={Guide} link="guide">
+      <CustomMenuItem
+        icon={Guide}
+        newTab
+        link="https://www.notion.so/tokamak/GemSTON-A-Comprehensive-Overview-934b954a4c974a8cada97f3df2a87d38"
+      >
         Help/Guide
       </CustomMenuItem>
-      <CustomMenuItem icon={Github} link="activity">
+      <CustomMenuItem
+        icon={Github}
+        newTab
+        link="https://github.com/tokamak-network/gem-nft-contract"
+      >
         Github
       </CustomMenuItem>
       <SettingMenuItem />
