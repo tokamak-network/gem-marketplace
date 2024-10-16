@@ -74,7 +74,7 @@ const MarketPage = () => {
             px={"9px"}
             align={"center"}
           >
-            <Link href={"/market/gempack"} prefetch>
+            <Link href={"/market/gempack"} replace>
               <PriceContainer price={10} />
             </Link>
           </Flex>
