@@ -69,3 +69,8 @@ export const obtainModalStatus = atom<ObtainModalStatusType>({
     gemId: 0,
   },
 });
+
+export const StakingIndex = atom<number>({
+  key: "stakingIndex",
+  default: 1
+})

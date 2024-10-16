@@ -26,7 +26,7 @@ export const useTonORWSTONApprove = (
 };
 
 export const handleApprove = async (
-  market_address: `0x${string}`,
+  marketplace_address: `0x${string}`,
   contractAddress: `0x${string}`,
   amount: bigint
 ) => {
@@ -34,7 +34,7 @@ export const handleApprove = async (
     abi: erc20Abi,
     address: contractAddress as `0x${string}`,
     functionName: "approve",
-    args: [market_address as `0x${string}`, amount],
+    args: [marketplace_address as `0x${string}`, amount],
   });
   return txHash;
 };

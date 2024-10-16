@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useAccount, useBalance } from "wagmi";
 import {
   Box,
@@ -15,9 +15,9 @@ import { CardType, GemStandard } from "@/types";
 import GemCard from "@/components/common/GemCard";
 import { RarityItem } from "@/components/common/RarityList";
 import { ColorItem } from "@/components/common/ColorList";
-import { obtainModalStatus } from "@/recoil/market/atom";
+import { obtainModalStatus, StakingIndex } from "@/recoil/market/atom";
 import { useRecoilState } from "recoil";
-import { formatUnits } from "viem";
+import { formatUnits, parseUnits } from "viem";
 
 import { sellGemModalStatus, burnGemModalStatus } from "@/recoil/chest/atom";
 
@@ -37,13 +37,15 @@ import { useGetAllGems, useGetMarketGems } from "@/hooks/useGetMarketGems";
 import { rarityList } from "@/constants/rarity";
 import { useBuyGem } from "@/hooks/useBuyGem";
 import {
+  MARKETPLACE_ADDRESS,
   TON_ADDRESS_BY_CHAINID,
   WSWTON_ADDRESS_BY_CHAINID,
 } from "@/constants/tokens";
-import { useTonORWSTONApprove } from "@/hooks/useApprove";
+import { handleApprove, useTonORWSTONApprove } from "@/hooks/useApprove";
 import { useApproval } from "@/hooks/useApproval";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 import { useGemApprove } from "@/hooks/useGemApprove";
+import { getStakingIndex } from "@/utils";
 
 interface ItemProps {
   id: number;
@@ -57,6 +59,8 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const [, setModalStatus] = useRecoilState(obtainModalStatus);
   const [, setSellGemModalStatus] = useRecoilState(sellGemModalStatus);
   const [, burnSellGemModalStatus] = useRecoilState(burnGemModalStatus);
+  const [stakingIndex] = useRecoilState(StakingIndex);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const { waitForTransactionReceipt } = useWaitForTransaction();
 
@@ -114,12 +118,33 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const handleClick = useCallback(async () => {
     !isConnected && connectToWallet();
     try {
-      const txHash = await callApprove();
+      setLoading(true);
+      const txHash = await handleApprove(
+        MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
+        payOption
+          ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
+          : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
+        payOption
+          ? gemItem
+            ? gemItem[0]?.price!
+            : BigInt("0")
+          : BigInt(
+              parseUnits(
+                (
+                  Number(
+                    formatUnits(gemItem ? gemItem[0]?.price! : BigInt("0"), 27)
+                  ) * stakingIndex
+                ).toString(),
+                18
+              )
+            )
+      );
       await waitForTransactionReceipt(txHash);
       await callBuyGem();
+      setLoading(false);
       setModalStatus({ isOpen: true, gemId: gemItem[0].tokenID });
     } catch (e) {
-      console.log("heyheyhey");
+      setLoading(false);
     }
   }, [approveSuccess, payOption]);
 
@@ -308,10 +333,9 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                       onClick={() => {
                         handleClick();
                       }}
-                      isDisabled={isPending || isPendingApproval}
+                      isDisabled={isLoading}
                     >
-                      {!isPending &&
-                        !isPendingApproval &&
+                      {!isLoading &&
                         (isConnected ? (
                           <Image
                             alt="ton"
@@ -328,7 +352,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                           />
                         ))}
                       <Text fontSize={24} fontWeight={600}>
-                        {isPending || isPendingApproval ? (
+                        {isLoading ? (
                           <Spinner
                             thickness="4px"
                             speed="0.65s"

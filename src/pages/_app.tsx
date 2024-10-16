@@ -2,7 +2,6 @@ import dynamic from "next/dynamic";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
-// import Layout from "@/components/layout";
 import { theme } from "@/styles/chakraTheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
@@ -10,6 +9,7 @@ import { CacheProvider } from "@chakra-ui/next-js";
 import { WagmiProvider } from "wagmi";
 import { config } from "@/config/wagmi";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
 
 const client = new ApolloClient({
   uri: "https://graph-node.titan-sepolia.tokamak.network/subgraphs/name/tokamak/gem-nft-subgraph/",

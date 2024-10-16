@@ -1,6 +1,13 @@
 import { Center, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import TON from "@/assets/icon/ton.svg";
+import { getStakingIndex } from "@/utils";
+import { useAccount, useChains } from "wagmi";
+import { useMemo } from "react";
+import { MARKETPLACE_ADDRESS } from "@/constants/tokens";
+import { formatUnits } from "viem";
+import { StakingIndex } from "@/recoil/market/atom";
+import { useRecoilState } from "recoil";
 
 const PriceContainer = ({
   price,
@@ -9,6 +16,8 @@ const PriceContainer = ({
   price: number;
   onClick?: () => void;
 }) => {
+  const [stakingIndex] = useRecoilState(StakingIndex);
+
   return (
     <Center
       w={61}
@@ -22,7 +31,7 @@ const PriceContainer = ({
     >
       <Image alt="ton" src={TON} width={16} height={16} />
       <Text fontSize={14} fontWeight={600}>
-        {price}
+        {price * stakingIndex}
       </Text>
     </Center>
   );

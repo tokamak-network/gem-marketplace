@@ -25,8 +25,6 @@ const MarketPage = () => {
   const search = useMemo(() => searchParams.get("asset"), [searchParams]);
   const gemList = useGetMarketGems();
 
-  console.log(gemList);
-
   const { activeGemList } = useFilteredList(gemList);
   return search ? (
     <GemItemView id={Number(search)} mode="market" />

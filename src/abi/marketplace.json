@@ -1,10 +1,30 @@
 [
-  { "type": "constructor", "inputs": [], "stateMutability": "nonpayable" },
+  {
+    "type": "function",
+    "name": "ADMIN_ROLE",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
+    "stateMutability": "view"
+  },
   {
     "type": "function",
     "name": "DECIMALS",
     "inputs": [],
     "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "DEFAULT_ADMIN_ROLE",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "PAUSE_ROLE",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
     "stateMutability": "view"
   },
   {
@@ -16,12 +36,28 @@
   },
   {
     "type": "function",
-    "name": "buyCommonGem",
-    "inputs": [],
-    "outputs": [
-      { "name": "newTokenId", "type": "uint256", "internalType": "uint256" }
+    "name": "addAdmin",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" }
     ],
+    "outputs": [],
     "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "addPauser",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "aliveImplementation",
+    "inputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -32,20 +68,6 @@
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "commonGemTokenUri",
-    "inputs": [],
-    "outputs": [{ "name": "", "type": "string", "internalType": "string" }],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "gemFactory",
-    "inputs": [],
-    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
-    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -60,7 +82,57 @@
   },
   {
     "type": "function",
-    "name": "getGemFactory",
+    "name": "getGemFactoryAddress",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getGemForSale",
+    "inputs": [
+      { "name": "_tokenId", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct MarketPlaceStorage.Sale",
+        "components": [
+          { "name": "seller", "type": "address", "internalType": "address" },
+          { "name": "price", "type": "uint256", "internalType": "uint256" },
+          { "name": "isActive", "type": "bool", "internalType": "bool" }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getPauseStatus",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getRoleAdmin",
+    "inputs": [
+      { "name": "role", "type": "bytes32", "internalType": "bytes32" }
+    ],
+    "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getStakingIndex",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getTonAddress",
     "inputs": [],
     "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
     "stateMutability": "view"
@@ -70,6 +142,40 @@
     "name": "getTonFeesRate",
     "inputs": [],
     "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getTreasuryAddress",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getWstonAddress",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "grantRole",
+    "inputs": [
+      { "name": "role", "type": "bytes32", "internalType": "bytes32" },
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "hasRole",
+    "inputs": [
+      { "name": "role", "type": "bytes32", "internalType": "bytes32" },
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
     "stateMutability": "view"
   },
   {
@@ -91,16 +197,39 @@
   },
   {
     "type": "function",
-    "name": "owner",
-    "inputs": [],
-    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "name": "isAdmin",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
     "stateMutability": "view"
   },
   {
     "type": "function",
-    "name": "paused",
+    "name": "isOwner",
     "inputs": [],
     "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "pause",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "pauseProxy",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "proxyImplementation",
+    "inputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
     "stateMutability": "view"
   },
   {
@@ -129,9 +258,27 @@
   },
   {
     "type": "function",
+    "name": "removeAdmin",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "removeGemForSale",
     "inputs": [
       { "name": "_tokenId", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "removePauser",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" }
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
@@ -145,12 +292,34 @@
   },
   {
     "type": "function",
-    "name": "setCommonGemTokenUri",
+    "name": "renounceRole",
     "inputs": [
-      { "name": "_tokenURI", "type": "string", "internalType": "string" }
+      { "name": "role", "type": "bytes32", "internalType": "bytes32" },
+      {
+        "name": "callerConfirmation",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "revokeRole",
+    "inputs": [
+      { "name": "role", "type": "bytes32", "internalType": "bytes32" },
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "selectorImplementation",
+    "inputs": [{ "name": "", "type": "bytes4", "internalType": "bytes4" }],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -176,47 +345,37 @@
   },
   {
     "type": "function",
-    "name": "stakingIndex",
-    "inputs": [],
-    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "ton",
-    "inputs": [],
-    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "tonFeesRate",
-    "inputs": [],
-    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "transferOwnership",
+    "name": "supportsInterface",
     "inputs": [
-      { "name": "newOwner", "type": "address", "internalType": "address" }
+      { "name": "interfaceId", "type": "bytes4", "internalType": "bytes4" }
+    ],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "transferAdmin",
+    "inputs": [
+      { "name": "newAdmin", "type": "address", "internalType": "address" }
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
   },
   {
     "type": "function",
-    "name": "treasury",
-    "inputs": [],
-    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
-    "stateMutability": "view"
+    "name": "transferOwnership",
+    "inputs": [
+      { "name": "newAdmin", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
     "type": "function",
-    "name": "wston",
+    "name": "unpause",
     "inputs": [],
-    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
-    "stateMutability": "view"
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
     "type": "event",
@@ -289,16 +448,72 @@
   },
   {
     "type": "event",
-    "name": "OwnershipTransferred",
+    "name": "RoleAdminChanged",
     "inputs": [
       {
-        "name": "previousOwner",
+        "name": "role",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "previousAdminRole",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "newAdminRole",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RoleGranted",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "account",
         "type": "address",
         "indexed": true,
         "internalType": "address"
       },
       {
-        "name": "newOwner",
+        "name": "sender",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RoleRevoked",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "sender",
         "type": "address",
         "indexed": true,
         "internalType": "address"
@@ -312,6 +527,19 @@
     "inputs": [
       {
         "name": "discountRate",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SetStakingIndex",
+    "inputs": [
+      {
+        "name": "stakingIndex",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
@@ -338,41 +566,38 @@
     ],
     "anonymous": false
   },
+  { "type": "error", "name": "AccessControlBadConfirmation", "inputs": [] },
   {
     "type": "error",
-    "name": "AddressEmptyCode",
+    "name": "AccessControlUnauthorizedAccount",
     "inputs": [
-      { "name": "target", "type": "address", "internalType": "address" }
+      { "name": "account", "type": "address", "internalType": "address" },
+      { "name": "neededRole", "type": "bytes32", "internalType": "bytes32" }
     ]
   },
+  { "type": "error", "name": "AddressZero", "inputs": [] },
+  { "type": "error", "name": "AlreadyInitialized", "inputs": [] },
   {
     "type": "error",
-    "name": "AddressInsufficientBalance",
+    "name": "BuyerIsSeller",
     "inputs": [
-      { "name": "account", "type": "address", "internalType": "address" }
+      { "name": "errorMessage", "type": "string", "internalType": "string" }
     ]
   },
-  { "type": "error", "name": "FailedInnerCall", "inputs": [] },
-  {
-    "type": "error",
-    "name": "OwnableInvalidOwner",
-    "inputs": [
-      { "name": "owner", "type": "address", "internalType": "address" }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "OwnableUnauthorizedAccount",
-    "inputs": [
-      { "name": "account", "type": "address", "internalType": "address" }
-    ]
-  },
+  { "type": "error", "name": "GemIsAlreadyForSaleOrIsMining", "inputs": [] },
+  { "type": "error", "name": "GemIsNotForSale", "inputs": [] },
+  { "type": "error", "name": "GemNotApproved", "inputs": [] },
+  { "type": "error", "name": "ListingGemFailed", "inputs": [] },
+  { "type": "error", "name": "NoTokens", "inputs": [] },
+  { "type": "error", "name": "NotGemOwner", "inputs": [] },
+  { "type": "error", "name": "NotPaused", "inputs": [] },
+  { "type": "error", "name": "Paused", "inputs": [] },
+  { "type": "error", "name": "PurchaseFailed", "inputs": [] },
   { "type": "error", "name": "ReentrancyGuardReentrantCall", "inputs": [] },
-  {
-    "type": "error",
-    "name": "SafeERC20FailedOperation",
-    "inputs": [
-      { "name": "token", "type": "address", "internalType": "address" }
-    ]
-  }
+  { "type": "error", "name": "SameAdmin", "inputs": [] },
+  { "type": "error", "name": "WrongLength", "inputs": [] },
+  { "type": "error", "name": "WrongPrice", "inputs": [] },
+  { "type": "error", "name": "WrongSeller", "inputs": [] },
+  { "type": "error", "name": "WrongStakingIndex", "inputs": [] },
+  { "type": "error", "name": "ZeroAddress", "inputs": [] }
 ]

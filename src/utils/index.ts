@@ -1,4 +1,7 @@
 import { formatUnits } from "viem";
+import { readContract } from "@wagmi/core";
+import { config } from "@/config/wagmi";
+import MarketplaceABI from "@/abi/marketplace.json";
 
 export function trimAddress(args: {
   address: string | `0x${string}` | undefined;
@@ -107,3 +110,14 @@ export function arraysEqual(arr1: number[], arr2: number[]) {
   if (arr1.length !== arr2.length) return false; // Arrays must have the same length
   return arr1.every((value, index) => value === arr2[index]); // Compare each element
 }
+
+export const getStakingIndex = async (
+  contractAddress: `0x${string}`,
+) => {
+  const result = await readContract(config, {
+    abi: MarketplaceABI,
+    address: contractAddress,
+    functionName: "getStakingIndex",
+  });
+  return result;
+};
