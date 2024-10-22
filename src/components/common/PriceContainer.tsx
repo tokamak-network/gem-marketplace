@@ -1,11 +1,6 @@
 import { Center, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import TON from "@/assets/icon/ton.svg";
-import { getStakingIndex } from "@/utils";
-import { useAccount, useChains } from "wagmi";
-import { useMemo } from "react";
-import { MARKETPLACE_ADDRESS } from "@/constants/tokens";
-import { formatUnits } from "viem";
 import { StakingIndex } from "@/recoil/market/atom";
 import { useRecoilState } from "recoil";
 

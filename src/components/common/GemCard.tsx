@@ -206,7 +206,7 @@ const GemCard = ({
       minW={width}
       bgColor={"#191A22"}
       sx={{ perspective: "1000px" }}
-      cursor={"pointer"}
+      cursor={mode !== "normal" ? "pointer" : "default"}
       onClick={handleCardClick}
       rounded={mode === "normal" ? 17 : 8}
       // opacity={
@@ -518,7 +518,11 @@ const GemCard = ({
                 <></>
               )}
 
-              {mode === "market" && <PriceContainer price={Number(formatUnits(gemInfo.price!, 27))} />}
+              {mode === "market" && (
+                <PriceContainer
+                  price={Number(formatUnits(gemInfo.price!, 27))}
+                />
+              )}
 
               {(mode === "forge" ||
                 mode === "common" ||

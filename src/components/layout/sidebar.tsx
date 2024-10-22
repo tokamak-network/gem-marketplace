@@ -147,7 +147,6 @@ const Sidebar = () => {
       >
         Github
       </CustomMenuItem>
-      <SettingMenuItem />
     </Flex>
   );
 };
