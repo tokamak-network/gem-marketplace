@@ -110,7 +110,7 @@ const GemCard = ({
         );
       }
 
-      if (currentTimestamp / 1000 > Number(miningStartTime) + miningPeriod) {
+      if (currentTimestamp / 1000 > Number(miningStartTime) + miningPeriod!) {
         setReadyForCollectMinedGem(true);
       } else setReadyForCollectMinedGem(false);
     }, 1000);
