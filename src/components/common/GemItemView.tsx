@@ -23,7 +23,6 @@ import { sellGemModalStatus, burnGemModalStatus } from "@/recoil/chest/atom";
 
 import useConnectWallet from "@/hooks/account/useConnectWallet";
 
-import TonIcon from "@/assets/icon/ton.svg";
 import WSTONIcon from "@/assets/icon/wswton.svg";
 import WalletIcon from "@/assets/icon/wallet.svg";
 import StarIcon from "@/assets/icon/star.svg";
@@ -33,7 +32,7 @@ import MiningIcon from "@/assets/icon/mine.svg";
 import forgeIcon from "@/assets/icon/forge.svg";
 import SavedIcon from "./SavedIcon";
 import ShareIcon from "@/assets/icon/share.svg";
-import { useGetAllGems, useGetMarketGems } from "@/hooks/useGetMarketGems";
+import { useGetAllGems } from "@/hooks/useGetMarketGems";
 import { rarityList } from "@/constants/rarity";
 import { useBuyGem } from "@/hooks/useBuyGem";
 import {
@@ -44,13 +43,21 @@ import {
 import { handleApprove, useTonORWSTONApprove } from "@/hooks/useApprove";
 import { useApproval } from "@/hooks/useApproval";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
-import { useGemApprove } from "@/hooks/useGemApprove";
-import { getStakingIndex } from "@/utils";
+import { cooldownStatus } from "@/recoil/mine/atom";
 
 interface ItemProps {
   id: number;
   mode: CardType;
 }
+
+const cooldownIndex: string[] = [
+  "",
+  "rareCooldown",
+  "epicCooldown",
+  "uniqueCooldown",
+  "legendaryCooldown",
+  "mythicCooldown",
+];
 
 const GemItemView = ({ id, mode }: ItemProps) => {
   const gemList = useGetAllGems();
@@ -61,7 +68,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const [, burnSellGemModalStatus] = useRecoilState(burnGemModalStatus);
   const [stakingIndex] = useRecoilState(StakingIndex);
   const [isLoading, setLoading] = useState<boolean>(false);
-
+  const [cooldowns] = useRecoilState(cooldownStatus);
   const { waitForTransactionReceipt } = useWaitForTransaction();
 
   const gemItem: GemStandard[] = useMemo(
@@ -71,6 +78,19 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       ),
     [gemList]
   );
+
+  const cooldownTime = useMemo(() => {
+    const baseValue = cooldowns[cooldownIndex[Number(gemItem[0].rarity)]];
+    if (baseValue / (3600 * 24) > 0) {
+      if (baseValue % (3600 * 24) === 0)
+        return `${baseValue / (3600 * 24)} days`;
+      else {
+        return `${baseValue / (3600 * 24)} days ${baseValue % (3600 * 24)} hours`;
+      }
+    } else {
+      return `${baseValue % (3600 * 24)} hours`;
+    }
+  }, [cooldowns, gemItem]);
 
   const WSTONBalance = useBalance({
     address: address,
@@ -244,7 +264,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   fontWeight={500}
                   fontSize={16}
                 >
-                  Slow (30d)
+                  {cooldownTime}
                 </Text>
               </Flex>
 

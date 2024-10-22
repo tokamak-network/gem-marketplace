@@ -5,7 +5,9 @@ import { getStakingIndex } from "@/utils";
 import { MARKETPLACE_ADDRESS } from "@/constants/tokens";
 import { useAccount } from "wagmi";
 import { StakingIndex } from "@/recoil/market/atom";
+import { cooldownStatus } from "@/recoil/mine/atom";
 import { useRecoilState } from "recoil";
+import { useGetCooldownPeriods } from "@/hooks/useGetCooldownPeriods";
 
 import Sidebar from "./sidebar";
 import Header from "./header";
@@ -15,15 +17,26 @@ import Drawers from "../drawer";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { chain } = useAccount();
   const [, setStakingIndex] = useRecoilState(StakingIndex);
-
+  const cooldownPeriods = useGetCooldownPeriods();
+  const [, setCooldowns] = useRecoilState(cooldownStatus);
+  
   useEffect(() => {
     const fetchStakingIndex = async () => {
       const stakingIndex: any = await getStakingIndex(
         MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`
       );
       setStakingIndex(Number(formatUnits(stakingIndex, 27)));
+
+      setCooldowns({
+        rareCooldown: cooldownPeriods?.RareGemsCooldownPeriod,
+        epicCooldown: cooldownPeriods?.EpicGemsCooldownPeriod,
+        uniqueCooldown: cooldownPeriods?.UniqueGemsCooldownPeriod,
+        legendaryCooldown: cooldownPeriods?.LegendaryGemsCooldownPeriod,
+        mythicCooldown: cooldownPeriods?.MythicGemsCooldownPeriod,
+      })
     };
     fetchStakingIndex();
+    
   }, []);
 
   return (

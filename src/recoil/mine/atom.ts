@@ -10,6 +10,14 @@ type MiningResultStatus = {
   minedGemId?: number;
 };
 
+type CooldownPeriods = {
+  [rareCooldown: string]: number;
+  epicCooldown: number;
+  uniqueCooldown: number;
+  legendaryCooldown: number;
+  mythicCooldown: number;
+}
+
 export const miningModalStatus = atom<MiningModalStatus>({
   key: "mineModalStatus",
   default: {
@@ -25,3 +33,14 @@ export const miningResultStatus = atom<MiningResultStatus>({
     minedGemId: 0
   }
 });
+
+export const cooldownStatus = atom<CooldownPeriods>({
+  key: "cooldownStatus",
+  default: {
+    rareCooldown: 0,
+    epicCooldown: 0,
+    uniqueCooldown: 0,
+    legendaryCooldown: 0,
+    mythicCooldown: 0
+  }
+})

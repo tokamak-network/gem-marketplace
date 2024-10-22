@@ -95,3 +95,15 @@ export const GET_MARKET_PRICE = gql`
     }
   }
 `;
+
+export const GET_COOLDOWN_PERIODS = gql`
+  query GetCooldownPeriods {
+    gemCooldowns {
+      UniqueGemsCooldownPeriod
+      RareGemsCooldownPeriod
+      MythicGemsCooldownPeriod
+      LegendaryGemsCooldownPeriod
+      EpicGemsCooldownPeriod
+    }
+  }
+`;
