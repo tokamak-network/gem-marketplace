@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { useWriteContract } from "wagmi";
-import FactoryABI from "@/abi/gemfactory.json";
+import FactoryForgingABI from "@/abi/gemFactoryForging.json";
 import { useAccount } from "wagmi";
 import { FACTORY_ADDRESS } from "@/constants/tokens";
-import { GemStandard, RarityType } from "@/types";
+import { GemStandard } from "@/types";
 import { useRecoilState } from "recoil";
 import { selectedFinalForge, selectedForgeGems } from "@/recoil/forge/atom";
 
@@ -19,7 +19,7 @@ export const useForgeGems = () => {
 
   const callForgeGems = useCallback(async () => {
     await writeContractAsync({
-      abi: FactoryABI,
+      abi: FactoryForgingABI,
       address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
       functionName: "forgeTokens",
       args: [tokenIds, selectedRarity, color],

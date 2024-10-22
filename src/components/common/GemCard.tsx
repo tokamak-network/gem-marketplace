@@ -65,12 +65,13 @@ const GemCard = ({
   const [isSaved, setSaved] = useState<boolean>(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
   const [isReadyForStartMine, setReadyForStartMine] = useState<boolean>(false);
+  const [isReadyForCollectMinedGem, setReadyForCollectMinedGem] =
+    useState<boolean>(false);
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
   const [isHoverCooldown, SetHoverCooldown] = useState<boolean>(false);
   const [, seMineModalState] = useRecoilState(miningModalStatus);
 
   const [, setCollectGemStatus] = useRecoilState(miningResultStatus);
-
   const [selectedGemsInfo, setSelectedGemsInfo] =
     useRecoilState(selectedForgeGems);
   const { selectedRarity, selectedGemsList } = selectedGemsInfo;
@@ -89,6 +90,8 @@ const GemCard = ({
     isMining,
     quadrants,
     gemCooldownInitTime,
+    miningStartTime,
+    miningPeriod,
   } = gemInfo;
 
   const { callStartMining, isPending: isStartMiningPending } =
@@ -106,6 +109,10 @@ const GemCard = ({
           Number(cooldownDueDate) - Math.floor(currentTimestamp / 1000)
         );
       }
+
+      if (currentTimestamp / 1000 > Number(miningStartTime) + miningPeriod) {
+        setReadyForCollectMinedGem(true);
+      } else setReadyForCollectMinedGem(false);
     }, 1000);
     return () => clearInterval(interval);
   }, [timeRemaining]);
@@ -331,7 +338,7 @@ const GemCard = ({
                     Time Remaining
                   </Text>
                   <Text fontSize={12} minW={"74px"}>
-                    {`${Math.floor(timeRemaining / (3600 * 24))} : ${Math.floor(((timeRemaining % 3600) * 24) / 3600)} : ${Math.floor(
+                    {`${Math.floor(timeRemaining / (3600 * 24))}d : ${Math.floor(((timeRemaining % 3600) * 24) / 3600)} : ${Math.floor(
                       (timeRemaining % 3600) / 60
                     )} : ${Math.floor((timeRemaining % 3600) % 60)}`}
                   </Text>
@@ -359,7 +366,9 @@ const GemCard = ({
               align={"center"}
             >
               {mode === "mine" ? (
-                isReadyForStartMine && !isMining ? (
+                isReadyForStartMine &&
+                !isMining &&
+                !isReadyForCollectMinedGem ? (
                   <Tooltip
                     w={"232px"}
                     hasArrow
@@ -430,23 +439,28 @@ const GemCard = ({
                       Cancel Mine
                     </Text>
                   </Flex>
+                ) : isReadyForStartMine === true &&
+                  isMining === false &&
+                  isReadyForCollectMinedGem ? (
+                  <Flex
+                    w={"full"}
+                    h={"full"}
+                    justify={"center"}
+                    align={"center"}
+                    bgColor={"#0380FF"}
+                    p={"20px"}
+                    columnGap={"6px"}
+                    onClick={() => {
+                      setCollectGemStatus({
+                        isOpen: true,
+                        minedGemId: tokenID,
+                      });
+                    }}
+                  >
+                    <Text fontSize={18}>Collect Gem</Text>
+                    <Image alt="gem" src={GemIcon} width={16} height={16} />
+                  </Flex>
                 ) : (
-                  // :isReadyForStartMine === true && isMining === false ?
-                  //                 <Flex
-                  //   w={"full"}
-                  //   h={"full"}
-                  //   justify={"center"}
-                  //   align={"center"}
-                  //   bgColor={"#0380FF"}
-                  //   p={"20px"}
-                  //   columnGap={"6px"}
-                  //   onClick={() => {
-                  //     setCollectGemStatus({ isOpen: true, minedGemId: tokenID });
-                  //   }}
-                  // >
-                  //   <Text fontSize={18}>Collect Gem</Text>
-                  //   <Image alt="gem" src={GemIcon} width={16} height={16} />
-                  // </Flex>
                   ""
                 )
               ) : mode === "forgeFinal" ? (
@@ -478,44 +492,6 @@ const GemCard = ({
                     </Text>
                   </Flex>
                 </Flex>
-              )}
-              {mode === "mine" && isReadyForStartMine && isMining === true ? (
-                <Flex
-                  w={"full"}
-                  justify={"center"}
-                  align={"center"}
-                  columnGap={1}
-                  h={"53px"}
-                  bgColor={"#00000080"}
-                  color={"#FFFFFF80"}
-                  _hover={{ bgColor: "#000000", color: "#FFFFFF" }}
-                  rounded={"0px 0px 8px 8px"}
-                  border={"1px solid #FFFFFF40"}
-                  transition={"0.2s"}
-                >
-                  <Text fontSize={18} textAlign={"center"}>
-                    Cancel Mine
-                  </Text>
-                </Flex>
-              ) : (
-                // : mode === "mine" && isMining === false ? (
-                //   <Flex
-                //     w={"full"}
-                //     h={"full"}
-                //     justify={"center"}
-                //     align={"center"}
-                //     bgColor={"#0380FF"}
-                //     p={"20px"}
-                //     columnGap={"6px"}
-                //     onClick={() => {
-                //       setCollectGemStatus({ isOpen: true, minedGemId: tokenID });
-                //     }}
-                //   >
-                //     <Text fontSize={18}>Collect Gem</Text>
-                //     <Image alt="gem" src={GemIcon} width={16} height={16} />
-                //   </Flex>
-                // )
-                <></>
               )}
 
               {mode === "market" && (

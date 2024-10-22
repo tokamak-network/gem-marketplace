@@ -31,10 +31,12 @@ export type GemStandard = {
   color: number[];
   cooldownDueDate?: number;
   gemCooldownInitTime?: number;
+  miningStartTime?: number;
   rarity: RarityType;
   isMining?: boolean | null;
   value?: bigint;
   price?: bigint;
+  miningPeriod: number
 };
 
 export type ActivityFilterType = "all" | "mine" | "forge" | "buysell";

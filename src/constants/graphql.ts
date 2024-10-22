@@ -7,6 +7,7 @@ export const GET_ALL_MARKET_GEMS = gql`
       color
       cooldownDueDate
       gemCooldownInitTime
+      miningStartTime
       isForSale
       isMining
       miningPeriod
@@ -16,6 +17,7 @@ export const GET_ALL_MARKET_GEMS = gql`
       tokenID
       value
       price
+      miningPeriod
     }
   }
 `;
@@ -27,6 +29,7 @@ export const GET_MARKET_GEMS = gql`
       color
       cooldownDueDate
       gemCooldownInitTime
+      miningStartTime
       isForSale
       isMining
       miningPeriod
@@ -36,6 +39,7 @@ export const GET_MARKET_GEMS = gql`
       tokenID
       value
       price
+      miningPeriod
     }
   }
 `;
@@ -47,6 +51,7 @@ export const GET_USER_GEMS = gql`
       color
       cooldownDueDate
       gemCooldownInitTime
+      miningStartTime
       isForSale
       isMining
       miningPeriod
@@ -56,6 +61,7 @@ export const GET_USER_GEMS = gql`
       tokenID
       value
       price
+      miningPeriod
     }
   }
 `;
@@ -67,6 +73,7 @@ export const GET_USER_MINE_GEMS = gql`
       color
       cooldownDueDate
       gemCooldownInitTime
+      miningStartTime
       isMining
       isForSale
       miningPeriod
@@ -76,6 +83,7 @@ export const GET_USER_MINE_GEMS = gql`
       tokenID
       value
       price
+      miningPeriod
     }
   }
 `;
