@@ -1,7 +1,8 @@
 [
   { "type": "error", "name": "AddressZero", "inputs": [] },
-  { "type": "error", "name": "AddressZero", "inputs": [] },
   { "type": "error", "name": "ColorNotExist", "inputs": [] },
+  { "type": "error", "name": "ContractNotPaused", "inputs": [] },
+  { "type": "error", "name": "ContractPaused", "inputs": [] },
   { "type": "error", "name": "CooldownPeriodNotElapsed", "inputs": [] },
   {
     "type": "error",
@@ -65,7 +66,6 @@
   { "type": "error", "name": "FailedToSendEthBack", "inputs": [] },
   { "type": "error", "name": "GemAlreadyPicked", "inputs": [] },
   { "type": "error", "name": "GemIsLocked", "inputs": [] },
-  { "type": "error", "name": "GemIsLocked", "inputs": [] },
   { "type": "error", "name": "GemIsNotLocked", "inputs": [] },
   { "type": "error", "name": "InvalidInitialization", "inputs": [] },
   {
@@ -79,20 +79,19 @@
   { "type": "error", "name": "InvalidSumOfQuadrants", "inputs": [] },
   { "type": "error", "name": "MiningPeriodNotElapsed", "inputs": [] },
   { "type": "error", "name": "MismatchedArrayLengths", "inputs": [] },
+  {
+    "type": "error",
+    "name": "NewGemInvalidQuadrant",
+    "inputs": [
+      { "type": "uint8", "name": "quadrantIndex", "internalType": "uint8" },
+      { "type": "uint8", "name": "expectedValue1", "internalType": "uint8" },
+      { "type": "uint8", "name": "expectedValue2", "internalType": "uint8" }
+    ]
+  },
   { "type": "error", "name": "NoMiningTryLeft", "inputs": [] },
-  { "type": "error", "name": "NotGemOwner", "inputs": [] },
   { "type": "error", "name": "NotGemOwner", "inputs": [] },
   { "type": "error", "name": "NotInitializing", "inputs": [] },
   { "type": "error", "name": "NotMining", "inputs": [] },
-  { "type": "error", "name": "NotValidColor", "inputs": [] },
-  {
-    "type": "error",
-    "name": "OnlyCoordinatorCanFulfill",
-    "inputs": [
-      { "type": "address", "name": "have", "internalType": "address" },
-      { "type": "address", "name": "want", "internalType": "address" }
-    ]
-  },
   {
     "type": "error",
     "name": "OwnableInvalidOwner",
@@ -110,8 +109,29 @@
   { "type": "error", "name": "ReentrancyGuardReentrantCall", "inputs": [] },
   { "type": "error", "name": "RequestNotMade", "inputs": [] },
   { "type": "error", "name": "SameSenderAndRecipient", "inputs": [] },
-  { "type": "error", "name": "WrongNumberOfGemToBeForged", "inputs": [] },
-  { "type": "error", "name": "WrongRarity", "inputs": [] },
+  {
+    "type": "error",
+    "name": "SumOfQuadrantsTooHigh",
+    "inputs": [
+      { "type": "uint8", "name": "sum", "internalType": "uint8" },
+      { "type": "string", "name": "rarity", "internalType": "string" }
+    ]
+  },
+  { "type": "error", "name": "TransferFailed", "inputs": [] },
+  {
+    "type": "error",
+    "name": "URIQueryForNonexistentToken",
+    "inputs": [
+      { "type": "uint256", "name": "tokenId", "internalType": "uint256" }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "UnauthorizedCaller",
+    "inputs": [
+      { "type": "address", "name": "caller", "internalType": "address" }
+    ]
+  },
   { "type": "error", "name": "WrongRarity", "inputs": [] },
   {
     "type": "event",
@@ -241,25 +261,6 @@
   },
   {
     "type": "event",
-    "name": "ColorValidated",
-    "inputs": [
-      {
-        "type": "uint8",
-        "name": "color0",
-        "internalType": "uint8",
-        "indexed": false
-      },
-      {
-        "type": "uint8",
-        "name": "color1",
-        "internalType": "uint8",
-        "indexed": false
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
     "name": "CountGemsByQuadrant",
     "inputs": [
       {
@@ -297,6 +298,12 @@
         "type": "uint8[2]",
         "name": "color",
         "internalType": "uint8[2]",
+        "indexed": false
+      },
+      {
+        "type": "uint8",
+        "name": "miningTry",
+        "internalType": "uint8",
         "indexed": false
       },
       {
@@ -430,6 +437,12 @@
         "indexed": false
       },
       {
+        "type": "uint256",
+        "name": "minedGemCooldownDueDate",
+        "internalType": "uint256",
+        "indexed": false
+      },
+      {
         "type": "address",
         "name": "miner",
         "internalType": "address",
@@ -475,12 +488,6 @@
     "inputs": [
       {
         "type": "uint32",
-        "name": "CommonGemsCooldownPeriod",
-        "internalType": "uint32",
-        "indexed": false
-      },
-      {
-        "type": "uint32",
         "name": "RareGemsCooldownPeriod",
         "internalType": "uint32",
         "indexed": false
@@ -516,12 +523,6 @@
     "type": "event",
     "name": "GemsMiningPeriodModified",
     "inputs": [
-      {
-        "type": "uint32",
-        "name": "CommonGemsMiningPeriod",
-        "internalType": "uint32",
-        "indexed": false
-      },
       {
         "type": "uint32",
         "name": "RareGemsMiningPeriod",
@@ -832,9 +833,10 @@
     "stateMutability": "view",
     "outputs": [
       { "type": "uint256", "name": "tokenId", "internalType": "uint256" },
+      { "type": "uint256", "name": "value", "internalType": "uint256" },
       {
         "type": "uint256",
-        "name": "gemCooldownPeriod",
+        "name": "gemCooldownDueDate",
         "internalType": "uint256"
       },
       {
@@ -842,7 +844,6 @@
         "name": "randomRequestId",
         "internalType": "uint256"
       },
-      { "type": "uint256", "name": "value", "internalType": "uint256" },
       {
         "type": "uint8",
         "name": "rarity",
@@ -887,21 +888,19 @@
   {
     "type": "function",
     "stateMutability": "view",
+    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
+    "name": "availableGemsRandomPack",
+    "inputs": []
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
     "outputs": [
       { "type": "uint256", "name": "count", "internalType": "uint256" }
     ],
     "name": "balanceOf",
     "inputs": [
       { "type": "address", "name": "_owner", "internalType": "address" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
-    "name": "cancelMining",
-    "inputs": [
-      { "type": "uint256", "name": "_tokenId", "internalType": "uint256" }
     ]
   },
   {
@@ -971,23 +970,6 @@
   },
   {
     "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [
-      { "type": "uint256", "name": "newGemId", "internalType": "uint256" }
-    ],
-    "name": "forgeTokens",
-    "inputs": [
-      { "type": "uint256[]", "name": "_tokenIds", "internalType": "uint256[]" },
-      {
-        "type": "uint8",
-        "name": "_rarity",
-        "internalType": "enum GemFactoryStorage.Rarity"
-      },
-      { "type": "uint8[2]", "name": "_color", "internalType": "uint8[2]" }
-    ]
-  },
-  {
-    "type": "function",
     "stateMutability": "view",
     "outputs": [{ "type": "address", "name": "", "internalType": "address" }],
     "name": "getAirdropAddress",
@@ -1011,20 +993,6 @@
       { "type": "uint8", "name": "_index1", "internalType": "uint8" },
       { "type": "uint8", "name": "_index2", "internalType": "uint8" }
     ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "uint32", "name": "", "internalType": "uint32" }],
-    "name": "getCommonGemsCooldownPeriod",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "uint32", "name": "", "internalType": "uint32" }],
-    "name": "getCommonGemsMiningPeriod",
-    "inputs": []
   },
   {
     "type": "function",
@@ -1071,9 +1039,10 @@
         "internalType": "struct GemFactoryStorage.Gem",
         "components": [
           { "type": "uint256", "name": "tokenId", "internalType": "uint256" },
+          { "type": "uint256", "name": "value", "internalType": "uint256" },
           {
             "type": "uint256",
-            "name": "gemCooldownPeriod",
+            "name": "gemCooldownDueDate",
             "internalType": "uint256"
           },
           {
@@ -1081,7 +1050,6 @@
             "name": "randomRequestId",
             "internalType": "uint256"
           },
-          { "type": "uint256", "name": "value", "internalType": "uint256" },
           {
             "type": "uint8",
             "name": "rarity",
@@ -1093,13 +1061,13 @@
             "internalType": "uint32"
           },
           { "type": "uint8", "name": "miningTry", "internalType": "uint8" },
+          { "type": "bool", "name": "isLocked", "internalType": "bool" },
           {
             "type": "uint8[4]",
             "name": "quadrants",
             "internalType": "uint8[4]"
           },
           { "type": "uint8[2]", "name": "color", "internalType": "uint8[2]" },
-          { "type": "bool", "name": "isLocked", "internalType": "bool" },
           { "type": "string", "name": "tokenURI", "internalType": "string" }
         ]
       }
@@ -1116,8 +1084,14 @@
       { "type": "uint256", "name": "", "internalType": "uint256" },
       { "type": "uint256[]", "name": "", "internalType": "uint256[]" }
     ],
-    "name": "getGemListAvailableForRandomPack",
-    "inputs": []
+    "name": "getGemListAvailableByRarity",
+    "inputs": [
+      {
+        "type": "uint8",
+        "name": "_rarity",
+        "internalType": "enum GemFactoryStorage.Rarity"
+      }
+    ]
   },
   {
     "type": "function",
@@ -1203,6 +1177,13 @@
   {
     "type": "function",
     "stateMutability": "view",
+    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
+    "name": "getPaused",
+    "inputs": []
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
     "outputs": [
       {
         "type": "tuple",
@@ -1220,9 +1201,9 @@
             "name": "chosenTokenId",
             "internalType": "uint256"
           },
+          { "type": "address", "name": "requester", "internalType": "address" },
           { "type": "bool", "name": "requested", "internalType": "bool" },
-          { "type": "bool", "name": "fulfilled", "internalType": "bool" },
-          { "type": "address", "name": "requester", "internalType": "address" }
+          { "type": "bool", "name": "fulfilled", "internalType": "bool" }
         ]
       }
     ],
@@ -1345,41 +1326,10 @@
     "outputs": [],
     "name": "initialize",
     "inputs": [
-      { "type": "address", "name": "_coordinator", "internalType": "address" },
       { "type": "address", "name": "_owner", "internalType": "address" },
       { "type": "address", "name": "_wston", "internalType": "address" },
       { "type": "address", "name": "_ton", "internalType": "address" },
-      { "type": "address", "name": "_treasury", "internalType": "address" },
-      {
-        "type": "uint256",
-        "name": "_CommonGemsValue",
-        "internalType": "uint256"
-      },
-      {
-        "type": "uint256",
-        "name": "_RareGemsValue",
-        "internalType": "uint256"
-      },
-      {
-        "type": "uint256",
-        "name": "_UniqueGemsValue",
-        "internalType": "uint256"
-      },
-      {
-        "type": "uint256",
-        "name": "_EpicGemsValue",
-        "internalType": "uint256"
-      },
-      {
-        "type": "uint256",
-        "name": "_LegendaryGemsValue",
-        "internalType": "uint256"
-      },
-      {
-        "type": "uint256",
-        "name": "_MythicGemsValue",
-        "internalType": "uint256"
-      }
+      { "type": "address", "name": "_treasury", "internalType": "address" }
     ]
   },
   {
@@ -1463,15 +1413,6 @@
   },
   {
     "type": "function",
-    "stateMutability": "payable",
-    "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
-    "name": "pickMinedGEM",
-    "inputs": [
-      { "type": "uint256", "name": "_tokenId", "internalType": "uint256" }
-    ]
-  },
-  {
-    "type": "function",
     "stateMutability": "view",
     "outputs": [
       {
@@ -1494,16 +1435,6 @@
     "type": "function",
     "stateMutability": "nonpayable",
     "outputs": [],
-    "name": "rawFulfillRandomWords",
-    "inputs": [
-      { "type": "uint256", "name": "requestId", "internalType": "uint256" },
-      { "type": "uint256", "name": "randomWord", "internalType": "uint256" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
     "name": "renounceOwnership",
     "inputs": []
   },
@@ -1514,9 +1445,9 @@
       { "type": "uint256", "name": "tokenId", "internalType": "uint256" },
       { "type": "uint256", "name": "randomWord", "internalType": "uint256" },
       { "type": "uint256", "name": "chosenTokenId", "internalType": "uint256" },
+      { "type": "address", "name": "requester", "internalType": "address" },
       { "type": "bool", "name": "requested", "internalType": "bool" },
-      { "type": "bool", "name": "fulfilled", "internalType": "bool" },
-      { "type": "address", "name": "requester", "internalType": "address" }
+      { "type": "bool", "name": "fulfilled", "internalType": "bool" }
     ],
     "name": "s_requests",
     "inputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }]
@@ -1578,11 +1509,6 @@
     "inputs": [
       {
         "type": "uint32",
-        "name": "_CommonGemsCooldownPeriod",
-        "internalType": "uint32"
-      },
-      {
-        "type": "uint32",
         "name": "_RareGemsCooldownPeriod",
         "internalType": "uint32"
       },
@@ -1614,11 +1540,6 @@
     "outputs": [],
     "name": "setGemsMiningPeriods",
     "inputs": [
-      {
-        "type": "uint32",
-        "name": "_CommonGemsMiningPeriod",
-        "internalType": "uint32"
-      },
       {
         "type": "uint32",
         "name": "_RareGemsMiningPeriod",
@@ -1707,7 +1628,7 @@
     "type": "function",
     "stateMutability": "nonpayable",
     "outputs": [],
-    "name": "setMiningTrys",
+    "name": "setMiningTries",
     "inputs": [
       { "type": "uint8", "name": "_RareminingTry", "internalType": "uint8" },
       { "type": "uint8", "name": "_UniqueminingTry", "internalType": "uint8" },
@@ -1737,15 +1658,6 @@
     "name": "setTreasury",
     "inputs": [
       { "type": "address", "name": "_treasury", "internalType": "address" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
-    "name": "startMiningGEM",
-    "inputs": [
-      { "type": "uint256", "name": "_tokenId", "internalType": "uint256" }
     ]
   },
   {
