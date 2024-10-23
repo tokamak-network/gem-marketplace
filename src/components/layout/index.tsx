@@ -19,14 +19,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [, setStakingIndex] = useRecoilState(StakingIndex);
   const cooldownPeriods = useGetCooldownPeriods();
   const [, setCooldowns] = useRecoilState(cooldownStatus);
-  
+
   useEffect(() => {
     const fetchStakingIndex = async () => {
       const stakingIndex: any = await getStakingIndex(
         MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`
       );
       setStakingIndex(Number(formatUnits(stakingIndex, 27)));
+    };
+    fetchStakingIndex();
+    
+  }, []);
 
+  useEffect(() => {
+    const fetchCooldowns = () => {
       setCooldowns({
         rareCooldown: cooldownPeriods?.RareGemsCooldownPeriod,
         epicCooldown: cooldownPeriods?.EpicGemsCooldownPeriod,
@@ -34,10 +40,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         legendaryCooldown: cooldownPeriods?.LegendaryGemsCooldownPeriod,
         mythicCooldown: cooldownPeriods?.MythicGemsCooldownPeriod,
       })
-    };
-    fetchStakingIndex();
-    
-  }, []);
+    }
+    fetchCooldowns();
+  }, [cooldownPeriods])
 
   return (
     <Flex minH={"100vh"} bg={"#0D0E16"}>

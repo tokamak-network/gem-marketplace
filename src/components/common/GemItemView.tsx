@@ -78,9 +78,9 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       ),
     [gemList]
   );
-
+  
   const cooldownTime = useMemo(() => {
-    const baseValue = cooldowns[cooldownIndex[Number(gemItem[0].rarity)]];
+    const baseValue = cooldowns[cooldownIndex[Number(gemItem[0]?.rarity)]];
     if (baseValue / (3600 * 24) > 0) {
       if (baseValue % (3600 * 24) === 0)
         return `${baseValue / (3600 * 24)} days`;
@@ -90,7 +90,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     } else {
       return `${baseValue % (3600 * 24)} hours`;
     }
-  }, [cooldowns, gemItem]);
+  }, [cooldowns, gemItem[0], cooldownIndex]);
 
   const WSTONBalance = useBalance({
     address: address,
