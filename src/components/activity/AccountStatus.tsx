@@ -29,7 +29,7 @@ import {
   TON_ADDRESS_BY_CHAINID,
   WSWTON_ADDRESS_BY_CHAINID,
 } from "@/constants/tokens";
-import { fetchMarketPrice } from "@/utils/price";
+import GradientSpinner from "../ui/GradientSpinner";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
@@ -158,6 +158,10 @@ const AccountStatus = () => {
           </Center>
 
           <Flex flexDir={"column"} align={"end"}>
+          {(item.symbol === "TON" && !TONBalance?.parsedBalance) || (item.symbol === "WSTON" && !WSTONBalance?.parsedBalance) ?
+          <Box w={"60px"} h={"24px"}>
+            <GradientSpinner/>
+          </Box> : 
             <Text fontWeight={600} fontSize={16}>
               {item.symbol === "TON"
                 ? TONBalance?.parsedBalance
@@ -165,6 +169,7 @@ const AccountStatus = () => {
                 ? WSTONBalance?.parsedBalance
                 : ""}
             </Text>
+}
             <Text color={"#5D6978"} fontSize={12}>
               {tonPrice}
             </Text>

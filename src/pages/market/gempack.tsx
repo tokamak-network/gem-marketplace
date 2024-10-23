@@ -52,9 +52,6 @@ const GemPack = () => {
               Rates:
             </Text>
             <Text fontWeight={300} fontSize={12}>
-              Base. . . . . . . . . . . 34%
-            </Text>
-            <Text fontWeight={300} fontSize={12}>
               Common. . . . . . 34%
             </Text>
             <Text fontWeight={300} fontSize={12}>

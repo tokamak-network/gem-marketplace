@@ -353,8 +353,9 @@ const GemCard = ({
                       cooldowns[cooldownIndex[Number(rarity)]]) *
                     100
                   }
-                  colorScheme="pink"
-                  h={"2px"}
+                  bgColor={"transparent"}
+                  colorScheme="gray"
+                  h={"3px"}
                 />
               </>
             ))}
