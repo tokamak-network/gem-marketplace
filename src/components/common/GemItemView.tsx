@@ -44,20 +44,12 @@ import { handleApprove, useTonORWSTONApprove } from "@/hooks/useApprove";
 import { useApproval } from "@/hooks/useApproval";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 import { cooldownStatus } from "@/recoil/mine/atom";
+import { cooldownIndex } from "@/constants";
 
 interface ItemProps {
   id: number;
   mode: CardType;
 }
-
-const cooldownIndex: string[] = [
-  "",
-  "rareCooldown",
-  "epicCooldown",
-  "uniqueCooldown",
-  "legendaryCooldown",
-  "mythicCooldown",
-];
 
 const GemItemView = ({ id, mode }: ItemProps) => {
   const gemList = useGetAllGems();

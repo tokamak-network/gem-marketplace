@@ -40,3 +40,12 @@ export const tokenList = [
     icon: Thanos
   },
 ]
+
+export const cooldownIndex: string[] = [
+  "",
+  "rareCooldown",
+  "uniqueCooldown",
+  "epicCooldown",
+  "legendaryCooldown",
+  "mythicCooldown",
+];

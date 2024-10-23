@@ -13,7 +13,11 @@ import {
 } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 
-import { miningModalStatus, miningResultStatus } from "@/recoil/mine/atom";
+import {
+  cooldownStatus,
+  miningModalStatus,
+  miningResultStatus,
+} from "@/recoil/mine/atom";
 import { rarityStatus } from "@/recoil/market/atom";
 import {
   forgeConfirmModalStatus,
@@ -36,6 +40,7 @@ import InfoIcon from "@/assets/icon/info.svg";
 import { rarityList } from "@/constants/rarity";
 import { arraysEqual } from "@/utils";
 import { formatUnits } from "viem";
+import { cooldownIndex } from "@/constants";
 
 interface GemCardType {
   width?: number;
@@ -56,7 +61,6 @@ const GemCard = ({
   gemWidth = 120,
   gemHeight = 120,
   mode = "market",
-  rarityScore,
   staked,
   dailyChange,
   gemInfo,
@@ -70,7 +74,6 @@ const GemCard = ({
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
   const [isHoverCooldown, SetHoverCooldown] = useState<boolean>(false);
   const [, seMineModalState] = useRecoilState(miningModalStatus);
-
   const [, setCollectGemStatus] = useRecoilState(miningResultStatus);
   const [selectedGemsInfo, setSelectedGemsInfo] =
     useRecoilState(selectedForgeGems);
@@ -78,6 +81,7 @@ const GemCard = ({
   const [, setRarityState] = useRecoilState(rarityStatus);
   const [, setForgeConfirm] = useRecoilState(forgeConfirmModalStatus);
   const [finalForgeItem, setFinalForgeGem] = useRecoilState(selectedFinalForge);
+  const [cooldowns] = useRecoilState(cooldownStatus);
 
   const theme = useTheme();
   const router = useRouter();
@@ -89,7 +93,6 @@ const GemCard = ({
     rarity,
     isMining,
     quadrants,
-    gemCooldownInitTime,
     miningStartTime,
     miningPeriod,
   } = gemInfo;
@@ -337,7 +340,7 @@ const GemCard = ({
                   <Text fontSize={10} color="#FFFFFF80">
                     Time Remaining
                   </Text>
-                  <Text fontSize={12} minW={"74px"}>
+                  <Text fontSize={12} minW={"80px"}>
                     {`${Math.floor(timeRemaining / (3600 * 24))}d : ${Math.floor(((timeRemaining % 3600) * 24) / 3600)} : ${Math.floor(
                       (timeRemaining % 3600) / 60
                     )} : ${Math.floor((timeRemaining % 3600) % 60)}`}
@@ -345,9 +348,9 @@ const GemCard = ({
                 </Center>
                 <Progress
                   value={
-                    ((Math.floor(Date.now() / 1000) -
-                      Number(gemCooldownInitTime)) /
-                      Number(cooldownDueDate)) *
+                    ((cooldowns[cooldownIndex[Number(rarity)]] -
+                      timeRemaining) /
+                      cooldowns[cooldownIndex[Number(rarity)]]) *
                     100
                   }
                   colorScheme="pink"
