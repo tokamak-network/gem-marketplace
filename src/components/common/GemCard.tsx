@@ -120,6 +120,16 @@ const GemCard = ({
     return () => clearInterval(interval);
   }, [timeRemaining]);
 
+  const cooldownRemainingTime = useMemo(
+    () =>
+      Math.floor(timeRemaining / (3600 * 24)) > 0
+        ? `${Math.floor(timeRemaining / (3600 * 24))} Days`
+        : `${Math.floor(timeRemaining / 3600)} : ${Math.floor(
+            (timeRemaining % 3600) / 60
+          )} : ${Math.floor((timeRemaining % 3600) % 60)}`,
+    [timeRemaining]
+  );
+
   const handleCardClick = useCallback(() => {
     if (mode === "forge") {
       setSelectedGemsInfo((prev) => ({
@@ -340,10 +350,8 @@ const GemCard = ({
                   <Text fontSize={10} color="#FFFFFF80">
                     Time Remaining
                   </Text>
-                  <Text fontSize={12} minW={"80px"}>
-                    {`${Math.floor(timeRemaining / (3600 * 24))}d : ${Math.floor(((timeRemaining % 3600) * 24) / 3600)} : ${Math.floor(
-                      (timeRemaining % 3600) / 60
-                    )} : ${Math.floor((timeRemaining % 3600) % 60)}`}
+                  <Text fontSize={12} minW={"56px"}>
+                    {cooldownRemainingTime}
                   </Text>
                 </Center>
                 <Progress
