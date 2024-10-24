@@ -18,6 +18,7 @@ export const GET_ALL_MARKET_GEMS = gql`
       value
       price
       miningPeriod
+      miningTry
     }
   }
 `;
@@ -39,6 +40,7 @@ export const GET_MARKET_GEMS = gql`
       tokenID
       value
       price
+      miningTry
     }
   }
 `;
@@ -60,6 +62,7 @@ export const GET_USER_GEMS = gql`
       tokenID
       value
       price
+      miningTry
     }
   }
 `;
@@ -81,6 +84,7 @@ export const GET_USER_MINE_GEMS = gql`
       tokenID
       value
       price
+      miningTry
     }
   }
 `;

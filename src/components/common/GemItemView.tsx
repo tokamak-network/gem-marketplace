@@ -11,7 +11,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 
-import { CardType, GemStandard } from "@/types";
+import { CardType, GemStandard, RarityType } from "@/types";
 import GemCard from "@/components/common/GemCard";
 import { RarityItem } from "@/components/common/RarityList";
 import { ColorItem } from "@/components/common/ColorList";
@@ -70,7 +70,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       ),
     [gemList]
   );
-  
+
   const cooldownTime = useMemo(() => {
     const baseValue = cooldowns[cooldownIndex[Number(gemItem[0]?.rarity)]];
     if (baseValue / (3600 * 24) > 0) {
@@ -82,7 +82,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     } else {
       return `${baseValue % (3600 * 24)} hours`;
     }
-  }, [cooldowns, gemItem[0], cooldownIndex]);
+  }, [cooldowns, gemItem, cooldownIndex]);
 
   const WSTONBalance = useBalance({
     address: address,
@@ -195,7 +195,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               </Flex>
             </Flex>
 
-            <Flex flexDir={"column"} rowGap={22} my={"52px"}>
+            <Flex flexDir={"column"} rowGap={22} my={"36px"}>
               <Flex>
                 <Flex minW={173} columnGap={3} align={"center"}>
                   <Image alt="rarity" src={StarIcon} width={16} height={16} />
@@ -236,6 +236,56 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
               <Flex>
                 <Flex minW={173} columnGap={3} align={"center"}>
+                  <Image alt="rarity" src={forgeIcon} width={16} height={16} />
+                  <Text
+                    fontFamily={theme.fonts.Inter}
+                    fontSize={16}
+                    color={"#FFFFFF80"}
+                  >
+                    Forging:
+                  </Text>
+                </Flex>
+
+                {rarityList[Number(gemItem[0]?.rarity)] ===
+                RarityType.mythic ? (
+                  "N/A"
+                ) : (
+                  <Box ml={"12px"}>
+                    <RarityItem
+                      active
+                      rarity={rarityList[Number(gemItem[0]?.rarity) + 1]}
+                    />
+                  </Box>
+                )}
+              </Flex>
+
+              <Flex>
+                <Flex minW={173} columnGap={3} align={"center"}>
+                  <Image alt="rarity" src={MiningIcon} width={16} height={16} />
+                  <Text
+                    fontFamily={theme.fonts.Inter}
+                    fontSize={16}
+                    color={"#FFFFFF80"}
+                  >
+                    Mining:
+                  </Text>
+                </Flex>
+
+                {rarityList[Number(gemItem[0]?.rarity)] ===
+                RarityType.common ? (
+                  "N/A"
+                ) : (
+                  <Box ml={"12px"}>
+                    <RarityItem
+                      active
+                      rarity={rarityList[Number(gemItem[0]?.rarity) - 1]}
+                    />
+                  </Box>
+                )}
+              </Flex>
+
+              <Flex>
+                <Flex minW={173} columnGap={3} align={"center"}>
                   <Image
                     alt="rarity"
                     src={CooldownIcon}
@@ -247,7 +297,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     fontSize={16}
                     color={"#FFFFFF80"}
                   >
-                    Cooldown Time:
+                    Cooldown:
                   </Text>
                 </Flex>
 
@@ -256,19 +306,18 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   fontWeight={500}
                   fontSize={16}
                 >
-                  {cooldownTime}
+                  {Number(gemItem[0]?.rarity) === 0 ? "N/A" : cooldownTime}
                 </Text>
               </Flex>
 
               <Flex>
                 <Flex minW={173} columnGap={3} align={"center"}>
-                  <Image alt="rarity" src={MiningIcon} width={16} height={16} />
                   <Text
                     fontFamily={theme.fonts.Inter}
-                    fontSize={16}
+                    fontSize={14}
                     color={"#FFFFFF80"}
                   >
-                    Mining Power:
+                    Mines Remaining:
                   </Text>
                 </Flex>
 
@@ -277,28 +326,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   fontWeight={500}
                   fontSize={16}
                 >
-                  Common - Mythic
-                </Text>
-              </Flex>
-
-              <Flex>
-                <Flex minW={173} columnGap={3} align={"center"}>
-                  <Image alt="rarity" src={forgeIcon} width={16} height={16} />
-                  <Text
-                    fontFamily={theme.fonts.Inter}
-                    fontSize={16}
-                    color={"#FFFFFF80"}
-                  >
-                    Forge:
-                  </Text>
-                </Flex>
-
-                <Text
-                  fontFamily={theme.fonts.Inter}
-                  fontWeight={500}
-                  fontSize={16}
-                >
-                  Common - Mythic
+                  {gemItem[0]?.miningTry}
                 </Text>
               </Flex>
             </Flex>
