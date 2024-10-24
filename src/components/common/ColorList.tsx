@@ -9,13 +9,16 @@ import { colorList, colorBorderList } from "@/constants/rarity";
 export const ColorItem = ({
   color,
   active = false,
+  readOnly = false,
 }: {
   color: string;
   active?: boolean;
+  readOnly?: boolean;
 }) => {
   const [colorState, setColorState] = useRecoilState(colorStatus);
   const handleColor = (color: string) => {
-    setColorState((prev) => ({ ...prev, ...{ [color]: !prev[color] } }));
+    !readOnly &&
+      setColorState((prev) => ({ ...prev, ...{ [color]: !prev[color] } }));
   };
   const theme = useTheme();
 
@@ -37,7 +40,11 @@ export const ColorItem = ({
       onClick={() => handleColor(color)}
       opacity={defaultState || colorState[color] ? 1 : 0.5}
       border={"1px solid"}
-      borderColor={colorState[color] || active ? colorBorderList[color] : "transparent"}
+      borderColor={
+        (colorState[color] || active) && !readOnly
+          ? colorBorderList[color]
+          : "transparent"
+      }
     >
       <Text
         fontFamily={theme.fonts.Inter}

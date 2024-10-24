@@ -33,7 +33,7 @@ import forgeIcon from "@/assets/icon/forge.svg";
 import SavedIcon from "./SavedIcon";
 import ShareIcon from "@/assets/icon/share.svg";
 import { useGetAllGems } from "@/hooks/useGetMarketGems";
-import { rarityList } from "@/constants/rarity";
+import { colorList, colorNameList, rarityList } from "@/constants/rarity";
 import { useBuyGem } from "@/hooks/useBuyGem";
 import {
   MARKETPLACE_ADDRESS,
@@ -210,6 +210,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
                 <Box ml={"12px"}>
                   <RarityItem
+                    readOnly
                     active
                     rarity={rarityList[Number(gemItem[0]?.rarity)]}
                   />
@@ -229,8 +230,9 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                 </Flex>
 
                 <Flex columnGap={3}>
-                  <ColorItem active color="garnet" />
-                  <ColorItem active color="topaz" />
+                  {gemItem[0]?.color.map((item, key) => (
+                    <ColorItem readOnly color={colorNameList[item]} key={key} />
+                  ))}
                 </Flex>
               </Flex>
 
@@ -253,6 +255,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   <Box ml={"12px"}>
                     <RarityItem
                       active
+                      readOnly
                       rarity={rarityList[Number(gemItem[0]?.rarity) + 1]}
                     />
                   </Box>
@@ -278,6 +281,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   <Box ml={"12px"}>
                     <RarityItem
                       active
+                      readOnly
                       rarity={rarityList[Number(gemItem[0]?.rarity) - 1]}
                     />
                   </Box>

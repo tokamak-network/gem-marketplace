@@ -10,13 +10,16 @@ import { rarityList } from "@/constants/rarity";
 export const RarityItem = ({
   rarity,
   active = false,
+  readOnly = false,
 }: {
   rarity: string;
   active?: boolean;
+  readOnly?: boolean;
 }) => {
   const [rarityState, setRarityState] = useRecoilState(rarityStatus);
   const handleRarity = (rarity: string) => {
-    setRarityState((prev) => ({ ...prev, ...{ [rarity]: !prev[rarity] } }));
+    !readOnly &&
+      setRarityState((prev) => ({ ...prev, ...{ [rarity]: !prev[rarity] } }));
   };
 
   const defaultState = useMemo(() => {
@@ -38,7 +41,9 @@ export const RarityItem = ({
       pos={"relative"}
       opacity={defaultState || rarityState[rarity] ? 1 : 0.5}
       border={"1px solid"}
-      borderColor={rarityState[rarity] || active ? "white" : "transparent"}
+      borderColor={
+        (rarityState[rarity] || active) && !readOnly ? "white" : "transparent"
+      }
       transition={"0.1s"}
     >
       <Box pos={"absolute"} top={"-1px"} left={"-16px"}>

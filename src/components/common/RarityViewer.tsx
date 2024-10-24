@@ -1,5 +1,4 @@
 import { Box, Grid, GridItem } from "@chakra-ui/react";
-import { PieceInfo } from "@/types";
 import GemShape from "./GemShape";
 
 const RarityViewer = ({ quadrants }: { quadrants: number[] }) => {
