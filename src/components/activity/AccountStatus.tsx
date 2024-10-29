@@ -67,6 +67,7 @@ const AccountStatus = () => {
     try {
       await switchChainAsync({ chainId });
     } catch (error) {
+      console.log(error)
       return;
     }
     setNetworkMenuOpen(false);
@@ -96,7 +97,7 @@ const AccountStatus = () => {
             <Flex columnGap={2} align={"center"}>
               <NetworkSymbol w={32} h={32} network={chain?.id} />
               <Text
-                fontSize={chain?.id === 111551118080 ? 12 : 16}
+                fontSize={(chain?.id === 111551118080 || chain?.id === 55007) ? 12 : 16}
                 fontWeight={500}
               >
                 {chain?.name}

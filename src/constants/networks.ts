@@ -5,13 +5,13 @@ import { Network } from "@/types/network/supportedNetworks";
 
 export const newtorkList: Network[] = [
   {
-    id: 111551118080,
-    name: "Thanos Sepolia",
-    icon: Thanos
+    id: 11155111,
+    name: "Sepolia",
+    icon: Ethereum
   },
   {
-    id: 55004,
-    name: "Titan",
+    id: 55007,
+    name: "Titan Sepolia",
     icon: Titan
   }
 ]

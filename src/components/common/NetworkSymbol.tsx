@@ -36,7 +36,7 @@ export function NetworkSymbol(props: {
   const { network } = props;
 
   switch (network) {
-    case SupportedChainId.MAINNET:
+    // case SupportedChainId.MAINNET:
     case SupportedChainId.SEPOLIA:
       return (
         <ImageSymbol
@@ -44,7 +44,7 @@ export function NetworkSymbol(props: {
           {...props}
         />
       );
-    case SupportedChainId.TITAN:
+    // case SupportedChainId.TITAN:
     case SupportedChainId.TITAN_SEPOLIA:
       return (
         <ImageSymbol
@@ -52,13 +52,13 @@ export function NetworkSymbol(props: {
           {...props}
         />
       );
-    case SupportedChainId.THANOS_SEPOLIA:
-      return (
-        <ImageSymbol
-          ImgFile={SYMBOL_THANOS_CIRCLE}
-          {...props}
-        />
-      );
+    // case SupportedChainId.THANOS_SEPOLIA:
+    //   return (
+    //     <ImageSymbol
+    //       ImgFile={SYMBOL_THANOS_CIRCLE}
+    //       {...props}
+    //     />
+    //   );
     default:
       return <ImageSymbol ImgFile={SYMBOL_THANOS_CIRCLE} {...props} />;
   }
