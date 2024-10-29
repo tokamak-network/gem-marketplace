@@ -158,20 +158,20 @@ const AccountStatus = () => {
           </Center>
 
           <Flex flexDir={"column"} align={"end"}>
-          {(item.symbol === "TON" && !TONBalance?.parsedBalance) || (item.symbol === "WSTON" && !WSTONBalance?.parsedBalance) ?
+          {(item.symbol === "TON" && !TONBalance?.parsedBalance) || (item.symbol === "TITANWSTON" && !WSTONBalance?.parsedBalance) ?
           <Box w={"60px"} h={"24px"}>
             <GradientSpinner/>
           </Box> : 
             <Text fontWeight={600} fontSize={16}>
               {item.symbol === "TON"
                 ? TONBalance?.parsedBalance
-                : item.symbol === "WSTON"
+                : item.symbol === "TITANWSTON"
                 ? WSTONBalance?.parsedBalance
                 : ""}
             </Text>
 }
             <Text color={"#5D6978"} fontSize={12}>
-              {tonPrice}
+              ${tonPrice}
             </Text>
           </Flex>
         </Flex>

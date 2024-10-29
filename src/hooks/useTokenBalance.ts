@@ -22,7 +22,7 @@ export const useTokenBalance = ({
           ethers.formatUnits(
             typeof data.value === "bigint" ? data.value : "0",
             data.decimals as number
-          )
+          ), 2
         ),
         parsedBalanceWithoutCommafied: commafy(
           ethers.formatUnits(
