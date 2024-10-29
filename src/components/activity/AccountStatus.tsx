@@ -202,9 +202,9 @@ const AccountStatus = () => {
             <Text color={"#5D6978"} fontSize={12}>
               {tonPrice ? (
                 item.symbol === "TON" ? (
-                  `$${Number(commafy(tonPrice, 2)) * Number(TONBalance?.parsedBalanceWithoutCommafied)}`
+                  `$${commafy(tonPrice * Number(TONBalance?.parsedBalanceWithoutCommafied), 2)}`
                 ) : (
-                  `$${Number(commafy(tonPrice, 2)) * Number(WSTONBalance?.parsedBalanceWithoutCommafied) * stakingIndex}`
+                  `$${commafy(tonPrice * Number(WSTONBalance?.parsedBalanceWithoutCommafied) * stakingIndex, 2)}`
                 ) 
               ) : (
                 <Box w={"35px"} h={"18px"}>
