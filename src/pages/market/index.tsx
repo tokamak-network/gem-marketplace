@@ -31,6 +31,45 @@ const MarketPage = () => {
   ) : (
     <>
       <Flex columnGap={4} mt={73}>
+        <GemPackModal
+          isOpen={gemPackModalState}
+          onOpen={() => setGemPackModalState(true)}
+          onClose={() => setGemPackModalState(false)}
+        />
+
+        {/* <Flex
+          pos={"relative"}
+          w={668}
+          h={272}
+          flexDir={"column"}
+          pt={"30px"}
+          pb={"20px"}
+          px={"30px"}
+        >
+          <Center objectPosition={"50% 50%"} zIndex={100}>
+            <Image alt="pumpkingem" src={PumpkinGem} />
+          </Center>
+          <Box pos={"absolute"} top={0} left={0}>
+            <Image
+              alt="halloween"
+              width={668}
+              height={272}
+              src={"/assets/images/halloween.png"}
+            ></Image>
+          </Box>
+          <Box
+            pos={"absolute"}
+            top={0}
+            left={0}
+            zIndex={10}
+            bgGradient={"radial-gradient(#00000080, #000000FF)"}
+            w={"full"}
+            h={272}
+          ></Box>
+        </Flex> */}
+      </Flex>
+
+      <Flex gap={4} flexWrap={"wrap"}>
         <Flex
           pos={"relative"}
           w={212}
@@ -38,6 +77,8 @@ const MarketPage = () => {
           bgImage={"/assets/images/gempack.png"}
           flexDir={"column"}
           justify={"end"}
+          rounded={"8px"}
+          // overflow={"hidden"}
         >
           <Box
             pos={"absolute"}
@@ -68,54 +109,21 @@ const MarketPage = () => {
             w={"full"}
             h={53}
             bg={"#00000080"}
-            justify={"end"}
+            justify={"space-between"}
             px={"9px"}
             align={"center"}
           >
+
+            <Flex flexDir={"column"} justify={"space-between"}>
+              <Text fontSize={14} color={"#FFFFFFBF"}>Gem #????</Text>
+              <Text fontSize={10} color={"#FFFFFF80"}>Staked $10 - $55</Text>
+            </Flex>
+
             <Link href={"/market/gempack"} replace>
               <PriceContainer price={10} />
             </Link>
           </Flex>
         </Flex>
-        <GemPackModal
-          isOpen={gemPackModalState}
-          onOpen={() => setGemPackModalState(true)}
-          onClose={() => setGemPackModalState(false)}
-        />
-
-        <Flex
-          pos={"relative"}
-          w={668}
-          h={272}
-          flexDir={"column"}
-          pt={"30px"}
-          pb={"20px"}
-          px={"30px"}
-        >
-          <Center objectPosition={"50% 50%"} zIndex={100}>
-            <Image alt="pumpkingem" src={PumpkinGem} />
-          </Center>
-          <Box pos={"absolute"} top={0} left={0}>
-            <Image
-              alt="halloween"
-              width={668}
-              height={272}
-              src={"/assets/images/halloween.png"}
-            ></Image>
-          </Box>
-          <Box
-            pos={"absolute"}
-            top={0}
-            left={0}
-            zIndex={10}
-            bgGradient={"radial-gradient(#00000080, #000000FF)"}
-            w={"full"}
-            h={272}
-          ></Box>
-        </Flex>
-      </Flex>
-
-      <Flex mt={4} gap={4} flexWrap={"wrap"}>
         {activeGemList &&
           activeGemList.length > 0 &&
           activeGemList.map((item: any, key: number) => {

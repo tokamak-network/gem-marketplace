@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useAccount, useSwitchChain, useChainId } from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
 import { useRecoilState } from "recoil";
 import useConnectWallet from "@/hooks/account/useConnectWallet";
 import { activityContainerStatus } from "@/recoil/activity/atom";

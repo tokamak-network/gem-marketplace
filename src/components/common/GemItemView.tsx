@@ -33,7 +33,7 @@ import forgeIcon from "@/assets/icon/forge.svg";
 import SavedIcon from "./SavedIcon";
 import ShareIcon from "@/assets/icon/share.svg";
 import { useGetAllGems } from "@/hooks/useGetMarketGems";
-import { colorList, colorNameList, rarityList } from "@/constants/rarity";
+import { colorNameList, rarityList } from "@/constants/rarity";
 import { useBuyGem } from "@/hooks/useBuyGem";
 import {
   MARKETPLACE_ADDRESS,
@@ -97,7 +97,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     [WSTONBalance, gemItem]
   );
 
-  const { callBuyGem, isPending, isSuccess, error } = useBuyGem({
+  const { callBuyGem } = useBuyGem({
     tokenID: id,
     payWithWSTON: payOption,
   });
@@ -115,9 +115,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const allowance = useApproval(contract_address, decimals);
 
   const {
-    callApprove,
     isSuccess: approveSuccess,
-    isPending: isPendingApproval,
   } = useTonORWSTONApprove(
     payOption
       ? gemItem
