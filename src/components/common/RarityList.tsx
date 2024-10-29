@@ -36,7 +36,7 @@ export const RarityItem = ({
       roundedRight={"full"}
       bgColor={"#2A2C3A"}
       columnGap={"10px"}
-      cursor={"pointer"}
+      cursor={readOnly ? "auto" : "pointer"}
       onClick={() => handleRarity(rarity)}
       pos={"relative"}
       opacity={defaultState || rarityState[rarity] ? 1 : 0.5}

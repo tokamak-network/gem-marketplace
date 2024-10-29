@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useAccount, useWriteContract } from "wagmi";
-import FactoryABI from "@/abi/gemfactory.json";
+import FactoryMiningABI from "@/abi/gemFactoryMining.json";
 import { FACTORY_ADDRESS } from "@/constants/tokens";
 
 export const useStartMiningGem = (tokenId: number) => {
@@ -8,12 +8,13 @@ export const useStartMiningGem = (tokenId: number) => {
   const { chain } = useAccount();
 
   const callStartMining = useCallback(async () => {
-    await writeContractAsync({
-      abi: FactoryABI,
+    const tx = await writeContractAsync({
+      abi: FactoryMiningABI,
       address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
       functionName: "startMiningGEM",
       args: [tokenId],
     });
+    return tx;
   }, [tokenId]);
 
   return { callStartMining, isError, isPending, isSuccess, error };

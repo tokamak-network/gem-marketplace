@@ -36,7 +36,7 @@ export const ColorItem = ({
       rounded={"full"}
       bgColor={colorList[color]}
       columnGap={"10px"}
-      cursor={"pointer"}
+      cursor={readOnly ? "auto" : "pointer"}
       onClick={() => handleColor(color)}
       opacity={defaultState || colorState[color] ? 1 : 0.5}
       border={"1px solid"}

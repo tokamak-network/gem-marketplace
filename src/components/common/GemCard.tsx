@@ -41,6 +41,7 @@ import { rarityList } from "@/constants/rarity";
 import { arraysEqual } from "@/utils";
 import { formatUnits } from "viem";
 import { cooldownIndex } from "@/constants";
+import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 
 interface GemCardType {
   width?: number;
@@ -82,6 +83,7 @@ const GemCard = ({
   const [, setForgeConfirm] = useRecoilState(forgeConfirmModalStatus);
   const [finalForgeItem, setFinalForgeGem] = useRecoilState(selectedFinalForge);
   const [cooldowns] = useRecoilState(cooldownStatus);
+  const { waitForTransactionReceipt } = useWaitForTransaction();
 
   const theme = useTheme();
   const router = useRouter();
@@ -113,7 +115,7 @@ const GemCard = ({
         );
       }
 
-      if (currentTimestamp / 1000 > Number(miningStartTime) + miningPeriod!) {
+      if (currentTimestamp / 1000 < Number(miningStartTime) + miningPeriod!) {
         setReadyForCollectMinedGem(true);
       } else setReadyForCollectMinedGem(false);
     }, 1000);
@@ -401,9 +403,10 @@ const GemCard = ({
                       onMouseLeave={() => SetHoverMine(false)}
                       border={"1px solid #FFFFFF40"}
                       rounded={"0px 0px 8px 8px"}
-                      onClick={() => {
+                      onClick={async () => {
+                        const txHash = await callStartMining();
+                        await waitForTransactionReceipt(txHash);
                         seMineModalState({ isOpen: true, mineTime: 2342347 });
-                        callStartMining();
                       }}
                     >
                       <Text>{isHoverMine ? "Mine Gem" : "Ready to mine"}</Text>
