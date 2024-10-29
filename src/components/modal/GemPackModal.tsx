@@ -54,7 +54,7 @@ const GemPackModal = (props: GemPackModalProps) => {
                   lineHeight={"34.57px"}
                   mt={3}
                 >
-                  Obtain 1 Gem ranging from Base up to Legendary!
+                  Obtain 1 Gem ranging from Base up to Unique!
                 </Text>
 
                 <Text mt={8} fontSize={14} fontWeight={400} lineHeight={"21px"}>

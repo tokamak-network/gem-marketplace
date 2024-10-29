@@ -35,7 +35,7 @@ const GemPack = () => {
           </Text>
 
           <Text mt={9} fontFamily={theme.fonts.Inter} fontSize={24}>
-            Obtain 1 Gem ranging from Base up to Legendary!
+            Obtain 1 Gem ranging from Base up to Unique!
           </Text>
 
           <Text mt={9} fontSize={14}>
@@ -52,19 +52,13 @@ const GemPack = () => {
               Rates:
             </Text>
             <Text fontWeight={300} fontSize={12}>
-              Common. . . . . . 34%
+              Common . . . . . . 70%
             </Text>
             <Text fontWeight={300} fontSize={12}>
-              Rare . . . . . . . . . . . 34%
+              Rare . . . . . . . . . . . 25%
             </Text>
             <Text fontWeight={300} fontSize={12}>
-              Unique . . . . . . . .  34%
-            </Text>
-            <Text fontWeight={300} fontSize={12}>
-              Epic . . . . . . . . . . . 34%
-            </Text>
-            <Text fontWeight={300} fontSize={12}>
-              Legendary . . . . 34%
+              Unique . . . . . . . . . 5%
             </Text>
           </Flex>
 

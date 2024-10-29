@@ -92,7 +92,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const payOption = useMemo(
     () =>
       Number(formatUnits(WSTONBalance?.data?.value! ?? "0", 27)) >
-      Number(formatUnits(gemItem ? gemItem[0].value! : BigInt("0"), 27)),
+      Number(formatUnits(gemItem ? gemItem[0]?.value! : BigInt("0"), 27)),
 
     [WSTONBalance, gemItem]
   );
@@ -154,7 +154,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       await waitForTransactionReceipt(txHash);
       await callBuyGem();
       setLoading(false);
-      setModalStatus({ isOpen: true, gemId: gemItem[0].tokenID });
+      setModalStatus({ isOpen: true, gemId: gemItem[0]?.tokenID });
     } catch (e) {
       setLoading(false);
     }
@@ -163,7 +163,8 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const theme = useTheme();
 
   return (
-    gemItem && (
+    gemItem &&
+    gemItem[0] && (
       <Flex flexDir={"column"} w={"100%"} h={"100%"}>
         <Flex columnGap={"40px"}>
           <GemCard
@@ -342,7 +343,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               <Center columnGap={3}>
                 <Image alt="ton" src={WSTONIcon} width={32} height={32} />
                 <Text fontSize={32} fontWeight={600}>
-                  {`${formatUnits(gemItem[0].value!, 27)} WSTON`}
+                  {`${formatUnits(gemItem[0]?.value!, 27)} WSTON`}
                 </Text>
               </Center>
 
@@ -405,7 +406,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                             size="md"
                           />
                         ) : (
-                          `${formatUnits(gemItem[0].price!, 27)} TITANWSTON`
+                          `${formatUnits(gemItem[0]?.price || BigInt(0), 27)} TITANWSTON`
                         )}
                       </Text>
                     </Button>
@@ -464,7 +465,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     onClick={() => {
                       setSellGemModalStatus({
                         isOpen: true,
-                        tokenID: gemItem[0].tokenID,
+                        tokenID: gemItem[0]?.tokenID,
                       });
                     }}
                   >
@@ -482,7 +483,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     onClick={() =>
                       burnSellGemModalStatus({
                         isOpen: true,
-                        tokenID: gemItem[0].tokenID,
+                        tokenID: gemItem[0]?.tokenID,
                       })
                     }
                     border={"1px solid #0380FF"}

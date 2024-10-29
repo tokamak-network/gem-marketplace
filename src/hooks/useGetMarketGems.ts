@@ -9,12 +9,14 @@ export const useGetMarketGems = () => {
     variables: {
       user: address,
     },
+    pollInterval: 1000,
   });
   return useMemo(() => data?.nfts, [loading, error, data]);
 };
 
 export const useGetAllGems = () => {
-  const { loading, error, data } = useQuery(GET_MARKET_GEMS);
+  const { loading, error, data } = useQuery(GET_MARKET_GEMS, {
+    pollInterval: 1000,
+  });
   return useMemo(() => data?.nfts, [loading, error, data]);
-}
-
+};

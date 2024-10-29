@@ -61,7 +61,7 @@ const MarketPage = () => {
             mt={4}
             mb={5}
           >
-            Obtain 1 Gem ranging from Base up to Legendary!
+            Obtain 1 Gem ranging from Rare up to Unique!
           </Text>
 
           <Flex
