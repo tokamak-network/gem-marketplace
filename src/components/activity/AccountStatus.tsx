@@ -32,6 +32,9 @@ import {
 import GradientSpinner from "../ui/GradientSpinner";
 import { SupportedChainId } from "@/types/network/supportedNetworks";
 import WarningRed from "@/assets/icon/warningRed.svg";
+import { fetchMarketPrice } from "@/utils/price";
+import commafy from "@/utils/trim/commafy";
+import { StakingIndex } from "@/recoil/market/atom";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
@@ -41,6 +44,15 @@ const AccountStatus = () => {
   const { switchChainAsync } = useSwitchChain();
   const [isNetworkMenuOpen, setNetworkMenuOpen] = useState<boolean>(false);
   const [tonPrice, setTonPrice] = useState(0);
+  const [stakingIndex] = useRecoilState(StakingIndex);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const price = await fetchMarketPrice();
+      setTonPrice(price);
+    };
+    fetchData();
+  }, [chain, address]);
 
   const TONBalance = useTokenBalance({
     tokenAddress: TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
@@ -188,7 +200,17 @@ const AccountStatus = () => {
               </Text>
             )}
             <Text color={"#5D6978"} fontSize={12}>
-              ${tonPrice}
+              {tonPrice ? (
+                item.symbol === "TON" ? (
+                  `$${Number(commafy(tonPrice, 2)) * Number(TONBalance?.parsedBalanceWithoutCommafied)}`
+                ) : (
+                  `$${Number(commafy(tonPrice, 2)) * Number(WSTONBalance?.parsedBalanceWithoutCommafied) * stakingIndex}`
+                ) 
+              ) : (
+                <Box w={"35px"} h={"18px"}>
+                  <GradientSpinner />
+                </Box>
+              )}
             </Text>
           </Flex>
         </Flex>

@@ -29,7 +29,7 @@ export const useTokenBalance = ({
             typeof data.value === "bigint" ? data.value : "0",
             data.decimals as number
           ),
-          data.decimals as number
+          2
         ).replaceAll(",", ""),
       }
     }
