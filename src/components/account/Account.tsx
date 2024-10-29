@@ -14,7 +14,7 @@ const Account = () => {
   const { connectToWallet } = useConnectWallet();
   const handleConnect = () => {
     !isConnected && connectToWallet();
-    isConnected && setOpenActivity(true);
+    isConnected && setOpenActivity(prev => !prev);
   }
 
   return (

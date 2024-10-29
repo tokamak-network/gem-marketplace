@@ -13,9 +13,10 @@ import Sidebar from "./sidebar";
 import Header from "./header";
 import Modals from "./modals";
 import Drawers from "../drawer";
+import { SupportedChainId } from "@/types/network/supportedNetworks";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const { chain } = useAccount();
+  const { chain, isConnected } = useAccount();
   const [, setStakingIndex] = useRecoilState(StakingIndex);
   const cooldownPeriods = useGetCooldownPeriods();
   const [, setCooldowns] = useRecoilState(cooldownStatus);
@@ -27,9 +28,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       );
       setStakingIndex(Number(formatUnits(stakingIndex, 27)));
     };
-    fetchStakingIndex();
+    isConnected && chain?.id === SupportedChainId.TITAN_SEPOLIA && fetchStakingIndex();
     
-  }, []);
+  }, [isConnected, chain]);
 
   useEffect(() => {
     const fetchCooldowns = () => {

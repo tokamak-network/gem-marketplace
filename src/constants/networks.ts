@@ -3,7 +3,7 @@ import Thanos from "@/assets/icon/network/thanos_circle.svg";
 import Titan from "@/assets/icon/network/titan_circle.svg";
 import { Network } from "@/types/network/supportedNetworks";
 
-export const newtorkList: Network[] = [
+export const supportedNetworkList: Network[] = [
   {
     id: 11155111,
     name: "Sepolia",

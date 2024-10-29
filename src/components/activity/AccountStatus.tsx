@@ -20,7 +20,7 @@ import { trimAddress } from "@/utils";
 import copy from "copy-to-clipboard";
 import { NetworkSymbol } from "../common/NetworkSymbol";
 import LogoutIcon from "@/assets/icon/logout.svg";
-import { newtorkList } from "@/constants/networks";
+import { supportedNetworkList } from "@/constants/networks";
 
 import ClipboardIcon from "@/assets/icon/clipboard.svg";
 import { tokenList } from "@/constants";
@@ -30,6 +30,8 @@ import {
   WSWTON_ADDRESS_BY_CHAINID,
 } from "@/constants/tokens";
 import GradientSpinner from "../ui/GradientSpinner";
+import { SupportedChainId } from "@/types/network/supportedNetworks";
+import WarningRed from "@/assets/icon/warningRed.svg";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
@@ -67,11 +69,15 @@ const AccountStatus = () => {
     try {
       await switchChainAsync({ chainId });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return;
     }
     setNetworkMenuOpen(false);
   };
+  const filteredNetwork = supportedNetworkList.filter(
+    (item) => item.id === chain?.id
+  );
+  const isSupportedNetwork = filteredNetwork && filteredNetwork?.length > 0;
 
   return (
     <Box w={"full"} p={"16px"} rounded={8} bgColor={"#1B1D28"} mb={"30px"}>
@@ -85,7 +91,7 @@ const AccountStatus = () => {
           <MenuButton
             onClick={() => setNetworkMenuOpen((prev) => !prev)}
             as={Button}
-            bgColor={"transparent"}
+            bgColor={isSupportedNetwork ? "transparent" : "#2A2C3A"}
             color={"white"}
             p={0}
             rounded={"full"}
@@ -94,15 +100,23 @@ const AccountStatus = () => {
             px={"6px"}
             pr={2}
           >
-            <Flex columnGap={2} align={"center"}>
-              <NetworkSymbol w={32} h={32} network={chain?.id} />
-              <Text
-                fontSize={(chain?.id === 111551118080 || chain?.id === 55007) ? 12 : 16}
-                fontWeight={500}
-              >
-                {chain?.name}
-              </Text>
-            </Flex>
+            {isSupportedNetwork ? (
+              <Flex columnGap={2} align={"center"}>
+                <NetworkSymbol w={32} h={32} network={chain?.id} />
+                <Text
+                  fontSize={
+                    chain?.id === SupportedChainId.TITAN_SEPOLIA ? 12 : 16
+                  }
+                  fontWeight={500}
+                >
+                  {chain?.name}
+                </Text>
+              </Flex>
+            ) : (
+              <Flex w={"full"} justify={"center"}>
+                <Image src={WarningRed} alt="warning" />
+              </Flex>
+            )}
           </MenuButton>
           <MenuList
             bgColor={"#1B1D28"}
@@ -110,7 +124,7 @@ const AccountStatus = () => {
             fontWeight={500}
             fontSize={14}
           >
-            {newtorkList.map((item, key) => (
+            {supportedNetworkList.map((item, key) => (
               <MenuItem
                 key={key}
                 _hover={{ bgColor: "#2A2C3A" }}
@@ -159,18 +173,20 @@ const AccountStatus = () => {
           </Center>
 
           <Flex flexDir={"column"} align={"end"}>
-          {(item.symbol === "TON" && !TONBalance?.parsedBalance) || (item.symbol === "TITANWSTON" && !WSTONBalance?.parsedBalance) ?
-          <Box w={"60px"} h={"24px"}>
-            <GradientSpinner/>
-          </Box> : 
-            <Text fontWeight={600} fontSize={16}>
-              {item.symbol === "TON"
-                ? TONBalance?.parsedBalance
-                : item.symbol === "TITANWSTON"
-                ? WSTONBalance?.parsedBalance
-                : ""}
-            </Text>
-}
+            {(item.symbol === "TON" && !TONBalance?.parsedBalance) ||
+            (item.symbol === "TITANWSTON" && !WSTONBalance?.parsedBalance) ? (
+              <Box w={"60px"} h={"24px"}>
+                <GradientSpinner />
+              </Box>
+            ) : (
+              <Text fontWeight={600} fontSize={16}>
+                {item.symbol === "TON"
+                  ? TONBalance?.parsedBalance
+                  : item.symbol === "TITANWSTON"
+                    ? WSTONBalance?.parsedBalance
+                    : ""}
+              </Text>
+            )}
             <Text color={"#5D6978"} fontSize={12}>
               ${tonPrice}
             </Text>
