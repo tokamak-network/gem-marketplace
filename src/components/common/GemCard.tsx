@@ -69,6 +69,7 @@ const GemCard = ({
 }: GemCardType) => {
   const [isSaved, setSaved] = useState<boolean>(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
+  const [miningTimeRemaining, setMiningTimeRemaining] = useState<number>(0);
   const [isReadyForStartMine, setReadyForStartMine] = useState<boolean>(false);
   const [isReadyForCollectMinedGem, setReadyForCollectMinedGem] =
     useState<boolean>(false);
@@ -103,8 +104,8 @@ const GemCard = ({
     useStartMiningGem(tokenID);
 
   useEffect(() => {
-    const currentTimestamp = Date.now();
     const interval = setInterval(() => {
+      const currentTimestamp = Date.now();
       if (currentTimestamp / 1000 > Number(cooldownDueDate)) {
         setReadyForStartMine(true);
         setTimeRemaining(0);
@@ -115,12 +116,18 @@ const GemCard = ({
         );
       }
 
-      if (currentTimestamp / 1000 < Number(miningStartTime) + miningPeriod!) {
+      if (currentTimestamp / 1000 > Number(miningStartTime) + Number(miningPeriod!) && miningStartTime) {
         setReadyForCollectMinedGem(true);
-      } else setReadyForCollectMinedGem(false);
+      } else if (currentTimestamp / 1000 < Number(miningStartTime) + Number(miningPeriod!) && miningStartTime) {
+        setReadyForCollectMinedGem(false);
+        setMiningTimeRemaining(
+          Number(miningStartTime) + Number(miningPeriod!) - Number(currentTimestamp / 1000)
+        );
+        console.log(Number(miningStartTime) + Number(miningPeriod!) - currentTimestamp / 1000)
+      }
     }, 1000);
     return () => clearInterval(interval);
-  }, [timeRemaining]);
+  }, []);
 
   const cooldownRemainingTime = useMemo(
     () =>
@@ -130,6 +137,16 @@ const GemCard = ({
             (timeRemaining % 3600) / 60
           )} : ${Math.floor((timeRemaining % 3600) % 60)}`,
     [timeRemaining]
+  );
+
+  const miningRemainingTime = useMemo(
+    () =>
+      Math.floor(miningTimeRemaining / (3600 * 24)) > 0
+        ? `${Math.floor(miningTimeRemaining / (3600 * 24))} Days`
+        : `${Math.floor(miningTimeRemaining / 3600)} : ${Math.floor(
+            (miningTimeRemaining % 3600) / 60
+          )} : ${Math.floor((miningTimeRemaining % 3600) % 60)}`,
+    [miningTimeRemaining]
   );
 
   const handleCardClick = useCallback(() => {
@@ -345,30 +362,33 @@ const GemCard = ({
             />
           </Center>
 
-          {(mode === "mine" && isMining) ||
-            (mode === "mine" && !isReadyForStartMine && (
-              <>
-                <Center justifyContent={"space-between"} px={2}>
-                  <Text fontSize={10} color="#FFFFFF80">
-                    Time Remaining
-                  </Text>
-                  <Text fontSize={12} minW={"56px"}>
-                    {cooldownRemainingTime}
-                  </Text>
-                </Center>
-                <Progress
-                  value={
-                    ((cooldowns[cooldownIndex[Number(rarity)]] -
-                      timeRemaining) /
-                      cooldowns[cooldownIndex[Number(rarity)]]) *
-                    100
-                  }
-                  bgColor={"transparent"}
-                  colorScheme="gray"
-                  h={"3px"}
-                />
-              </>
-            ))}
+          {((mode === "mine" && isMining && !isReadyForCollectMinedGem) ||
+            (mode === "mine" && !isReadyForStartMine)) && (
+            <>
+              <Center justifyContent={"space-between"} px={2}>
+                <Text fontSize={10} color="#FFFFFF80">
+                  Time Remaining
+                </Text>
+                <Text fontSize={12} minW={"56px"}>
+                  {isMining ? miningRemainingTime : cooldownRemainingTime}
+                </Text>
+              </Center>
+              <Progress
+                value={
+                  isMining
+                    ? ((miningPeriod! - miningTimeRemaining) / miningPeriod!) *
+                      100
+                    : ((cooldowns[cooldownIndex[Number(rarity)]] -
+                        timeRemaining) /
+                        cooldowns[cooldownIndex[Number(rarity)]]) *
+                      100
+                }
+                bgColor={"transparent"}
+                colorScheme="gray"
+                h={"3px"}
+              />
+            </>
+          )}
 
           {mode !== "normal" && (
             <Flex
@@ -436,7 +456,7 @@ const GemCard = ({
                   >
                     <Text>{isHoverCooldown ? "Speed Up" : "Cooldown..."}</Text>
                   </Center>
-                ) : isReadyForStartMine === true && isMining === true ? (
+                ) : isReadyForStartMine === true && isMining === true && !isReadyForCollectMinedGem ? (
                   <Flex
                     w={"full"}
                     justify={"center"}
@@ -455,7 +475,6 @@ const GemCard = ({
                     </Text>
                   </Flex>
                 ) : isReadyForStartMine === true &&
-                  isMining === false &&
                   isReadyForCollectMinedGem ? (
                   <Flex
                     w={"full"}
@@ -466,10 +485,10 @@ const GemCard = ({
                     p={"20px"}
                     columnGap={"6px"}
                     onClick={() => {
-                      setCollectGemStatus({
-                        isOpen: true,
-                        minedGemId: tokenID,
-                      });
+                      // setCollectGemStatus({
+                      //   isOpen: true,
+                      //   minedGemId: tokenID,
+                      // });
                     }}
                   >
                     <Text fontSize={18}>Collect Gem</Text>

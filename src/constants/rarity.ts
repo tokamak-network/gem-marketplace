@@ -16,8 +16,6 @@ export const colorNameList = [
   "turquoise",
   "amethyst",
   "garnet",
-  "diamond",
-  "onyx"
 ]
 
 type ColorListType = {
@@ -29,8 +27,6 @@ type ColorListType = {
   sapphire: string,
   amethyst: string,
   garnet: string,
-  diamond: string,
-  onyx: string,
 }
 
 export const colorList: ColorListType = {
@@ -42,8 +38,6 @@ export const colorList: ColorListType = {
   sapphire: "#2B2C51",
   amethyst: "#402B51",
   garnet: "#512B4D",
-  diamond: "#FFFFFF26",
-  onyx: "#000000",
 };
 
 export const colorBorderList: ColorListType = {
@@ -55,6 +49,4 @@ export const colorBorderList: ColorListType = {
   sapphire: "#000AFF",
   amethyst: "#8F00FF",
   garnet: "#FF00E5",
-  diamond: "#FFFFFF",
-  onyx: "#585858",
 };

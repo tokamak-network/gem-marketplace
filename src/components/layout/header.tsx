@@ -12,8 +12,8 @@ const Header = () => {
     <></>
   ) : (
     <>
-      <RarityList />
       <ColorList />
+      <RarityList />
     </>
   );
 };
