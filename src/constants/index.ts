@@ -1,6 +1,7 @@
 import { GemStandard, RarityType } from "@/types";
 import TON from "@/assets/icon/ton.svg";
 import Thanos from "@/assets/icon/network/thanos_circle.svg";
+import ETHIcon from "@/assets/icon/network/ethereum_circle.svg"
 import { TON_ADDRESS_BY_CHAINID, WSWTON_ADDRESS_BY_CHAINID } from "./tokens";
 
 export const GemList: GemStandard[] = [
@@ -29,6 +30,11 @@ export const GemList: GemStandard[] = [
 ];
 
 export const tokenList = [
+  {
+    symbol: "ETH",
+    address: "",
+    icon: ETHIcon
+  },
   {
     symbol: "TON",
     address: TON_ADDRESS_BY_CHAINID,

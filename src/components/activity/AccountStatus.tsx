@@ -24,7 +24,7 @@ import { supportedNetworkList } from "@/constants/networks";
 
 import ClipboardIcon from "@/assets/icon/clipboard.svg";
 import { tokenList } from "@/constants";
-import { useTokenBalance } from "@/hooks/useTokenBalance";
+import { useETHBalance, useTokenBalance } from "@/hooks/useTokenBalance";
 import {
   TON_ADDRESS_BY_CHAINID,
   WSWTON_ADDRESS_BY_CHAINID,
@@ -44,12 +44,15 @@ const AccountStatus = () => {
   const { switchChainAsync } = useSwitchChain();
   const [isNetworkMenuOpen, setNetworkMenuOpen] = useState<boolean>(false);
   const [tonPrice, setTonPrice] = useState(0);
+  const [ethPrice, setETHPrice] = useState(0);
   const [stakingIndex] = useRecoilState(StakingIndex);
 
   useEffect(() => {
     const fetchData = async () => {
       const price = await fetchMarketPrice();
-      setTonPrice(price);
+      console.log(price)
+      setTonPrice(price?.ton_price);
+      setETHPrice(price?.eth_price);
     };
     fetchData();
   }, [chain, address]);
@@ -60,6 +63,7 @@ const AccountStatus = () => {
   const WSTONBalance = useTokenBalance({
     tokenAddress: WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
   });
+  const ETHBalance = useETHBalance();
 
   const handleClipboard = () => {
     copy(address !== undefined ? address : "");
@@ -196,16 +200,16 @@ const AccountStatus = () => {
                   ? TONBalance?.parsedBalance
                   : item.symbol === "TITANWSTON"
                     ? WSTONBalance?.parsedBalance
-                    : ""}
+                    : item.symbol === "ETH" ? ETHBalance : ""}
               </Text>
             )}
             <Text color={"#5D6978"} fontSize={12}>
               {tonPrice ? (
                 item.symbol === "TON" ? (
                   `$${commafy(tonPrice * Number(TONBalance?.parsedBalanceWithoutCommafied), 2)}`
-                ) : (
+                ) : item.symbol === "TITANWSTON" ? (
                   `$${commafy(tonPrice * Number(WSTONBalance?.parsedBalanceWithoutCommafied) * stakingIndex, 2)}`
-                ) 
+                ) : `$${commafy(ethPrice * Number(ETHBalance), 2)}`
               ) : (
                 <Box w={"35px"} h={"18px"}>
                   <GradientSpinner />
