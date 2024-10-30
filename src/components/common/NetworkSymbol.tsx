@@ -7,6 +7,7 @@ import { SupportedChainId } from "@/types/network/supportedNetworks";
 import SYMBOL_ETHEREUM_CIRCLE from "@/assets/icon/network/ethereum_circle.svg";
 import SYMBOL_TITAN_CIRCLE from "@/assets/icon/network/titan_circle.svg";
 import SYMBOL_THANOS_CIRCLE from "@/assets/icon/network/thanos_circle.svg";
+import WarningRed from "@/assets/icon/warningRed.svg";
 import { CSSProperties } from "react";
 
 export default function ImageSymbol(props: {
@@ -60,6 +61,6 @@ export function NetworkSymbol(props: {
     //     />
     //   );
     default:
-      return <ImageSymbol ImgFile={SYMBOL_THANOS_CIRCLE} {...props} />;
+      return <ImageSymbol ImgFile={WarningRed} {...props} />;
   }
 }
