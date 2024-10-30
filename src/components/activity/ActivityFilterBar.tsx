@@ -1,11 +1,16 @@
+import { activityFilterList } from "@/recoil/activity/atom";
 import { Center, Flex, useTheme } from "@chakra-ui/react";
+import { activityFilterStatus } from "@/recoil/activity/atom";
+import { useRecoilState } from "recoil";
 
 const ActivityFilterItem = ({
   isActive,
   title,
+  onClick
 }: {
   isActive?: boolean;
   title: string;
+  onClick: () => void;
 }) => {
   const theme = useTheme();
 
@@ -24,6 +29,7 @@ const ActivityFilterItem = ({
       fontSize={12}
       fontWeight={400}
       cursor={"pointer"}
+      onClick={() => onClick()}
     >
       {title}
     </Center>
@@ -31,12 +37,18 @@ const ActivityFilterItem = ({
 };
 
 const ActivityFilterBar = () => {
+  const [activityStatus, setActivityStatus] = useRecoilState(activityFilterStatus);
+
   return (
     <Flex w={"100%"} justify={"space-between"} mt={"30px"}>
-      <ActivityFilterItem isActive title="all" />
-      <ActivityFilterItem title="mine" />
-      <ActivityFilterItem title="forge" />
-      <ActivityFilterItem title="buy/sell" />
+      {activityFilterList.map((item, key) => (
+        <ActivityFilterItem
+          key={key}
+          isActive={item === activityStatus}
+          title={item}
+          onClick={(() => setActivityStatus(item))}
+        />
+      ))}
     </Flex>
   );
 };

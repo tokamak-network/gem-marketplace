@@ -19,7 +19,7 @@ import { sellGemModalStatus } from "@/recoil/chest/atom";
 import { useGemApprove } from "@/hooks/useGemApprove";
 import { useListGem } from "@/hooks/useListGem";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
-import { parseEther } from "viem";
+import { parseUnits } from "viem";
 
 const SellGemModal = () => {
   const theme = useTheme();
@@ -33,7 +33,7 @@ const SellGemModal = () => {
   const { waitForTransactionReceipt } = useWaitForTransaction();
   const { callListGem, isPending: isPendingListGem } = useListGem({
     tokenID: modalStatus.tokenID,
-    listPrice: parseEther(inputValue),
+    listPrice: parseUnits(inputValue, 27),
   });
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -41,7 +41,7 @@ const SellGemModal = () => {
   const handleInput = (e: any) => {
     const value = e.target.value;
     const regex = /^[0-9]*\.?[0-9]*$/;
-    const numericValue = value.replace(/\s?TON$/, "");
+    const numericValue = value.replace(/\s?WSTON$/, "");
     if (regex.test(numericValue) || numericValue === "") {
       setInputValue(numericValue);
     }
@@ -71,10 +71,6 @@ const SellGemModal = () => {
         <ModalCloseButton />
         <ModalBody padding={0}>
           <Flex w={"100%"} flexDir={"column"} p={"37px 52px 44px 52px"}>
-            <Text fontWeight={700} fontSize={48} textAlign={"center"}>
-              {parseEther(inputValue)}
-            </Text>
-
             <Text
               mt={5}
               fontFamily={theme.fonts.Inter}
@@ -94,7 +90,7 @@ const SellGemModal = () => {
               px={7}
               border={"none"}
               bgColor={"#191A22"}
-              value={inputValue ? `${inputValue} TON` : ""}
+              value={inputValue ? `${inputValue} WSTON` : ""}
               onChange={(e) => handleInput(e)}
               ref={inputRef}
               onClick={handleCursorPosition}
