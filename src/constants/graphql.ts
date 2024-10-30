@@ -118,6 +118,7 @@ export const GET_TX_HISTORY = gql`
       tradeType
       trader
       value
+      date
     }
   }
 `;

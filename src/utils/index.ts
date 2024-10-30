@@ -111,9 +111,7 @@ export function arraysEqual(arr1: number[], arr2: number[]) {
   return arr1.every((value, index) => value === arr2[index]); // Compare each element
 }
 
-export const getStakingIndex = async (
-  contractAddress: `0x${string}`,
-) => {
+export const getStakingIndex = async (contractAddress: `0x${string}`) => {
   const result = await readContract(config, {
     abi: MarketplaceABI,
     address: contractAddress,
@@ -121,3 +119,27 @@ export const getStakingIndex = async (
   });
   return result;
 };
+
+export function groupAndSortByDate(data: any) {
+  if (data && data?.length > 0) {
+    // Step 1: Group by date in 'YYYY-MM-DD' format
+    const grouped = data?.reduce((acc: any, obj: any) => {
+      const date = new Date(obj.date * 1000).toISOString().split("T")[0]; // Convert timestamp to 'YYYY-MM-DD'
+      if (!acc[date]) acc[date] = [];
+      acc[date].push(obj);
+      return acc;
+    }, {});
+
+    // Step 2: Sort dates in descending order
+    const sortedDates = Object.keys(grouped).sort(
+      (a, b) => new Date(b).getTime() - new Date(a).getTime()
+    );
+
+    // Step 3: Build final sorted array of groups
+    return sortedDates.map((date) => ({
+      date,
+      items: grouped[date],
+    }));
+  }
+  return null;
+}

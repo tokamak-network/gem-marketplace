@@ -14,11 +14,11 @@ export const useFilterActivity = () => {
         activityStatus === ActivityFilter.ALL
           ? true
           : activityStatus === ActivityFilter.MINE
-            ? item.tradeType === "mining"
+            ? item.tradeType === "mined"
             : activityStatus === ActivityFilter.FORGE
-              ? item.tradeType === "forging"
+              ? item.tradeType === "forged"
               : activityStatus === ActivityFilter.BUYSELL
-                ? item.tradeType === "buying"
+                ? item.tradeType === "purchased"
                 : false
       ),
     [activityStatus, tradeHistory]
