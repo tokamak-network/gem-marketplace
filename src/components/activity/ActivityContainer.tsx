@@ -15,10 +15,13 @@ import ActivityFilterBar from "@/components/activity/ActivityFilterBar";
 import NoActivityContainer from "@/components/activity/NoActivityAlert";
 
 import AccountStatus from "./AccountStatus";
+import { useFilterActivity } from "@/hooks/account/useFilterActivity";
 
 const ActivityContainer = () => {
   const [isOpen, setOpen] = useRecoilState(activityContainerStatus);
   const theme = useTheme();
+  const txHistory = useFilterActivity();
+  console.log(txHistory)
 
   return (
     <Drawer
@@ -36,7 +39,7 @@ const ActivityContainer = () => {
         px={30}
       >
         <DrawerHeader p={0}>
-          <AccountStatus/>
+          <AccountStatus />
 
           <Text fontFamily={theme.fonts.Inter} fontSize={24} fontWeight={600}>
             Activity
@@ -45,7 +48,7 @@ const ActivityContainer = () => {
         </DrawerHeader>
 
         <DrawerBody p={0}>
-          <NoActivityContainer />
+          {txHistory && txHistory.length > 0 ? <></> : <NoActivityContainer />}
         </DrawerBody>
 
         <DrawerFooter></DrawerFooter>

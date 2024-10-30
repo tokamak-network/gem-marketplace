@@ -108,3 +108,16 @@ export const GET_COOLDOWN_PERIODS = gql`
     }
   }
 `;
+
+export const GET_TX_HISTORY = gql`
+  query GetTxHistory($user: String!) {
+    tradeHistories(where: {or:[{trader: $user}, {payer: $user}]}) {
+      gemIds
+      newId
+      payer
+      tradeType
+      trader
+      value
+    }
+  }
+`;

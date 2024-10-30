@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { GET_ALL_MARKET_GEMS, GET_MARKET_GEMS } from "@/constants/graphql";
+import { GET_ALL_MARKET_GEMS, GET_MARKET_GEMS, GET_TX_HISTORY } from "@/constants/graphql";
 import { useQuery } from "@apollo/client";
 import { useAccount } from "wagmi";
 
@@ -20,3 +20,14 @@ export const useGetAllGems = () => {
   });
   return useMemo(() => data?.nfts, [loading, error, data]);
 };
+
+export const useGetTransactionHistory = () => {
+  const { address } = useAccount();
+  const { loading, error, data } = useQuery(GET_TX_HISTORY, {
+    variables: {
+      user: address
+    },
+    pollInterval: 1000,
+  });
+  return useMemo(() => data?.tradeHistories, [loading, error, data]);
+}
