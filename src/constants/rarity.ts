@@ -5,7 +5,6 @@ export const rarityList = [
   "epic",
   "legendary",
   "mythic",
-  "heirloom",
 ];
 
 export const colorNameList = [

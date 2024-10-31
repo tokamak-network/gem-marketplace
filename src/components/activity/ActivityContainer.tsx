@@ -103,7 +103,7 @@ const ActivityContainer = () => {
                     <Text>
                       <span
                         style={{ color: "#0075FF" }}
-                      >{` Gem #${item.gemIds[0]} `}</span>
+                      >{` Gem #${item.tradeType === "forged" ? item.newId : item.gemIds[0]} `}</span>
                       {item.tradeType === "purchased" ||
                       item.tradeType === "listed" ||
                       item.tradeType === "unlisted"

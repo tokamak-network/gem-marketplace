@@ -7,7 +7,6 @@ type RarityStatusType = {
   epic: boolean | "";
   legendary: boolean | "";
   mythic: boolean | "";
-  heirloom: boolean | "";
 };
 
 export const rarityStatus = atom<RarityStatusType>({
@@ -19,7 +18,6 @@ export const rarityStatus = atom<RarityStatusType>({
     epic: false,
     legendary: false,
     mythic: false,
-    heirloom: false,
   },
 });
 

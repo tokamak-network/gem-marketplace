@@ -9,13 +9,7 @@ export const useETHBalance = () => {
     address,
   });
   if (data)
-    return commafy(
-      ethers.formatUnits(
-        typeof data.value === "bigint" ? data.value : "0",
-        data.decimals as number
-      ),
-      2
-    );
+    return Math.round(Number(ethers.formatEther(data.value)) * 100) / 100;
   return null;
 };
 

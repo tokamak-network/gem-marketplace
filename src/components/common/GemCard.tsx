@@ -98,6 +98,7 @@ const GemCard = ({
     quadrants,
     miningStartTime,
     miningPeriod,
+    value
   } = gemInfo;
 
   const { callStartMining, isPending: isStartMiningPending } =
@@ -168,7 +169,6 @@ const GemCard = ({
             epic: false,
             legendary: false,
             mythic: false,
-            heirloom: false,
           },
           ...{ [rarityList[Number(gemInfo.rarity)]]: true },
         }));
@@ -502,7 +502,7 @@ const GemCard = ({
                   <Text
                     fontSize={10}
                     opacity={0.5}
-                  >{`Staked Value $${staked}`}</Text>
+                  >{`Staked Value $${formatUnits(value!, 27)}`}</Text>
                   <Text fontSize={14} fontWeight={600}>
                     6 TITANWSTON
                   </Text>
@@ -518,12 +518,12 @@ const GemCard = ({
                   </Text>
                   <Flex columnGap={1} align={"center"}>
                     <Text fontSize={10} fontWeight={400} opacity={0.5}>
-                      Staked ${staked}{" "}
+                      Staked ${formatUnits(value!, 27)}{" "}
                     </Text>
-                    <Image alt="arrow" src={HighArrow} />
+                    {/* <Image alt="arrow" src={HighArrow} />
                     <Text color={"#61FF00"} fontSize={10} fontWeight={400}>
                       {dailyChange}%
-                    </Text>
+                    </Text> */}
                   </Flex>
                 </Flex>
               )}
