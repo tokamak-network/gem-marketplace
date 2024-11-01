@@ -9,6 +9,8 @@ import {
   useTheme,
   Flex,
   Box,
+  Link,
+  textDecoration,
 } from "@chakra-ui/react";
 
 import { useRecoilState } from "recoil";
@@ -25,12 +27,13 @@ import Market from "@/assets/icon/market.svg";
 import Forge from "@/assets/icon/forge.svg";
 import Mine from "@/assets/icon/mine.svg";
 import Image from "next/image";
-import { formatUnits, parseUnits } from "viem";
+import { formatUnits } from "viem";
 import commafy from "@/utils/trim/commafy";
 import { useAccount } from "wagmi";
+import { FACTORY_ADDRESS } from "@/constants/tokens";
 
 const ActivityContainer = () => {
-  const { address } = useAccount();
+  const { address, chain } = useAccount();
   const [isOpen, setOpen] = useRecoilState(activityContainerStatus);
   const theme = useTheme();
   const txHistory = useFilterActivity();
@@ -38,9 +41,7 @@ const ActivityContainer = () => {
     () => groupAndSortByDate(txHistory),
     [txHistory]
   );
-
-  console.log("dategroup", dateGroupedHistory);
-
+  console.log(chain?.blockExplorers?.default);
   return (
     <Drawer
       size={"sm"}
@@ -101,9 +102,58 @@ const ActivityContainer = () => {
                           : item.tradeType}
                     </Text>
                     <Text>
-                      <span
-                        style={{ color: "#0075FF" }}
-                      >{` Gem #${item.tradeType === "forged" ? item.newId : item.gemIds[0]} `}</span>
+                      {item.tradeType === "forged" ? (
+                        <span style={{ color: "#0075FF" }}>
+                          {item.gemIds?.map((gemId: any, key: number) => (
+                            <>
+                              <Link
+                                _hover={{ textDecoration: "underline" }}
+                                href={
+                                  chain?.blockExplorers?.default.url +
+                                  "/token/" +
+                                  FACTORY_ADDRESS[chain?.id!] +
+                                  "/instance/" +
+                                  gemId
+                                }
+                                target="_blank"
+                              >
+                                Gem #{gemId}{" "}
+                              </Link>
+                              <span style={{ color: "white" }}>
+                                {key === Number(item.gemIds?.length - 1)
+                                  ? "= "
+                                  : "+ "}{" "}
+                              </span>
+                            </>
+                          ))}
+                          <Link
+                            _hover={{ textDecoration: "underline" }}
+                            href={
+                              chain?.blockExplorers?.default.url +
+                              "/token/" +
+                              FACTORY_ADDRESS[chain?.id!] +
+                              "/instance/" +
+                              item.newId
+                            }
+                            target="_blank"
+                          >
+                            Gem #{item.newId}
+                          </Link>
+                        </span>
+                      ) : (
+                        <Link
+                          _hover={{ textDecoration: "underline" }}
+                          href={
+                            chain?.blockExplorers?.default.url +
+                            "/token/" +
+                            FACTORY_ADDRESS[chain?.id!] +
+                            "/instance/" +
+                            item.gemIds[0]
+                          }
+                          target="_blank"
+                          style={{ color: "#0075FF" }}
+                        >{` Gem #${item.gemIds[0]} `}</Link>
+                      )}
                       {item.tradeType === "purchased" ||
                       item.tradeType === "listed" ||
                       item.tradeType === "unlisted"

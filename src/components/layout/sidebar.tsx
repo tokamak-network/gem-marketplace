@@ -123,9 +123,9 @@ const Sidebar = () => {
       <CustomMenuItem icon={Forge} link="forge">
         Forge
       </CustomMenuItem>
-      <CustomMenuItem icon={Community} link="community">
+      {/* <CustomMenuItem icon={Community} link="community">
         Community
-      </CustomMenuItem>
+      </CustomMenuItem> */}
       <CustomMenuItem icon={Chest} link="chest">
         Chest
       </CustomMenuItem>
