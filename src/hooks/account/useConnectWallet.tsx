@@ -1,20 +1,20 @@
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-
+import { injected } from 'wagmi/connectors'
 
 export default function useConnectWallet() {
   const { isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
+  const { connect } = useConnect();
   const { disconnect } = useDisconnect();
 
   const connectToWallet = () => {
     connect({
-      connector: connectors[0],
+      connector: injected(),
     });
   };
 
   const disconnectToWallet = () => {
     disconnect();
-  };  
+  };
 
   const connetAndDisconntWallet = () => {
     isConnected ? disconnect() : connectToWallet();

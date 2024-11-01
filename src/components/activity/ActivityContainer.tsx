@@ -41,7 +41,7 @@ const ActivityContainer = () => {
     () => groupAndSortByDate(txHistory),
     [txHistory]
   );
-  console.log(chain?.blockExplorers?.default);
+
   return (
     <Drawer
       size={"sm"}

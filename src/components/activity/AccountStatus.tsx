@@ -50,7 +50,6 @@ const AccountStatus = () => {
   useEffect(() => {
     const fetchData = async () => {
       const price = await fetchMarketPrice();
-      console.log(price)
       setTonPrice(price?.ton_price);
       setETHPrice(price?.eth_price);
     };

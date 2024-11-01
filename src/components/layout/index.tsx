@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { formatUnits } from "viem";
 import { getStakingIndex } from "@/utils";
 import { MARKETPLACE_ADDRESS } from "@/constants/tokens";
-import { useAccount } from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
 import { StakingIndex } from "@/recoil/market/atom";
 import { cooldownStatus } from "@/recoil/mine/atom";
 import { useRecoilState } from "recoil";
@@ -20,16 +20,19 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [, setStakingIndex] = useRecoilState(StakingIndex);
   const cooldownPeriods = useGetCooldownPeriods();
   const [, setCooldowns] = useRecoilState(cooldownStatus);
+  const { switchChainAsync } = useSwitchChain();
 
   useEffect(() => {
+    switchChainAsync({ chainId: SupportedChainId.TITAN_SEPOLIA });
     const fetchStakingIndex = async () => {
       const stakingIndex: any = await getStakingIndex(
         MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`
       );
       setStakingIndex(Number(formatUnits(stakingIndex, 27)));
     };
-    isConnected && chain?.id === SupportedChainId.TITAN_SEPOLIA && fetchStakingIndex();
-    
+    isConnected &&
+      chain?.id === SupportedChainId.TITAN_SEPOLIA &&
+      fetchStakingIndex();
   }, [isConnected, chain]);
 
   useEffect(() => {
@@ -40,10 +43,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         uniqueCooldown: cooldownPeriods?.UniqueGemsCooldownPeriod,
         legendaryCooldown: cooldownPeriods?.LegendaryGemsCooldownPeriod,
         mythicCooldown: cooldownPeriods?.MythicGemsCooldownPeriod,
-      })
-    }
+      });
+    };
     fetchCooldowns();
-  }, [cooldownPeriods])
+  }, [cooldownPeriods]);
 
   return (
     <Flex minH={"100vh"} bg={"#0D0E16"}>
