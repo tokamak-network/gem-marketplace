@@ -124,7 +124,6 @@ const GemCard = ({
         setMiningTimeRemaining(
           Number(miningStartTime) + Number(miningPeriod!) - Number(currentTimestamp / 1000)
         );
-        console.log(Number(miningStartTime) + Number(miningPeriod!) - currentTimestamp / 1000)
       }
     }, 1000);
     return () => clearInterval(interval);

@@ -26,7 +26,6 @@ export default async function handler(
 
     const data = await response.json();
     const ethData = await eth_res.json();
-    console.log(ethData)
 
     return res.status(200).json([{ ton_price: data.data[6731].quote.USD.price, eth_price: ethData.data[1027].quote.USD.price }]);
   } catch (error) {

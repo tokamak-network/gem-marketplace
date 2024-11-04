@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useAccount } from "wagmi";
-import { Box, Button, Flex, Text, useTheme } from "@chakra-ui/react";
+import { Box, Button, Flex, Spinner, Text, useTheme } from "@chakra-ui/react";
 
 import { obtainModalStatus } from "@/recoil/market/atom";
 import { useRecoilState } from "recoil";
@@ -11,18 +11,56 @@ import TonIcon from "@/assets/icon/ton.svg";
 import WalletIcon from "@/assets/icon/wallet.svg";
 
 import GempackLogo from "@/assets/images/gempack.png";
+import { getRandomPackFee } from "@/utils";
+import { GEMPACK_ADDRESS, TON_ADDRESS_BY_CHAINID } from "@/constants/tokens";
+import { useEffect, useState } from "react";
+import { useGemPack } from "@/hooks/useGemPack";
+import { formatEther } from "viem";
+import { handleApprove } from "@/hooks/useApprove";
+import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 
 const GemPack = () => {
   const { connectToWallet } = useConnectWallet();
-  const { isConnected } = useAccount();
+  const { isConnected, chain } = useAccount();
   const [_, setModalStatus] = useRecoilState(obtainModalStatus);
+  const [fee, setFee] = useState<bigint>(BigInt(0));
+  const { waitForTransactionReceipt } = useWaitForTransaction();
+  const { callGemPack } = useGemPack({
+    gemPackFee: fee,
+  });
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleClick = () => {
-    isConnected
-      ? setModalStatus({ isOpen: true, gemId: 3 })
-      : connectToWallet();
+  const handleClick = async () => {
+    if (isConnected) {
+      try {
+        setLoading(true);
+        const txHash = await handleApprove(
+          GEMPACK_ADDRESS[chain?.id!] as `0x${string}`,
+          TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
+          fee
+        );
+        await waitForTransactionReceipt(txHash);
+        await callGemPack();
+        setLoading(false);
+      } catch (err) {
+        console.log(err)
+        setLoading(false);
+      }
+    } else {
+      connectToWallet();
+    }
   };
   const theme = useTheme();
+
+  useEffect(() => {
+    const fetchFee = async () => {
+      const gemPackFee = await getRandomPackFee(
+        GEMPACK_ADDRESS[chain?.id!] as `0x${string}`
+      );
+      setFee(gemPackFee);
+    };
+    fetchFee();
+  }, []);
 
   return (
     <Flex flexDir={"column"} w={"100%"} h={"100%"}>
@@ -74,13 +112,28 @@ const GemPack = () => {
               bgColor={"#0380FF"}
               onClick={handleClick}
             >
-              {isConnected ? (
-                <Image alt="ton" src={TonIcon} width={27} height={27} />
-              ) : (
-                <Image alt="wallet" src={WalletIcon} width={22} height={23} />
-              )}
+              {!loading &&
+                (isConnected ? (
+                  <Image alt="ton" src={TonIcon} width={27} height={27} />
+                ) : (
+                  <Image alt="wallet" src={WalletIcon} width={22} height={23} />
+                ))}
               <Text fontSize={24} fontWeight={600}>
-                {isConnected ? "135 TON" : "Connect Wallet"}
+                {isConnected ? (
+                  loading ? (
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="blue.500"
+                      size="md"
+                    />
+                  ) : (
+                    formatEther(fee)
+                  )
+                ) : (
+                  "Connect Wallet"
+                )}
               </Text>
             </Button>
           </Box>

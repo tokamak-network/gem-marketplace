@@ -73,7 +73,6 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
   const cooldownTime = useMemo(() => {
     const baseValue = cooldowns[cooldownIndex[Number(gemItem[0]?.rarity)]];
-    console.log(baseValue / (3600 * 24))
     if (Math.floor(baseValue / (3600 * 24)) > 0) {
       if (Math.floor(baseValue % (3600 * 24)) === 0)
         return `${baseValue / (3600 * 24)} days`;

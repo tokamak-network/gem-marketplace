@@ -2,6 +2,7 @@ import { formatUnits } from "viem";
 import { readContract } from "@wagmi/core";
 import { config } from "@/config/wagmi";
 import MarketplaceABI from "@/abi/marketplace.json";
+import RandomPackABI from "@/abi/randomPack.json";
 
 export function trimAddress(args: {
   address: string | `0x${string}` | undefined;
@@ -117,6 +118,16 @@ export const getStakingIndex = async (contractAddress: `0x${string}`) => {
     address: contractAddress,
     functionName: "getStakingIndex",
   });
+  return result;
+};
+
+export const getRandomPackFee = async (contractAddress: `0x${string}`) => {
+  const result: any = await readContract(config, {
+    abi: RandomPackABI,
+    address: contractAddress,
+    functionName: "getRandomPackFees",
+  });
+
   return result;
 };
 

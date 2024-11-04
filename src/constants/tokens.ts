@@ -20,3 +20,7 @@ export const FACTORY_ADDRESS:Record<number, string> = {
 export const MARKETPLACE_ADDRESS:Record<number, string> = {
   [SupportedChainId.TITAN_SEPOLIA] : TITAN_SEPOLIA_CONTRACTS.MARKETPLACE,
 }
+
+export const GEMPACK_ADDRESS:Record<number, string> = {
+  [SupportedChainId.TITAN_SEPOLIA] : TITAN_SEPOLIA_CONTRACTS.GEMPACK,
+}
