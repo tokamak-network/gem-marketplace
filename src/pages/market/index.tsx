@@ -11,7 +11,7 @@ import GemCard from "@/components/common/GemCard";
 import GemItemView from "@/components/common/GemItemView";
 
 import GEM from "@/assets/images/sample_gem.png";
-import PumpkinGem from "@/assets/images/pumpkingem.png";
+// import PumpkinGem from "@/assets/images/pumpkingem.png";
 import Link from "next/link";
 import { useFilteredList } from "@/hooks/useFilteredList";
 import { useGetMarketGems } from "@/hooks/useGetMarketGems";
