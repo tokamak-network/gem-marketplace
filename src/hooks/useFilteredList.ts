@@ -3,10 +3,13 @@ import { rarityStatus, colorStatus } from "@/recoil/market/atom";
 import { rarityList, colorNameList } from "@/constants/rarity";
 import { useMemo } from "react";
 import { GemStandard } from "@/types";
+import { sortFilterStatus } from "@/recoil/settings/atoms";
+import { SortFilterItems } from "@/constants";
 
 export const useFilteredList = (gemList: GemStandard[]) => {
   const [raritySelected] = useRecoilState(rarityStatus);
   const [colorSelected] = useRecoilState(colorStatus);
+  const [sortItem] = useRecoilState(sortFilterStatus);
 
   let isRaritySelected = false;
   let isColorSelected = false;
@@ -42,5 +45,19 @@ export const useFilteredList = (gemList: GemStandard[]) => {
               : [],
     [gemList, raritySelected, colorSelected]
   );
-  return { activeGemList: activeList };
+
+  let tempList = useMemo(
+    () => (activeList && activeList.length > 0 ? [...activeList] : []),
+    [activeList]
+  );
+
+  const sortedList = useMemo(
+    () =>
+      sortItem === SortFilterItems.DATE
+        ? tempList.sort((a, b) => b.creationDate - a.creationDate)
+        : activeList,
+    [tempList, sortItem]
+  );
+  tempList?.sort((a, b) => b.creationDate - a.creationDate);
+  return { activeGemList: sortedList };
 };

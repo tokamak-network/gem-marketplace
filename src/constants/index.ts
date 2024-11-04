@@ -56,7 +56,7 @@ export const cooldownIndex: string[] = [
   "mythicCooldown",
 ];
 
-export enum FilterItems {
+export enum SortFilterItems {
   DATE = "Newest",
   RARITY_DES = "Rarity Low - High",
   RARITY_ASC = "Rarity High - Low",
@@ -66,10 +66,10 @@ export enum FilterItems {
 }
 
 export const filterItemList = [
-  FilterItems.DATE,
-  FilterItems.RARITY_DES,
-  FilterItems.RARITY_ASC,
-  FilterItems.PRICE_DES,
-  FilterItems.PRICE_ASC,
-  FilterItems.SAVED,
+  SortFilterItems.DATE,
+  SortFilterItems.RARITY_DES,
+  SortFilterItems.RARITY_ASC,
+  SortFilterItems.PRICE_DES,
+  SortFilterItems.PRICE_ASC,
+  SortFilterItems.SAVED,
 ]

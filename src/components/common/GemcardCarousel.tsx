@@ -57,6 +57,7 @@ const GemcardCarousel = () => {
                 quadrants: forgeResultQuadrant,
                 color: item,
                 rarity: forgedRarity,
+                creationDate: 0
               }}
               rarityScore={1}
               staked={253.2}

@@ -9,13 +9,13 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { filterStatus } from "@/recoil/settings/atoms";
+import { sortFilterStatus } from "@/recoil/settings/atoms";
 import { useRecoilState } from "recoil";
 
 const FilterBar = () => {
-  const [currentFilter, setFilterStatus] = useRecoilState(filterStatus);
+  const [currentFilter, setFilterStatus] = useRecoilState(sortFilterStatus);
   return (
-    <Flex w={270} align={"start"}>
+    <Flex w={270} align={"start"} mt={2}>
       <Text
         bgGradient="linear(to-r, #FF0099, #FF7A00)"
         bgClip="text"
