@@ -1,6 +1,8 @@
 import { useSearchParams, usePathname } from "next/navigation";
 import RarityList from "@/components/common/RarityList";
 import ColorList from "@/components/common/ColorList";
+import { Box, Flex } from "@chakra-ui/react";
+import FilterBar from "./FilterBar";
 
 const Header = () => {
   const searchParams = useSearchParams();
@@ -11,10 +13,14 @@ const Header = () => {
   return search || pathName === "community" || pathName === "market/gempack" ? (
     <></>
   ) : (
-    <>
-      <ColorList />
-      <RarityList />
-    </>
+    <Flex justify={"space-between"}>
+      <Box>
+        <ColorList />
+        <RarityList />
+      </Box>
+
+      <FilterBar/>
+    </Flex>
   );
 };
 

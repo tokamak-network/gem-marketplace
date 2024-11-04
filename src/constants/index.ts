@@ -55,3 +55,21 @@ export const cooldownIndex: string[] = [
   "legendaryCooldown",
   "mythicCooldown",
 ];
+
+export enum FilterItems {
+  DATE = "Newest",
+  RARITY_DES = "Rarity Low - High",
+  RARITY_ASC = "Rarity High - Low",
+  PRICE_DES = "Price Low - High",
+  PRICE_ASC = "Price High - Low",
+  SAVED = "Saved"
+}
+
+export const filterItemList = [
+  FilterItems.DATE,
+  FilterItems.RARITY_DES,
+  FilterItems.RARITY_ASC,
+  FilterItems.PRICE_DES,
+  FilterItems.PRICE_ASC,
+  FilterItems.SAVED,
+]

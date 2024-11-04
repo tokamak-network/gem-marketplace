@@ -113,14 +113,17 @@ const MarketPage = () => {
             px={"9px"}
             align={"center"}
           >
-
             <Flex flexDir={"column"} justify={"space-between"}>
-              <Text fontSize={14} color={"#FFFFFFBF"}>Gem #????</Text>
-              <Text fontSize={10} color={"#FFFFFF80"}>Staked $10 - $55</Text>
+              <Text fontSize={14} color={"#FFFFFFBF"}>
+                Gem #????
+              </Text>
+              <Text fontSize={10} color={"#FFFFFF80"}>
+                Staked $10 - $55
+              </Text>
             </Flex>
 
             <Link href={"/market/gempack"} replace>
-              <PriceContainer price={10} />
+              <PriceContainer price={15} />
             </Link>
           </Flex>
         </Flex>
