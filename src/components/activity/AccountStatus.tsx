@@ -35,6 +35,7 @@ import WarningRed from "@/assets/icon/warningRed.svg";
 import { fetchMarketPrice } from "@/utils/price";
 import commafy from "@/utils/trim/commafy";
 import { StakingIndex } from "@/recoil/market/atom";
+import { useCheckChain } from "@/hooks/useCheckChain";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
@@ -46,6 +47,7 @@ const AccountStatus = () => {
   const [tonPrice, setTonPrice] = useState(0);
   const [ethPrice, setETHPrice] = useState(0);
   const [stakingIndex] = useRecoilState(StakingIndex);
+  const { isSupportedChain } = useCheckChain();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,10 +91,6 @@ const AccountStatus = () => {
     }
     setNetworkMenuOpen(false);
   };
-  const filteredNetwork = supportedNetworkList.filter(
-    (item) => item.id === chain?.id
-  );
-  const isSupportedNetwork = filteredNetwork && filteredNetwork?.length > 0;
 
   return (
     <Box w={"full"} p={"16px"} rounded={8} bgColor={"#1B1D28"} mb={"30px"}>
@@ -106,7 +104,7 @@ const AccountStatus = () => {
           <MenuButton
             onClick={() => setNetworkMenuOpen((prev) => !prev)}
             as={Button}
-            bgColor={isSupportedNetwork ? "transparent" : "#2A2C3A"}
+            bgColor={isSupportedChain ? "transparent" : "#2A2C3A"}
             color={"white"}
             p={0}
             rounded={"full"}
@@ -115,7 +113,7 @@ const AccountStatus = () => {
             px={"6px"}
             pr={2}
           >
-            {isSupportedNetwork ? (
+            {isSupportedChain ? (
               <Flex columnGap={2} align={"center"}>
                 <NetworkSymbol w={32} h={32} network={chain?.id} />
                 <Text
@@ -199,7 +197,9 @@ const AccountStatus = () => {
                   ? TONBalance?.parsedBalance
                   : item.symbol === "TITANWSTON"
                     ? WSTONBalance?.parsedBalance
-                    : item.symbol === "ETH" ? ETHBalance : ""}
+                    : item.symbol === "ETH"
+                      ? ETHBalance
+                      : ""}
               </Text>
             )}
             <Text color={"#5D6978"} fontSize={12}>
@@ -208,7 +208,9 @@ const AccountStatus = () => {
                   `$${commafy(tonPrice * Number(TONBalance?.parsedBalanceWithoutCommafied), 2)}`
                 ) : item.symbol === "TITANWSTON" ? (
                   `$${commafy(tonPrice * Number(WSTONBalance?.parsedBalanceWithoutCommafied) * stakingIndex, 2)}`
-                ) : `$${commafy(ethPrice * Number(ETHBalance), 2)}`
+                ) : (
+                  `$${commafy(ethPrice * Number(ETHBalance), 2)}`
+                )
               ) : (
                 <Box w={"35px"} h={"18px"}>
                   <GradientSpinner />
