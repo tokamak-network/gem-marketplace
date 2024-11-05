@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { GemStandard } from "@/types";
 import { sortFilterStatus } from "@/recoil/settings/atoms";
 import { SortFilterItems } from "@/constants";
+import { formatEther } from "viem";
 
 export const useFilteredList = (gemList: GemStandard[]) => {
   const [raritySelected] = useRecoilState(rarityStatus);
@@ -19,6 +20,7 @@ export const useFilteredList = (gemList: GemStandard[]) => {
   for (let item in colorSelected) {
     if (colorSelected[item] === true) isColorSelected = true;
   }
+  console.log(gemList);
 
   const activeList = useMemo(
     () =>
@@ -55,9 +57,24 @@ export const useFilteredList = (gemList: GemStandard[]) => {
     () =>
       sortItem === SortFilterItems.DATE
         ? tempList.sort((a, b) => b.creationDate - a.creationDate)
-        : activeList,
+        : sortItem === SortFilterItems.RARITY_DES
+          ? tempList.sort((a, b) => Number(a.rarity) - Number(b.rarity))
+          : sortItem === SortFilterItems.RARITY_ASC
+            ? tempList.sort((a, b) => Number(b.rarity) - Number(a.rarity))
+            : sortItem === SortFilterItems.PRICE_DES
+              ? tempList.sort(
+                  (a, b) =>
+                    Number(formatEther(a.price!)) -
+                    Number(formatEther(b.price!))
+                )
+              : sortItem === SortFilterItems.PRICE_ASC
+                ? tempList.sort(
+                    (a, b) =>
+                      Number(formatEther(b.price!)) -
+                      Number(formatEther(a.price!))
+                  )
+                : activeList,
     [tempList, sortItem]
   );
-  tempList?.sort((a, b) => b.creationDate - a.creationDate);
   return { activeGemList: sortedList };
 };
