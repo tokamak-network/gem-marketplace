@@ -112,16 +112,12 @@ const GemCard = ({
 
   const handleSavedClick = useCallback(
     (e: any) => {
-      console.log(tokenID);
-      console.log(savedGemList);
       setValue(() => {
         if (savedGemList.includes(Number(tokenID))) {
-          console.log("removed")
           return savedGemList.filter(
             (item: number) => Number(item) !== Number(tokenID)
           );
         } else {
-          console.log("added")
           return [...savedGemList, Number(tokenID)];
         }
       });

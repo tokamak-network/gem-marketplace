@@ -11,7 +11,9 @@ export const useETHBalance = () => {
     address,
   });
   if (data)
-    return  isSupportedChain ? Math.round(Number(ethers.formatEther(data.value)) * 100) / 100 : "0";
+    return isSupportedChain
+      ? Math.round(Number(ethers.formatEther(data.value)) * 100) / 100
+      : "0";
   return null;
 };
 
@@ -31,6 +33,16 @@ export const useTokenBalance = ({
     if (data) {
       return {
         balanceBN: data,
+        roundedBalance: isSupportedChain
+          ? Math.round(
+              Number(
+                ethers.formatUnits(
+                  typeof data.value === "bigint" ? data.value : "0",
+                  data.decimals as number
+                )
+              ) * 100
+            ) / 100
+          : "0",
         parsedBalance: isSupportedChain
           ? commafy(
               ethers.formatUnits(

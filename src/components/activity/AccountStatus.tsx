@@ -194,9 +194,9 @@ const AccountStatus = () => {
             ) : (
               <Text fontWeight={600} fontSize={16}>
                 {item.symbol === "TON"
-                  ? TONBalance?.parsedBalance
+                  ? TONBalance?.roundedBalance
                   : item.symbol === "TITANWSTON"
-                    ? WSTONBalance?.parsedBalance
+                    ? WSTONBalance?.roundedBalance
                     : item.symbol === "ETH"
                       ? ETHBalance
                       : ""}

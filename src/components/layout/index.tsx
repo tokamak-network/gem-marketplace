@@ -14,6 +14,7 @@ import Header from "./header";
 import Modals from "./modals";
 import Drawers from "../drawer";
 import { SupportedChainId } from "@/types/network/supportedNetworks";
+import { useCheckChain } from "@/hooks/useCheckChain";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { chain, isConnected } = useAccount();
@@ -21,9 +22,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const cooldownPeriods = useGetCooldownPeriods();
   const [, setCooldowns] = useRecoilState(cooldownStatus);
   const { switchChainAsync } = useSwitchChain();
+  const { isSupportedChain } = useCheckChain();
 
   useEffect(() => {
-    switchChainAsync({ chainId: SupportedChainId.TITAN_SEPOLIA });
+    !isSupportedChain && switchChainAsync({ chainId: SupportedChainId.TITAN_SEPOLIA });
     const fetchStakingIndex = async () => {
       const stakingIndex: any = await getStakingIndex(
         MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`
