@@ -18,6 +18,7 @@ import { useGemPack } from "@/hooks/useGemPack";
 import { formatEther } from "viem";
 import { handleApprove } from "@/hooks/useApprove";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
+import { SupportedChainId } from "@/types/network/supportedNetworks";
 
 const GemPack = () => {
   const { connectToWallet } = useConnectWallet();
@@ -43,7 +44,7 @@ const GemPack = () => {
         await callGemPack();
         setLoading(false);
       } catch (err) {
-        console.log(err)
+        console.log(err);
         setLoading(false);
       }
     } else {
@@ -59,7 +60,7 @@ const GemPack = () => {
       );
       setFee(gemPackFee);
     };
-    fetchFee();
+    isConnected && chain?.id === SupportedChainId.TITAN_SEPOLIA && fetchFee();
   }, []);
 
   return (

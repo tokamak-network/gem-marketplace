@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useFilteredList } from "@/hooks/useFilteredList";
 import { useGetMarketGems } from "@/hooks/useGetMarketGems";
 import { useMemo } from "react";
+import { useRouter } from "next/router";
 
 const MarketPage = () => {
   const theme = useTheme();
@@ -24,6 +25,7 @@ const MarketPage = () => {
   const searchParams = useSearchParams();
   const search = useMemo(() => searchParams.get("asset"), [searchParams]);
   const gemList = useGetMarketGems();
+  const router = useRouter();
 
   const { activeGemList } = useFilteredList(gemList);
   return search ? (
@@ -69,7 +71,12 @@ const MarketPage = () => {
         </Flex> */}
       </Flex>
 
-      <Flex gap={4} flexWrap={"wrap"}>
+      <Flex
+        gap={4}
+        flexWrap={"wrap"}
+        onClick={() => router.push("/market/gempack")}
+        cursor={"pointer"}
+      >
         <Flex
           pos={"relative"}
           w={212}
