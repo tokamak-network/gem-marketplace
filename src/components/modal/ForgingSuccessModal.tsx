@@ -64,6 +64,7 @@ const ForgeSuccessModal = () => {
                   color: [2,3],
                   tokenID: 30,
                   rarity: RarityType.legendary,
+                  creationDate: 0
                 }}
               />
             </Center>
