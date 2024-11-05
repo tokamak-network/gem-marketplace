@@ -71,6 +71,17 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     [gemList]
   );
 
+  const nonDupColorList = useMemo(
+    () =>
+      gemItem[0].color.filter(
+        (value: number, index: number, self: number[]) => {
+          return self.indexOf(value) === index;
+        }
+      ),
+
+    [gemItem]
+  );
+
   const cooldownTime = useMemo(() => {
     const baseValue = cooldowns[cooldownIndex[Number(gemItem[0]?.rarity)]];
     if (Math.floor(baseValue / (3600 * 24)) > 0) {
@@ -114,9 +125,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
   // const allowance = useApproval(contract_address, decimals);
 
-  const {
-    isSuccess: approveSuccess,
-  } = useTonORWSTONApprove(
+  const { isSuccess: approveSuccess } = useTonORWSTONApprove(
     payOption
       ? gemItem
         ? gemItem[0]?.value!
@@ -159,7 +168,6 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   }, [approveSuccess, payOption]);
 
   const theme = useTheme();
-
   return (
     gemItem &&
     gemItem[0] && (
@@ -229,7 +237,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                 </Flex>
 
                 <Flex columnGap={3}>
-                  {gemItem[0]?.color.map((item, key) => (
+                  {nonDupColorList.map((item, key) => (
                     <ColorItem readOnly color={colorNameList[item]} key={key} />
                   ))}
                 </Flex>

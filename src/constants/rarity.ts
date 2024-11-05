@@ -13,6 +13,7 @@ export const colorNameList = [
   "topaz",
   "emerald",
   "turquoise",
+  "sapphire",
   "amethyst",
   "garnet",
 ]
