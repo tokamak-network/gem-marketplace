@@ -112,7 +112,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
   const decimals = useMemo(() => (payOption ? 27 : 18), [payOption]);
 
-  const allowance = useApproval(contract_address, decimals);
+  // const allowance = useApproval(contract_address, decimals);
 
   const {
     isSuccess: approveSuccess,

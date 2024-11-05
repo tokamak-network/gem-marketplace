@@ -74,8 +74,6 @@ const MarketPage = () => {
       <Flex
         gap={4}
         flexWrap={"wrap"}
-        onClick={() => router.push("/market/gempack")}
-        cursor={"pointer"}
       >
         <Flex
           pos={"relative"}
@@ -85,6 +83,8 @@ const MarketPage = () => {
           flexDir={"column"}
           justify={"end"}
           rounded={"8px"}
+          onClick={() => router.push("/market/gempack")}
+          cursor={"pointer"}
           // overflow={"hidden"}
         >
           <Box
