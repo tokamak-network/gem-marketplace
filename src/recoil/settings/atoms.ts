@@ -8,5 +8,5 @@ export const settingsContainerStatus = atom<boolean>({
 
 export const sortFilterStatus = atom<SortFilterItems>({
   key: "sortFilterStatus",
-  default: SortFilterItems.DATE
+  default: SortFilterItems.DATE_DES
 })

@@ -57,7 +57,8 @@ export const cooldownIndex: string[] = [
 ];
 
 export enum SortFilterItems {
-  DATE = "Newest",
+  DATE_DES = "Newest",
+  DATE_ASC = "Oldest",
   RARITY_DES = "Rarity Low - High",
   RARITY_ASC = "Rarity High - Low",
   PRICE_DES = "Price Low - High",
@@ -66,7 +67,8 @@ export enum SortFilterItems {
 }
 
 export const filterItemList = [
-  SortFilterItems.DATE,
+  SortFilterItems.DATE_DES,
+  SortFilterItems.DATE_ASC,
   SortFilterItems.RARITY_DES,
   SortFilterItems.RARITY_ASC,
   SortFilterItems.PRICE_DES,

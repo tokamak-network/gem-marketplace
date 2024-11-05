@@ -42,6 +42,7 @@ import { arraysEqual } from "@/utils";
 import { formatUnits } from "viem";
 import { cooldownIndex } from "@/constants";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 interface GemCardType {
   width?: number;
@@ -67,7 +68,6 @@ const GemCard = ({
   gemInfo,
   customGemColor,
 }: GemCardType) => {
-  const [isSaved, setSaved] = useState<boolean>(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
   const [miningTimeRemaining, setMiningTimeRemaining] = useState<number>(0);
   const [isReadyForStartMine, setReadyForStartMine] = useState<boolean>(false);
@@ -98,11 +98,38 @@ const GemCard = ({
     quadrants,
     miningStartTime,
     miningPeriod,
-    value
+    value,
   } = gemInfo;
 
   const { callStartMining, isPending: isStartMiningPending } =
     useStartMiningGem(tokenID);
+
+  const [savedGemList, setValue] = useLocalStorage("savedGemList", []);
+  const isSaved = useMemo(
+    () => savedGemList.includes(Number(tokenID)),
+    [savedGemList, tokenID]
+  );
+
+  const handleSavedClick = useCallback(
+    (e: any) => {
+      console.log(tokenID);
+      console.log(savedGemList);
+      setValue(() => {
+        if (savedGemList.includes(Number(tokenID))) {
+          console.log("removed")
+          return savedGemList.filter(
+            (item: number) => Number(item) !== Number(tokenID)
+          );
+        } else {
+          console.log("added")
+          return [...savedGemList, Number(tokenID)];
+        }
+      });
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    [savedGemList, tokenID]
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -117,12 +144,22 @@ const GemCard = ({
         );
       }
 
-      if (currentTimestamp / 1000 > Number(miningStartTime) + Number(miningPeriod!) && miningStartTime) {
+      if (
+        currentTimestamp / 1000 >
+          Number(miningStartTime) + Number(miningPeriod!) &&
+        miningStartTime
+      ) {
         setReadyForCollectMinedGem(true);
-      } else if (currentTimestamp / 1000 < Number(miningStartTime) + Number(miningPeriod!) && miningStartTime) {
+      } else if (
+        currentTimestamp / 1000 <
+          Number(miningStartTime) + Number(miningPeriod!) &&
+        miningStartTime
+      ) {
         setReadyForCollectMinedGem(false);
         setMiningTimeRemaining(
-          Number(miningStartTime) + Number(miningPeriod!) - Number(currentTimestamp / 1000)
+          Number(miningStartTime) +
+            Number(miningPeriod!) -
+            Number(currentTimestamp / 1000)
         );
       }
     }, 1000);
@@ -322,11 +359,7 @@ const GemCard = ({
               right={"10px"}
               cursor={"pointer"}
               zIndex={10}
-              onClick={(e) => {
-                setSaved((prev) => !prev);
-                e.preventDefault();
-                e.stopPropagation();
-              }}
+              onClick={(e) => handleSavedClick(e)}
             >
               <SavedIcon
                 width={mode === "normal" ? 34 : 16}
@@ -455,7 +488,9 @@ const GemCard = ({
                   >
                     <Text>{isHoverCooldown ? "Speed Up" : "Cooldown..."}</Text>
                   </Center>
-                ) : isReadyForStartMine === true && isMining === true && !isReadyForCollectMinedGem ? (
+                ) : isReadyForStartMine === true &&
+                  isMining === true &&
+                  !isReadyForCollectMinedGem ? (
                   <Flex
                     w={"full"}
                     justify={"center"}

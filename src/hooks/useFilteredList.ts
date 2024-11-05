@@ -20,7 +20,6 @@ export const useFilteredList = (gemList: GemStandard[]) => {
   for (let item in colorSelected) {
     if (colorSelected[item] === true) isColorSelected = true;
   }
-  console.log(gemList);
 
   const activeList = useMemo(
     () =>
@@ -55,25 +54,27 @@ export const useFilteredList = (gemList: GemStandard[]) => {
 
   const sortedList = useMemo(
     () =>
-      sortItem === SortFilterItems.DATE
+      sortItem === SortFilterItems.DATE_DES
         ? tempList.sort((a, b) => b.creationDate - a.creationDate)
-        : sortItem === SortFilterItems.RARITY_DES
-          ? tempList.sort((a, b) => Number(a.rarity) - Number(b.rarity))
-          : sortItem === SortFilterItems.RARITY_ASC
-            ? tempList.sort((a, b) => Number(b.rarity) - Number(a.rarity))
-            : sortItem === SortFilterItems.PRICE_DES
-              ? tempList.sort(
-                  (a, b) =>
-                    Number(formatEther(a.price!)) -
-                    Number(formatEther(b.price!))
-                )
-              : sortItem === SortFilterItems.PRICE_ASC
+        : sortItem === SortFilterItems.DATE_ASC
+          ? tempList.sort((a, b) => a.creationDate - b.creationDate)
+          : sortItem === SortFilterItems.RARITY_DES
+            ? tempList.sort((a, b) => Number(a.rarity) - Number(b.rarity))
+            : sortItem === SortFilterItems.RARITY_ASC
+              ? tempList.sort((a, b) => Number(b.rarity) - Number(a.rarity))
+              : sortItem === SortFilterItems.PRICE_DES
                 ? tempList.sort(
                     (a, b) =>
-                      Number(formatEther(b.price!)) -
-                      Number(formatEther(a.price!))
+                      Number(formatEther(a.price!)) -
+                      Number(formatEther(b.price!))
                   )
-                : activeList,
+                : sortItem === SortFilterItems.PRICE_ASC
+                  ? tempList.sort(
+                      (a, b) =>
+                        Number(formatEther(b.price!)) -
+                        Number(formatEther(a.price!))
+                    )
+                  : activeList,
     [tempList, sortItem]
   );
   return { activeGemList: sortedList };
