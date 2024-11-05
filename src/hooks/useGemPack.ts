@@ -17,7 +17,7 @@ export const useGemPack = ({
       abi: RandomPackABI,
       address: GEMPACK_ADDRESS[chain?.id!] as `0x${string}`,
       functionName: "requestRandomGem",
-      value: parseEther("0.01")
+      value: parseEther("0.005")
     });
   }, [gemPackFee]);
 

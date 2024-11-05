@@ -32,6 +32,7 @@ import commafy from "@/utils/trim/commafy";
 import { useAccount } from "wagmi";
 import { FACTORY_ADDRESS } from "@/constants/tokens";
 import { useCheckChain } from "@/hooks/useCheckChain";
+import { SupportedChainId } from "@/types/network/supportedNetworks";
 
 const ActivityContainer = () => {
   const { address, chain } = useAccount();
@@ -69,7 +70,7 @@ const ActivityContainer = () => {
         </DrawerHeader>
 
         <DrawerBody p={0}>
-          {txHistory && txHistory.length > 0 && isSupportedChain ? (
+          {txHistory && txHistory.length > 0 && chain?.id === SupportedChainId.TITAN_SEPOLIA ? (
             dateGroupedHistory?.map((groupItem, key) => (
               <Flex flexDir={"column"} rowGap={"20px"} mt={"30px"}>
                 <Text fontSize={12} color={"#FFFFFF80"}>
