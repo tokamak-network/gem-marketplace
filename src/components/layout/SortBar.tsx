@@ -12,7 +12,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { sortFilterStatus } from "@/recoil/settings/atoms";
 import { useRecoilState } from "recoil";
 
-const FilterBar = () => {
+const SortBar = () => {
   const [currentFilter, setFilterStatus] = useRecoilState(sortFilterStatus);
   return (
     <Flex w={270} align={"start"} mt={2}>
@@ -63,4 +63,4 @@ const FilterBar = () => {
   );
 };
 
-export default FilterBar;
+export default SortBar;

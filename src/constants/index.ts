@@ -63,7 +63,7 @@ export enum SortFilterItems {
   RARITY_ASC = "Rarity High - Low",
   PRICE_DES = "Price Low - High",
   PRICE_ASC = "Price High - Low",
-  SAVED = "Saved"
+  // SAVED = "Saved"
 }
 
 export const filterItemList = [
@@ -73,5 +73,5 @@ export const filterItemList = [
   SortFilterItems.RARITY_ASC,
   SortFilterItems.PRICE_DES,
   SortFilterItems.PRICE_ASC,
-  SortFilterItems.SAVED,
+  // SortFilterItems.SAVED,
 ]

@@ -2,7 +2,7 @@ import { useSearchParams, usePathname } from "next/navigation";
 import RarityList from "@/components/common/RarityList";
 import ColorList from "@/components/common/ColorList";
 import { Box, Flex } from "@chakra-ui/react";
-import FilterBar from "./FilterBar";
+import SortBar from "./SortBar";
 
 const Header = () => {
   const searchParams = useSearchParams();
@@ -19,7 +19,7 @@ const Header = () => {
         <RarityList />
       </Box>
 
-      <FilterBar/>
+      <SortBar/>
     </Flex>
   );
 };
