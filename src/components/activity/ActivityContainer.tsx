@@ -44,7 +44,7 @@ const ActivityContainer = () => {
     [txHistory]
   );
   const { isSupportedChain } = useCheckChain();
-  
+
   return (
     <Drawer
       size={"sm"}
@@ -69,8 +69,24 @@ const ActivityContainer = () => {
           <ActivityFilterBar />
         </DrawerHeader>
 
-        <DrawerBody p={0}>
-          {txHistory && txHistory.length > 0 && chain?.id === SupportedChainId.TITAN_SEPOLIA ? (
+        <DrawerBody
+          p={0}
+          css={{
+            "&::-webkit-scrollbar": {
+              width: "4px",
+            },
+            "&::-webkit-scrollbar-track": {
+              width: "6px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#1E2033",
+              borderRadius: "24px",
+            },
+          }}
+        >
+          {txHistory &&
+          txHistory.length > 0 &&
+          chain?.id === SupportedChainId.TITAN_SEPOLIA ? (
             dateGroupedHistory?.map((groupItem, key) => (
               <Flex flexDir={"column"} rowGap={"20px"} mt={"30px"}>
                 <Text fontSize={12} color={"#FFFFFF80"}>
