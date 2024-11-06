@@ -9,6 +9,7 @@ import {
   Text,
   useTheme,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 
 import { CardType, GemStandard, RarityType } from "@/types";
@@ -18,6 +19,7 @@ import { ColorItem } from "@/components/common/ColorList";
 import { obtainModalStatus, StakingIndex } from "@/recoil/market/atom";
 import { useRecoilState } from "recoil";
 import { formatUnits, parseUnits } from "viem";
+import { useRouter } from "next/router";
 
 import { sellGemModalStatus, burnGemModalStatus } from "@/recoil/chest/atom";
 
@@ -36,6 +38,7 @@ import { useApproval } from "@/hooks/useApproval";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 import { cooldownStatus } from "@/recoil/mine/atom";
 import { cooldownIndex, TON_FEES_RATE_DIVIDER } from "@/constants";
+import copy from "copy-to-clipboard";
 
 import WSTONIcon from "@/assets/icon/wswton.svg";
 import WalletIcon from "@/assets/icon/wallet.svg";
@@ -74,32 +77,30 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const [cooldowns] = useRecoilState(cooldownStatus);
   const { waitForTransactionReceipt } = useWaitForTransaction();
   const [tonFeesRate, setTonFeesRate] = useState<number>();
+  const toast = useToast();
+  const router = useRouter();
 
-  const gemItem: GemStandard = useMemo(
-    () =>
-    {
-      const item = gemList?.filter(
-        (item: GemStandard) => Number(item.tokenID) === Number(id)
-      )
-      return item && item[0] && item.length > 0 ? item[0] : {
-        tokenID: 0,
-        quadrants: [1,1,1,1],
-        color: [1],
-        value: BigInt("0"),
-        price: BigInt("0"),
-        rarity: RarityType.common
-      };
-    },
-    [gemList]
-  );
+  const gemItem: GemStandard = useMemo(() => {
+    const item = gemList?.filter(
+      (item: GemStandard) => Number(item.tokenID) === Number(id)
+    );
+    return item && item[0] && item.length > 0
+      ? item[0]
+      : {
+          tokenID: 0,
+          quadrants: [1, 1, 1, 1],
+          color: [1],
+          value: BigInt("0"),
+          price: BigInt("0"),
+          rarity: RarityType.common,
+        };
+  }, [gemList]);
 
   const nonDupColorList = useMemo(
     () =>
-      gemItem.color.filter(
-        (value: number, index: number, self: number[]) => {
-          return self.indexOf(value) === index;
-        }
-      ),
+      gemItem.color.filter((value: number, index: number, self: number[]) => {
+        return self.indexOf(value) === index;
+      }),
 
     [gemItem]
   );
@@ -145,9 +146,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       formatUnits(TONBalance?.data?.value! ?? "0", 18)
     );
 
-    const priceValue = Number(
-      formatUnits(gemItem?.price! || BigInt("0"), 27)
-    );
+    const priceValue = Number(formatUnits(gemItem?.price! || BigInt("0"), 27));
 
     if (
       WSTONBalanceValue > priceValue &&
@@ -244,8 +243,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
           <Flex w={"full"} flexDir={"column"}>
             <Flex justify={"space-between"}>
               <Text fontWeight={700} fontSize={48} textTransform="capitalize">
-                {rarityList[Number(gemItem?.rarity)]} Gem #
-                {gemItem?.tokenID}
+                {rarityList[Number(gemItem?.rarity)]} Gem #{gemItem?.tokenID}
               </Text>
 
               <Flex columnGap={2}>
@@ -253,7 +251,29 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   <SavedIcon width={16} height={16} isFill={false} />
                 </Center> */}
 
-                <Center w={8} h={8} rounded={"8px"} bgColor={"#2A2C3A"}>
+                <Center
+                  w={8}
+                  h={8}
+                  rounded={"8px"}
+                  bgColor={"#2A2C3A"}
+                  cursor={"pointer"}
+                  onClick={() => {
+                    if (typeof window !== "undefined") {
+                      const protocol = window.location.protocol;
+                      const host = window.location.host;
+                      const path = router.asPath;
+                      copy(`${protocol}//${host}${path}`);
+
+                      toast({
+                        title: "URL Copied",
+                        status: "success",
+                        duration: 2000,
+                        isClosable: true,
+                        position: "top",
+                      });
+                    }
+                  }}
+                >
                   <Image alt="share" src={ShareIcon} width={16} height={16} />
                 </Center>
               </Flex>
@@ -312,8 +332,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   </Text>
                 </Flex>
 
-                {rarityList[Number(gemItem?.rarity)] ===
-                RarityType.mythic ? (
+                {rarityList[Number(gemItem?.rarity)] === RarityType.mythic ? (
                   "N/A"
                 ) : (
                   <Box ml={"12px"}>
@@ -338,8 +357,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   </Text>
                 </Flex>
 
-                {rarityList[Number(gemItem?.rarity)] ===
-                RarityType.common ? (
+                {rarityList[Number(gemItem?.rarity)] === RarityType.common ? (
                   "N/A"
                 ) : (
                   <Box ml={"12px"}>
@@ -522,7 +540,8 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                         colorScheme="blue"
                         bgColor={"#0380FF"}
                         isDisabled={true}
-                        fontSize={24} fontWeight={600}
+                        fontSize={24}
+                        fontWeight={600}
                       >
                         Insufficient Balance
                       </Button>
