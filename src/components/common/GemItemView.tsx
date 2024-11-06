@@ -75,17 +75,27 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const { waitForTransactionReceipt } = useWaitForTransaction();
   const [tonFeesRate, setTonFeesRate] = useState<number>();
 
-  const gemItem: GemStandard[] = useMemo(
+  const gemItem: GemStandard = useMemo(
     () =>
-      gemList?.filter(
+    {
+      const item = gemList?.filter(
         (item: GemStandard) => Number(item.tokenID) === Number(id)
-      ),
+      )
+      return item && item[0] && item.length > 0 ? item[0] : {
+        tokenID: 0,
+        quadrants: [1,1,1,1],
+        color: [1],
+        value: BigInt("0"),
+        price: BigInt("0"),
+        rarity: RarityType.common
+      };
+    },
     [gemList]
   );
 
   const nonDupColorList = useMemo(
     () =>
-      gemItem[0].color.filter(
+      gemItem.color.filter(
         (value: number, index: number, self: number[]) => {
           return self.indexOf(value) === index;
         }
@@ -95,7 +105,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   );
 
   const cooldownTime = useMemo(() => {
-    const baseValue = cooldowns[cooldownIndex[Number(gemItem[0]?.rarity)]];
+    const baseValue = cooldowns[cooldownIndex[Number(gemItem?.rarity)]];
     if (Math.floor(baseValue / (3600 * 24)) > 0) {
       if (Math.floor(baseValue % (3600 * 24)) === 0)
         return `${baseValue / (3600 * 24)} days`;
@@ -119,8 +129,8 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
   const priceAsTON = useMemo(
     () =>
-      Number(formatUnits(gemItem[0]?.price || BigInt(0), 27)) * stakingIndex +
-      (Number(formatUnits(gemItem[0]?.price || BigInt(0), 27)) *
+      Number(formatUnits(gemItem?.price || BigInt(0), 27)) * stakingIndex +
+      (Number(formatUnits(gemItem?.price || BigInt(0), 27)) *
         stakingIndex *
         tonFeesRate!) /
         TON_FEES_RATE_DIVIDER,
@@ -134,11 +144,11 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     const TONBalanceValue = Number(
       formatUnits(TONBalance?.data?.value! ?? "0", 18)
     );
+
     const priceValue = Number(
-      formatUnits(gemItem ? gemItem[0]?.price! : BigInt("0"), 27)
+      formatUnits(gemItem?.price! || BigInt("0"), 27)
     );
 
-    console.log(TONBalanceValue, priceValue, stakingIndex);
     if (
       WSTONBalanceValue > priceValue &&
       TONBalanceValue > priceValue * stakingIndex
@@ -178,7 +188,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
             : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
           isPayWithWSTON
             ? gemItem
-              ? gemItem[0]?.price!
+              ? gemItem?.price!
               : BigInt("0")
             : parseUnits(priceAsTON.toString(), 18)
         );
@@ -186,7 +196,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
         await waitForTransactionReceipt(txHash);
         const contract_address = MARKETPLACE_ADDRESS[chain?.id!];
         const buyTx = await buyGem(
-          gemItem[0].tokenID,
+          gemItem.tokenID,
           isPayWithWSTON,
           contract_address as `0x${string}`
         );
@@ -194,7 +204,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
         setWSTONLoading(false);
         setTONLoading(false);
-        setModalStatus({ isOpen: true, gemId: gemItem[0]?.tokenID });
+        setModalStatus({ isOpen: true, gemId: gemItem?.tokenID });
       } catch (e) {
         setWSTONLoading(false);
         setTONLoading(false);
@@ -217,7 +227,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const theme = useTheme();
   return (
     gemItem &&
-    gemItem[0] && (
+    gemItem && (
       <Flex flexDir={"column"} w={"100%"} h={"100%"}>
         <Flex columnGap={"40px"}>
           <GemCard
@@ -226,7 +236,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
             height={581}
             staked={128.2907}
             rarityScore={10}
-            gemInfo={gemItem[0]}
+            gemInfo={gemItem}
             dailyChange={16.7}
             gemWidth={316}
             gemHeight={316}
@@ -234,8 +244,8 @@ const GemItemView = ({ id, mode }: ItemProps) => {
           <Flex w={"full"} flexDir={"column"}>
             <Flex justify={"space-between"}>
               <Text fontWeight={700} fontSize={48} textTransform="capitalize">
-                {rarityList[Number(gemItem[0]?.rarity)]} Gem #
-                {gemItem[0]?.tokenID}
+                {rarityList[Number(gemItem?.rarity)]} Gem #
+                {gemItem?.tokenID}
               </Text>
 
               <Flex columnGap={2}>
@@ -266,7 +276,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   <RarityItem
                     readOnly
                     active
-                    rarity={rarityList[Number(gemItem[0]?.rarity)]}
+                    rarity={rarityList[Number(gemItem?.rarity)]}
                   />
                 </Box>
               </Flex>
@@ -302,7 +312,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   </Text>
                 </Flex>
 
-                {rarityList[Number(gemItem[0]?.rarity)] ===
+                {rarityList[Number(gemItem?.rarity)] ===
                 RarityType.mythic ? (
                   "N/A"
                 ) : (
@@ -310,7 +320,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     <RarityItem
                       active
                       readOnly
-                      rarity={rarityList[Number(gemItem[0]?.rarity) + 1]}
+                      rarity={rarityList[Number(gemItem?.rarity) + 1]}
                     />
                   </Box>
                 )}
@@ -328,7 +338,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   </Text>
                 </Flex>
 
-                {rarityList[Number(gemItem[0]?.rarity)] ===
+                {rarityList[Number(gemItem?.rarity)] ===
                 RarityType.common ? (
                   "N/A"
                 ) : (
@@ -336,7 +346,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     <RarityItem
                       active
                       readOnly
-                      rarity={rarityList[Number(gemItem[0]?.rarity) - 1]}
+                      rarity={rarityList[Number(gemItem?.rarity) - 1]}
                     />
                   </Box>
                 )}
@@ -364,7 +374,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   fontWeight={500}
                   fontSize={16}
                 >
-                  {Number(gemItem[0]?.rarity) === 0 ? "N/A" : cooldownTime}
+                  {Number(gemItem?.rarity) === 0 ? "N/A" : cooldownTime}
                 </Text>
               </Flex>
 
@@ -384,7 +394,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   fontWeight={500}
                   fontSize={16}
                 >
-                  {gemItem[0]?.miningTry}
+                  {gemItem?.miningTry}
                 </Text>
               </Flex>
             </Flex>
@@ -396,7 +406,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               <Center columnGap={3}>
                 <Image alt="ton" src={WSTONIcon} width={32} height={32} />
                 <Text fontSize={32} fontWeight={600}>
-                  {`${formatUnits(gemItem[0]?.value!, 27)} WSTON`}
+                  {`${formatUnits(gemItem?.value!, 27)} WSTON`}
                 </Text>
               </Center>
 
@@ -459,7 +469,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                               size="md"
                             />
                           ) : (
-                            `${formatUnits(gemItem[0]?.price || BigInt(0), 27)} TITANWSTON`
+                            `${formatUnits(gemItem?.price || BigInt(0), 27)} TITANWSTON`
                           )}
                         </Text>
                       </Button>
@@ -533,7 +543,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     onClick={() => {
                       setSellGemModalStatus({
                         isOpen: true,
-                        tokenID: gemItem[0]?.tokenID,
+                        tokenID: gemItem?.tokenID,
                       });
                     }}
                   >
@@ -551,7 +561,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     onClick={() =>
                       burnSellGemModalStatus({
                         isOpen: true,
-                        tokenID: gemItem[0]?.tokenID,
+                        tokenID: gemItem?.tokenID,
                       })
                     }
                     border={"1px solid #0380FF"}

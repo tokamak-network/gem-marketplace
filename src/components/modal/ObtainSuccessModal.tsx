@@ -29,6 +29,7 @@ const ObtainSuccessModal = () => {
   const gemList = useGetAllGems();
   const handleClose = () => {
     setModalStatus({ isOpen: false });
+    router.push("/market")
   };
   const gemItem = useMemo(
     () =>
