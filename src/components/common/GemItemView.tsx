@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAccount, useBalance } from "wagmi";
 import {
   Box,
@@ -23,18 +23,9 @@ import { sellGemModalStatus, burnGemModalStatus } from "@/recoil/chest/atom";
 
 import useConnectWallet from "@/hooks/account/useConnectWallet";
 
-import WSTONIcon from "@/assets/icon/wswton.svg";
-import WalletIcon from "@/assets/icon/wallet.svg";
-import StarIcon from "@/assets/icon/star.svg";
-import ColorIcon from "@/assets/icon/color.svg";
-import CooldownIcon from "@/assets/icon/cooldown.svg";
-import MiningIcon from "@/assets/icon/mine.svg";
-import forgeIcon from "@/assets/icon/forge.svg";
-import SavedIcon from "./SavedIcon";
-import ShareIcon from "@/assets/icon/share.svg";
 import { useGetAllGems } from "@/hooks/useGetMarketGems";
 import { colorNameList, rarityList } from "@/constants/rarity";
-import { useBuyGem } from "@/hooks/useBuyGem";
+import { buyGem, useBuyGem } from "@/hooks/useBuyGem";
 import {
   MARKETPLACE_ADDRESS,
   TON_ADDRESS_BY_CHAINID,
@@ -44,11 +35,30 @@ import { handleApprove, useTonORWSTONApprove } from "@/hooks/useApprove";
 import { useApproval } from "@/hooks/useApproval";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 import { cooldownStatus } from "@/recoil/mine/atom";
-import { cooldownIndex } from "@/constants";
+import { cooldownIndex, TON_FEES_RATE_DIVIDER } from "@/constants";
+
+import WSTONIcon from "@/assets/icon/wswton.svg";
+import WalletIcon from "@/assets/icon/wallet.svg";
+import StarIcon from "@/assets/icon/star.svg";
+import ColorIcon from "@/assets/icon/color.svg";
+import CooldownIcon from "@/assets/icon/cooldown.svg";
+import MiningIcon from "@/assets/icon/mine.svg";
+import forgeIcon from "@/assets/icon/forge.svg";
+import SavedIcon from "./SavedIcon";
+import ShareIcon from "@/assets/icon/share.svg";
+import TonIcon from "@/assets/icon/ton.svg";
+import { getTonFeesRate } from "@/utils";
 
 interface ItemProps {
   id: number;
   mode: CardType;
+}
+
+enum PayOption {
+  BOTH,
+  WSTON,
+  TON,
+  NONE,
 }
 
 const GemItemView = ({ id, mode }: ItemProps) => {
@@ -59,9 +69,11 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const [, setSellGemModalStatus] = useRecoilState(sellGemModalStatus);
   const [, burnSellGemModalStatus] = useRecoilState(burnGemModalStatus);
   const [stakingIndex] = useRecoilState(StakingIndex);
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isWSTONLoading, setWSTONLoading] = useState<boolean>(false);
+  const [isTONLoading, setTONLoading] = useState<boolean>(false);
   const [cooldowns] = useRecoilState(cooldownStatus);
   const { waitForTransactionReceipt } = useWaitForTransaction();
+  const [tonFeesRate, setTonFeesRate] = useState<number>();
 
   const gemItem: GemStandard[] = useMemo(
     () =>
@@ -100,72 +112,107 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     token: WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
   });
 
-  const payOption = useMemo(
-    () =>
-      Number(formatUnits(WSTONBalance?.data?.value! ?? "0", 27)) >
-      Number(formatUnits(gemItem ? gemItem[0]?.value! : BigInt("0"), 27)),
-
-    [WSTONBalance, gemItem]
-  );
-
-  const { callBuyGem } = useBuyGem({
-    tokenID: id,
-    payWithWSTON: payOption,
+  const TONBalance = useBalance({
+    address: address,
+    token: TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
   });
 
-  const contract_address = useMemo(
+  const priceAsTON = useMemo(
     () =>
-      payOption
-        ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
-        : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
+      Number(formatUnits(gemItem[0]?.price || BigInt(0), 27)) * stakingIndex +
+      (Number(formatUnits(gemItem[0]?.price || BigInt(0), 27)) *
+        stakingIndex *
+        tonFeesRate!) /
+        TON_FEES_RATE_DIVIDER,
+    [stakingIndex, tonFeesRate, TON_FEES_RATE_DIVIDER, gemItem]
+  );
+
+  const payOption = useMemo(() => {
+    const WSTONBalanceValue = Number(
+      formatUnits(WSTONBalance?.data?.value! ?? "0", 27)
+    );
+    const TONBalanceValue = Number(
+      formatUnits(TONBalance?.data?.value! ?? "0", 18)
+    );
+    const priceValue = Number(
+      formatUnits(gemItem ? gemItem[0]?.value! : BigInt("0"), 27)
+    );
+
+    console.log(TONBalanceValue, priceValue, stakingIndex);
+    if (
+      WSTONBalanceValue > priceValue &&
+      TONBalanceValue > priceValue * stakingIndex
+    ) {
+      return PayOption.BOTH;
+    }
+    if (
+      WSTONBalanceValue > priceValue &&
+      TONBalanceValue < priceValue * stakingIndex
+    ) {
+      return PayOption.WSTON;
+    }
+    if (
+      WSTONBalanceValue < priceValue &&
+      TONBalanceValue > priceValue * stakingIndex
+    ) {
+      return PayOption.TON;
+    }
+    if (
+      WSTONBalanceValue < priceValue &&
+      TONBalanceValue < priceValue * stakingIndex
+    ) {
+      return PayOption.NONE;
+    }
+  }, [WSTONBalance, gemItem, TONBalance]);
+
+  const handleClick = useCallback(
+    async (isPayWithWSTON: boolean) => {
+      !isConnected && connectToWallet();
+
+      try {
+        isPayWithWSTON ? setWSTONLoading(true) : setTONLoading(true);
+        const txHash = await handleApprove(
+          MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
+          isPayWithWSTON
+            ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
+            : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
+          isPayWithWSTON
+            ? gemItem
+              ? gemItem[0]?.price!
+              : BigInt("0")
+            : parseUnits(priceAsTON.toString(), 18)
+        );
+
+        await waitForTransactionReceipt(txHash);
+        const contract_address = MARKETPLACE_ADDRESS[chain?.id!];
+        const buyTx = await buyGem(
+          gemItem[0].tokenID,
+          isPayWithWSTON,
+          contract_address as `0x${string}`
+        );
+        await waitForTransactionReceipt(buyTx);
+
+        setWSTONLoading(false);
+        setTONLoading(false);
+        setModalStatus({ isOpen: true, gemId: gemItem[0]?.tokenID });
+      } catch (e) {
+        setWSTONLoading(false);
+        setTONLoading(false);
+        console.log(e);
+      }
+    },
     [payOption]
   );
 
-  const decimals = useMemo(() => (payOption ? 27 : 18), [payOption]);
-
-  // const allowance = useApproval(contract_address, decimals);
-
-  const { isSuccess: approveSuccess } = useTonORWSTONApprove(
-    payOption
-      ? gemItem
-        ? gemItem[0]?.value!
-        : BigInt("0")
-      : BigInt(formatUnits(gemItem ? gemItem[0]?.value! : BigInt("0"), 9)),
-    contract_address
-  );
-
-  const handleClick = useCallback(async () => {
-    !isConnected && connectToWallet();
-    try {
-      setLoading(true);
-      const txHash = await handleApprove(
-        MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
-        payOption
-          ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
-          : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
-        payOption
-          ? gemItem
-            ? gemItem[0]?.price!
-            : BigInt("0")
-          : BigInt(
-              parseUnits(
-                (
-                  Number(
-                    formatUnits(gemItem ? gemItem[0]?.price! : BigInt("0"), 27)
-                  ) * stakingIndex
-                ).toString(),
-                18
-              )
-            )
+  useEffect(() => {
+    const fetchTonFeesRate = async () => {
+      const value = await getTonFeesRate(
+        MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`
       );
-      await waitForTransactionReceipt(txHash);
-      await callBuyGem();
-      setLoading(false);
-      setModalStatus({ isOpen: true, gemId: gemItem[0]?.tokenID });
-    } catch (e) {
-      setLoading(false);
-    }
-  }, [approveSuccess, payOption]);
+      setTonFeesRate(Number(formatUnits(value, 0)));
+    };
+    fetchTonFeesRate();
+  }, []);
 
   const theme = useTheme();
   return (
@@ -192,9 +239,9 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               </Text>
 
               <Flex columnGap={2}>
-                <Center w={8} h={8} rounded={"8px"} bgColor={"#2A2C3A"}>
+                {/* <Center w={8} h={8} rounded={"8px"} bgColor={"#2A2C3A"}>
                   <SavedIcon width={16} height={16} isFill={false} />
-                </Center>
+                </Center> */}
 
                 <Center w={8} h={8} rounded={"8px"} bgColor={"#2A2C3A"}>
                   <Image alt="share" src={ShareIcon} width={16} height={16} />
@@ -369,55 +416,9 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                   >
                     BUY GEM WITH:
                   </Text>
-                  <Center columnGap={"10px"}>
-                    {/* {payOption ?  (*/}
-
-                    <Button
-                      w={"full"}
-                      maxW={624}
-                      h={"65px"}
-                      columnGap={2}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      colorScheme="blue"
-                      bgColor={"#0380FF"}
-                      onClick={() => {
-                        handleClick();
-                      }}
-                      isDisabled={isLoading}
-                    >
-                      {!isLoading &&
-                        (isConnected ? (
-                          <Image
-                            alt="ton"
-                            src={WSTONIcon}
-                            width={27}
-                            height={27}
-                          />
-                        ) : (
-                          <Image
-                            alt="wallet"
-                            src={WalletIcon}
-                            width={22}
-                            height={23}
-                          />
-                        ))}
-                      <Text fontSize={24} fontWeight={600}>
-                        {isLoading ? (
-                          <Spinner
-                            thickness="4px"
-                            speed="0.65s"
-                            emptyColor="gray.200"
-                            color="blue.500"
-                            size="md"
-                          />
-                        ) : (
-                          `${formatUnits(gemItem[0]?.price || BigInt(0), 27)} TITANWSTON`
-                        )}
-                      </Text>
-                    </Button>
-
-                    {/*) : (
+                  <Center columnGap={"16px"}>
+                    {(payOption === PayOption.WSTON ||
+                      payOption === PayOption.BOTH) && (
                       <Button
                         w={"full"}
                         maxW={624}
@@ -428,20 +429,28 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                         colorScheme="blue"
                         bgColor={"#0380FF"}
                         onClick={() => {
-                          handleClick();
+                          handleClick(true);
                         }}
-                        isDisabled={isPending || isPendingApproval}
+                        isDisabled={isTONLoading || isWSTONLoading}
                       >
-                        {!isPending && !isPendingApproval && (
-                          <Image
-                            alt="ton"
-                            src={TonIcon}
-                            width={27}
-                            height={27}
-                          />
-                        )}
+                        {!isWSTONLoading &&
+                          (isConnected ? (
+                            <Image
+                              alt="ton"
+                              src={WSTONIcon}
+                              width={27}
+                              height={27}
+                            />
+                          ) : (
+                            <Image
+                              alt="wallet"
+                              src={WalletIcon}
+                              width={22}
+                              height={23}
+                            />
+                          ))}
                         <Text fontSize={24} fontWeight={600}>
-                          {isPending || isPendingApproval ? (
+                          {isWSTONLoading ? (
                             <Spinner
                               thickness="4px"
                               speed="0.65s"
@@ -450,11 +459,64 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                               size="md"
                             />
                           ) : (
-                            "135 TON"
+                            `${formatUnits(gemItem[0]?.price || BigInt(0), 27)} TITANWSTON`
                           )}
                         </Text>
                       </Button>
-                    )} */}
+                    )}
+                    {payOption === PayOption.BOTH && <Text>or</Text>}
+                    {(payOption === PayOption.TON ||
+                      payOption === PayOption.BOTH) && (
+                      <Button
+                        w={"full"}
+                        maxW={624}
+                        h={"65px"}
+                        columnGap={2}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                        colorScheme="blue"
+                        bgColor={"#0380FF"}
+                        onClick={() => {
+                          handleClick(false);
+                        }}
+                        isDisabled={isWSTONLoading || isTONLoading}
+                      >
+                        {!isTONLoading && (
+                          <Image
+                            alt="ton"
+                            src={TonIcon}
+                            width={27}
+                            height={27}
+                          />
+                        )}
+                        <Text fontSize={24} fontWeight={600}>
+                          {isTONLoading ? (
+                            <Spinner
+                              thickness="4px"
+                              speed="0.65s"
+                              emptyColor="gray.200"
+                              color="blue.500"
+                              size="md"
+                            />
+                          ) : (
+                            `${priceAsTON} TON`
+                          )}
+                        </Text>
+                      </Button>
+                    )}
+                    {payOption === PayOption.NONE && (
+                      <Button
+                        w={"full"}
+                        maxW={624}
+                        h={"65px"}
+                        colorScheme="blue"
+                        bgColor={"#0380FF"}
+                        isDisabled={true}
+                        fontSize={24} fontWeight={600}
+                      >
+                        Insufficient Balance
+                      </Button>
+                    )}
                   </Center>
                 </Box>
               ) : mode === "chest" ? (
@@ -509,7 +571,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                 colorScheme="blue"
                 bgColor={"#0380FF"}
                 onClick={() => {
-                  handleClick();
+                  handleClick(true);
                 }}
                 fontSize={18}
                 fontWeight={600}

@@ -131,6 +131,16 @@ export const getRandomPackFee = async (contractAddress: `0x${string}`) => {
   return result;
 };
 
+export const getTonFeesRate = async (contractAddress: `0x${string}`) => {
+  const result: any = await readContract(config, {
+    abi: MarketplaceABI,
+    address: contractAddress,
+    functionName: "getTonFeesRate",
+  });
+
+  return result;
+};
+
 export function groupAndSortByDate(data: any) {
   if (data && data?.length > 0) {
     // Step 1: Group by date in 'YYYY-MM-DD' format

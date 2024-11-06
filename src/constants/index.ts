@@ -75,3 +75,5 @@ export const filterItemList = [
   SortFilterItems.PRICE_ASC,
   // SortFilterItems.SAVED,
 ]
+
+export const TON_FEES_RATE_DIVIDER = 10000;
