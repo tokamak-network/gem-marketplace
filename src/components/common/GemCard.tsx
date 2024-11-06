@@ -348,37 +348,40 @@ const GemCard = ({
             backfaceVisibility: "hidden",
           }}
         >
-          {mode === "market" || mode === "normal" ? (
-            <Box
-              pos={"absolute"}
-              top={"10px"}
-              right={"10px"}
-              cursor={"pointer"}
-              zIndex={10}
-              onClick={(e) => handleSavedClick(e)}
-            >
-              <SavedIcon
-                width={mode === "normal" ? 34 : 16}
-                height={mode === "normal" ? 28 : 13}
-                isFill={isSaved}
-              />
-            </Box>
-          ) : mode === "mine" ? (
-            <Tooltip bg={"#000000E5"} label={<MineProbability />} hasArrow>
-              <Flex
-                columnGap={1}
-                pos={"absolute"}
-                top={"10px"}
-                right={"10px"}
-                opacity={0.5}
-              >
-                <Text fontSize={10}>Probability:</Text>
-                <Image alt="info" src={InfoIcon} width={8} height={8} />
-              </Flex>
-            </Tooltip>
-          ) : (
-            <></>
-          )}
+          {
+            // mode === "market" || mode === "normal" ? (
+            //   <Box
+            //     pos={"absolute"}
+            //     top={"10px"}
+            //     right={"10px"}
+            //     cursor={"pointer"}
+            //     zIndex={10}
+            //     onClick={(e) => handleSavedClick(e)}
+            //   >
+            //     <SavedIcon
+            //       width={mode === "normal" ? 34 : 16}
+            //       height={mode === "normal" ? 28 : 13}
+            //       isFill={isSaved}
+            //     />
+            //   </Box>
+            // ) :
+            mode === "mine" ? (
+              <Tooltip bg={"#000000E5"} label={<MineProbability />} hasArrow>
+                <Flex
+                  columnGap={1}
+                  pos={"absolute"}
+                  top={"10px"}
+                  right={"10px"}
+                  opacity={0.5}
+                >
+                  <Text fontSize={10}>Probability:</Text>
+                  <Image alt="info" src={InfoIcon} width={8} height={8} />
+                </Flex>
+              </Tooltip>
+            ) : (
+              <></>
+            )
+          }
 
           <Center w={"full"} h={"full"} bg={""}>
             <GemShape
