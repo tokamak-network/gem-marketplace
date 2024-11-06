@@ -135,7 +135,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       formatUnits(TONBalance?.data?.value! ?? "0", 18)
     );
     const priceValue = Number(
-      formatUnits(gemItem ? gemItem[0]?.value! : BigInt("0"), 27)
+      formatUnits(gemItem ? gemItem[0]?.price! : BigInt("0"), 27)
     );
 
     console.log(TONBalanceValue, priceValue, stakingIndex);
