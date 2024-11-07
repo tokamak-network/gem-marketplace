@@ -34,7 +34,6 @@ import {
   WSWTON_ADDRESS_BY_CHAINID,
 } from "@/constants/tokens";
 import { handleApprove, useTonORWSTONApprove } from "@/hooks/useApprove";
-import { useApproval } from "@/hooks/useApproval";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 import { cooldownStatus } from "@/recoil/mine/atom";
 import { cooldownIndex, TON_FEES_RATE_DIVIDER } from "@/constants";
@@ -435,119 +434,134 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
             {isConnected ? (
               mode === "market" ? (
-                <Box>
-                  <Text
-                    pb={"6px"}
-                    fontSize={14}
-                    lineHeight={"30px"}
-                    opacity={0.5}
-                  >
-                    BUY GEM WITH:
-                  </Text>
-                  <Center columnGap={"16px"}>
-                    {(payOption === PayOption.WSTON ||
-                      payOption === PayOption.BOTH) && (
-                      <Button
-                        w={"full"}
-                        maxW={624}
-                        h={"65px"}
-                        columnGap={2}
-                        alignItems={"center"}
-                        justifyContent={"center"}
-                        colorScheme="blue"
-                        bgColor={"#0380FF"}
-                        onClick={() => {
-                          handleClick(true);
-                        }}
-                        isDisabled={isTONLoading || isWSTONLoading}
-                      >
-                        {!isWSTONLoading &&
-                          (isConnected ? (
+                gemItem.price ? (
+                  <Box>
+                    <Text
+                      pb={"6px"}
+                      fontSize={14}
+                      lineHeight={"30px"}
+                      opacity={0.5}
+                    >
+                      BUY GEM WITH:
+                    </Text>
+                    <Center columnGap={"16px"}>
+                      {(payOption === PayOption.WSTON ||
+                        payOption === PayOption.BOTH) && (
+                        <Button
+                          w={"full"}
+                          maxW={624}
+                          h={"65px"}
+                          columnGap={2}
+                          alignItems={"center"}
+                          justifyContent={"center"}
+                          colorScheme="blue"
+                          bgColor={"#0380FF"}
+                          onClick={() => {
+                            handleClick(true);
+                          }}
+                          isDisabled={isTONLoading || isWSTONLoading}
+                        >
+                          {!isWSTONLoading &&
+                            (isConnected ? (
+                              <Image
+                                alt="ton"
+                                src={WSTONIcon}
+                                width={27}
+                                height={27}
+                              />
+                            ) : (
+                              <Image
+                                alt="wallet"
+                                src={WalletIcon}
+                                width={22}
+                                height={23}
+                              />
+                            ))}
+                          <Text fontSize={24} fontWeight={600}>
+                            {isWSTONLoading ? (
+                              <Spinner
+                                thickness="4px"
+                                speed="0.65s"
+                                emptyColor="gray.200"
+                                color="blue.500"
+                                size="md"
+                              />
+                            ) : (
+                              `${formatUnits(gemItem?.price || BigInt(0), 27)} TITANWSTON`
+                            )}
+                          </Text>
+                        </Button>
+                      )}
+                      {payOption === PayOption.BOTH && <Text>or</Text>}
+                      {(payOption === PayOption.TON ||
+                        payOption === PayOption.BOTH) && (
+                        <Button
+                          w={"full"}
+                          maxW={624}
+                          h={"65px"}
+                          columnGap={2}
+                          alignItems={"center"}
+                          justifyContent={"center"}
+                          colorScheme="blue"
+                          bgColor={"#0380FF"}
+                          onClick={() => {
+                            handleClick(false);
+                          }}
+                          isDisabled={isWSTONLoading || isTONLoading}
+                        >
+                          {!isTONLoading && (
                             <Image
                               alt="ton"
-                              src={WSTONIcon}
+                              src={TonIcon}
                               width={27}
                               height={27}
                             />
-                          ) : (
-                            <Image
-                              alt="wallet"
-                              src={WalletIcon}
-                              width={22}
-                              height={23}
-                            />
-                          ))}
-                        <Text fontSize={24} fontWeight={600}>
-                          {isWSTONLoading ? (
-                            <Spinner
-                              thickness="4px"
-                              speed="0.65s"
-                              emptyColor="gray.200"
-                              color="blue.500"
-                              size="md"
-                            />
-                          ) : (
-                            `${formatUnits(gemItem?.price || BigInt(0), 27)} TITANWSTON`
                           )}
-                        </Text>
-                      </Button>
-                    )}
-                    {payOption === PayOption.BOTH && <Text>or</Text>}
-                    {(payOption === PayOption.TON ||
-                      payOption === PayOption.BOTH) && (
-                      <Button
-                        w={"full"}
-                        maxW={624}
-                        h={"65px"}
-                        columnGap={2}
-                        alignItems={"center"}
-                        justifyContent={"center"}
-                        colorScheme="blue"
-                        bgColor={"#0380FF"}
-                        onClick={() => {
-                          handleClick(false);
-                        }}
-                        isDisabled={isWSTONLoading || isTONLoading}
-                      >
-                        {!isTONLoading && (
-                          <Image
-                            alt="ton"
-                            src={TonIcon}
-                            width={27}
-                            height={27}
-                          />
-                        )}
-                        <Text fontSize={24} fontWeight={600}>
-                          {isTONLoading ? (
-                            <Spinner
-                              thickness="4px"
-                              speed="0.65s"
-                              emptyColor="gray.200"
-                              color="blue.500"
-                              size="md"
-                            />
-                          ) : (
-                            `${priceAsTON} TON`
-                          )}
-                        </Text>
-                      </Button>
-                    )}
-                    {payOption === PayOption.NONE && (
-                      <Button
-                        w={"full"}
-                        maxW={624}
-                        h={"65px"}
-                        colorScheme="blue"
-                        bgColor={"#0380FF"}
-                        isDisabled={true}
-                        fontSize={24}
-                        fontWeight={600}
-                      >
-                        Insufficient Balance
-                      </Button>
-                    )}
-                  </Center>
-                </Box>
+                          <Text fontSize={24} fontWeight={600}>
+                            {isTONLoading ? (
+                              <Spinner
+                                thickness="4px"
+                                speed="0.65s"
+                                emptyColor="gray.200"
+                                color="blue.500"
+                                size="md"
+                              />
+                            ) : (
+                              `${priceAsTON} TON`
+                            )}
+                          </Text>
+                        </Button>
+                      )}
+                      {payOption === PayOption.NONE && (
+                        <Button
+                          w={"full"}
+                          maxW={624}
+                          h={"65px"}
+                          colorScheme="blue"
+                          bgColor={"#0380FF"}
+                          isDisabled={true}
+                          fontSize={24}
+                          fontWeight={600}
+                        >
+                          Insufficient Balance
+                        </Button>
+                      )}
+                    </Center>
+                  </Box>
+                ) : (
+                  <Button
+                    w={"full"}
+                    maxW={624}
+                    h={"65px"}
+                    colorScheme="blue"
+                    bgColor={"#0380FF"}
+                    isDisabled={true}
+                    fontSize={24}
+                    fontWeight={600}
+                  >
+                    Not for Sale
+                  </Button>
+                )
               ) : mode === "chest" ? (
                 <Flex w={"100%"} columnGap={6}>
                   <Button
