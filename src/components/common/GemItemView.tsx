@@ -7,15 +7,12 @@ import {
   Center,
   Flex,
   Text,
-  useTheme,
   Spinner,
   useToast,
 } from "@chakra-ui/react";
 
 import { CardType, GemStandard, RarityType } from "@/types";
 import GemCard from "@/components/common/GemCard";
-import { RarityItem } from "@/components/common/RarityList";
-import { ColorItem } from "@/components/common/ColorList";
 import { obtainModalStatus, StakingIndex } from "@/recoil/market/atom";
 import { useRecoilState } from "recoil";
 import { formatUnits, parseUnits } from "viem";
@@ -26,30 +23,23 @@ import { sellGemModalStatus, burnGemModalStatus } from "@/recoil/chest/atom";
 import useConnectWallet from "@/hooks/account/useConnectWallet";
 
 import { useGetAllGems } from "@/hooks/useGetMarketGems";
-import { colorNameList, rarityList } from "@/constants/rarity";
-import { buyGem, useBuyGem } from "@/hooks/useBuyGem";
+import { buyGem } from "@/hooks/useBuyGem";
 import {
   MARKETPLACE_ADDRESS,
   TON_ADDRESS_BY_CHAINID,
   WSWTON_ADDRESS_BY_CHAINID,
 } from "@/constants/tokens";
-import { handleApprove, useTonORWSTONApprove } from "@/hooks/useApprove";
+import { handleApprove } from "@/hooks/useApprove";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
-import { cooldownStatus } from "@/recoil/mine/atom";
-import { cooldownIndex, TON_FEES_RATE_DIVIDER } from "@/constants";
+import { TON_FEES_RATE_DIVIDER } from "@/constants";
 import copy from "copy-to-clipboard";
 
 import WSTONIcon from "@/assets/icon/wswton.svg";
 import WalletIcon from "@/assets/icon/wallet.svg";
-import StarIcon from "@/assets/icon/star.svg";
-import ColorIcon from "@/assets/icon/color.svg";
-import CooldownIcon from "@/assets/icon/cooldown.svg";
-import MiningIcon from "@/assets/icon/mine.svg";
-import forgeIcon from "@/assets/icon/forge.svg";
-import SavedIcon from "./SavedIcon";
 import ShareIcon from "@/assets/icon/share.svg";
 import TonIcon from "@/assets/icon/ton.svg";
 import { getTonFeesRate } from "@/utils";
+import GemDetailView from "./GemDetailView";
 
 interface ItemProps {
   id: number;
@@ -73,7 +63,6 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const [stakingIndex] = useRecoilState(StakingIndex);
   const [isWSTONLoading, setWSTONLoading] = useState<boolean>(false);
   const [isTONLoading, setTONLoading] = useState<boolean>(false);
-  const [cooldowns] = useRecoilState(cooldownStatus);
   const { waitForTransactionReceipt } = useWaitForTransaction();
   const [tonFeesRate, setTonFeesRate] = useState<number>();
   const toast = useToast();
@@ -94,28 +83,6 @@ const GemItemView = ({ id, mode }: ItemProps) => {
           rarity: RarityType.common,
         };
   }, [gemList]);
-
-  const nonDupColorList = useMemo(
-    () =>
-      gemItem.color.filter((value: number, index: number, self: number[]) => {
-        return self.indexOf(value) === index;
-      }),
-
-    [gemItem]
-  );
-
-  const cooldownTime = useMemo(() => {
-    const baseValue = cooldowns[cooldownIndex[Number(gemItem?.rarity)]];
-    if (Math.floor(baseValue / (3600 * 24)) > 0) {
-      if (Math.floor(baseValue % (3600 * 24)) === 0)
-        return `${baseValue / (3600 * 24)} days`;
-      else {
-        return `${Math.floor(baseValue / (3600 * 24))} days ${Math.floor(baseValue % (3600 * 24))} hours`;
-      }
-    } else {
-      return `${Math.floor(baseValue / 3600)} hours ${Math.floor((baseValue % 3600) / 60)} minutes`;
-    }
-  }, [cooldowns, gemItem, cooldownIndex]);
 
   const WSTONBalance = useBalance({
     address: address,
@@ -222,9 +189,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     fetchTonFeesRate();
   }, []);
 
-  const theme = useTheme();
   return (
-    gemItem &&
     gemItem && (
       <Flex flexDir={"column"} w={"100%"} h={"100%"}>
         <Flex columnGap={"40px"}>
@@ -242,7 +207,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
           <Flex w={"full"} flexDir={"column"}>
             <Flex justify={"space-between"}>
               <Text fontWeight={700} fontSize={48} textTransform="capitalize">
-                {rarityList[Number(gemItem?.rarity)]} Gem #{gemItem?.tokenID}
+                Gem #{gemItem?.tokenID}
               </Text>
 
               <Flex columnGap={2}>
@@ -278,148 +243,12 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               </Flex>
             </Flex>
 
-            <Flex flexDir={"column"} rowGap={22} my={"36px"}>
-              <Flex>
-                <Flex minW={173} columnGap={3} align={"center"}>
-                  <Image alt="rarity" src={StarIcon} width={16} height={16} />
-                  <Text
-                    fontFamily={theme.fonts.Inter}
-                    fontSize={16}
-                    color={"#FFFFFF80"}
-                  >
-                    Rarity:
-                  </Text>
-                </Flex>
+            <GemDetailView gemId={id} />
 
-                <Box ml={"12px"}>
-                  <RarityItem
-                    readOnly
-                    active
-                    rarity={rarityList[Number(gemItem?.rarity)]}
-                  />
-                </Box>
-              </Flex>
-
-              <Flex>
-                <Flex minW={173} columnGap={3} align={"center"}>
-                  <Image alt="rarity" src={ColorIcon} width={16} height={16} />
-                  <Text
-                    fontFamily={theme.fonts.Inter}
-                    fontSize={16}
-                    color={"#FFFFFF80"}
-                  >
-                    Color:
-                  </Text>
-                </Flex>
-
-                <Flex columnGap={3}>
-                  {nonDupColorList.map((item, key) => (
-                    <ColorItem readOnly color={colorNameList[item]} key={key} />
-                  ))}
-                </Flex>
-              </Flex>
-
-              <Flex>
-                <Flex minW={173} columnGap={3} align={"center"}>
-                  <Image alt="rarity" src={forgeIcon} width={16} height={16} />
-                  <Text
-                    fontFamily={theme.fonts.Inter}
-                    fontSize={16}
-                    color={"#FFFFFF80"}
-                  >
-                    Forging:
-                  </Text>
-                </Flex>
-
-                {rarityList[Number(gemItem?.rarity)] === RarityType.mythic ? (
-                  "N/A"
-                ) : (
-                  <Box ml={"12px"}>
-                    <RarityItem
-                      active
-                      readOnly
-                      rarity={rarityList[Number(gemItem?.rarity) + 1]}
-                    />
-                  </Box>
-                )}
-              </Flex>
-
-              <Flex>
-                <Flex minW={173} columnGap={3} align={"center"}>
-                  <Image alt="rarity" src={MiningIcon} width={16} height={16} />
-                  <Text
-                    fontFamily={theme.fonts.Inter}
-                    fontSize={16}
-                    color={"#FFFFFF80"}
-                  >
-                    Mining:
-                  </Text>
-                </Flex>
-
-                {rarityList[Number(gemItem?.rarity)] === RarityType.common ? (
-                  "N/A"
-                ) : (
-                  <Box ml={"12px"}>
-                    <RarityItem
-                      active
-                      readOnly
-                      rarity={rarityList[Number(gemItem?.rarity) - 1]}
-                    />
-                  </Box>
-                )}
-              </Flex>
-
-              <Flex>
-                <Flex minW={173} columnGap={3} align={"center"}>
-                  <Image
-                    alt="rarity"
-                    src={CooldownIcon}
-                    width={16}
-                    height={16}
-                  />
-                  <Text
-                    fontFamily={theme.fonts.Inter}
-                    fontSize={16}
-                    color={"#FFFFFF80"}
-                  >
-                    Cooldown:
-                  </Text>
-                </Flex>
-
-                <Text
-                  fontFamily={theme.fonts.Inter}
-                  fontWeight={500}
-                  fontSize={16}
-                >
-                  {Number(gemItem?.rarity) === 0 ? "N/A" : cooldownTime}
-                </Text>
-              </Flex>
-
-              <Flex>
-                <Flex minW={173} columnGap={3} align={"center"}>
-                  <Text
-                    fontFamily={theme.fonts.Inter}
-                    fontSize={14}
-                    color={"#FFFFFF80"}
-                  >
-                    Mines Remaining:
-                  </Text>
-                </Flex>
-
-                <Text
-                  fontFamily={theme.fonts.Inter}
-                  fontWeight={500}
-                  fontSize={16}
-                >
-                  {gemItem?.miningTry}
-                </Text>
-              </Flex>
-            </Flex>
-
-            <Text fontSize={14} fontWeight={400} opacity={0.5}>
+            <Text fontSize={14} fontWeight={400} opacity={0.5} mt={2}>
               Backed by
             </Text>
-            <Flex align={"end"} columnGap={17} mb={9}>
+            <Flex align={"end"} columnGap={17} mb={4}>
               <Center columnGap={3}>
                 <Image alt="ton" src={WSTONIcon} width={32} height={32} />
                 <Text fontSize={32} fontWeight={600}>

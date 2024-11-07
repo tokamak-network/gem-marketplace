@@ -12,43 +12,55 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useMemo } from "react";
 
 import { useRecoilState } from "recoil";
 import { obtainModalStatus } from "@/recoil/market/atom";
 
+import GemDetailView from "../common/GemDetailView";
+import GemCard from "../common/GemCard";
+
+import { GemStandard, RarityType } from "@/types";
+import { useGetAllGems } from "@/hooks/useGetMarketGems";
+
 import ForgeIcon from "@/assets/icon/forge.svg";
 import GemIcon from "@/assets/icon/mine.svg";
-import GemCard from "../common/GemCard";
-import { GemStandard } from "@/types";
-import { useGetAllGems } from "@/hooks/useGetMarketGems";
-import { useMemo } from "react";
+import { rarityList } from "@/constants/rarity";
 
 const ObtainSuccessModal = () => {
   const router = useRouter();
   const [modalStatus, setModalStatus] = useRecoilState(obtainModalStatus);
   const gemList = useGetAllGems();
+
   const handleClose = () => {
     setModalStatus({ isOpen: false });
-    router.push("/market")
+    router.push("/market");
   };
-  const gemItem = useMemo(
-    () =>
-      gemList?.filter(
-        (item: GemStandard) =>
-          Number(item.tokenID) === Number(modalStatus.gemId)
-      ),
-    [gemList, modalStatus.gemId]
-  );
+  const gemItem: GemStandard = useMemo(() => {
+    const item = gemList?.filter(
+      (item: GemStandard) => Number(item.tokenID) === Number(modalStatus.gemId)
+    );
+    return item && item[0] && item.length > 0
+      ? item[0]
+      : {
+          tokenID: 0,
+          quadrants: [1, 1, 1, 1],
+          color: [1],
+          value: BigInt("0"),
+          price: BigInt("0"),
+          rarity: RarityType.common,
+        };
+  }, [gemList]);
 
   return (
-    <Modal
-      isOpen={modalStatus.isOpen}
-      onClose={() => handleClose()}
-      size={"4xl"}
-      isCentered
-    >
+    <Modal isOpen={modalStatus.isOpen} onClose={() => handleClose()} isCentered>
       <ModalOverlay />
-      <ModalContent bgColor={"#21232D"} rounded={16}>
+      <ModalContent
+        bgColor={"#21232D"}
+        rounded={16}
+        minW={"900px"}
+        minH={"580px"}
+      >
         <ModalCloseButton />
         <ModalBody padding={0}>
           <Flex>
@@ -56,10 +68,10 @@ const ObtainSuccessModal = () => {
               <GemCard
                 mode="normal"
                 width={453}
-                height={581}
+                height={620}
                 staked={128.2907}
                 rarityScore={10}
-                gemInfo={gemItem[0]}
+                gemInfo={gemItem}
                 dailyChange={16.7}
                 gemWidth={316}
                 gemHeight={316}
@@ -69,7 +81,7 @@ const ObtainSuccessModal = () => {
               w={"100%"}
               flexDir={"column"}
               justify={"space-between"}
-              p={"87px 26px 30px 26px"}
+              p={"20px 26px 30px 26px"}
             >
               <Box>
                 <Text
@@ -82,61 +94,58 @@ const ObtainSuccessModal = () => {
                 </Text>
 
                 <Text
-                  mt={10}
-                  fontSize={20}
-                  fontWeight={400}
-                  lineHeight={"34.57px"}
-                  textAlign={"center"}
-                >
-                  You just obtained this gem!
-                </Text>
-
-                <Text
-                  mt={10}
-                  fontSize={20}
+                  mt={6}
+                  fontSize={16}
                   fontWeight={400}
                   lineHeight={"34.57px"}
                   textAlign={"center"}
                 >
                   Take your newly acquired gem and start mining or forging
                 </Text>
+                <Box px={"30px"}>
+                  <GemDetailView gemId={modalStatus.gemId!} />
+                </Box>
               </Box>
 
-              <Center columnGap={4} mt={57}>
-                <Button
-                  w={183}
-                  h={65}
-                  rounded={8}
-                  bgColor={"#0380FF"}
-                  colorScheme="blue"
-                  fontWeight={600}
-                  fontSize={24}
-                  columnGap={2}
-                  onClick={() => {
-                    router.push("/mine");
-                    setModalStatus({ isOpen: false });
-                  }}
-                >
-                  <Image width={23} height={23} alt="gem" src={GemIcon} />
-                  Mine
-                </Button>
-                <Button
-                  w={183}
-                  h={65}
-                  rounded={8}
-                  bgColor={"#0380FF"}
-                  colorScheme="blue"
-                  fontWeight={600}
-                  fontSize={24}
-                  columnGap={2}
-                  onClick={() => {
-                    router.push("/forge");
-                    setModalStatus({ isOpen: false });
-                  }}
-                >
-                  <Image width={23} height={23} alt="forge" src={ForgeIcon} />
-                  <Text>Forge</Text>
-                </Button>
+              <Center columnGap={4}>
+                {rarityList[Number(gemItem.rarity)] !== RarityType.common && (
+                  <Button
+                    w={"full"}
+                    h={65}
+                    rounded={8}
+                    bgColor={"#0380FF"}
+                    colorScheme="blue"
+                    fontWeight={600}
+                    fontSize={24}
+                    columnGap={2}
+                    onClick={() => {
+                      router.push("/mine");
+                      setModalStatus({ isOpen: false });
+                    }}
+                  >
+                    <Image width={23} height={23} alt="gem" src={GemIcon} />
+                    Mine
+                  </Button>
+                )}
+                {rarityList[Number(gemItem.rarity)] !== RarityType.mythic && (
+                  <Button
+                    w={"full"}
+                    h={65}
+                    rounded={8}
+                    bgColor={"#0380FF"}
+                    colorScheme="blue"
+                    fontWeight={600}
+                    fontSize={24}
+                    columnGap={2}
+                    onClick={() => {
+                      router.push("/forge");
+                      setModalStatus({ isOpen: false });
+                    }}
+                  >
+                    <Image width={23} height={23} alt="forge" src={ForgeIcon} />
+                    <Text>Forge</Text>
+                  </Button>
+                )}
               </Center>
             </Flex>
           </Flex>
