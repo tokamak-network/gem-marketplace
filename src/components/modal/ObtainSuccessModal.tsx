@@ -108,7 +108,7 @@ const ObtainSuccessModal = () => {
               </Box>
 
               <Center columnGap={4}>
-                {rarityList[Number(gemItem.rarity)] !== RarityType.common && (
+                {rarityList[Number(gemItem.rarity)] !== RarityType.common && gemItem.miningTry! > 0 && (
                   <Button
                     w={"full"}
                     h={65}

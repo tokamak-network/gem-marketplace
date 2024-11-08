@@ -40,6 +40,7 @@ import ShareIcon from "@/assets/icon/share.svg";
 import TonIcon from "@/assets/icon/ton.svg";
 import { getTonFeesRate } from "@/utils";
 import GemDetailView from "./GemDetailView";
+import GemItemHistory from "./GemItemHistory";
 
 interface ItemProps {
   id: number;
@@ -459,7 +460,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
         </Flex>
 
         <Flex w={"100%"} mt={10} columnGap={6} flexGrow={1} h={"fit-content"}>
-          <Box w={"100%"} h={"100%"} bgColor={"#191A22"} rounded={16} />
+          <GemItemHistory gemId={id} />
           <Box w={"100%"} h={"100%"} bgColor={"#191A22"} rounded={16} />
         </Flex>
       </Flex>

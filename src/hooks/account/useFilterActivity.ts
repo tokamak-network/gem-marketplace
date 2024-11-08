@@ -1,11 +1,11 @@
-import { useGetTransactionHistory } from "../useGetMarketGems";
+import { useGetUserTransactionHistory } from "../useGetMarketGems";
 import { useRecoilState } from "recoil";
 import { ActivityFilter, activityFilterStatus } from "@/recoil/activity/atom";
 import { useMemo } from "react";
 
 export const useFilterActivity = () => {
   const [activityStatus] = useRecoilState(activityFilterStatus);
-  const tradeHistory = useGetTransactionHistory();
+  const tradeHistory = useGetUserTransactionHistory();
   
   const history = useMemo(
     () =>

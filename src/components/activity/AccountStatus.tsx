@@ -49,6 +49,7 @@ const AccountStatus = () => {
   const [stakingIndex] = useRecoilState(StakingIndex);
   const { isSupportedChain } = useCheckChain();
 
+  console.log(tonPrice);
   useEffect(() => {
     const fetchData = async () => {
       const price = await fetchMarketPrice();

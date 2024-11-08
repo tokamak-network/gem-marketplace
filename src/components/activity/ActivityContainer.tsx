@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   Drawer,
   DrawerBody,
@@ -10,7 +11,6 @@ import {
   Flex,
   Box,
   Link,
-  textDecoration,
 } from "@chakra-ui/react";
 
 import { useRecoilState } from "recoil";
@@ -26,7 +26,6 @@ import { useMemo } from "react";
 import Market from "@/assets/icon/market.svg";
 import Forge from "@/assets/icon/forge.svg";
 import Mine from "@/assets/icon/mine.svg";
-import Image from "next/image";
 import { formatUnits } from "viem";
 import commafy from "@/utils/trim/commafy";
 import { useAccount } from "wagmi";
@@ -43,7 +42,6 @@ const ActivityContainer = () => {
     () => groupAndSortByDate(txHistory),
     [txHistory]
   );
-  const { isSupportedChain } = useCheckChain();
 
   return (
     <Drawer

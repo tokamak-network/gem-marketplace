@@ -41,7 +41,9 @@ const GemPack = () => {
           fee
         );
         await waitForTransactionReceipt(txHash);
-        await callGemPack();
+        const requestHash = await callGemPack();
+        const receipt = await waitForTransactionReceipt(requestHash);
+        console.log(receipt)
         setLoading(false);
       } catch (err) {
         console.log(err);
