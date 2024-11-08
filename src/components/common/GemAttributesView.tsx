@@ -4,9 +4,9 @@ import { cooldownStatus } from "@/recoil/mine/atom";
 
 import { GemStandard, RarityType } from "@/types";
 import { useGetAllGems } from "@/hooks/useGetMarketGems";
-import { RarityItem } from "../common/RarityList";
+import { RarityItem } from "./RarityList";
 import { colorNameList, rarityList } from "@/constants/rarity";
-import { ColorItem } from "../common/ColorList";
+import { ColorItem } from "./ColorList";
 
 import GemIcon from "@/assets/icon/mine.svg";
 import StarIcon from "@/assets/icon/star.svg";
@@ -18,7 +18,7 @@ import { cooldownIndex } from "@/constants";
 import { Box, Flex, Text, useTheme } from "@chakra-ui/react";
 import Image from "next/image";
 
-const GemDetailView = ({ gemId }: { gemId: number }) => {
+const GemAttributesView = ({ gemId }: { gemId: number }) => {
   const [cooldowns] = useRecoilState(cooldownStatus);
   const gemList = useGetAllGems();
   const theme = useTheme();
@@ -189,4 +189,4 @@ const GemDetailView = ({ gemId }: { gemId: number }) => {
   );
 };
 
-export default GemDetailView;
+export default GemAttributesView;

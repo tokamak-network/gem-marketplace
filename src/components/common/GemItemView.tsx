@@ -39,8 +39,9 @@ import WalletIcon from "@/assets/icon/wallet.svg";
 import ShareIcon from "@/assets/icon/share.svg";
 import TonIcon from "@/assets/icon/ton.svg";
 import { getTonFeesRate } from "@/utils";
-import GemDetailView from "./GemDetailView";
+import GemAttributesView from "./GemAttributesView";
 import GemItemHistory from "./GemItemHistory";
+import GemItemDetails from "./GemItemDetails";
 
 interface ItemProps {
   id: number;
@@ -244,7 +245,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               </Flex>
             </Flex>
 
-            <GemDetailView gemId={id} />
+            <GemAttributesView gemId={id} />
 
             <Text fontSize={14} fontWeight={400} opacity={0.5} mt={2}>
               Backed by
@@ -461,7 +462,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
         <Flex w={"100%"} mt={10} columnGap={6} flexGrow={1} h={"fit-content"}>
           <GemItemHistory gemId={id} />
-          <Box w={"100%"} h={"100%"} bgColor={"#191A22"} rounded={16} />
+          <GemItemDetails gemId={id} owner={gemItem.owner!} />
         </Flex>
       </Flex>
     )

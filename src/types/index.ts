@@ -38,6 +38,7 @@ export type GemStandard = {
   miningPeriod?: number;
   miningTry?: number;
   creationDate: number;
+  owner?: string;
 };
 
 export type ActivityFilterType = "all" | "mine" | "forge" | "buysell";

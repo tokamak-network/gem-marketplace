@@ -34,16 +34,16 @@ const GemItemHistory = ({ gemId }: { gemId: number }) => {
 
   return (
     <Box w={"100%"} h={"100%"} p={9} bgColor={"#191A22"} rounded={16}>
-      {filteredHistory.length > 0 && (
+      {filteredHistory?.length > 0 && (
         <Text fontWeight={600} fontSize={18}>
           History
         </Text>
       )}
       {filteredHistory &&
-      filteredHistory.length > 0 &&
+      filteredHistory?.length > 0 &&
       chain?.id === SupportedChainId.TITAN_SEPOLIA ? (
         dateGroupedHistory?.map((groupItem, key) => (
-          <Flex flexDir={"column"} rowGap={"6px"} mt={6}>
+          <Flex flexDir={"column"} rowGap={"6px"} mt={6} key={key}>
             <Text fontSize={12} color={"#FFFFFF80"}>
               {groupItem.date}
             </Text>

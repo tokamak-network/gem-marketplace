@@ -77,3 +77,4 @@ export const filterItemList = [
 ]
 
 export const TON_FEES_RATE_DIVIDER = 10000;
+export const GemContractAddress = "0x38C36199174fD7CAf762a63Fc455D83c00790492";

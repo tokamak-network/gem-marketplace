@@ -17,7 +17,7 @@ import { useMemo } from "react";
 import { useRecoilState } from "recoil";
 import { obtainModalStatus } from "@/recoil/market/atom";
 
-import GemDetailView from "../common/GemDetailView";
+import GemDetailView from "../common/GemAttributesView";
 import GemCard from "../common/GemCard";
 
 import { GemStandard, RarityType } from "@/types";
