@@ -13,7 +13,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { sellGemModalStatus } from "@/recoil/chest/atom";
 import { useGemApprove } from "@/hooks/useGemApprove";

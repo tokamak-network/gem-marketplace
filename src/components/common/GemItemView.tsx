@@ -34,14 +34,16 @@ import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 import { TON_FEES_RATE_DIVIDER } from "@/constants";
 import copy from "copy-to-clipboard";
 
-import WSTONIcon from "@/assets/icon/wswton.svg";
-import WalletIcon from "@/assets/icon/wallet.svg";
-import ShareIcon from "@/assets/icon/share.svg";
-import TonIcon from "@/assets/icon/ton.svg";
 import { getTonFeesRate } from "@/utils";
 import GemAttributesView from "./GemAttributesView";
 import GemItemHistory from "./GemItemHistory";
 import GemItemDetails from "./GemItemDetails";
+
+import WSTONIcon from "@/assets/icon/wswton.svg";
+import WalletIcon from "@/assets/icon/wallet.svg";
+import ShareIcon from "@/assets/icon/share.svg";
+import TonIcon from "@/assets/icon/ton.svg";
+import Warning from "@/assets/icon/warningYellow.svg";
 
 interface ItemProps {
   id: number;
@@ -276,8 +278,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                       BUY GEM WITH:
                     </Text>
                     <Center columnGap={"16px"}>
-                      {(payOption === PayOption.WSTON ||
-                        payOption === PayOption.BOTH) && (
+                      <Box w={"full"}>
                         <Button
                           w={"full"}
                           maxW={624}
@@ -290,7 +291,12 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                           onClick={() => {
                             handleClick(true);
                           }}
-                          isDisabled={isTONLoading || isWSTONLoading}
+                          isDisabled={
+                            isTONLoading ||
+                            isWSTONLoading ||
+                            payOption === PayOption.NONE ||
+                            payOption === PayOption.TON
+                          }
                         >
                           {!isWSTONLoading &&
                             (isConnected ? (
@@ -322,10 +328,24 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                             )}
                           </Text>
                         </Button>
-                      )}
-                      {payOption === PayOption.BOTH && <Text>or</Text>}
-                      {(payOption === PayOption.TON ||
-                        payOption === PayOption.BOTH) && (
+
+                        <Flex mt={3} columnGap={1} h={7}>
+                          {(payOption === PayOption.TON ||
+                            payOption === PayOption.NONE) && (
+                            <>
+                              {" "}
+                              <Image src={Warning} alt="warning" />
+                              <Text fontSize={14} color={"#FFB801"}>
+                                Insufficient TITANWSTON Balance
+                              </Text>
+                            </>
+                          )}
+                        </Flex>
+                      </Box>
+
+                      <Text pb={10}>or</Text>
+
+                      <Box w={"full"}>
                         <Button
                           w={"full"}
                           maxW={624}
@@ -334,11 +354,17 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                           alignItems={"center"}
                           justifyContent={"center"}
                           colorScheme="blue"
-                          bgColor={"#0380FF"}
+                          bgColor={"transparent"}
                           onClick={() => {
                             handleClick(false);
                           }}
-                          isDisabled={isWSTONLoading || isTONLoading}
+                          border={"2px solid #0380FF"}
+                          isDisabled={
+                            isWSTONLoading ||
+                            isTONLoading ||
+                            payOption === PayOption.NONE ||
+                            payOption === PayOption.WSTON
+                          }
                         >
                           {!isTONLoading && (
                             <Image
@@ -362,21 +388,20 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                             )}
                           </Text>
                         </Button>
-                      )}
-                      {payOption === PayOption.NONE && (
-                        <Button
-                          w={"full"}
-                          maxW={624}
-                          h={"65px"}
-                          colorScheme="blue"
-                          bgColor={"#0380FF"}
-                          isDisabled={true}
-                          fontSize={24}
-                          fontWeight={600}
-                        >
-                          Insufficient Balance
-                        </Button>
-                      )}
+
+                        <Flex mt={3} columnGap={1} h={7}>
+                          {(payOption === PayOption.WSTON ||
+                            payOption === PayOption.NONE) && (
+                            <>
+                              {" "}
+                              <Image src={Warning} alt="warning" />
+                              <Text fontSize={14} color={"#FFB801"}>
+                                Insufficient TON Balance
+                              </Text>
+                            </>
+                          )}
+                        </Flex>
+                      </Box>
                     </Center>
                   </Box>
                 ) : (

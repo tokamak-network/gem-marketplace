@@ -123,6 +123,7 @@ export const GET_USER_TX_HISTORY = gql`
       trader
       value
       date
+      txHash
     }
   }
 `;
@@ -137,6 +138,7 @@ export const GET_TX_HISTORY = gql`
       trader
       value
       date
+      txHash
     }
   }
 `;

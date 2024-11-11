@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useAccount } from "wagmi";
+import { useAccount, useWaitForTransactionReceipt } from "wagmi";
 import { Box, Button, Flex, Spinner, Text, useTheme } from "@chakra-ui/react";
 
 import { obtainModalStatus } from "@/recoil/market/atom";
