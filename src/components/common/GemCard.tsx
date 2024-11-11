@@ -104,28 +104,28 @@ const GemCard = ({
   const { callStartMining, isPending: isStartMiningPending } =
     useStartMiningGem(tokenID);
 
-  const [savedGemList, setValue] = useLocalStorage("savedGemList", []);
-  const isSaved = useMemo(
-    () => savedGemList.includes(Number(tokenID)),
-    [savedGemList, tokenID]
-  );
+  // const [savedGemList, setValue] = useLocalStorage("savedGemList", []);
+  // const isSaved = useMemo(
+  //   () => savedGemList.includes(Number(tokenID)),
+  //   [savedGemList, tokenID]
+  // );
 
-  const handleSavedClick = useCallback(
-    (e: any) => {
-      setValue(() => {
-        if (savedGemList.includes(Number(tokenID))) {
-          return savedGemList.filter(
-            (item: number) => Number(item) !== Number(tokenID)
-          );
-        } else {
-          return [...savedGemList, Number(tokenID)];
-        }
-      });
-      e.preventDefault();
-      e.stopPropagation();
-    },
-    [savedGemList, tokenID]
-  );
+  // const handleSavedClick = useCallback(
+  //   (e: any) => {
+  //     setValue(() => {
+  //       if (savedGemList.includes(Number(tokenID))) {
+  //         return savedGemList.filter(
+  //           (item: number) => Number(item) !== Number(tokenID)
+  //         );
+  //       } else {
+  //         return [...savedGemList, Number(tokenID)];
+  //       }
+  //     });
+  //     e.preventDefault();
+  //     e.stopPropagation();
+  //   },
+  //   [savedGemList, tokenID]
+  // );
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -535,7 +535,7 @@ const GemCard = ({
                   <Text
                     fontSize={10}
                     opacity={0.5}
-                  >{`Staked Value $${formatUnits(value!, 27)}`}</Text>
+                  >{`Staked Value $${formatUnits(value! ?? "0", 27)}`}</Text>
                   <Text fontSize={14} fontWeight={600}>
                     6 TITANWSTON
                   </Text>

@@ -30,7 +30,6 @@ import { formatUnits } from "viem";
 import commafy from "@/utils/trim/commafy";
 import { useAccount } from "wagmi";
 import { FACTORY_ADDRESS } from "@/constants/tokens";
-import { useCheckChain } from "@/hooks/useCheckChain";
 import { SupportedChainId } from "@/types/network/supportedNetworks";
 
 const ActivityContainer = () => {
@@ -186,7 +185,6 @@ const ActivityContainer = () => {
           )}
         </DrawerBody>
 
-        <DrawerFooter></DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

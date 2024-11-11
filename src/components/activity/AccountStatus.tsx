@@ -11,7 +11,7 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAccount, useSwitchChain } from "wagmi";
 import { useRecoilState } from "recoil";
 import useConnectWallet from "@/hooks/account/useConnectWallet";
@@ -32,10 +32,9 @@ import {
 import GradientSpinner from "../ui/GradientSpinner";
 import { SupportedChainId } from "@/types/network/supportedNetworks";
 import WarningRed from "@/assets/icon/warningRed.svg";
-import { fetchMarketPrice } from "@/utils/price";
-import commafy from "@/utils/trim/commafy";
-import { StakingIndex } from "@/recoil/market/atom";
 import { useCheckChain } from "@/hooks/useCheckChain";
+import { useBalancePrice } from "@/hooks/useBalancePrice";
+import { formatEther } from "viem";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
@@ -44,20 +43,7 @@ const AccountStatus = () => {
   const toast = useToast();
   const { switchChainAsync } = useSwitchChain();
   const [isNetworkMenuOpen, setNetworkMenuOpen] = useState<boolean>(false);
-  const [tonPrice, setTonPrice] = useState(0);
-  const [ethPrice, setETHPrice] = useState(0);
-  const [stakingIndex] = useRecoilState(StakingIndex);
   const { isSupportedChain } = useCheckChain();
-
-  console.log(tonPrice);
-  useEffect(() => {
-    const fetchData = async () => {
-      const price = await fetchMarketPrice();
-      setTonPrice(price?.ton_price);
-      setETHPrice(price?.eth_price);
-    };
-    fetchData();
-  }, [chain, address]);
 
   const TONBalance = useTokenBalance({
     tokenAddress: TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
@@ -66,6 +52,10 @@ const AccountStatus = () => {
     tokenAddress: WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
   });
   const ETHBalance = useETHBalance();
+
+  const ETHBalanceUSD = useBalancePrice(ETHBalance);
+  const TONBalanceUSD = useBalancePrice(TONBalance?.balanceBN!);
+  const WSTONBalanceUSD = useBalancePrice(WSTONBalance?.balanceBN!);
 
   const handleClipboard = () => {
     copy(address !== undefined ? address : "");
@@ -199,18 +189,18 @@ const AccountStatus = () => {
                   : item.symbol === "TITANWSTON"
                     ? WSTONBalance?.roundedBalance
                     : item.symbol === "ETH"
-                      ? ETHBalance
+                      ? Math.round(Number(formatEther(ETHBalance?.value || BigInt(0))) * 100) / 100
                       : ""}
               </Text>
             )}
             <Text color={"#5D6978"} fontSize={12}>
-              {tonPrice ? (
+              {TONBalanceUSD && WSTONBalanceUSD ? (
                 item.symbol === "TON" ? (
-                  `$${commafy(tonPrice * Number(TONBalance?.parsedBalanceWithoutCommafied), 2)}`
+                  TONBalanceUSD
                 ) : item.symbol === "TITANWSTON" ? (
-                  `$${commafy(tonPrice * Number(WSTONBalance?.parsedBalanceWithoutCommafied) * stakingIndex, 2)}`
+                  WSTONBalanceUSD
                 ) : (
-                  `$${commafy(ethPrice * Number(ETHBalance), 2)}`
+                  ETHBalanceUSD
                 )
               ) : (
                 <Box w={"35px"} h={"18px"}>
