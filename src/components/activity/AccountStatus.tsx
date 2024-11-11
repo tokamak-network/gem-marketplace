@@ -35,6 +35,7 @@ import WarningRed from "@/assets/icon/warningRed.svg";
 import { useCheckChain } from "@/hooks/useCheckChain";
 import { useBalancePrice } from "@/hooks/useBalancePrice";
 import { formatEther } from "viem";
+import { TokenType } from "@/types";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
@@ -53,9 +54,9 @@ const AccountStatus = () => {
   });
   const ETHBalance = useETHBalance();
 
-  const ETHBalanceUSD = useBalancePrice(ETHBalance);
-  const TONBalanceUSD = useBalancePrice(TONBalance?.balanceBN!);
-  const WSTONBalanceUSD = useBalancePrice(WSTONBalance?.balanceBN!);
+  const ETHBalanceUSD = useBalancePrice(Number(ETHBalance), TokenType.ETH);
+  const TONBalanceUSD = useBalancePrice(TONBalance?.balanceNum || 0, TokenType.TON);
+  const WSTONBalanceUSD = useBalancePrice(WSTONBalance?.balanceNum || 0,  TokenType.WSTON);
 
   const handleClipboard = () => {
     copy(address !== undefined ? address : "");
@@ -189,12 +190,12 @@ const AccountStatus = () => {
                   : item.symbol === "TITANWSTON"
                     ? WSTONBalance?.roundedBalance
                     : item.symbol === "ETH"
-                      ? Math.round(Number(formatEther(ETHBalance?.value || BigInt(0))) * 100) / 100
+                      ? ETHBalance
                       : ""}
               </Text>
             )}
             <Text color={"#5D6978"} fontSize={12}>
-              {TONBalanceUSD && WSTONBalanceUSD ? (
+              ${TONBalanceUSD && WSTONBalanceUSD ? (
                 item.symbol === "TON" ? (
                   TONBalanceUSD
                 ) : item.symbol === "TITANWSTON" ? (

@@ -50,3 +50,9 @@ export enum ImageFileType {
 }
 
 export type CardType = "market" | "forge" | "mine" | "common" | "normal" | "chest" | "forgeFinal";
+
+export enum TokenType {
+  ETH,
+  TON,
+  WSTON
+}

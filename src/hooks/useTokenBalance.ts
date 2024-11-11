@@ -5,12 +5,15 @@ import commafy from "@/utils/trim/commafy";
 import { useCheckChain } from "./useCheckChain";
 
 export const useETHBalance = () => {
+  const { isSupportedChain } = useCheckChain();
   const { address } = useAccount();
   const { data } = useBalance({
     address,
   });
   if (data)
-    return data;
+    return isSupportedChain
+      ? Math.round(Number(ethers.formatEther(data.value)) * 100) / 100
+      : "0";
   return null;
 };
 
@@ -30,6 +33,12 @@ export const useTokenBalance = ({
     if (data) {
       return {
         balanceBN: data,
+        balanceNum: Number(
+          ethers.formatUnits(
+            typeof data.value === "bigint" ? data.value : "0",
+            data.decimals as number
+          )
+        ),
         roundedBalance: isSupportedChain
           ? Math.round(
               Number(

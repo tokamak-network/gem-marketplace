@@ -4,8 +4,9 @@ import { fetchMarketPrice } from "@/utils/price";
 import { formatEther, formatUnits } from "viem";
 import { StakingIndex } from "@/recoil/market/atom";
 import { useRecoilState } from "recoil";
+import { TokenType } from "@/types";
 
-export const useBalancePrice = (balanceData: any) => {
+export const useBalancePrice = (balanceData: number, tokenType: TokenType) => {
   const { chain, address } = useAccount();
   const [tonPrice, setTonPrice] = useState(0);
   const [stakingIndex] = useRecoilState(StakingIndex);
@@ -22,24 +23,11 @@ export const useBalancePrice = (balanceData: any) => {
 
   const balacePrice = useMemo(
     () =>
-      balanceData?.symbol === "ETH"
-        ? Math.round(
-            Number(formatEther(balanceData?.value || BigInt(0))) *
-              ethPrice *
-              100
-          ) / 100
-        : balanceData?.symbol === "TON"
-          ? Math.round(
-              Number(formatUnits(balanceData?.value || BigInt(0), 18)) *
-                tonPrice *
-                100
-            ) / 100
-          : Math.round(
-              Number(formatUnits(balanceData?.value || BigInt(0), 27)) *
-                tonPrice *
-                stakingIndex *
-                100
-            ) / 100,
+      tokenType === TokenType.ETH
+        ? Math.round(balanceData * ethPrice * 100) / 100
+        : tokenType === TokenType.TON
+          ? Math.round(balanceData * tonPrice * 100) / 100
+          : Math.round(balanceData * tonPrice * stakingIndex * 100) / 100,
 
     [balanceData, tonPrice, stakingIndex]
   );
