@@ -14,28 +14,29 @@ import Image from "next/image";
 import { useState } from "react";
 import { useAccount, useSwitchChain } from "wagmi";
 import { useRecoilState } from "recoil";
-import useConnectWallet from "@/hooks/account/useConnectWallet";
-import { activityContainerStatus } from "@/recoil/activity/atom";
-import { trimAddress } from "@/utils";
 import copy from "copy-to-clipboard";
-import { NetworkSymbol } from "../common/NetworkSymbol";
-import LogoutIcon from "@/assets/icon/logout.svg";
-import { supportedNetworkList } from "@/constants/networks";
 
-import ClipboardIcon from "@/assets/icon/clipboard.svg";
-import { tokenList } from "@/constants";
+import { activityContainerStatus } from "@/recoil/activity/atom";
+import useConnectWallet from "@/hooks/account/useConnectWallet";
+import { trimAddress } from "@/utils";
+import { NetworkSymbol } from "../common/NetworkSymbol";
+import GradientSpinner from "../ui/GradientSpinner";
 import { useETHBalance, useTokenBalance } from "@/hooks/useTokenBalance";
+
+import { SupportedChainId } from "@/types/network/supportedNetworks";
+import { useCheckChain } from "@/hooks/useCheckChain";
+import { useBalancePrice } from "@/hooks/useBalancePrice";
+import { supportedNetworkList } from "@/constants/networks";
+import { tokenList } from "@/constants";
+import { TokenType } from "@/types";
 import {
   TON_ADDRESS_BY_CHAINID,
   WSWTON_ADDRESS_BY_CHAINID,
 } from "@/constants/tokens";
-import GradientSpinner from "../ui/GradientSpinner";
-import { SupportedChainId } from "@/types/network/supportedNetworks";
+
 import WarningRed from "@/assets/icon/warningRed.svg";
-import { useCheckChain } from "@/hooks/useCheckChain";
-import { useBalancePrice } from "@/hooks/useBalancePrice";
-import { formatEther } from "viem";
-import { TokenType } from "@/types";
+import LogoutIcon from "@/assets/icon/logout.svg";
+import ClipboardIcon from "@/assets/icon/clipboard.svg";
 
 const AccountStatus = () => {
   const { chain, address } = useAccount();
@@ -55,8 +56,14 @@ const AccountStatus = () => {
   const ETHBalance = useETHBalance();
 
   const ETHBalanceUSD = useBalancePrice(Number(ETHBalance), TokenType.ETH);
-  const TONBalanceUSD = useBalancePrice(TONBalance?.balanceNum || 0, TokenType.TON);
-  const WSTONBalanceUSD = useBalancePrice(WSTONBalance?.balanceNum || 0,  TokenType.WSTON);
+  const TONBalanceUSD = useBalancePrice(
+    TONBalance?.balanceNum || 0,
+    TokenType.TON
+  );
+  const WSTONBalanceUSD = useBalancePrice(
+    WSTONBalance?.balanceNum || 0,
+    TokenType.WSTON
+  );
 
   const handleClipboard = () => {
     copy(address !== undefined ? address : "");
@@ -179,7 +186,8 @@ const AccountStatus = () => {
 
           <Flex flexDir={"column"} align={"end"}>
             {(item.symbol === "TON" && !TONBalance?.parsedBalance) ||
-            (item.symbol === "TITANWSTON" && !WSTONBalance?.parsedBalance) ? (
+            (item.symbol === "TITANWSTON" && !WSTONBalance?.parsedBalance) ||
+            (item.symbol === "ETH" && !ETHBalance) ? (
               <Box w={"60px"} h={"24px"}>
                 <GradientSpinner />
               </Box>
@@ -195,14 +203,13 @@ const AccountStatus = () => {
               </Text>
             )}
             <Text color={"#5D6978"} fontSize={12}>
-              ${TONBalanceUSD && WSTONBalanceUSD ? (
-                item.symbol === "TON" ? (
-                  TONBalanceUSD
-                ) : item.symbol === "TITANWSTON" ? (
-                  WSTONBalanceUSD
-                ) : (
-                  ETHBalanceUSD
-                )
+              {TONBalanceUSD && WSTONBalanceUSD ? (
+                "$" +
+                (item.symbol === "TON"
+                  ? TONBalanceUSD
+                  : item.symbol === "TITANWSTON"
+                    ? WSTONBalanceUSD
+                    : ETHBalanceUSD)
               ) : (
                 <Box w={"35px"} h={"18px"}>
                   <GradientSpinner />
