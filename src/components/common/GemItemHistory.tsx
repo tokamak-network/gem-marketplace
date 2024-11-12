@@ -83,10 +83,8 @@ const GemItemHistory = ({ gemId }: { gemId: number }) => {
                             _hover={{ textDecoration: "underline" }}
                             href={
                               chain?.blockExplorers?.default.url +
-                              "/token/" +
-                              FACTORY_ADDRESS[chain?.id!] +
-                              "/instance/" +
-                              gemId
+                              "/tx/" +
+                              item.txHash
                             }
                             target="_blank"
                           >
@@ -103,10 +101,8 @@ const GemItemHistory = ({ gemId }: { gemId: number }) => {
                         _hover={{ textDecoration: "underline" }}
                         href={
                           chain?.blockExplorers?.default.url +
-                          "/token/" +
-                          FACTORY_ADDRESS[chain?.id!] +
-                          "/instance/" +
-                          item.newId
+                          "/tx/" +
+                          item.txHash
                         }
                         target="_blank"
                       >
@@ -118,10 +114,8 @@ const GemItemHistory = ({ gemId }: { gemId: number }) => {
                       _hover={{ textDecoration: "underline" }}
                       href={
                         chain?.blockExplorers?.default.url +
-                        "/token/" +
-                        FACTORY_ADDRESS[chain?.id!] +
-                        "/instance/" +
-                        item.gemIds[0]
+                        "/tx/" +
+                        item.txHash
                       }
                       target="_blank"
                       style={{ color: "#0075FF" }}
