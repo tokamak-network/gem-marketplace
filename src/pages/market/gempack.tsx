@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useAccount, useWaitForTransactionReceipt } from "wagmi";
+import { useAccount } from "wagmi";
 import { Box, Button, Flex, Spinner, Text, useTheme } from "@chakra-ui/react";
 
 import { obtainModalStatus } from "@/recoil/market/atom";
@@ -14,11 +14,14 @@ import GempackLogo from "@/assets/images/gempack.png";
 import { getRandomPackFee } from "@/utils";
 import { GEMPACK_ADDRESS, TON_ADDRESS_BY_CHAINID } from "@/constants/tokens";
 import { useEffect, useState } from "react";
-import { useGemPack } from "@/hooks/useGemPack";
+import { fulfillRandomRequest, useGemPack } from "@/hooks/useGemPack";
 import { formatEther } from "viem";
 import { handleApprove } from "@/hooks/useApprove";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 import { SupportedChainId } from "@/types/network/supportedNetworks";
+import { config } from "@/config/wagmi";
+import { decodeEventLog } from 'viem'
+import RandomPackABI from "@/abi/randomPack.json";
 
 const GemPack = () => {
   const { connectToWallet } = useConnectWallet();
@@ -42,8 +45,17 @@ const GemPack = () => {
         );
         await waitForTransactionReceipt(txHash);
         const requestHash = await callGemPack();
-        const receipt = await waitForTransactionReceipt(requestHash);
-        console.log(receipt)
+        const logData = await waitForTransactionReceipt(requestHash);
+        const topic: any = await decodeEventLog({
+          abi: RandomPackABI,
+          data: logData.logs[4].data,
+          topics: logData.logs[4].topics
+        })
+        const requestId = topic?.args?.requestId;
+        console.log(requestId);
+        const fulfillTx = await fulfillRandomRequest(GEMPACK_ADDRESS[chain?.id!] as `0x${string}`, requestId)
+        const fulfillLogData = await waitForTransactionReceipt(fulfillTx);
+        console.log(fulfillLogData);
         setLoading(false);
       } catch (err) {
         console.log(err);

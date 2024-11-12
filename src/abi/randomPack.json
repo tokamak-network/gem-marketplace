@@ -24,7 +24,9 @@
   },
   { "type": "error", "name": "AlreadyInitialized", "inputs": [] },
   { "type": "error", "name": "FailedInnerCall", "inputs": [] },
+  { "type": "error", "name": "FailedToPayFees", "inputs": [] },
   { "type": "error", "name": "FailedToSendEthBack", "inputs": [] },
+  { "type": "error", "name": "FailedToSendFeesToTreasury", "inputs": [] },
   { "type": "error", "name": "InvalidAddress", "inputs": [] },
   {
     "type": "error",
@@ -120,6 +122,12 @@
         "type": "address",
         "name": "requestor",
         "internalType": "address",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "requestId",
+        "internalType": "uint256",
         "indexed": false
       }
     ],

@@ -7,13 +7,13 @@ export const useWaitForTransaction = () => {
   const [retryCount, setRetryCount] = useState<number>(0);
   const [transactionHash, setTransactionHash] = useState<string>('');
   const [transactionStatus, setTransactionStatus] = useState({isSuccess: false, isError: false});
-  const {isSuccess, isError} = useWaitForTransactionReceipt({hash: transactionHash as `0x${string}`});
+  const {isSuccess, isError, data} = useWaitForTransactionReceipt({hash: transactionHash as `0x${string}`});
 
   const transactionStatusRef = useRef<any>(null);
 
   transactionStatusRef.current = transactionStatus;
 
-  const waitForTransactionReceipt = (hash: string): Promise<Boolean> => {
+  const waitForTransactionReceipt = (hash: string): Promise<any> => {
     return new Promise((resolve, reject) => {
       setTransactionHash(hash);
 
@@ -28,7 +28,7 @@ export const useWaitForTransaction = () => {
             // const receipt = await getTransactionReceipt(config, {hash: hash as `0x${string}`});
 
             setTimeout(() => {
-              resolve(true); // return the full receipt here
+              resolve(data); // return the full receipt here
             }, 1500);
           } else if (transactionStatusRef.current.isError) {
             clearInterval(interval);

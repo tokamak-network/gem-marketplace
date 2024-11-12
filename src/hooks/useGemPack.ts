@@ -28,11 +28,12 @@ export const useGemPack = ({
 };
 
 export const fulfillRandomRequest = async (contractAddress: `0x${string}`, requestId: number) => {
-  const randomNumber = Math.random() * 10;
-  await writeContract(config, {
+  const randomNumber = Math.round((Math.random() * 1000))
+  const txHash = await writeContract(config, {
     abi: RandomPackABI,
     address: contractAddress,
-    functionName: "fulfillRandomWords",
+    functionName: "rawFulfillRandomWords",
     args: [requestId, randomNumber]
   })
+  return txHash;
 }
