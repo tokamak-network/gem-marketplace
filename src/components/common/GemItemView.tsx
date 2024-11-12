@@ -11,7 +11,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-import { CardType, GemStandard, RarityType } from "@/types";
+import { CardType, GemStandard, RarityType, TokenType } from "@/types";
 import GemCard from "@/components/common/GemCard";
 import { obtainModalStatus, StakingIndex } from "@/recoil/market/atom";
 import { useRecoilState } from "recoil";
@@ -22,7 +22,7 @@ import { sellGemModalStatus, burnGemModalStatus } from "@/recoil/chest/atom";
 
 import useConnectWallet from "@/hooks/account/useConnectWallet";
 
-import { useGetAllGems } from "@/hooks/useGetMarketGems";
+import { useGetAllGems, useGetGemWithId } from "@/hooks/useGetMarketGems";
 import { buyGem } from "@/hooks/useBuyGem";
 import {
   MARKETPLACE_ADDRESS,
@@ -44,6 +44,7 @@ import WalletIcon from "@/assets/icon/wallet.svg";
 import ShareIcon from "@/assets/icon/share.svg";
 import TonIcon from "@/assets/icon/ton.svg";
 import Warning from "@/assets/icon/warningYellow.svg";
+import { useBalancePrice } from "@/hooks/useBalancePrice";
 
 interface ItemProps {
   id: number;
@@ -58,7 +59,7 @@ enum PayOption {
 }
 
 const GemItemView = ({ id, mode }: ItemProps) => {
-  const gemList = useGetAllGems();
+  const gemList = useGetGemWithId(id);
   const { connectToWallet } = useConnectWallet();
   const { isConnected, address, chain } = useAccount();
   const [, setModalStatus] = useRecoilState(obtainModalStatus);
@@ -73,11 +74,8 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const router = useRouter();
 
   const gemItem: GemStandard = useMemo(() => {
-    const item = gemList?.filter(
-      (item: GemStandard) => Number(item.tokenID) === Number(id)
-    );
-    return item && item[0] && item.length > 0
-      ? item[0]
+    return gemList && gemList[0] && gemList.length > 0
+      ? gemList[0]
       : {
           tokenID: 0,
           quadrants: [1, 1, 1, 1],
@@ -143,6 +141,11 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       return PayOption.NONE;
     }
   }, [WSTONBalance, gemItem, TONBalance]);
+
+  const GemValueUSD = useBalancePrice(
+    Number(formatUnits(gemItem?.value!, 27)),
+    TokenType.WSTON
+  );
 
   const handleClick = useCallback(
     async (isPayWithWSTON: boolean) => {
@@ -261,7 +264,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               </Center>
 
               <Text pb={"6px"} fontSize={14} lineHeight={"30px"} opacity={0.5}>
-                $253.20
+                ${GemValueUSD}
               </Text>
             </Flex>
 

@@ -9,7 +9,7 @@ export const useGetUserGems = () => {
     variables: {
       user: address,
       skip: 0,
-      first: 15,
+      first: 1000,
     },
     pollInterval: 1000
   });

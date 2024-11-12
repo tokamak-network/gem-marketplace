@@ -14,7 +14,6 @@ export const GET_ALL_MARKET_GEMS = gql`
       owner
       quadrants
       rarity
-      tokenID
       value
       price
       miningPeriod
@@ -26,8 +25,29 @@ export const GET_ALL_MARKET_GEMS = gql`
 
 export const GET_MARKET_GEMS = gql`
   query GetAllMarketGems {
-    nfts {
+    nfts(first: 1000) {
       tokenID
+      color
+      cooldownDueDate
+      gemCooldownInitTime
+      miningStartTime
+      isForSale
+      isMining
+      miningPeriod
+      owner
+      quadrants
+      rarity
+      value
+      price
+      miningTry
+      creationDate
+    }
+  }
+`;
+
+export const GET_GEM_WITH_ID = gql`
+  query GetAllMarketGems($id: Int) {
+    nfts(where: {tokenID: $id}) {
       color
       cooldownDueDate
       gemCooldownInitTime
@@ -61,7 +81,6 @@ export const GET_USER_GEMS = gql`
       owner
       quadrants
       rarity
-      tokenID
       value
       price
       miningTry
@@ -84,7 +103,6 @@ export const GET_USER_MINE_GEMS = gql`
       owner
       quadrants
       rarity
-      tokenID
       value
       price
       miningTry

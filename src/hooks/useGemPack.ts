@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useWriteContract, useAccount } from "wagmi";
 import RandomPackABI from "@/abi/randomPack.json";
+import DRB_ABI from "@/abi/DRBCoordinatorMock.json";
 import { GEMPACK_ADDRESS } from "@/constants/tokens";
 import { parseEther } from "viem";
 import { writeContract } from "@wagmi/core";
@@ -28,12 +29,11 @@ export const useGemPack = ({
 };
 
 export const fulfillRandomRequest = async (contractAddress: `0x${string}`, requestId: number) => {
-  const randomNumber = Math.round((Math.random() * 1000))
   const txHash = await writeContract(config, {
-    abi: RandomPackABI,
+    abi: DRB_ABI,
     address: contractAddress,
-    functionName: "rawFulfillRandomWords",
-    args: [requestId, randomNumber]
+    functionName: "fulfillRandomness",
+    args: [requestId]
   })
   return txHash;
 }

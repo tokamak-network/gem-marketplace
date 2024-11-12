@@ -26,3 +26,7 @@ export const MARKETPLACE_ADDRESS:Record<number, string> = {
 export const GEMPACK_ADDRESS:Record<number, string> = {
   [SupportedChainId.TITAN_SEPOLIA] : TITAN_SEPOLIA_CONTRACTS.GEMPACK,
 }
+
+export const DRB_ADDRESS:Record<number, string> = {
+  [SupportedChainId.TITAN_SEPOLIA] : TITAN_SEPOLIA_CONTRACTS.DRB_COORDINATOR,
+}

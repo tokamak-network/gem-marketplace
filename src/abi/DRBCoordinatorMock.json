@@ -1,0 +1,261 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "avgL2GasUsed",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "premiumPercentage",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      { "name": "flatFee", "type": "uint256", "internalType": "uint256" },
+      {
+        "name": "calldataSizeBytes",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "calculateDirectFundingPrice",
+    "inputs": [
+      {
+        "name": "_request",
+        "type": "tuple",
+        "internalType": "struct IDRBCoordinator.RandomWordsRequest",
+        "components": [
+          { "name": "security", "type": "uint16", "internalType": "uint16" },
+          { "name": "mode", "type": "uint16", "internalType": "uint16" },
+          {
+            "name": "callbackGasLimit",
+            "type": "uint32",
+            "internalType": "uint32"
+          }
+        ]
+      }
+    ],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "estimateDirectFundingPrice",
+    "inputs": [
+      { "name": "gasPrice", "type": "uint256", "internalType": "uint256" },
+      {
+        "name": "_request",
+        "type": "tuple",
+        "internalType": "struct IDRBCoordinator.RandomWordsRequest",
+        "components": [
+          { "name": "security", "type": "uint16", "internalType": "uint16" },
+          { "name": "mode", "type": "uint16", "internalType": "uint16" },
+          {
+            "name": "callbackGasLimit",
+            "type": "uint32",
+            "internalType": "uint32"
+          }
+        ]
+      }
+    ],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "fulfillRandomness",
+    "inputs": [
+      { "name": "requestId", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "owner",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "renounceOwnership",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "requestRandomWordDirectFunding",
+    "inputs": [
+      {
+        "name": "_request",
+        "type": "tuple",
+        "internalType": "struct IDRBCoordinator.RandomWordsRequest",
+        "components": [
+          { "name": "security", "type": "uint16", "internalType": "uint16" },
+          { "name": "mode", "type": "uint16", "internalType": "uint16" },
+          {
+            "name": "callbackGasLimit",
+            "type": "uint32",
+            "internalType": "uint32"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      { "name": "requestId", "type": "uint256", "internalType": "uint256" }
+    ],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "s_l1FeeCalculationMode",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint8", "internalType": "uint8" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "s_l1FeeCoefficient",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint8", "internalType": "uint8" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "setL1FeeCalculation",
+    "inputs": [
+      { "name": "mode", "type": "uint8", "internalType": "uint8" },
+      { "name": "coefficient", "type": "uint8", "internalType": "uint8" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "transferOwnership",
+    "inputs": [
+      { "name": "newOwner", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "FulfillRandomness",
+    "inputs": [
+      {
+        "name": "requestId",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "success",
+        "type": "bool",
+        "indexed": false,
+        "internalType": "bool"
+      },
+      {
+        "name": "fulfiller",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "L1FeeCalculationSet",
+    "inputs": [
+      {
+        "name": "mode",
+        "type": "uint8",
+        "indexed": false,
+        "internalType": "uint8"
+      },
+      {
+        "name": "coefficient",
+        "type": "uint8",
+        "indexed": false,
+        "internalType": "uint8"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "OwnershipTransferred",
+    "inputs": [
+      {
+        "name": "previousOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RandomWordsRequested",
+    "inputs": [
+      {
+        "name": "requestId",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "requestedTime",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  { "type": "error", "name": "AlreadyFullfilled", "inputs": [] },
+  { "type": "error", "name": "InsufficientAmount", "inputs": [] },
+  {
+    "type": "error",
+    "name": "InvalidL1FeeCalculationMode",
+    "inputs": [{ "name": "mode", "type": "uint8", "internalType": "uint8" }]
+  },
+  {
+    "type": "error",
+    "name": "InvalidL1FeeCoefficient",
+    "inputs": [
+      { "name": "coefficient", "type": "uint8", "internalType": "uint8" }
+    ]
+  },
+  { "type": "error", "name": "NoRequestFound", "inputs": [] },
+  {
+    "type": "error",
+    "name": "OwnableInvalidOwner",
+    "inputs": [
+      { "name": "owner", "type": "address", "internalType": "address" }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "OwnableUnauthorizedAccount",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" }
+    ]
+  },
+  { "type": "error", "name": "ReentrancyGuardReentrantCall", "inputs": [] }
+]

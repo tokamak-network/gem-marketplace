@@ -12,7 +12,7 @@ import WalletIcon from "@/assets/icon/wallet.svg";
 
 import GempackLogo from "@/assets/images/gempack.png";
 import { getRandomPackFee } from "@/utils";
-import { GEMPACK_ADDRESS, TON_ADDRESS_BY_CHAINID } from "@/constants/tokens";
+import { DRB_ADDRESS, GEMPACK_ADDRESS, TON_ADDRESS_BY_CHAINID } from "@/constants/tokens";
 import { useEffect, useState } from "react";
 import { fulfillRandomRequest, useGemPack } from "@/hooks/useGemPack";
 import { formatEther } from "viem";
@@ -46,14 +46,16 @@ const GemPack = () => {
         await waitForTransactionReceipt(txHash);
         const requestHash = await callGemPack();
         const logData = await waitForTransactionReceipt(requestHash);
+        console.log(logData)
+
         const topic: any = await decodeEventLog({
           abi: RandomPackABI,
-          data: logData.logs[4].data,
-          topics: logData.logs[4].topics
+          data: logData?.logs[4].data,
+          topics: logData?.logs[4].topics
         })
         const requestId = topic?.args?.requestId;
         console.log(requestId);
-        const fulfillTx = await fulfillRandomRequest(GEMPACK_ADDRESS[chain?.id!] as `0x${string}`, requestId)
+        const fulfillTx = await fulfillRandomRequest(DRB_ADDRESS[chain?.id!] as `0x${string}`, requestId)
         const fulfillLogData = await waitForTransactionReceipt(fulfillTx);
         console.log(fulfillLogData);
         setLoading(false);
