@@ -97,8 +97,9 @@ export const forgeResultSelector = selector<{
       }
 
       // get the possible combinations of forge color
-      const colors = selectedGemsList.map((item) => {return item.color});
-      newColorCombo = forgeGemsColor(colors);
+      const color1 = selectedGemsList[0].color;
+      const color2 = selectedGemsList[1].color;
+      newColorCombo = forgeGemsColor(color1, color2);
     }
     return {
       forgeResultQuadrant: forgedQuadrants,

@@ -7,11 +7,9 @@ import { forgeResultSelector } from "@/recoil/forge/atom";
 import "react-multi-carousel/lib/styles.css";
 import { useEffect, useState } from "react";
 import { getValueOfRarity } from "@/utils";
-import { RarityType } from "@/types";
 import { rarityList } from "@/constants/rarity";
 import { FACTORY_ADDRESS } from "@/constants/tokens";
 import { useAccount } from "wagmi";
-import { formatUnits } from "viem";
 
 const responsive = {
   superLargeDesktop: {

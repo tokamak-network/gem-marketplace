@@ -20,55 +20,51 @@ export function trimAddress(args: {
   return `${firstChatAt}${dots ?? "..."}${lastCharAt}`;
 }
 
-export function forgeGemsColor(colorArrays: number[][]) {
+export function forgeGemsColor(pair1: number[], pair2: number[]) {
   const results = new Set<string>();
+  const [a1, a2] = pair1;
+  const [b1, b2] = pair2;
 
-  for (let i = 0; i < colorArrays.length; i++) {
-    for (let j = i + 1; j < colorArrays.length; j++) {
-      const [a1, a2] = colorArrays[i];
-      const [b1, b2] = colorArrays[j];
-
-      if (a1 === a2 && b1 === b2) {
-        // Two same solids
-        if (a1 === b1) {
-          results.add(JSON.stringify([a1, a1]));
-        } else {
-          results.add(JSON.stringify([a1, b1]));
-          results.add(JSON.stringify([b1, a1]));
-        }
-      } else if (a1 === a2 || b1 === b2) {
-        // One solid and one gradient
-        const solid = a1 === a2 ? a1 : b1;
-        const gradient = a1 === a2 ? [b1, b2] : [a1, a2];
-
-        if (gradient.includes(solid)) {
-          results.add(JSON.stringify(gradient));
-        } else {
-          results.add(JSON.stringify([solid, gradient[0]]));
-          results.add(JSON.stringify([solid, gradient[1]]));
-          results.add(JSON.stringify([gradient[0], solid]));
-          results.add(JSON.stringify([gradient[1], solid]));
-        }
-      } else if ((a1 === b1 && a2 === b2) || (a1 === b2 && a2 === b1)) {
-        // Two same gradients
-        results.add(JSON.stringify([a1, a2]));
-        results.add(JSON.stringify([a2, a1]));
-      } else {
-        // Two different gradients
-        results.add(JSON.stringify([a1, b1]));
-        results.add(JSON.stringify([a1, b2]));
-        results.add(JSON.stringify([a2, b1]));
-        results.add(JSON.stringify([a2, b2]));
-        results.add(JSON.stringify([b1, a1]));
-        results.add(JSON.stringify([b1, a2]));
-        results.add(JSON.stringify([b2, a1]));
-        results.add(JSON.stringify([b2, a2]));
-      }
+  if (a1 === a2 && b1 === b2) {
+    // Two same solids
+    if (a1 === b1) {
+      results.add(JSON.stringify([a1, a1]));
+    } else {
+      results.add(JSON.stringify([a1, b1]));
+      results.add(JSON.stringify([b1, a1]));
     }
+  } else if (a1 === a2 || b1 === b2) {
+    // One solid and one gradient
+    const solid = a1 === a2 ? a1 : b1;
+    const gradient = a1 === a2 ? [b1, b2] : [a1, a2];
+
+    if (gradient.includes(solid)) {
+      results.add(JSON.stringify(gradient));
+    } else {
+      results.add(JSON.stringify([solid, gradient[0]]));
+      results.add(JSON.stringify([solid, gradient[1]]));
+      results.add(JSON.stringify([gradient[0], solid]));
+      results.add(JSON.stringify([gradient[1], solid]));
+    }
+  } else if ((a1 === b1 && a2 === b2) || (a1 === b2 && a2 === b1)) {
+    // Two same gradients
+    results.add(JSON.stringify([a1, a2]));
+    results.add(JSON.stringify([a2, a1]));
+  } else {
+    // Two different gradients
+    results.add(JSON.stringify([a1, b1]));
+    results.add(JSON.stringify([a1, b2]));
+    results.add(JSON.stringify([a2, b1]));
+    results.add(JSON.stringify([a2, b2]));
+    results.add(JSON.stringify([b1, a1]));
+    results.add(JSON.stringify([b1, a2]));
+    results.add(JSON.stringify([b2, a1]));
+    results.add(JSON.stringify([b2, a2]));
   }
 
   // Convert results from JSON strings back to arrays
   return Array.from(results).map(pair => JSON.parse(pair) as number[]);
+
 }
 
 export function bnToNumber(value: bigint, decimals: number = 18) {
