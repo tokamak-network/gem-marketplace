@@ -45,10 +45,11 @@ export const forgeResultSelector = selector<{
   colorCombo: any;
   forgedRarity: RarityType;
 }>({
-  key: "forgeResultSelector",
+  key: "ForgeResultSelector",
   get: ({ get }) => {
     const raritySelected = get(selectedForgeGems);
     const { selectedRarity, selectedGemsList } = raritySelected;
+    console.log(selectedGemsList)
 
     const forgedGemRarity =
       Object.values(RarityType)[
@@ -97,9 +98,8 @@ export const forgeResultSelector = selector<{
       }
 
       // get the possible combinations of forge color
-      const color1 = selectedGemsList[0].color;
-      const color2 = selectedGemsList[1].color;
-      newColorCombo = forgeGemsColor(color1, color2);
+      const colors = selectedGemsList.map((item) => {return item.color});
+      newColorCombo = forgeGemsColor(colors);
     }
     return {
       forgeResultQuadrant: forgedQuadrants,
@@ -115,7 +115,7 @@ type SelectedForgeGem = {
 }
 
 export const selectedFinalForge = atom<SelectedForgeGem>({
-  key: "selectedFinalForge",
+  key: "finalForgeSelect",
   default: {
     color: [],
     rarity: RarityType.none

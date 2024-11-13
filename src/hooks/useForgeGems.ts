@@ -18,12 +18,16 @@ export const useForgeGems = () => {
   const tokenIds = selectedGemsList.map((item: GemStandard) => [item.tokenID]);
 
   const callForgeGems = useCallback(async () => {
-    await writeContractAsync({
-      abi: FactoryForgingABI,
-      address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
-      functionName: "forgeTokens",
-      args: [tokenIds, selectedRarity, color],
-    });
+    try {
+      await writeContractAsync({
+        abi: FactoryForgingABI,
+        address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
+        functionName: "forgeTokens",
+        args: [tokenIds, selectedRarity, color],
+      });
+    } catch(err) {
+      console.log(err);
+    }
   }, [tokenIds, selectedRarity, color]);
 
   return { callForgeGems, isError, isPending, isSuccess, error };

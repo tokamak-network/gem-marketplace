@@ -38,7 +38,7 @@ export const ColorItem = ({
       columnGap={"10px"}
       cursor={readOnly ? "auto" : "pointer"}
       onClick={() => handleColor(color)}
-      opacity={defaultState || colorState[color] ? 1 : 0.5}
+      opacity={defaultState || colorState[color] || readOnly ? 1 : 0.5}
       border={"1px solid"}
       borderColor={
         (colorState[color] || active) && !readOnly

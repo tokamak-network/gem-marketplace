@@ -63,8 +63,6 @@ const GemCard = ({
   gemWidth = 120,
   gemHeight = 120,
   mode = "market",
-  staked,
-  dailyChange,
   gemInfo,
   customGemColor,
 }: GemCardType) => {
@@ -553,10 +551,6 @@ const GemCard = ({
                     <Text fontSize={10} fontWeight={400} opacity={0.5}>
                       Staked ${formatUnits(value!, 27)}{" "}
                     </Text>
-                    {/* <Image alt="arrow" src={HighArrow} />
-                    <Text color={"#61FF00"} fontSize={10} fontWeight={400}>
-                      {dailyChange}%
-                    </Text> */}
                   </Flex>
                 </Flex>
               )}

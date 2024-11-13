@@ -39,7 +39,7 @@ export const RarityItem = ({
       cursor={readOnly ? "auto" : "pointer"}
       onClick={() => handleRarity(rarity)}
       pos={"relative"}
-      opacity={defaultState || rarityState[rarity] ? 1 : 0.5}
+      opacity={defaultState || rarityState[rarity] || readOnly ? 1 : 0.5}
       border={"1px solid"}
       borderColor={
         (rarityState[rarity] || active) && !readOnly ? "white" : "transparent"

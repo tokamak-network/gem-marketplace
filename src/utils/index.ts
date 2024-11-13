@@ -19,87 +19,55 @@ export function trimAddress(args: {
   return `${firstChatAt}${dots ?? "..."}${lastCharAt}`;
 }
 
-export function forgeGemsColor(gem1: number[], gem2: number[]) {
-  // Helper function to check if an array contains an element
-  function contains(array: number[], element: number) {
-    return array.indexOf(element) !== -1;
-  }
+export function forgeGemsColor(colorArrays: number[][]) {
+  const results = new Set<string>();
 
-  // Helper function to check if an array has both elements the same (i.e., [color, color])
-  function isRepeatedColorGradient(gem: number[]) {
-    return gem.length === 2 && gem[0] === gem[1];
-  }
+  for (let i = 0; i < colorArrays.length; i++) {
+    for (let j = i + 1; j < colorArrays.length; j++) {
+      const [a1, a2] = colorArrays[i];
+      const [b1, b2] = colorArrays[j];
 
-  // Treat [color, color] as [color] (i.e., as a solid color)
-  if (isRepeatedColorGradient(gem1)) {
-    gem1 = [gem1[0]];
-  }
-  if (isRepeatedColorGradient(gem2)) {
-    gem2 = [gem2[0]];
-  }
+      if (a1 === a2 && b1 === b2) {
+        // Two same solids
+        if (a1 === b1) {
+          results.add(JSON.stringify([a1, a1]));
+        } else {
+          results.add(JSON.stringify([a1, b1]));
+          results.add(JSON.stringify([b1, a1]));
+        }
+      } else if (a1 === a2 || b1 === b2) {
+        // One solid and one gradient
+        const solid = a1 === a2 ? a1 : b1;
+        const gradient = a1 === a2 ? [b1, b2] : [a1, a2];
 
-  // Check if both gems are solid (i.e., arrays with one element)
-  if (gem1.length === 1 && gem2.length === 1) {
-    if (gem1[0] === gem2[0]) {
-      return [[gem1, gem1]]; // Same Solid -> Same Solid
-    } else {
-      return [
-        [gem1, gem1],
-        [gem2, gem2],
-      ]; // Different Solid -> Gradient
-    }
-  }
-
-  // Check if one gem is a gradient and the other is solid
-  if (gem1.length === 2 && gem2.length === 1) {
-    if (contains(gem1, gem2[0])) {
-      return [gem1]; // One Gradient + One Solid (exists in Gradient) -> Same Gradient
-    } else {
-      return [
-        [gem1[0], gem2[0]],
-        [gem1[1], gem2[0]],
-      ]; // One Gradient + One Solid (not exist in Gradient) -> 2 Gradient
-    }
-  }
-  if (gem1.length === 1 && gem2.length === 2) {
-    if (contains(gem2, gem1[0])) {
-      return [gem2]; // One Gradient + One Solid (exists in Gradient) -> Same Gradient
-    } else {
-      return [
-        [gem2[0], gem1[0]],
-        [gem2[1], gem1[0]],
-      ]; // One Gradient + One Solid (not exist in Gradient) -> 2 Gradient
-    }
-  }
-
-  // Check if both gems are gradients (i.e., arrays with two elements)
-  if (gem1.length === 2 && gem2.length === 2) {
-    const newGradients: number[][] = [];
-
-    // Handle case where one or both gems are repeated elements like [0, 0]
-    const combinations = [
-      [gem1[0], gem2[0]],
-      [gem1[0], gem2[1]],
-      [gem1[1], gem2[0]],
-      [gem1[1], gem2[1]],
-    ];
-
-    // Filter out duplicates by sorting each gradient before adding it
-    combinations.forEach((gradient) => {
-      const sortedGradient = gradient.sort(); // Sort to treat [0,1] and [1,0] as the same
-      if (
-        !newGradients.some(
-          (existing) =>
-            existing[0] === sortedGradient[0] &&
-            existing[1] === sortedGradient[1]
-        )
-      ) {
-        newGradients.push(sortedGradient);
+        if (gradient.includes(solid)) {
+          results.add(JSON.stringify(gradient));
+        } else {
+          results.add(JSON.stringify([solid, gradient[0]]));
+          results.add(JSON.stringify([solid, gradient[1]]));
+          results.add(JSON.stringify([gradient[0], solid]));
+          results.add(JSON.stringify([gradient[1], solid]));
+        }
+      } else if ((a1 === b1 && a2 === b2) || (a1 === b2 && a2 === b1)) {
+        // Two same gradients
+        results.add(JSON.stringify([a1, a2]));
+        results.add(JSON.stringify([a2, a1]));
+      } else {
+        // Two different gradients
+        results.add(JSON.stringify([a1, b1]));
+        results.add(JSON.stringify([a1, b2]));
+        results.add(JSON.stringify([a2, b1]));
+        results.add(JSON.stringify([a2, b2]));
+        results.add(JSON.stringify([b1, a1]));
+        results.add(JSON.stringify([b1, a2]));
+        results.add(JSON.stringify([b2, a1]));
+        results.add(JSON.stringify([b2, a2]));
       }
-    });
-
-    return newGradients; // Return the unique gradients
+    }
   }
+
+  // Convert results from JSON strings back to arrays
+  return Array.from(results).map(pair => JSON.parse(pair) as number[]);
 }
 
 export function bnToNumber(value: bigint, decimals: number = 18) {
