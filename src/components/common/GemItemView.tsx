@@ -21,8 +21,9 @@ import { useRouter } from "next/router";
 import { sellGemModalStatus, burnGemModalStatus } from "@/recoil/chest/atom";
 
 import useConnectWallet from "@/hooks/account/useConnectWallet";
+import { useUnlistGem } from "@/hooks/useListGem";
 
-import { useGetAllGems, useGetGemWithId } from "@/hooks/useGetMarketGems";
+import { useGetGemWithId } from "@/hooks/useGetMarketGems";
 import { buyGem } from "@/hooks/useBuyGem";
 import {
   MARKETPLACE_ADDRESS,
@@ -63,6 +64,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const gemList = useGetGemWithId(id);
   const { connectToWallet } = useConnectWallet();
   const { isConnected, address, chain } = useAccount();
+  const { callUnlistGem } = useUnlistGem({ tokenID: id });
   const [, setModalStatus] = useRecoilState(obtainModalStatus);
   const [, setSellGemModalStatus] = useRecoilState(sellGemModalStatus);
   const [, burnSellGemModalStatus] = useRecoilState(burnGemModalStatus);
@@ -73,6 +75,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const [tonFeesRate, setTonFeesRate] = useState<number>();
   const toast = useToast();
   const router = useRouter();
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const gemItem: GemStandard = useMemo(() => {
     return gemList && gemList[0] && gemList.length > 0
@@ -114,34 +117,14 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     const TONBalanceValue = Number(
       formatUnits(TONBalance?.data?.value! ?? "0", 18)
     );
-
     const priceValue = Number(formatUnits(gemItem?.price! || BigInt("0"), 27));
+    const requiredTON = priceValue * stakingIndex;
 
-    if (
-      WSTONBalanceValue > priceValue &&
-      TONBalanceValue > priceValue * stakingIndex
-    ) {
-      return PayOption.BOTH;
+    if (WSTONBalanceValue > priceValue) {
+      return TONBalanceValue > requiredTON ? PayOption.BOTH : PayOption.WSTON;
     }
-    if (
-      WSTONBalanceValue > priceValue &&
-      TONBalanceValue < priceValue * stakingIndex
-    ) {
-      return PayOption.WSTON;
-    }
-    if (
-      WSTONBalanceValue < priceValue &&
-      TONBalanceValue > priceValue * stakingIndex
-    ) {
-      return PayOption.TON;
-    }
-    if (
-      WSTONBalanceValue < priceValue &&
-      TONBalanceValue < priceValue * stakingIndex
-    ) {
-      return PayOption.NONE;
-    }
-  }, [WSTONBalance, gemItem, TONBalance]);
+    return TONBalanceValue > requiredTON ? PayOption.TON : PayOption.NONE;
+  }, [WSTONBalance, gemItem, TONBalance, stakingIndex]);
 
   const GemValueUSD = useBalancePrice(
     Number(formatUnits(gemItem?.value!, 27)),
@@ -197,6 +180,17 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     fetchTonFeesRate();
   }, []);
 
+  const handleUnlistGem = async () => {
+    try {
+      setLoading(true);
+      const hash = await callUnlistGem();
+      await waitForTransactionReceipt(hash);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+    }
+  };
+
   return (
     gemItem && (
       <Flex flexDir={"column"} w={"100%"} h={"100%"}>
@@ -215,10 +209,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
             mode="normal"
             width={453}
             height={581}
-            staked={128.2907}
-            rarityScore={10}
             gemInfo={gemItem}
-            dailyChange={16.7}
             gemWidth={316}
             gemHeight={316}
           />
@@ -270,7 +261,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               <Center columnGap={3}>
                 <Image alt="ton" src={WSTONIcon} width={32} height={32} />
                 <Text fontSize={32} fontWeight={600}>
-                  {`${formatUnits(gemItem?.value!, 27)} WSTON`}
+                  {`${formatUnits(gemItem?.value!, 27)} TITANWSTON`}
                 </Text>
               </Center>
 
@@ -444,13 +435,27 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     colorScheme="blue"
                     bgColor={"#0380FF"}
                     onClick={() => {
-                      setSellGemModalStatus({
-                        isOpen: true,
-                        tokenID: gemItem?.tokenID,
-                      });
+                      gemItem.isForSale
+                        ? handleUnlistGem()
+                        : setSellGemModalStatus({
+                            isOpen: true,
+                            tokenID: gemItem?.tokenID,
+                          });
                     }}
                   >
-                    Sell
+                    {isLoading ? (
+                      <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="md"
+                      />
+                    ) : gemItem.isForSale ? (
+                      "Remove Listing"
+                    ) : (
+                      "Sell"
+                    )}
                   </Button>
                   <Button
                     w={"full"}

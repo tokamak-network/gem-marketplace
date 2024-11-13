@@ -140,9 +140,6 @@ const MarketPage = () => {
             return (
               <GemCard
                 key={key}
-                rarityScore={1}
-                staked={253.2}
-                dailyChange={16.7}
                 gemInfo={item}
               />
             );

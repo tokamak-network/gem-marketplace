@@ -44,15 +44,13 @@ import { cooldownIndex } from "@/constants";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useBalancePrice } from "@/hooks/useBalancePrice";
+import Ribbon from "./Ribbon";
 
 interface GemCardType {
   width?: number;
   height?: number;
   gemWidth?: number;
   gemHeight?: number;
-  rarityScore: number;
-  staked: number;
-  dailyChange: number;
   mode?: CardType;
   gemInfo: GemStandard;
   customGemColor?: number[];
@@ -98,6 +96,7 @@ const GemCard = ({
     miningStartTime,
     miningPeriod,
     value,
+    isForSale,
   } = gemInfo;
 
   const { callStartMining, isPending: isStartMiningPending } =
@@ -300,6 +299,7 @@ const GemCard = ({
       }
       transition={"0.2s"}
     >
+      {mode === "chest" && isForSale && <Ribbon />}
       {((isForgeSelected && mode === "forge") ||
         (isFinalForgeItemSelected && mode === "forgeFinal")) && (
         <>

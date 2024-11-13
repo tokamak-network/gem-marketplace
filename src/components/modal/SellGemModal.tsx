@@ -11,11 +11,15 @@ import {
   useTheme,
   Input,
   Spinner,
+  Box,
 } from "@chakra-ui/react";
 
 import { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import { sellGemModalStatus } from "@/recoil/chest/atom";
+import {
+  sellGemModalStatus,
+  sellSuccessModalStatus,
+} from "@/recoil/chest/atom";
 import { useGemApprove } from "@/hooks/useGemApprove";
 import { useListGem } from "@/hooks/useListGem";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
@@ -24,6 +28,9 @@ import { parseUnits } from "viem";
 const SellGemModal = () => {
   const theme = useTheme();
   const [modalStatus, setModalStatus] = useRecoilState(sellGemModalStatus);
+  const [, setSuccessModalStatus] = useRecoilState(sellSuccessModalStatus);
+  const [isLoading, setLoading] = useState<boolean>(false);
+
   const handleClose = () => {
     setModalStatus({ isOpen: false, tokenID: 0 });
   };
@@ -31,7 +38,7 @@ const SellGemModal = () => {
   const { callApprove: approveGem, isPending: isPendingApprove } =
     useGemApprove(modalStatus.tokenID);
   const { waitForTransactionReceipt } = useWaitForTransaction();
-  const { callListGem, isPending: isPendingListGem } = useListGem({
+  const { callListGem } = useListGem({
     tokenID: modalStatus.tokenID,
     listPrice: parseUnits(inputValue, 27),
   });
@@ -54,9 +61,18 @@ const SellGemModal = () => {
   };
 
   const handleListGem = async () => {
-    const txHash = await approveGem();
-    await waitForTransactionReceipt(txHash);
-    await callListGem();
+    try {
+      setLoading(true);
+      const txHash = await approveGem();
+      await waitForTransactionReceipt(txHash);
+      const hash = await callListGem();
+      await waitForTransactionReceipt(hash);
+      setLoading(false);
+      handleClose();
+      setSuccessModalStatus(true);
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -71,6 +87,9 @@ const SellGemModal = () => {
         <ModalCloseButton />
         <ModalBody padding={0}>
           <Flex w={"100%"} flexDir={"column"} p={"37px 52px 44px 52px"}>
+            <Text fontSize={48} fontWeight={700} textAlign={"center"}>
+              Sell Gem
+            </Text>
             <Text
               mt={5}
               fontFamily={theme.fonts.Inter}
@@ -80,23 +99,23 @@ const SellGemModal = () => {
               Selling your gem will list it on the marketplace for your
               specified amount. Once someone buys it, you will receive funds.
             </Text>
-
-            <Input
-              mt={12}
-              w={"100%"}
-              h={"90px"}
-              rounded={16}
-              fontSize={32}
-              px={7}
-              border={"none"}
-              bgColor={"#191A22"}
-              value={inputValue ? `${inputValue} WSTON` : ""}
-              onChange={(e) => handleInput(e)}
-              ref={inputRef}
-              onClick={handleCursorPosition}
-              onKeyUp={handleCursorPosition}
-            />
-
+            <Box >
+              <Input
+                mt={12}
+                w={"100%"}
+                h={"90px"}
+                rounded={16}
+                fontSize={32}
+                px={7}
+                border={"none"}
+                bgColor={"#191A22"}
+                value={inputValue}
+                onChange={(e) => handleInput(e)}
+                ref={inputRef}
+                onClick={handleCursorPosition}
+                onKeyUp={handleCursorPosition}
+              />
+            </Box>
             <Center columnGap={4} mt={57}>
               <Button
                 w={139}
@@ -116,7 +135,7 @@ const SellGemModal = () => {
                 }
                 onClick={handleListGem}
               >
-                {isPendingApprove || isPendingListGem ? (
+                {isLoading ? (
                   <Spinner
                     thickness="4px"
                     speed="0.65s"

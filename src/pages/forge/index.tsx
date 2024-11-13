@@ -31,9 +31,6 @@ const ForgePage = () => {
                 mode="forge"
                 key={key}
                 gemInfo={item}
-                rarityScore={1}
-                staked={253.2}
-                dailyChange={16.7}
               />
             );
           })}

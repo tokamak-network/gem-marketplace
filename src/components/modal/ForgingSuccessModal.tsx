@@ -56,9 +56,6 @@ const ForgeSuccessModal = () => {
             <Center mt={8}>
               <GemCard
                 mode="common"
-                dailyChange={16.7}
-                staked={92.36}
-                rarityScore={1}
                 gemInfo={{
                   quadrants: [6, 5, 5, 5],
                   color: [2,3],

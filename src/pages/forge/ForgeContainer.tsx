@@ -55,9 +55,6 @@ const ForgeContainer = () => {
             <GemCard
               mode="common"
               gemInfo={firstSelectedGem}
-              rarityScore={1}
-              staked={253.2}
-              dailyChange={16.7}
             />
           )}
         </Center>
@@ -88,9 +85,6 @@ const ForgeContainer = () => {
             <GemCard
               mode="common"
               gemInfo={secondSelectedGem}
-              rarityScore={1}
-              staked={253.2}
-              dailyChange={16.7}
             />
           )}
         </Center>

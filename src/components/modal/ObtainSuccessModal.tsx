@@ -66,10 +66,7 @@ const ObtainSuccessModal = () => {
                 mode="normal"
                 width={453}
                 height={620}
-                staked={128.2907}
-                rarityScore={10}
                 gemInfo={gemItem}
-                dailyChange={16.7}
                 gemWidth={316}
                 gemHeight={316}
               />

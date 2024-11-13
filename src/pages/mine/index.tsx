@@ -30,9 +30,6 @@ const MinePage = () => {
               <GemCard
                 mode="mine"
                 key={key}
-                rarityScore={1}
-                staked={253.2}
-                dailyChange={16.7}
                 gemInfo={item}
               />
             );

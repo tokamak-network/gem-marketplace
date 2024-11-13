@@ -39,6 +39,7 @@ export type GemStandard = {
   miningTry?: number;
   creationDate: number;
   owner?: string;
+  isForSale?: boolean;
 };
 
 export type ActivityFilterType = "all" | "mine" | "forge" | "buysell";

@@ -77,9 +77,6 @@ const GemcardCarousel = () => {
                 creationDate: 0,
                 value: gemValue
               }}
-              rarityScore={1}
-              staked={253.2}
-              dailyChange={16.7}
             />
           ))}
         </Carousel>

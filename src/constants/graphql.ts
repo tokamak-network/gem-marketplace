@@ -69,7 +69,7 @@ export const GET_GEM_WITH_ID = gql`
 
 export const GET_USER_GEMS = gql`
   query GetUserGems($skip: Int, $first: Int, $user: String) {
-    nfts(skip: $skip, first: $first, where: { owner: $user, isForSale_not: true }) {
+    nfts(skip: $skip, first: $first, where: { owner: $user }) {
       tokenID
       color
       cooldownDueDate
