@@ -45,6 +45,7 @@ import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useBalancePrice } from "@/hooks/useBalancePrice";
 import Ribbon from "./Ribbon";
+import SaleAlert from "./SaleAlert";
 
 interface GemCardType {
   width?: number;
@@ -182,6 +183,7 @@ const GemCard = ({
 
   const handleCardClick = useCallback(() => {
     if (mode === "forge") {
+      if (isForSale || isMining) return;
       setSelectedGemsInfo((prev) => ({
         ...prev,
         selectedRarity: rarity,
@@ -300,6 +302,9 @@ const GemCard = ({
       transition={"0.2s"}
     >
       {mode === "chest" && isForSale && <Ribbon />}
+      {((mode === "forge" && isForSale) ||
+        (mode === "forge" && isMining) ||
+        (mode === "mine" && isForSale)) && <SaleAlert isMining={isMining!} />}
       {((isForgeSelected && mode === "forge") ||
         (isFinalForgeItemSelected && mode === "forgeFinal")) && (
         <>
@@ -458,6 +463,7 @@ const GemCard = ({
                       border={"1px solid #FFFFFF40"}
                       rounded={"0px 0px 8px 8px"}
                       onClick={async () => {
+                        if (isForSale) return;
                         const txHash = await callStartMining();
                         await waitForTransactionReceipt(txHash);
                         seMineModalState({ isOpen: true, mineTime: 2342347 });

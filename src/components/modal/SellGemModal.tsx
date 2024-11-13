@@ -34,7 +34,7 @@ const SellGemModal = () => {
   const handleClose = () => {
     setModalStatus({ isOpen: false, tokenID: 0 });
   };
-  const [inputValue, setInputValue] = useState("0.00");
+  const [inputValue, setInputValue] = useState("");
   const { callApprove: approveGem, isPending: isPendingApprove } =
     useGemApprove(modalStatus.tokenID);
   const { waitForTransactionReceipt } = useWaitForTransaction();
@@ -99,23 +99,24 @@ const SellGemModal = () => {
               Selling your gem will list it on the marketplace for your
               specified amount. Once someone buys it, you will receive funds.
             </Text>
-            <Box >
+            <Flex align={"center"} mt={12} bgColor={"#191A22"} rounded={16}>
+              <Text ml={6} fontSize={32} fontWeight={600}>WSTON:</Text>
               <Input
-                mt={12}
                 w={"100%"}
                 h={"90px"}
-                rounded={16}
                 fontSize={32}
-                px={7}
+                px={4}
                 border={"none"}
-                bgColor={"#191A22"}
                 value={inputValue}
                 onChange={(e) => handleInput(e)}
                 ref={inputRef}
                 onClick={handleCursorPosition}
                 onKeyUp={handleCursorPosition}
+                placeholder="0.00"
+                _active={{ border: "none", outline: "none", boxShadow: "none" }}
+                _focus={{ border: "none", outline: "none", boxShadow: "none" }}
               />
-            </Box>
+            </Flex>
             <Center columnGap={4} mt={57}>
               <Button
                 w={139}

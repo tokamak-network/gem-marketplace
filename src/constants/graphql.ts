@@ -91,7 +91,7 @@ export const GET_USER_GEMS = gql`
 
 export const GET_USER_MINE_GEMS = gql`
   query GetUserGems($user: String!) {
-    nfts(where: { owner: $user, isForSale_not: true, rarity_not: 0 }) {
+    nfts(where: { owner: $user, rarity_not: 0 }) {
       tokenID
       color
       cooldownDueDate

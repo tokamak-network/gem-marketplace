@@ -87,6 +87,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
           value: BigInt("0"),
           price: BigInt("0"),
           rarity: RarityType.common,
+          isMining: false
         };
   }, [gemList]);
 
@@ -434,6 +435,10 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     justifyContent={"center"}
                     colorScheme="blue"
                     bgColor={"#0380FF"}
+                    _disabled={{
+                      bgColor: "#21232D",
+                    }}
+                    _hover={{bgColor: "none"}}
                     onClick={() => {
                       gemItem.isForSale
                         ? handleUnlistGem()
@@ -442,6 +447,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                             tokenID: gemItem?.tokenID,
                           });
                     }}
+                    isDisabled={gemItem.isMining!}
                   >
                     {isLoading ? (
                       <Spinner
@@ -475,7 +481,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     border={"1px solid #0380FF"}
                     _hover={{ bgColor: "#111111" }}
                   >
-                    Burn
+                    Melt
                   </Button>
                 </Flex>
               ) : (
