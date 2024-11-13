@@ -49,7 +49,6 @@ export const forgeResultSelector = selector<{
   get: ({ get }) => {
     const raritySelected = get(selectedForgeGems);
     const { selectedRarity, selectedGemsList } = raritySelected;
-    console.log(selectedGemsList)
 
     const forgedGemRarity =
       Object.values(RarityType)[

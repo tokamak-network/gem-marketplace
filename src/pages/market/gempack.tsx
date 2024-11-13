@@ -1,34 +1,36 @@
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { Box, Button, Flex, Spinner, Text, useTheme } from "@chakra-ui/react";
-
-import { obtainModalStatus } from "@/recoil/market/atom";
+import { decodeEventLog } from "viem";
 import { useRecoilState } from "recoil";
 
+import { obtainModalStatus } from "@/recoil/market/atom";
+
 import useConnectWallet from "@/hooks/account/useConnectWallet";
-
-import TonIcon from "@/assets/icon/ton.svg";
-import WalletIcon from "@/assets/icon/wallet.svg";
-
-import GempackLogo from "@/assets/images/gempack.png";
 import { getRandomPackFee } from "@/utils";
-import { DRB_ADDRESS, GEMPACK_ADDRESS, TON_ADDRESS_BY_CHAINID } from "@/constants/tokens";
-import { useEffect, useState } from "react";
+import {
+  DRB_ADDRESS,
+  GEMPACK_ADDRESS,
+  TON_ADDRESS_BY_CHAINID,
+} from "@/constants/tokens";
 import { fulfillRandomRequest, useGemPack } from "@/hooks/useGemPack";
 import { formatEther } from "viem";
 import { handleApprove } from "@/hooks/useApprove";
-import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
+import { waitForTransactionReceipt } from "@wagmi/core";
 import { SupportedChainId } from "@/types/network/supportedNetworks";
 import { config } from "@/config/wagmi";
-import { decodeEventLog } from 'viem'
+
 import RandomPackABI from "@/abi/randomPack.json";
+import GempackLogo from "@/assets/images/gempack.png";
+import TonIcon from "@/assets/icon/ton.svg";
+import WalletIcon from "@/assets/icon/wallet.svg";
 
 const GemPack = () => {
   const { connectToWallet } = useConnectWallet();
   const { isConnected, chain } = useAccount();
   const [_, setModalStatus] = useRecoilState(obtainModalStatus);
   const [fee, setFee] = useState<bigint>(BigInt(0));
-  const { waitForTransactionReceipt } = useWaitForTransaction();
   const { callGemPack } = useGemPack({
     gemPackFee: fee,
   });
@@ -43,21 +45,24 @@ const GemPack = () => {
           TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
           fee
         );
-        await waitForTransactionReceipt(txHash);
+        await waitForTransactionReceipt(config, {
+          hash: txHash,
+        });
         const requestHash = await callGemPack();
-        const logData = await waitForTransactionReceipt(requestHash);
-        console.log(logData)
+
+        const logData = await waitForTransactionReceipt(config, {
+          hash: requestHash,
+        });
 
         const topic: any = await decodeEventLog({
           abi: RandomPackABI,
-          data: logData?.logs[4].data,
-          topics: logData?.logs[4].topics
-        })
+          data: logData?.logs[logData?.logs.length - 1].data,
+          topics: logData?.logs[logData?.logs.length - 1].topics,
+        });
         const requestId = topic?.args?.requestId;
-        console.log(requestId);
-        const fulfillTx = await fulfillRandomRequest(DRB_ADDRESS[chain?.id!] as `0x${string}`, requestId)
-        const fulfillLogData = await waitForTransactionReceipt(fulfillTx);
-        console.log(fulfillLogData);
+        const tokenId = await fulFullRandomness(requestId);
+        setModalStatus({ isOpen: true, gemId: tokenId });
+
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -66,6 +71,24 @@ const GemPack = () => {
     } else {
       connectToWallet();
     }
+  };
+
+  const fulFullRandomness = async (requestId: number) => {
+    const fulfillTx = await fulfillRandomRequest(
+      DRB_ADDRESS[chain?.id!] as `0x${string}`,
+      requestId
+    );
+    const fulfillLogData = await waitForTransactionReceipt(config, {
+      hash: fulfillTx,
+    });
+
+    const topic: any = await decodeEventLog({
+      abi: RandomPackABI,
+      data: fulfillLogData?.logs[2].data,
+      topics: fulfillLogData?.logs[2].topics,
+    });
+    const newTokenId = topic?.args?.tokenId;
+    return newTokenId;
   };
   const theme = useTheme();
 
