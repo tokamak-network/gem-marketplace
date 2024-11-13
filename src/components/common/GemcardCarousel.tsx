@@ -5,6 +5,13 @@ import { useRecoilValue } from "recoil";
 import { forgeResultSelector } from "@/recoil/forge/atom";
 
 import "react-multi-carousel/lib/styles.css";
+import { useEffect, useState } from "react";
+import { getValueOfRarity } from "@/utils";
+import { RarityType } from "@/types";
+import { rarityList } from "@/constants/rarity";
+import { FACTORY_ADDRESS } from "@/constants/tokens";
+import { useAccount } from "wagmi";
+import { formatUnits } from "viem";
 
 const responsive = {
   superLargeDesktop: {
@@ -30,9 +37,21 @@ const responsive = {
 };
 
 const GemcardCarousel = () => {
+  const { chain } = useAccount();
   const { forgeResultQuadrant, colorCombo, forgedRarity } =
     useRecoilValue(forgeResultSelector);
-    
+  const [gemValue, setGemValue] = useState();
+
+  useEffect(() => {
+    const fetchValue = async () => {
+      const value = await getValueOfRarity(
+        FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
+        rarityList.indexOf(forgedRarity)
+      );
+      setGemValue(value);
+    };
+    fetchValue();
+  }, []);
   return (
     <Box h={"350px"}>
       {colorCombo && colorCombo.length > 0 && (
@@ -57,7 +76,8 @@ const GemcardCarousel = () => {
                 quadrants: forgeResultQuadrant,
                 color: item,
                 rarity: forgedRarity,
-                creationDate: 0
+                creationDate: 0,
+                value: gemValue
               }}
               rarityScore={1}
               staked={253.2}

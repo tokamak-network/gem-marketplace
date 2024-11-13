@@ -3,6 +3,7 @@ import { readContract } from "@wagmi/core";
 import { config } from "@/config/wagmi";
 import MarketplaceABI from "@/abi/marketplace.json";
 import RandomPackABI from "@/abi/randomPack.json";
+import GemFactoryABI from "@/abi/gemfactory.json";
 
 export function trimAddress(args: {
   address: string | `0x${string}` | undefined;
@@ -104,6 +105,17 @@ export const getTonFeesRate = async (contractAddress: `0x${string}`) => {
     abi: MarketplaceABI,
     address: contractAddress,
     functionName: "getTonFeesRate",
+  });
+
+  return result;
+};
+
+export const getValueOfRarity = async (contractAddress: `0x${string}`, rarity: number) => {
+  const result: any = await readContract(config, {
+    abi: GemFactoryABI,
+    address: contractAddress,
+    functionName: "getValueBasedOnRarity",
+    args: [rarity]
   });
 
   return result;

@@ -72,3 +72,16 @@ export const StakingIndex = atom<number>({
   key: "stakingIndex",
   default: 1
 })
+
+type PriceList = {
+  eth_price: number,
+  ton_price: number
+}
+
+export const priceListStatus = atom<PriceList>({
+  key: "PriceStatus",
+  default: {
+    eth_price: 0,
+    ton_price: 0
+  }
+})

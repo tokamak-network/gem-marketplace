@@ -25,7 +25,7 @@ import {
   selectedFinalForge,
 } from "@/recoil/forge/atom";
 import GemShape from "./GemShape";
-import { GemStandard, CardType, RarityType } from "@/types";
+import { GemStandard, CardType, RarityType, TokenType } from "@/types";
 import { useStartMiningGem } from "@/hooks/useMineGem";
 
 import PriceContainer from "./PriceContainer";
@@ -43,6 +43,7 @@ import { formatUnits } from "viem";
 import { cooldownIndex } from "@/constants";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useBalancePrice } from "@/hooks/useBalancePrice";
 
 interface GemCardType {
   width?: number;
@@ -267,6 +268,10 @@ const GemCard = ({
     return arraysEqual(color, finalForgeItem.color);
   }, [finalForgeItem, color]);
 
+  const valueUSD = useBalancePrice(
+    Number(formatUnits(value! ?? "0", 27)),
+    TokenType.WSTON
+  );
   return (
     <Box
       pos={"relative"}
@@ -533,9 +538,9 @@ const GemCard = ({
                   <Text
                     fontSize={10}
                     opacity={0.5}
-                  >{`Staked Value $${formatUnits(value! ?? "0", 27)}`}</Text>
+                  >{`Staked Value $${valueUSD}`}</Text>
                   <Text fontSize={14} fontWeight={600}>
-                    6 TITANWSTON
+                    {formatUnits(value! ?? "0", 27)} TITANWSTON
                   </Text>
                 </Flex>
               ) : (
