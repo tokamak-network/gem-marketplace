@@ -14,8 +14,6 @@ import {
 
 import {
   forgeConfirmModalStatus,
-  forgeSuccessModalStatus,
-  selectedForgeGem,
   selectedForgeGems,
   selectedFinalForge,
 } from "@/recoil/forge/atom";
@@ -58,6 +56,7 @@ const ForgeConfirmModal = () => {
         data: logData?.logs[logData?.logs.length - 1].data,
         topics: logData?.logs[logData?.logs.length - 1].topics,
       });
+
       const newTokenId = topic?.args?.tokenId;
 
       setForgeConfirm(false);

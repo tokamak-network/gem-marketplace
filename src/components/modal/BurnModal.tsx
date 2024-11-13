@@ -11,18 +11,50 @@ import {
   useTheme,
   Spinner,
 } from "@chakra-ui/react";
-
+import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { burnGemModalStatus } from "@/recoil/chest/atom";
+import { waitForTransactionReceipt } from "@wagmi/core";
+
+import {
+  burnGemModalStatus,
+  meltSuccessModalStatus,
+} from "@/recoil/chest/atom";
 import { useBurnGem } from "@/hooks/useBurnGem";
+import { config } from "@/config/wagmi";
+
+import { decodeEventLog, formatUnits } from "viem";
+import { erc20Abi } from "viem";
+import { useAccount } from "wagmi";
 
 const BurnGemModal = () => {
   const theme = useTheme();
   const [modalStatus, setModalStatus] = useRecoilState(burnGemModalStatus);
+  const [, setMeltSuccessModalStatus] = useRecoilState(meltSuccessModalStatus);
   const { isOpen, tokenID } = modalStatus;
-  const { callBurnGem, isPending } = useBurnGem({ tokenID });
+  const { callBurnGem } = useBurnGem({ tokenID });
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const { chain } = useAccount();
+
   const handleClose = () => {
     setModalStatus({ isOpen: false, tokenID: 0 });
+  };
+
+  const handleMeltGem = async () => {
+    try {
+      setLoading(true);
+      const hash = await callBurnGem();
+      const logData = await waitForTransactionReceipt(config, { hash: hash });
+      handleClose();
+      setMeltSuccessModalStatus({
+        isOpen: true,
+        txLink:
+          chain?.blockExplorers?.default.url + "/tx/" + logData?.transactionHash,
+      });
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,7 +65,7 @@ const BurnGemModal = () => {
         <ModalBody padding={0}>
           <Flex w={"100%"} flexDir={"column"} p={"37px 52px 44px 52px"}>
             <Text fontWeight={700} fontSize={48} textAlign={"center"}>
-              Burn Gem
+              Melt Gem
             </Text>
 
             <Text
@@ -42,7 +74,7 @@ const BurnGemModal = () => {
               fontSize={20}
               textAlign={"center"}
             >
-              Burning your gem will completely destroy it and will transfer it’s
+              Melting your gem will completely destroy it and will transfer it’s
               Staked Ton value to you.
             </Text>
 
@@ -56,9 +88,9 @@ const BurnGemModal = () => {
                 fontWeight={600}
                 fontSize={24}
                 columnGap={2}
-                onClick={() => callBurnGem()}
+                onClick={() => handleMeltGem()}
               >
-                {isPending ? (
+                {isLoading ? (
                   <Spinner
                     thickness="4px"
                     speed="0.65s"
@@ -67,7 +99,7 @@ const BurnGemModal = () => {
                     size="md"
                   />
                 ) : (
-                  "Burn"
+                  "Melt"
                 )}
               </Button>
             </Center>

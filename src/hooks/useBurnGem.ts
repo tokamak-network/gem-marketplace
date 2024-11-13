@@ -14,12 +14,13 @@ export const useBurnGem = ({
   const { chain } = useAccount();
 
   const callBurnGem = useCallback(async () => {
-    await writeContractAsync({
+    const txHash = await writeContractAsync({
       abi: GemFactoryABI,
       address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
       functionName: "meltGEM",
       args: [tokenID],
     });
+    return txHash;
   }, [tokenID]);
 
   return { callBurnGem, isError, isPending, isSuccess };

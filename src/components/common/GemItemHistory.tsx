@@ -56,7 +56,8 @@ const GemItemHistory = ({ gemId }: { gemId: number }) => {
                     height={12}
                     src={
                       item.tradeType === "purchased" ||
-                      item.tradeType === "listed"
+                      item.tradeType === "listed" ||
+                      item.tradeType === "unlisted"
                         ? Market
                         : item.tradeType === "mined"
                           ? Mine
@@ -121,10 +122,8 @@ const GemItemHistory = ({ gemId }: { gemId: number }) => {
                       style={{ color: "#0075FF" }}
                     >{` Gem #${item.gemIds[0]} `}</Link>
                   )}
-                  {item.tradeType === "purchased" ||
-                  item.tradeType === "listed" ||
-                  item.tradeType === "unlisted"
-                    ? `for ${commafy(formatUnits(item.value, 27), 2)} WSTON`
+                  {item.tradeType === "purchased" || item.tradeType === "listed"
+                    ? `for ${commafy(formatUnits(item.value ?? BigInt(0), 27), 2)} WSTON`
                     : ""}
                 </Text>
               </Flex>

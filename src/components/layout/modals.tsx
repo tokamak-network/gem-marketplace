@@ -6,6 +6,7 @@ import CollectMinedGemModal from "../modal/CollectMinedGemModal";
 import SellGemModal from "../modal/SellGemModal";
 import BurnGemModal from "../modal/BurnModal";
 import SellSuccessModal from "../modal/SellSuccessModal";
+import MeltSuccessModal from "../modal/MeltSuccessModal";
 
 const Modals = () => {
   return (
@@ -18,6 +19,7 @@ const Modals = () => {
       <SellGemModal />
       <BurnGemModal />
       <SellSuccessModal />
+      <MeltSuccessModal />
     </>
   );
 };

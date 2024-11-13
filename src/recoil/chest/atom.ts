@@ -26,3 +26,15 @@ export const sellSuccessModalStatus = atom<boolean>({
   key: "SellSuccessModalStatus",
   default: false,
 });
+
+type MeltSuccessModal = {
+  isOpen: boolean;
+  txLink: string;
+}
+export const meltSuccessModalStatus = atom<MeltSuccessModal>({
+  key: "MeltSuccessModalStatus",
+  default: {
+    isOpen: false,
+    txLink: ""
+  },
+});
