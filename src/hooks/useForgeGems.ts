@@ -19,12 +19,13 @@ export const useForgeGems = () => {
 
   const callForgeGems = useCallback(async () => {
     try {
-      await writeContractAsync({
+      const txHash = await writeContractAsync({
         abi: FactoryForgingABI,
         address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
         functionName: "forgeTokens",
         args: [tokenIds, selectedRarity, color],
       });
+      return txHash;
     } catch(err) {
       console.log(err);
     }

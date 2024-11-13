@@ -36,10 +36,11 @@ const Sidebar = () => {
   const theme = useTheme();
   const pathname = usePathname();
   const pathName = pathname.substring(1, pathname.length);
+  const splitPathName = pathName.split("/");
   const [isSettings, setSettings] = useRecoilState(settingsContainerStatus);
 
   const CustomMenuItem = ({ children, icon, link, newTab }: MenuType) => {
-    const isActive = pathName === link;
+    const isActive = pathName === link || link === splitPathName[0];
     return (
       <Link
         href={newTab ? link : `/${link}`}

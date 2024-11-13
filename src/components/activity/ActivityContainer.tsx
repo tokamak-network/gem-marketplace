@@ -2,7 +2,6 @@ import Image from "next/image";
 import {
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
@@ -119,10 +118,11 @@ const ActivityContainer = () => {
                     </Text>
                     <Text>
                       {item.tradeType === "forged" ? (
-                        <span style={{ color: "#0075FF" }}>
+                        <span key={key} style={{ color: "#0075FF" }}>
                           {item.gemIds?.map((gemId: any, key: number) => (
                             <>
                               <Link
+                                key={key}
                                 _hover={{ textDecoration: "underline" }}
                                 href={
                                   chain?.blockExplorers?.default.url +

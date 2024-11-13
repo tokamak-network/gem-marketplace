@@ -1,9 +1,18 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { Box, Button, Flex, Spinner, Text, useTheme } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Spinner,
+  Text,
+  useTheme,
+} from "@chakra-ui/react";
 import { decodeEventLog } from "viem";
 import { useRecoilState } from "recoil";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 
 import { obtainModalStatus } from "@/recoil/market/atom";
 
@@ -16,6 +25,7 @@ import {
 } from "@/constants/tokens";
 import { fulfillRandomRequest, useGemPack } from "@/hooks/useGemPack";
 import { formatEther } from "viem";
+import { useRouter } from "next/router";
 import { handleApprove } from "@/hooks/useApprove";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { SupportedChainId } from "@/types/network/supportedNetworks";
@@ -34,6 +44,7 @@ const GemPack = () => {
   const { callGemPack } = useGemPack({
     gemPackFee: fee,
   });
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleClick = async () => {
@@ -104,6 +115,16 @@ const GemPack = () => {
 
   return (
     <Flex flexDir={"column"} w={"100%"} h={"100%"}>
+      <Flex
+        mb={10}
+        align={"center"}
+        columnGap={1}
+        cursor={"pointer"}
+        onClick={() => router.push("/market")}
+      >
+        <ArrowBackIcon />
+        <Text>Market</Text>
+      </Flex>
       <Flex columnGap={"40px"}>
         <Image width={500} alt="gempack" src={GempackLogo} />
 
@@ -158,23 +179,25 @@ const GemPack = () => {
                 ) : (
                   <Image alt="wallet" src={WalletIcon} width={22} height={23} />
                 ))}
-              <Text fontSize={24} fontWeight={600}>
-                {isConnected ? (
-                  loading ? (
-                    <Spinner
-                      thickness="4px"
-                      speed="0.65s"
-                      emptyColor="gray.200"
-                      color="blue.500"
-                      size="md"
-                    />
-                  ) : (
-                    formatEther(fee)
-                  )
+              {isConnected ? (
+                loading ? (
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="md"
+                  />
                 ) : (
-                  "Connect Wallet"
-                )}
-              </Text>
+                  <Text fontSize={24} fontWeight={600}>
+                    {formatEther(fee)}
+                  </Text>
+                )
+              ) : (
+                <Text fontSize={24} fontWeight={600}>
+                  Connect Wallet
+                </Text>
+              )}
             </Button>
           </Box>
         </Flex>

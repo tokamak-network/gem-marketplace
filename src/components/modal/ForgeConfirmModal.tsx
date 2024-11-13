@@ -19,12 +19,18 @@ import {
   selectedForgeGems,
   selectedFinalForge,
 } from "@/recoil/forge/atom";
-import { useRecoilState } from "recoil";
 
-import ForgeIcon from "@/assets/icon/forge.svg";
+import { useRecoilState } from "recoil";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { decodeEventLog } from "viem";
+
+import { config } from "@/config/wagmi";
 import GemcardCarousel from "../common/GemcardCarousel";
 import { RarityType } from "@/types";
 import { useForgeGems } from "@/hooks/useForgeGems";
+
+import ForgeABI from "@/abi/gemFactoryForging.json"
+import ForgeIcon from "@/assets/icon/forge.svg";
 
 const ForgeConfirmModal = () => {
   const [isForgeConfirm, setForgeConfirm] = useRecoilState(
@@ -37,8 +43,18 @@ const ForgeConfirmModal = () => {
 
   const { callForgeGems, isPending, isSuccess } = useForgeGems();
 
-  const handleForge = () => {
-    callForgeGems();
+  const handleForge = async () => {
+    const txHash = await callForgeGems();
+    const logData = await waitForTransactionReceipt(config, {
+      hash: txHash!
+    })
+
+    const topic: any = await decodeEventLog({
+      abi: ForgeABI,
+      data: logData?.logs[logData?.logs.length - 1].data,
+      topics: logData?.logs[logData?.logs.length - 1].topics,
+    });
+    
   };
 
   return (

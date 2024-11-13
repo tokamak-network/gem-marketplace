@@ -45,6 +45,7 @@ import ShareIcon from "@/assets/icon/share.svg";
 import TonIcon from "@/assets/icon/ton.svg";
 import Warning from "@/assets/icon/warningYellow.svg";
 import { useBalancePrice } from "@/hooks/useBalancePrice";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 
 interface ItemProps {
   id: number;
@@ -199,6 +200,16 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   return (
     gemItem && (
       <Flex flexDir={"column"} w={"100%"} h={"100%"}>
+        <Flex
+          mb={4}
+          align={"center"}
+          columnGap={1}
+          cursor={"pointer"}
+          onClick={() => router.push("/" + mode)}
+        >
+          <ArrowBackIcon />
+          <Text textTransform={"capitalize"}>{mode}</Text>
+        </Flex>
         <Flex columnGap={"40px"}>
           <GemCard
             mode="normal"
