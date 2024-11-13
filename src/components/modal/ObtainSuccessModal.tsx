@@ -34,7 +34,6 @@ const ObtainSuccessModal = () => {
 
   const handleClose = () => {
     setModalStatus({ isOpen: false });
-    router.push("/market");
   };
 
   const gemItem: GemStandard = useMemo(() => {
@@ -56,7 +55,7 @@ const ObtainSuccessModal = () => {
       <ModalContent
         bgColor={"#21232D"}
         rounded={16}
-        minW={"900px"}
+        minW={"920px"}
         minH={"580px"}
       >
         <ModalCloseButton />
@@ -109,7 +108,7 @@ const ObtainSuccessModal = () => {
                 {rarityList[Number(gemItem.rarity)] !== RarityType.common &&
                   gemItem.miningTry! > 0 && (
                     <Button
-                      w={"full"}
+                      w={"180px"}
                       h={65}
                       rounded={8}
                       bgColor={"#0380FF"}
@@ -128,7 +127,7 @@ const ObtainSuccessModal = () => {
                   )}
                 {rarityList[Number(gemItem.rarity)] !== RarityType.mythic && (
                   <Button
-                    w={"full"}
+                    w={"180px"}
                     h={65}
                     rounded={8}
                     bgColor={"#0380FF"}

@@ -29,32 +29,49 @@ import GemcardCarousel from "../common/GemcardCarousel";
 import { RarityType } from "@/types";
 import { useForgeGems } from "@/hooks/useForgeGems";
 
-import ForgeABI from "@/abi/gemFactoryForging.json"
+import ForgeABI from "@/abi/gemFactoryForging.json";
 import ForgeIcon from "@/assets/icon/forge.svg";
+import { obtainModalStatus } from "@/recoil/market/atom";
+import { useState } from "react";
 
 const ForgeConfirmModal = () => {
   const [isForgeConfirm, setForgeConfirm] = useRecoilState(
     forgeConfirmModalStatus
   );
-  const [, setForgeSuccess] = useRecoilState(forgeSuccessModalStatus);
-  const [, setForgeGems] = useRecoilState(selectedForgeGem);
+  const [, setModalStatus] = useRecoilState(obtainModalStatus);
   const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
   const [finalForgeGem, setFinalForgeGem] = useRecoilState(selectedFinalForge);
 
-  const { callForgeGems, isPending, isSuccess } = useForgeGems();
+  const { callForgeGems } = useForgeGems();
+  const [isLoading , setLoading] = useState<boolean>(false);
 
   const handleForge = async () => {
-    const txHash = await callForgeGems();
-    const logData = await waitForTransactionReceipt(config, {
-      hash: txHash!
-    })
+    try {
+      setLoading(true);
+      const txHash = await callForgeGems();
+      const logData = await waitForTransactionReceipt(config, {
+        hash: txHash!,
+      });
 
-    const topic: any = await decodeEventLog({
-      abi: ForgeABI,
-      data: logData?.logs[logData?.logs.length - 1].data,
-      topics: logData?.logs[logData?.logs.length - 1].topics,
-    });
-    
+      const topic: any = await decodeEventLog({
+        abi: ForgeABI,
+        data: logData?.logs[logData?.logs.length - 1].data,
+        topics: logData?.logs[logData?.logs.length - 1].topics,
+      });
+      const newTokenId = topic?.args?.tokenId;
+
+      setForgeConfirm(false);
+      setSelectedGemsInfo({
+        selectedRarity: RarityType.none,
+        selectedGemsList: [],
+      });
+      setFinalForgeGem({ color: [] });
+      setModalStatus({ isOpen: true, gemId: newTokenId });
+
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -104,7 +121,7 @@ const ForgeConfirmModal = () => {
                 }}
                 onClick={handleForge}
               >
-                {isPending ? (
+                {isLoading ? (
                   <Spinner
                     thickness="4px"
                     speed="0.65s"

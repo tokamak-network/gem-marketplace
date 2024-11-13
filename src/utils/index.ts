@@ -31,7 +31,6 @@ export function forgeGemsColor(pair1: number[], pair2: number[]) {
       results.add(JSON.stringify([a1, a1]));
     } else {
       results.add(JSON.stringify([a1, b1]));
-      results.add(JSON.stringify([b1, a1]));
     }
   } else if (a1 === a2 || b1 === b2) {
     // One solid and one gradient
@@ -43,23 +42,16 @@ export function forgeGemsColor(pair1: number[], pair2: number[]) {
     } else {
       results.add(JSON.stringify([solid, gradient[0]]));
       results.add(JSON.stringify([solid, gradient[1]]));
-      results.add(JSON.stringify([gradient[0], solid]));
-      results.add(JSON.stringify([gradient[1], solid]));
     }
   } else if ((a1 === b1 && a2 === b2) || (a1 === b2 && a2 === b1)) {
     // Two same gradients
     results.add(JSON.stringify([a1, a2]));
-    results.add(JSON.stringify([a2, a1]));
   } else {
     // Two different gradients
     results.add(JSON.stringify([a1, b1]));
     results.add(JSON.stringify([a1, b2]));
     results.add(JSON.stringify([a2, b1]));
     results.add(JSON.stringify([a2, b2]));
-    results.add(JSON.stringify([b1, a1]));
-    results.add(JSON.stringify([b1, a2]));
-    results.add(JSON.stringify([b2, a1]));
-    results.add(JSON.stringify([b2, a2]));
   }
 
   // Convert results from JSON strings back to arrays
