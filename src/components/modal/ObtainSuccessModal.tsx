@@ -17,31 +17,29 @@ import { useMemo } from "react";
 import { useRecoilState } from "recoil";
 import { obtainModalStatus } from "@/recoil/market/atom";
 
-import GemDetailView from "../common/GemAttributesView";
 import GemCard from "../common/GemCard";
 
 import { GemStandard, RarityType } from "@/types";
-import { useGetAllGems } from "@/hooks/useGetMarketGems";
+import { useGetGemWithId } from "@/hooks/useGetMarketGems";
 
 import ForgeIcon from "@/assets/icon/forge.svg";
 import GemIcon from "@/assets/icon/mine.svg";
 import { rarityList } from "@/constants/rarity";
+import GemAttributesView from "../common/GemAttributesView";
 
 const ObtainSuccessModal = () => {
   const router = useRouter();
   const [modalStatus, setModalStatus] = useRecoilState(obtainModalStatus);
-  const gemList = useGetAllGems();
+  const gemList = useGetGemWithId(Number(modalStatus.gemId!));
 
   const handleClose = () => {
     setModalStatus({ isOpen: false });
     router.push("/market");
   };
+
   const gemItem: GemStandard = useMemo(() => {
-    const item = gemList?.filter(
-      (item: GemStandard) => Number(item.tokenID) === Number(modalStatus.gemId)
-    );
-    return item && item[0] && item.length > 0
-      ? item[0]
+    return gemList && gemList[0] && gemList.length > 0
+      ? gemList[0]
       : {
           tokenID: 0,
           quadrants: [1, 1, 1, 1],
@@ -103,30 +101,31 @@ const ObtainSuccessModal = () => {
                   Take your newly acquired gem and start mining or forging
                 </Text>
                 <Box px={"30px"}>
-                  <GemDetailView gemId={modalStatus.gemId!} />
+                  <GemAttributesView gemItem={gemItem} />
                 </Box>
               </Box>
 
               <Center columnGap={4}>
-                {rarityList[Number(gemItem.rarity)] !== RarityType.common && gemItem.miningTry! > 0 && (
-                  <Button
-                    w={"full"}
-                    h={65}
-                    rounded={8}
-                    bgColor={"#0380FF"}
-                    colorScheme="blue"
-                    fontWeight={600}
-                    fontSize={24}
-                    columnGap={2}
-                    onClick={() => {
-                      router.push("/mine");
-                      setModalStatus({ isOpen: false });
-                    }}
-                  >
-                    <Image width={23} height={23} alt="gem" src={GemIcon} />
-                    Mine
-                  </Button>
-                )}
+                {rarityList[Number(gemItem.rarity)] !== RarityType.common &&
+                  gemItem.miningTry! > 0 && (
+                    <Button
+                      w={"full"}
+                      h={65}
+                      rounded={8}
+                      bgColor={"#0380FF"}
+                      colorScheme="blue"
+                      fontWeight={600}
+                      fontSize={24}
+                      columnGap={2}
+                      onClick={() => {
+                        router.push("/mine");
+                        setModalStatus({ isOpen: false });
+                      }}
+                    >
+                      <Image width={23} height={23} alt="gem" src={GemIcon} />
+                      Mine
+                    </Button>
+                  )}
                 {rarityList[Number(gemItem.rarity)] !== RarityType.mythic && (
                   <Button
                     w={"full"}

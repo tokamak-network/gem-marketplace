@@ -250,7 +250,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               </Flex>
             </Flex>
 
-            <GemAttributesView gemId={id} />
+            <GemAttributesView gemItem={gemItem} />
 
             <Text fontSize={14} fontWeight={400} opacity={0.5} mt={2}>
               Backed by

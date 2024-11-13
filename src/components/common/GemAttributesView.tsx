@@ -18,26 +18,9 @@ import { cooldownIndex } from "@/constants";
 import { Box, Flex, Text, useTheme } from "@chakra-ui/react";
 import Image from "next/image";
 
-const GemAttributesView = ({ gemId }: { gemId: number }) => {
+const GemAttributesView = ({ gemItem }: { gemItem: GemStandard }) => {
   const [cooldowns] = useRecoilState(cooldownStatus);
-  const gemList = useGetAllGems();
   const theme = useTheme();
-
-  const gemItem: GemStandard = useMemo(() => {
-    const item = gemList?.filter(
-      (item: GemStandard) => Number(item.tokenID) === Number(gemId)
-    );
-    return item && item[0] && item.length > 0
-      ? item[0]
-      : {
-          tokenID: 0,
-          quadrants: [1, 1, 1, 1],
-          color: [1],
-          value: BigInt("0"),
-          price: BigInt("0"),
-          rarity: RarityType.common,
-        };
-  }, [gemList, gemId]);
 
   const nonDupColorList = useMemo(
     () =>
