@@ -14,6 +14,8 @@ import {
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { waitForTransactionReceipt } from "@wagmi/core";
+import { useAccount } from "wagmi";
+import { useRouter } from "next/router";
 
 import {
   burnGemModalStatus,
@@ -22,9 +24,6 @@ import {
 import { useBurnGem } from "@/hooks/useBurnGem";
 import { config } from "@/config/wagmi";
 
-import { decodeEventLog, formatUnits } from "viem";
-import { erc20Abi } from "viem";
-import { useAccount } from "wagmi";
 
 const BurnGemModal = () => {
   const theme = useTheme();
@@ -34,6 +33,7 @@ const BurnGemModal = () => {
   const { callBurnGem } = useBurnGem({ tokenID });
   const [isLoading, setLoading] = useState<boolean>(false);
   const { chain } = useAccount();
+  const router = useRouter();
 
   const handleClose = () => {
     setModalStatus({ isOpen: false, tokenID: 0 });
@@ -44,6 +44,7 @@ const BurnGemModal = () => {
       setLoading(true);
       const hash = await callBurnGem();
       const logData = await waitForTransactionReceipt(config, { hash: hash });
+      router.push("/chest");
       handleClose();
       setMeltSuccessModalStatus({
         isOpen: true,

@@ -59,7 +59,10 @@ const SellSuccessModal = () => {
                 fontWeight={600}
                 columnGap={2}
                 border={"2px solid #0380FF"}
-                onClick={() => router.push("/chest")}
+                onClick={() => {
+                  handleClose();
+                  router.push("/chest");
+                }}
               >
                 Back to Chest
               </Button>
@@ -72,7 +75,10 @@ const SellSuccessModal = () => {
                 colorScheme="blue"
                 fontWeight={600}
                 columnGap={2}
-                onClick={() => router.push("/market")}
+                onClick={() => {
+                  handleClose();
+                  router.push("/market");
+                }}
               >
                 <Image src={MarketIcon} alt="market" />
                 <Text>Market</Text>

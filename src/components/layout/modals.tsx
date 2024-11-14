@@ -7,6 +7,7 @@ import SellGemModal from "../modal/SellGemModal";
 import BurnGemModal from "../modal/BurnModal";
 import SellSuccessModal from "../modal/SellSuccessModal";
 import MeltSuccessModal from "../modal/MeltSuccessModal";
+import BuyRecommendModal from "../modal/BuyRecommendModal";
 
 const Modals = () => {
   return (
@@ -20,6 +21,7 @@ const Modals = () => {
       <BurnGemModal />
       <SellSuccessModal />
       <MeltSuccessModal />
+      <BuyRecommendModal />
     </>
   );
 };

@@ -69,12 +69,12 @@ const ForgingIntroModal = (props: any) => {
             </Text>
 
             <Flex w={"full"} justify={"space-between"} my={"50px"}>
-              <Image alt="gempack" src={Forge1} />
+              <Image alt="gempack" src={Forge3} />
               <Image width={45} height={45} alt="forge" src={ForgeIcon} />
               <Center columnGap={"14px"}>
                 <Image alt="gempack" src={Forge2} />
                 <Image alt="arrow" src={ArrorRight} />
-                <Image alt="gempack" src={Forge3} />
+                <Image alt="gempack" src={Forge1} />
               </Center>
             </Flex>
 

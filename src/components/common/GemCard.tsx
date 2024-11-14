@@ -470,12 +470,6 @@ const GemCard = ({
                       }}
                     >
                       <Text>{isHoverMine ? "Mine Gem" : "Ready to mine"}</Text>
-                      <Image
-                        alt="gem"
-                        src={GemIcon}
-                        width={16}
-                        height={16}
-                      ></Image>
                     </Center>
                   </Tooltip>
                 ) : !isReadyForStartMine ? (
