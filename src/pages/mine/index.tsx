@@ -18,7 +18,7 @@ const MinePage = () => {
   const [isBuyRecommendModal, setBuyRecommendModal] = useState<boolean>(false);
 
   useEffect(() => {
-    gemsList.length > 0
+    gemsList && gemsList.length && gemsList.length > 0
       ? setBuyRecommendModal(false)
       : setBuyRecommendModal(true);
   }, [gemsList]);

@@ -20,7 +20,7 @@ const ChestPage = () => {
   const [isBuyRecommendModal, setBuyRecommendModal] = useState<boolean>(false);
 
   useEffect(() => {
-    result.length > 0
+    result && result.length && result.length > 0
       ? setBuyRecommendModal(false)
       : setBuyRecommendModal(true);
   }, [result]);

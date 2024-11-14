@@ -17,7 +17,7 @@ const ForgePage = () => {
   const [isBuyRecommendModal, setBuyRecommendModal] = useState<boolean>(false);
 
   useEffect(() => {
-    gemListForUser.length > 0
+    gemListForUser && gemListForUser.length && gemListForUser.length > 0
       ? setBuyRecommendModal(false)
       : setBuyRecommendModal(true);
   }, [gemListForUser]);
