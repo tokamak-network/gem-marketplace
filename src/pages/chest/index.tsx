@@ -20,10 +20,10 @@ const ChestPage = () => {
   const [isBuyRecommendModal, setBuyRecommendModal] = useState<boolean>(false);
 
   useEffect(() => {
-    activeGemList.length > 0
+    result.length > 0
       ? setBuyRecommendModal(false)
       : setBuyRecommendModal(true);
-  }, [activeGemList]);
+  }, [result]);
   
   return search ? (
     <GemItemView id={Number(search)} mode="chest" />

@@ -18,17 +18,17 @@ const MinePage = () => {
   const [isBuyRecommendModal, setBuyRecommendModal] = useState<boolean>(false);
 
   useEffect(() => {
-    activeGemList.length > 0
+    gemsList.length > 0
       ? setBuyRecommendModal(false)
       : setBuyRecommendModal(true);
-  }, [activeGemList]);
+  }, [gemsList]);
 
   const handleGuideModal = () => {
     setGuideModal(false);
   };
   return (
     <>
-      <MiningIntroModal isOpen={isGuideModal && activeGemList && activeGemList.length > 0} onClose={handleGuideModal} />
+      <MiningIntroModal isOpen={isGuideModal && gemsList && gemsList.length > 0} onClose={handleGuideModal} />
 
       <BuyRecommendModal
         mode={"mining"}

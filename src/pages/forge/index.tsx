@@ -17,15 +17,15 @@ const ForgePage = () => {
   const [isBuyRecommendModal, setBuyRecommendModal] = useState<boolean>(false);
 
   useEffect(() => {
-    activeGemList.length > 0
+    gemListForUser.length > 0
       ? setBuyRecommendModal(false)
       : setBuyRecommendModal(true);
-  }, [activeGemList]);
+  }, [gemListForUser]);
 
   return (
     <Box>
       <ForgingIntroModal
-        isOpen={isGuideModal && activeGemList && activeGemList.length > 0}
+        isOpen={isGuideModal && gemListForUser && gemListForUser.length > 0}
         onClose={() => setGuideModal(false)}
       />
 
