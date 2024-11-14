@@ -9,6 +9,7 @@ import {
   Text,
   Spinner,
   useToast,
+  Tooltip,
 } from "@chakra-ui/react";
 
 import { CardType, GemStandard, RarityType, TokenType } from "@/types";
@@ -47,6 +48,7 @@ import TonIcon from "@/assets/icon/ton.svg";
 import Warning from "@/assets/icon/warningYellow.svg";
 import { useBalancePrice } from "@/hooks/useBalancePrice";
 import { ArrowBackIcon } from "@chakra-ui/icons";
+import GemMiningAlert from "../tooltipLabel/GemMiningAlert";
 
 interface ItemProps {
   id: number;
@@ -87,7 +89,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
           value: BigInt("0"),
           price: BigInt("0"),
           rarity: RarityType.common,
-          isMining: false
+          isMining: false,
         };
   }, [gemList]);
 
@@ -426,43 +428,51 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                 )
               ) : mode === "chest" ? (
                 <Flex w={"100%"} columnGap={6}>
-                  <Button
-                    w={"full"}
-                    maxW={624}
-                    h={"65px"}
-                    columnGap={2}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    colorScheme="blue"
-                    bgColor={"#0380FF"}
-                    _disabled={{
-                      bgColor: "#21232D",
-                    }}
-                    _hover={{bgColor: "none"}}
-                    onClick={() => {
-                      gemItem.isForSale
-                        ? handleUnlistGem()
-                        : setSellGemModalStatus({
-                            isOpen: true,
-                            tokenID: gemItem?.tokenID,
-                          });
-                    }}
-                    isDisabled={gemItem.isMining!}
+                  <Tooltip
+                    hasArrow
+                    bgColor={"#000000E5"}
+                    isDisabled={!gemItem.isMining}
+                    label={<GemMiningAlert />}
+                    rounded={4}
                   >
-                    {isLoading ? (
-                      <Spinner
-                        thickness="4px"
-                        speed="0.65s"
-                        emptyColor="gray.200"
-                        color="blue.500"
-                        size="md"
-                      />
-                    ) : gemItem.isForSale ? (
-                      "Remove Listing"
-                    ) : (
-                      "Sell"
-                    )}
-                  </Button>
+                    <Button
+                      w={"full"}
+                      maxW={624}
+                      h={"65px"}
+                      columnGap={2}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      colorScheme="blue"
+                      bgColor={"#0380FF"}
+                      _disabled={{
+                        bgColor: "#21232D",
+                      }}
+                      _hover={{ bgColor: "none" }}
+                      onClick={() => {
+                        gemItem.isForSale
+                          ? handleUnlistGem()
+                          : setSellGemModalStatus({
+                              isOpen: true,
+                              tokenID: gemItem?.tokenID,
+                            });
+                      }}
+                      isDisabled={gemItem.isMining!}
+                    >
+                      {isLoading ? (
+                        <Spinner
+                          thickness="4px"
+                          speed="0.65s"
+                          emptyColor="gray.200"
+                          color="blue.500"
+                          size="md"
+                        />
+                      ) : gemItem.isForSale ? (
+                        "Remove Listing"
+                      ) : (
+                        "Sell"
+                      )}
+                    </Button>
+                  </Tooltip>
                   <Button
                     w={"full"}
                     maxW={624}
