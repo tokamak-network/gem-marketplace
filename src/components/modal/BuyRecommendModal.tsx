@@ -6,14 +6,11 @@ import {
   ModalBody,
   ModalCloseButton,
   Flex,
-  Center,
   Text,
   useTheme,
-  Checkbox,
   Button,
   Box,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { useRouter } from "next/router";
 
 import MarketIcon from "@/assets/icon/market.svg";
@@ -145,7 +142,7 @@ const BuyRecommendModal = (props: any) => {
                   rounded={8}
                   alignItems={"center"}
                   justifyContent={"center"}
-                  onClick={() => router.push("/market/gempack")}
+                  onClick={() => router.push("/market")}
                   bgColor={"#0380FF"}
                   columnGap={2}
                 >
