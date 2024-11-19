@@ -40,6 +40,17 @@ export const colorList: ColorListType = {
   garnet: "#512B4D",
 };
 
+export const gemColorList: ColorListType = {
+  ruby: "#FF001A",
+  amber: "#FF5100",
+  topaz: "#D9C300",
+  emerald: "#00B53F",
+  turquoise: "#00DCD1",
+  sapphire: "#001EFF",
+  amethyst: "#9D00DC",
+  garnet: "#FF008A",
+};
+
 export const colorBorderList: ColorListType = {
   ruby: "#FF0000",
   amber: "#FF8A00",
