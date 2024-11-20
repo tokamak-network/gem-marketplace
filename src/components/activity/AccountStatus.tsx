@@ -202,7 +202,7 @@ const AccountStatus = () => {
                       : ""}
               </Text>
             )}
-            <Text color={"#5D6978"} fontSize={12}>
+            <Box color={"#5D6978"} fontSize={12}>
               {TONBalanceUSD && WSTONBalanceUSD ? (
                 "$" +
                 (item.symbol === "TON"
@@ -215,7 +215,7 @@ const AccountStatus = () => {
                   <GradientSpinner />
                 </Box>
               )}
-            </Text>
+            </Box>
           </Flex>
         </Flex>
       ))}

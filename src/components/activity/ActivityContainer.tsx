@@ -20,7 +20,7 @@ import NoActivityContainer from "@/components/activity/NoActivityAlert";
 import AccountStatus from "./AccountStatus";
 import { useFilterActivity } from "@/hooks/account/useFilterActivity";
 import { groupAndSortByDate } from "@/utils";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 
 import Market from "@/assets/icon/market.svg";
 import Forge from "@/assets/icon/forge.svg";
@@ -116,11 +116,11 @@ const ActivityContainer = () => {
                           ? "Sold"
                           : item.tradeType}
                     </Text>
-                    <Text>
+                    <Box>
                       {item.tradeType === "forged" ? (
                         <span key={key} style={{ color: "#0075FF" }}>
                           {item.gemIds?.map((gemId: any, key: number) => (
-                            <>
+                            <React.Fragment key={key}>
                               <Link
                                 key={key}
                                 _hover={{ textDecoration: "underline" }}
@@ -140,7 +140,7 @@ const ActivityContainer = () => {
                                   ? "= "
                                   : "+ "}{" "}
                               </span>
-                            </>
+                            </React.Fragment>
                           ))}
                           <Link
                             _hover={{ textDecoration: "underline" }}
@@ -175,7 +175,7 @@ const ActivityContainer = () => {
                       item.tradeType === "unlisted"
                         ? `for ${commafy(formatUnits(item.value, 27), 2)} WSTON`
                         : ""}
-                    </Text>
+                    </Box>
                   </Flex>
                 ))}
               </Flex>

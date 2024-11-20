@@ -10,6 +10,7 @@ import {
   Center,
   useTheme,
   Tooltip,
+  Spinner,
 } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 
@@ -26,7 +27,7 @@ import {
 } from "@/recoil/forge/atom";
 import GemShape from "./GemShape";
 import { GemStandard, CardType, RarityType, TokenType } from "@/types";
-import { useStartMiningGem } from "@/hooks/useMineGem";
+import { useCollectGem, useStartMiningGem } from "@/hooks/useMineGem";
 
 import PriceContainer from "./PriceContainer";
 import RarityViewer from "./RarityViewer";
@@ -46,6 +47,8 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useBalancePrice } from "@/hooks/useBalancePrice";
 import Ribbon from "./Ribbon";
 import SaleAlert from "./SaleAlert";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { config } from "@/config/wagmi";
 
 interface GemCardType {
   width?: number;
@@ -82,7 +85,6 @@ const GemCard = ({
   const [, setForgeConfirm] = useRecoilState(forgeConfirmModalStatus);
   const [finalForgeItem, setFinalForgeGem] = useRecoilState(selectedFinalForge);
   const [cooldowns] = useRecoilState(cooldownStatus);
-  const { waitForTransactionReceipt } = useWaitForTransaction();
 
   const theme = useTheme();
   const router = useRouter();
@@ -102,6 +104,8 @@ const GemCard = ({
 
   const { callStartMining, isPending: isStartMiningPending } =
     useStartMiningGem(tokenID);
+
+  const { callCollectGem } = useCollectGem(tokenID);
 
   // const [savedGemList, setValue] = useLocalStorage("savedGemList", []);
   // const isSaved = useMemo(
@@ -159,7 +163,7 @@ const GemCard = ({
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [cooldownDueDate, miningPeriod, miningStartTime]);
 
   const cooldownRemainingTime = useMemo(
     () =>
@@ -257,6 +261,18 @@ const GemCard = ({
       setFinalForgeGem({ color: [...color] });
     }
   }, [selectedGemsList, selectedRarity, selectedGemsInfo, gemInfo]);
+
+  const handleCollectGem = async (tokenId: number) => {
+    try {
+      const tx = await callCollectGem();
+      const logData = await waitForTransactionReceipt(config, {
+        hash: tx
+      });
+      console.log(logData);
+    } catch (e) {
+      console.log(e)
+    }
+  };
 
   const isForgeSelected = useMemo(() => {
     const selected = selectedGemsList.filter(
@@ -465,11 +481,25 @@ const GemCard = ({
                       onClick={async () => {
                         if (isForSale) return;
                         const txHash = await callStartMining();
-                        await waitForTransactionReceipt(txHash);
+                        await waitForTransactionReceipt(config, {
+                          hash: txHash,
+                        });
                         seMineModalState({ isOpen: true, mineTime: 2342347 });
                       }}
                     >
-                      <Text>{isHoverMine ? "Mine Gem" : "Ready to mine"}</Text>
+                      {isStartMiningPending ? (
+                        <Spinner
+                          thickness="4px"
+                          speed="0.65s"
+                          emptyColor="gray.200"
+                          color="blue.500"
+                          size="md"
+                        />
+                      ) : (
+                        <Text>
+                          {isHoverMine ? "Mine Gem" : "Ready to mine"}
+                        </Text>
+                      )}
                     </Center>
                   </Tooltip>
                 ) : !isReadyForStartMine ? (
@@ -520,12 +550,7 @@ const GemCard = ({
                     bgColor={"#0380FF"}
                     p={"20px"}
                     columnGap={"6px"}
-                    onClick={() => {
-                      // setCollectGemStatus({
-                      //   isOpen: true,
-                      //   minedGemId: tokenID,
-                      // });
-                    }}
+                    onClick={() => handleCollectGem(tokenID)}
                   >
                     <Text fontSize={18}>Collect Gem</Text>
                     <Image alt="gem" src={GemIcon} width={16} height={16} />
