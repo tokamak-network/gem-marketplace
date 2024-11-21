@@ -20,7 +20,7 @@ import {
   miningResultStatus,
 } from "@/recoil/mine/atom";
 import { useAccount } from "wagmi";
-import { rarityStatus } from "@/recoil/market/atom";
+import { obtainModalStatus, rarityStatus } from "@/recoil/market/atom";
 import {
   forgeConfirmModalStatus,
   selectedForgeGems,
@@ -111,6 +111,7 @@ const GemCard = ({
 
   const { callCollectGem } = useCollectGem(tokenID);
   const { chain } = useAccount();
+  const [_, setObtainModalStatus] = useRecoilState(obtainModalStatus);
 
   // const [savedGemList, setValue] = useLocalStorage("savedGemList", []);
   // const isSaved = useMemo(
@@ -292,14 +293,13 @@ const GemCard = ({
         hash: fulfillTx,
       });
 
-      console.log(fulfillLogData)
-
       const fulfillTtopic: any = await decodeEventLog({
         abi: FactoryMiningABI,
-        data: fulfillLogData?.logs[0].data,
-        topics: fulfillLogData?.logs[0].topics,
+        data: fulfillLogData?.logs[2].data,
+        topics: fulfillLogData?.logs[2].topics,
       });
-      console.log(fulfillTtopic);
+      const tokenId = fulfillTtopic?.args?.tokenId;
+      setObtainModalStatus({ isOpen: true, gemId: tokenId });
     } catch (e) {
       console.log(e);
     }
