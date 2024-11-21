@@ -19,6 +19,7 @@ import {
   miningModalStatus,
   miningResultStatus,
 } from "@/recoil/mine/atom";
+import { useAccount } from "wagmi";
 import { rarityStatus } from "@/recoil/market/atom";
 import {
   forgeConfirmModalStatus,
@@ -40,7 +41,7 @@ import SavedIcon from "./SavedIcon";
 import InfoIcon from "@/assets/icon/info.svg";
 import { rarityList } from "@/constants/rarity";
 import { arraysEqual } from "@/utils";
-import { formatUnits } from "viem";
+import { decodeEventLog, formatUnits } from "viem";
 import { cooldownIndex } from "@/constants";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
@@ -49,6 +50,9 @@ import Ribbon from "./Ribbon";
 import SaleAlert from "./SaleAlert";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "@/config/wagmi";
+import FactoryMiningABI from "@/abi/gemFactoryMining.json";
+import { DRB_ADDRESS } from "@/constants/tokens";
+import { fulfillRandomRequest } from "@/hooks/useGemPack";
 
 interface GemCardType {
   width?: number;
@@ -106,6 +110,7 @@ const GemCard = ({
     useStartMiningGem(tokenID);
 
   const { callCollectGem } = useCollectGem(tokenID);
+  const { chain } = useAccount();
 
   // const [savedGemList, setValue] = useLocalStorage("savedGemList", []);
   // const isSaved = useMemo(
@@ -262,15 +267,41 @@ const GemCard = ({
     }
   }, [selectedGemsList, selectedRarity, selectedGemsInfo, gemInfo]);
 
-  const handleCollectGem = async (tokenId: number) => {
+  const handleCollectGem = async () => {
     try {
       const tx = await callCollectGem();
       const logData = await waitForTransactionReceipt(config, {
-        hash: tx
+        hash: tx,
       });
-      console.log(logData);
+
+      console.log("logData: ", logData)
+
+      const topic: any = await decodeEventLog({
+        abi: FactoryMiningABI,
+        data: logData?.logs[2].data,
+        topics: logData?.logs[2].topics,
+      });
+      const requestId = topic?.args?.requestNumber;
+      console.log("requeset ID: ", requestId);
+
+      const fulfillTx = await fulfillRandomRequest(
+        DRB_ADDRESS[chain?.id!] as `0x${string}`,
+        requestId
+      );
+      const fulfillLogData = await waitForTransactionReceipt(config, {
+        hash: fulfillTx,
+      });
+
+      console.log(fulfillLogData)
+
+      const fulfillTtopic: any = await decodeEventLog({
+        abi: FactoryMiningABI,
+        data: fulfillLogData?.logs[0].data,
+        topics: fulfillLogData?.logs[0].topics,
+      });
+      console.log(fulfillTtopic);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   };
 
@@ -550,7 +581,7 @@ const GemCard = ({
                     bgColor={"#0380FF"}
                     p={"20px"}
                     columnGap={"6px"}
-                    onClick={() => handleCollectGem(tokenID)}
+                    onClick={() => handleCollectGem()}
                   >
                     <Text fontSize={18}>Collect Gem</Text>
                     <Image alt="gem" src={GemIcon} width={16} height={16} />

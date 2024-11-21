@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useAccount, useWriteContract } from "wagmi";
 import FactoryMiningABI from "@/abi/gemFactoryMining.json";
 import { FACTORY_ADDRESS } from "@/constants/tokens";
+import { parseEther } from "viem";
 
 export const useStartMiningGem = (tokenId: number) => {
   const { writeContractAsync, isError, isPending, isSuccess, error } =
@@ -32,6 +33,7 @@ export const useCollectGem = (tokenId: number) => {
       address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
       functionName: "pickMinedGEM",
       args: [tokenId],
+      value: parseEther("0.005")
     });
     return tx;
   }, [tokenId]);

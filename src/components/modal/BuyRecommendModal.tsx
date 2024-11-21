@@ -115,7 +115,7 @@ const BuyRecommendModal = (props: any) => {
                 pos={"relative"}
                 w={212}
                 h={272}
-                bgImage={"/assets/images/gempack.png"}
+                bgImage={"/assets/images/marketbg.png"}
                 flexDir={"column"}
                 justify={"end"}
                 rounded={"8px"}

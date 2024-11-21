@@ -203,7 +203,7 @@ const AccountStatus = () => {
               </Text>
             )}
             <Box color={"#5D6978"} fontSize={12}>
-              {TONBalanceUSD && WSTONBalanceUSD ? (
+              {TONBalanceUSD !== undefined && WSTONBalanceUSD !== undefined ? (
                 "$" +
                 (item.symbol === "TON"
                   ? TONBalanceUSD

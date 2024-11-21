@@ -1,64 +1,403 @@
 [
-  { "type": "error", "name": "AccessControlBadConfirmation", "inputs": [] },
   {
-    "type": "error",
-    "name": "AccessControlUnauthorizedAccount",
-    "inputs": [
-      { "type": "address", "name": "account", "internalType": "address" },
-      { "type": "bytes32", "name": "neededRole", "internalType": "bytes32" }
-    ]
+    "type": "function",
+    "name": "ADMIN_ROLE",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
+    "stateMutability": "view"
   },
   {
-    "type": "error",
-    "name": "AddressEmptyCode",
-    "inputs": [
-      { "type": "address", "name": "target", "internalType": "address" }
-    ]
+    "type": "function",
+    "name": "DEFAULT_ADMIN_ROLE",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
+    "stateMutability": "view"
   },
   {
-    "type": "error",
-    "name": "AddressInsufficientBalance",
-    "inputs": [
-      { "type": "address", "name": "account", "internalType": "address" }
-    ]
+    "type": "function",
+    "name": "DIVIDER",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint8", "internalType": "uint8" }],
+    "stateMutability": "view"
   },
-  { "type": "error", "name": "AlreadyInitialized", "inputs": [] },
-  { "type": "error", "name": "FailedInnerCall", "inputs": [] },
-  { "type": "error", "name": "FailedToPayFees", "inputs": [] },
-  { "type": "error", "name": "FailedToSendEthBack", "inputs": [] },
-  { "type": "error", "name": "FailedToSendFeesToTreasury", "inputs": [] },
-  { "type": "error", "name": "InvalidAddress", "inputs": [] },
   {
-    "type": "error",
-    "name": "OnlyCoordinatorCanFulfill",
-    "inputs": [
-      { "type": "address", "name": "have", "internalType": "address" },
-      { "type": "address", "name": "want", "internalType": "address" }
-    ]
+    "type": "function",
+    "name": "PAUSE_ROLE",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
+    "stateMutability": "view"
   },
-  { "type": "error", "name": "RandomPackFeesEqualToZero", "inputs": [] },
-  { "type": "error", "name": "ReentrancyGuardReentrantCall", "inputs": [] },
-  { "type": "error", "name": "RequestNotMade", "inputs": [] },
   {
-    "type": "error",
-    "name": "SafeERC20FailedOperation",
+    "type": "function",
+    "name": "addAdmin",
     "inputs": [
-      { "type": "address", "name": "token", "internalType": "address" }
-    ]
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
-  { "type": "error", "name": "SameAdmin", "inputs": [] },
-  { "type": "error", "name": "SameOwner", "inputs": [] },
-  { "type": "error", "name": "ZeroAddress", "inputs": [] },
-  { "type": "error", "name": "invalidProbabilities", "inputs": [] },
+  {
+    "type": "function",
+    "name": "addPauser",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "aliveImplementation",
+    "inputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getCallbackGasLimit",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint32", "internalType": "uint32" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getGemFactoryAddress",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getPaused",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getPerfectCommonGemURI",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "string", "internalType": "string" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getRandomPackFees",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getRequestCount",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getRoleAdmin",
+    "inputs": [
+      { "name": "role", "type": "bytes32", "internalType": "bytes32" }
+    ],
+    "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getTonAddress",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getTreasuryAddress",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "grantRole",
+    "inputs": [
+      { "name": "role", "type": "bytes32", "internalType": "bytes32" },
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "hasRole",
+    "inputs": [
+      { "name": "role", "type": "bytes32", "internalType": "bytes32" },
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "initialize",
+    "inputs": [
+      {
+        "name": "_coordinator",
+        "type": "address",
+        "internalType": "address"
+      },
+      { "name": "_ton", "type": "address", "internalType": "address" },
+      { "name": "_gemFactory", "type": "address", "internalType": "address" },
+      { "name": "_treasury", "type": "address", "internalType": "address" },
+      {
+        "name": "_randomPackFees",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "isAdmin",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isOwner",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isPauser",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "onERC721Received",
+    "inputs": [
+      { "name": "", "type": "address", "internalType": "address" },
+      { "name": "", "type": "address", "internalType": "address" },
+      { "name": "", "type": "uint256", "internalType": "uint256" },
+      { "name": "", "type": "bytes", "internalType": "bytes" }
+    ],
+    "outputs": [{ "name": "", "type": "bytes4", "internalType": "bytes4" }],
+    "stateMutability": "pure"
+  },
+  {
+    "type": "function",
+    "name": "pause",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "pauseProxy",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "proxyImplementation",
+    "inputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "rawFulfillRandomWords",
+    "inputs": [
+      { "name": "requestId", "type": "uint256", "internalType": "uint256" },
+      { "name": "randomWord", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "removeAdmin",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "removePauser",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "renounceRole",
+    "inputs": [
+      { "name": "role", "type": "bytes32", "internalType": "bytes32" },
+      {
+        "name": "callerConfirmation",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "requestRandomGem",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "revokeRole",
+    "inputs": [
+      { "name": "role", "type": "bytes32", "internalType": "bytes32" },
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "s_requests",
+    "inputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "outputs": [
+      { "name": "randomWord", "type": "uint256", "internalType": "uint256" },
+      {
+        "name": "chosenTokenId",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      { "name": "requester", "type": "address", "internalType": "address" },
+      { "name": "requested", "type": "bool", "internalType": "bool" },
+      { "name": "fulfilled", "type": "bool", "internalType": "bool" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "selectorImplementation",
+    "inputs": [{ "name": "", "type": "bytes4", "internalType": "bytes4" }],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "setCallbackGasLimit",
+    "inputs": [
+      {
+        "name": "_callbackGasLimit",
+        "type": "uint32",
+        "internalType": "uint32"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setGemFactory",
+    "inputs": [
+      { "name": "_gemFactory", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setPerfectCommonGemURI",
+    "inputs": [
+      { "name": "_tokenURI", "type": "string", "internalType": "string" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setProbabilities",
+    "inputs": [
+      { "name": "_commonProb", "type": "uint8", "internalType": "uint8" },
+      { "name": "_rareProb", "type": "uint8", "internalType": "uint8" },
+      { "name": "_uniqueProb", "type": "uint8", "internalType": "uint8" },
+      { "name": "_epicProb", "type": "uint8", "internalType": "uint8" },
+      { "name": "_legendaryProb", "type": "uint8", "internalType": "uint8" },
+      { "name": "_mythicProb", "type": "uint8", "internalType": "uint8" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setRandomPackFees",
+    "inputs": [
+      {
+        "name": "_randomPackFees",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setTreasury",
+    "inputs": [
+      { "name": "_treasury", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "supportsInterface",
+    "inputs": [
+      { "name": "interfaceId", "type": "bytes4", "internalType": "bytes4" }
+    ],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "transferOwnership",
+    "inputs": [
+      { "name": "newOwner", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "unpause",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
   {
     "type": "event",
     "name": "CallBackGasLimitUpdated",
     "inputs": [
       {
-        "type": "uint256",
         "name": "_callbackGasLimit",
-        "internalType": "uint256",
-        "indexed": false
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       }
     ],
     "anonymous": false
@@ -80,10 +419,10 @@
     "name": "EthSentBack",
     "inputs": [
       {
-        "type": "uint256",
         "name": "amount",
-        "internalType": "uint256",
-        "indexed": false
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       }
     ],
     "anonymous": false
@@ -93,10 +432,10 @@
     "name": "GemFactoryAddressUpdated",
     "inputs": [
       {
-        "type": "address",
         "name": "gemFactory",
-        "internalType": "address",
-        "indexed": false
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
       }
     ],
     "anonymous": false
@@ -106,10 +445,10 @@
     "name": "PerfectCommonGemURIUpdated",
     "inputs": [
       {
-        "type": "string",
         "name": "_tokenURI",
-        "internalType": "string",
-        "indexed": false
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
       }
     ],
     "anonymous": false
@@ -119,16 +458,16 @@
     "name": "RandomGemRequested",
     "inputs": [
       {
-        "type": "address",
         "name": "requestor",
-        "internalType": "address",
-        "indexed": false
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
       },
       {
-        "type": "uint256",
         "name": "requestId",
-        "internalType": "uint256",
-        "indexed": false
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       }
     ],
     "anonymous": false
@@ -138,16 +477,16 @@
     "name": "RandomGemToBeTransferred",
     "inputs": [
       {
-        "type": "uint256",
         "name": "tokenId",
-        "internalType": "uint256",
-        "indexed": false
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       },
       {
-        "type": "address",
         "name": "newOwner",
-        "internalType": "address",
-        "indexed": false
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
       }
     ],
     "anonymous": false
@@ -157,16 +496,16 @@
     "name": "RandomGemTransferred",
     "inputs": [
       {
-        "type": "uint256",
         "name": "tokenId",
-        "internalType": "uint256",
-        "indexed": false
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       },
       {
-        "type": "address",
         "name": "newOwner",
-        "internalType": "address",
-        "indexed": false
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
       }
     ],
     "anonymous": false
@@ -176,10 +515,10 @@
     "name": "RandomPackFeesUpdated",
     "inputs": [
       {
-        "type": "uint256",
         "name": "randomPackFees",
-        "internalType": "uint256",
-        "indexed": false
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       }
     ],
     "anonymous": false
@@ -189,22 +528,22 @@
     "name": "RoleAdminChanged",
     "inputs": [
       {
-        "type": "bytes32",
         "name": "role",
-        "internalType": "bytes32",
-        "indexed": true
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
       },
       {
-        "type": "bytes32",
         "name": "previousAdminRole",
-        "internalType": "bytes32",
-        "indexed": true
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
       },
       {
-        "type": "bytes32",
         "name": "newAdminRole",
-        "internalType": "bytes32",
-        "indexed": true
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
       }
     ],
     "anonymous": false
@@ -214,22 +553,22 @@
     "name": "RoleGranted",
     "inputs": [
       {
-        "type": "bytes32",
         "name": "role",
-        "internalType": "bytes32",
-        "indexed": true
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
       },
       {
-        "type": "address",
         "name": "account",
-        "internalType": "address",
-        "indexed": true
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
       },
       {
-        "type": "address",
         "name": "sender",
-        "internalType": "address",
-        "indexed": true
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
       }
     ],
     "anonymous": false
@@ -239,22 +578,22 @@
     "name": "RoleRevoked",
     "inputs": [
       {
-        "type": "bytes32",
         "name": "role",
-        "internalType": "bytes32",
-        "indexed": true
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
       },
       {
-        "type": "address",
         "name": "account",
-        "internalType": "address",
-        "indexed": true
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
       },
       {
-        "type": "address",
         "name": "sender",
-        "internalType": "address",
-        "indexed": true
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
       }
     ],
     "anonymous": false
@@ -264,392 +603,63 @@
     "name": "TreasuryAddressUpdated",
     "inputs": [
       {
-        "type": "address",
         "name": "treasury",
-        "internalType": "address",
-        "indexed": false
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
       }
     ],
     "anonymous": false
   },
+  { "type": "error", "name": "AccessControlBadConfirmation", "inputs": [] },
   {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bytes32", "name": "", "internalType": "bytes32" }],
-    "name": "ADMIN_ROLE",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bytes32", "name": "", "internalType": "bytes32" }],
-    "name": "DEFAULT_ADMIN_ROLE",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "uint8", "name": "", "internalType": "uint8" }],
-    "name": "DIVIDER",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bytes32", "name": "", "internalType": "bytes32" }],
-    "name": "PAUSE_ROLE",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "addAdmin",
+    "type": "error",
+    "name": "AccessControlUnauthorizedAccount",
     "inputs": [
-      { "type": "address", "name": "account", "internalType": "address" }
+      { "name": "account", "type": "address", "internalType": "address" },
+      { "name": "neededRole", "type": "bytes32", "internalType": "bytes32" }
     ]
   },
   {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "addPauser",
+    "type": "error",
+    "name": "AddressEmptyCode",
     "inputs": [
-      { "type": "address", "name": "account", "internalType": "address" }
+      { "name": "target", "type": "address", "internalType": "address" }
     ]
   },
   {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
-    "name": "aliveImplementation",
-    "inputs": [{ "type": "address", "name": "", "internalType": "address" }]
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "uint32", "name": "", "internalType": "uint32" }],
-    "name": "getCallbackGasLimit",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "address", "name": "", "internalType": "address" }],
-    "name": "getGemFactoryAddress",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
-    "name": "getPaused",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "string", "name": "", "internalType": "string" }],
-    "name": "getPerfectCommonGemURI",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
-    "name": "getRandomPackFees",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
-    "name": "getRequestCount",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bytes32", "name": "", "internalType": "bytes32" }],
-    "name": "getRoleAdmin",
-    "inputs": [{ "type": "bytes32", "name": "role", "internalType": "bytes32" }]
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "address", "name": "", "internalType": "address" }],
-    "name": "getTonAddress",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "address", "name": "", "internalType": "address" }],
-    "name": "getTreasuryAddress",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "grantRole",
+    "type": "error",
+    "name": "AddressInsufficientBalance",
     "inputs": [
-      { "type": "bytes32", "name": "role", "internalType": "bytes32" },
-      { "type": "address", "name": "account", "internalType": "address" }
+      { "name": "account", "type": "address", "internalType": "address" }
     ]
   },
+  { "type": "error", "name": "AlreadyInitialized", "inputs": [] },
+  { "type": "error", "name": "FailedInnerCall", "inputs": [] },
+  { "type": "error", "name": "FailedToPayFees", "inputs": [] },
+  { "type": "error", "name": "FailedToSendEthBack", "inputs": [] },
+  { "type": "error", "name": "FailedToSendFeesToTreasury", "inputs": [] },
+  { "type": "error", "name": "InvalidAddress", "inputs": [] },
   {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
-    "name": "hasRole",
+    "type": "error",
+    "name": "OnlyCoordinatorCanFulfill",
     "inputs": [
-      { "type": "bytes32", "name": "role", "internalType": "bytes32" },
-      { "type": "address", "name": "account", "internalType": "address" }
+      { "name": "have", "type": "address", "internalType": "address" },
+      { "name": "want", "type": "address", "internalType": "address" }
     ]
   },
+  { "type": "error", "name": "RandomPackFeesEqualToZero", "inputs": [] },
+  { "type": "error", "name": "ReentrancyGuardReentrantCall", "inputs": [] },
+  { "type": "error", "name": "RequestNotMade", "inputs": [] },
   {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "initialize",
+    "type": "error",
+    "name": "SafeERC20FailedOperation",
     "inputs": [
-      { "type": "address", "name": "_coordinator", "internalType": "address" },
-      { "type": "address", "name": "_ton", "internalType": "address" },
-      { "type": "address", "name": "_gemFactory", "internalType": "address" },
-      { "type": "address", "name": "_treasury", "internalType": "address" },
-      {
-        "type": "uint256",
-        "name": "_randomPackFees",
-        "internalType": "uint256"
-      }
+      { "name": "token", "type": "address", "internalType": "address" }
     ]
   },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
-    "name": "isAdmin",
-    "inputs": [
-      { "type": "address", "name": "account", "internalType": "address" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
-    "name": "isOwner",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
-    "name": "isPauser",
-    "inputs": [
-      { "type": "address", "name": "account", "internalType": "address" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "pure",
-    "outputs": [{ "type": "bytes4", "name": "", "internalType": "bytes4" }],
-    "name": "onERC721Received",
-    "inputs": [
-      { "type": "address", "name": "", "internalType": "address" },
-      { "type": "address", "name": "", "internalType": "address" },
-      { "type": "uint256", "name": "", "internalType": "uint256" },
-      { "type": "bytes", "name": "", "internalType": "bytes" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "pause",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
-    "name": "pauseProxy",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "address", "name": "", "internalType": "address" }],
-    "name": "proxyImplementation",
-    "inputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "rawFulfillRandomWords",
-    "inputs": [
-      { "type": "uint256", "name": "requestId", "internalType": "uint256" },
-      { "type": "uint256", "name": "randomWord", "internalType": "uint256" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "removeAdmin",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "removePauser",
-    "inputs": [
-      { "type": "address", "name": "account", "internalType": "address" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "renounceRole",
-    "inputs": [
-      { "type": "bytes32", "name": "role", "internalType": "bytes32" },
-      {
-        "type": "address",
-        "name": "callerConfirmation",
-        "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "payable",
-    "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
-    "name": "requestRandomGem",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "revokeRole",
-    "inputs": [
-      { "type": "bytes32", "name": "role", "internalType": "bytes32" },
-      { "type": "address", "name": "account", "internalType": "address" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [
-      { "type": "uint256", "name": "randomWord", "internalType": "uint256" },
-      { "type": "uint256", "name": "chosenTokenId", "internalType": "uint256" },
-      { "type": "address", "name": "requester", "internalType": "address" },
-      { "type": "bool", "name": "requested", "internalType": "bool" },
-      { "type": "bool", "name": "fulfilled", "internalType": "bool" }
-    ],
-    "name": "s_requests",
-    "inputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }]
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "address", "name": "", "internalType": "address" }],
-    "name": "selectorImplementation",
-    "inputs": [{ "type": "bytes4", "name": "", "internalType": "bytes4" }]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "setCallbackGasLimit",
-    "inputs": [
-      {
-        "type": "uint32",
-        "name": "_callbackGasLimit",
-        "internalType": "uint32"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "setGemFactory",
-    "inputs": [
-      { "type": "address", "name": "_gemFactory", "internalType": "address" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "setPerfectCommonGemURI",
-    "inputs": [
-      { "type": "string", "name": "_tokenURI", "internalType": "string" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "setProbabilities",
-    "inputs": [
-      { "type": "uint8", "name": "_commonProb", "internalType": "uint8" },
-      { "type": "uint8", "name": "_rareProb", "internalType": "uint8" },
-      { "type": "uint8", "name": "_uniqueProb", "internalType": "uint8" },
-      { "type": "uint8", "name": "_epicProb", "internalType": "uint8" },
-      { "type": "uint8", "name": "_legendaryProb", "internalType": "uint8" },
-      { "type": "uint8", "name": "_mythicProb", "internalType": "uint8" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "setRandomPackFees",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "_randomPackFees",
-        "internalType": "uint256"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "setTreasury",
-    "inputs": [
-      { "type": "address", "name": "_treasury", "internalType": "address" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
-    "name": "supportsInterface",
-    "inputs": [
-      { "type": "bytes4", "name": "interfaceId", "internalType": "bytes4" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "transferOwnership",
-    "inputs": [
-      { "type": "address", "name": "newOwner", "internalType": "address" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "unpause",
-    "inputs": []
-  }
+  { "type": "error", "name": "SameAdmin", "inputs": [] },
+  { "type": "error", "name": "SameOwner", "inputs": [] },
+  { "type": "error", "name": "ZeroAddress", "inputs": [] },
+  { "type": "error", "name": "invalidProbabilities", "inputs": [] }
 ]
