@@ -104,6 +104,7 @@ const GemCard = ({
     miningPeriod,
     value,
     isForSale,
+    miningTry
   } = gemInfo;
 
   const { callStartMining, isPending: isStartMiningPending } =
@@ -275,15 +276,12 @@ const GemCard = ({
         hash: tx,
       });
 
-      console.log("logData: ", logData)
-
       const topic: any = await decodeEventLog({
         abi: FactoryMiningABI,
         data: logData?.logs[2].data,
         topics: logData?.logs[2].topics,
       });
       const requestId = topic?.args?.requestNumber;
-      console.log("requeset ID: ", requestId);
 
       const fulfillTx = await fulfillRandomRequest(
         DRB_ADDRESS[chain?.id!] as `0x${string}`,
@@ -487,8 +485,7 @@ const GemCard = ({
             >
               {mode === "mine" ? (
                 isReadyForStartMine &&
-                !isMining &&
-                !isReadyForCollectMinedGem ? (
+                isMining !== true ? (
                   <Tooltip
                     w={"232px"}
                     hasArrow
@@ -572,7 +569,8 @@ const GemCard = ({
                     </Text>
                   </Flex>
                 ) : isReadyForStartMine === true &&
-                  isReadyForCollectMinedGem ? (
+                  isReadyForCollectMinedGem &&
+                  isMining === true ? (
                   <Flex
                     w={"full"}
                     h={"full"}

@@ -33,7 +33,7 @@ export const useCollectGem = (tokenId: number) => {
       address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
       functionName: "pickMinedGEM",
       args: [tokenId],
-      value: parseEther("0.005")
+      value: parseEther("0.01")
     });
     return tx;
   }, [tokenId]);
