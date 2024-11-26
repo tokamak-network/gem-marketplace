@@ -6,7 +6,7 @@ import StarIcon from "@/assets/icon/star.svg";
 import GemIcon from "@/assets/icon/mine.svg";
 import { rarityList } from "@/constants/rarity";
 
-const MinePreview = ({ rarity }: { rarity: RarityType }) => {
+const MinePreview = ({ rarity, minesRemaining }: { rarity: RarityType, minesRemaining: number }) => {
   const theme = useTheme();
 
   return (
@@ -36,8 +36,8 @@ const MinePreview = ({ rarity }: { rarity: RarityType }) => {
       </Flex>
 
       <Flex justify={"space-between"} align={"center"}>
-        <Text color={"#FFFFFF80"}>Mines Remaining:</Text>
-        <Text fontWeight={500}>10</Text>
+        <Text color={"#FFFFFF80"}>Mines Remaining: </Text>
+        <Text fontWeight={500}>{minesRemaining}</Text>
       </Flex>
     </Flex>
   );

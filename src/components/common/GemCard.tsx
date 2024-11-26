@@ -80,6 +80,7 @@ const GemCard = ({
     useState<boolean>(false);
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
   const [isHoverCooldown, SetHoverCooldown] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [, seMineModalState] = useRecoilState(miningModalStatus);
   const [, setCollectGemStatus] = useRecoilState(miningResultStatus);
   const [selectedGemsInfo, setSelectedGemsInfo] =
@@ -104,7 +105,7 @@ const GemCard = ({
     miningPeriod,
     value,
     isForSale,
-    miningTry
+    miningTry,
   } = gemInfo;
 
   const { callStartMining, isPending: isStartMiningPending } =
@@ -271,6 +272,7 @@ const GemCard = ({
 
   const handleCollectGem = async () => {
     try {
+      setLoading(true);
       const tx = await callCollectGem();
       const logData = await waitForTransactionReceipt(config, {
         hash: tx,
@@ -298,7 +300,10 @@ const GemCard = ({
       });
       const tokenId = fulfillTtopic?.args?.tokenId;
       setObtainModalStatus({ isOpen: true, gemId: tokenId });
+
+      setLoading(false);
     } catch (e) {
+      setLoading(false);
       console.log(e);
     }
   };
@@ -484,13 +489,17 @@ const GemCard = ({
               align={"center"}
             >
               {mode === "mine" ? (
-                isReadyForStartMine &&
-                isMining !== true ? (
+                isReadyForStartMine && isMining !== true ? (
                   <Tooltip
                     w={"232px"}
                     hasArrow
                     bg={"#000000E5"}
-                    label={<MinePreview rarity={rarity} />}
+                    label={
+                      <MinePreview
+                        rarity={rarity}
+                        minesRemaining={miningTry!}
+                      />
+                    }
                     placement={"top"}
                   >
                     <Center
@@ -581,8 +590,20 @@ const GemCard = ({
                     columnGap={"6px"}
                     onClick={() => handleCollectGem()}
                   >
-                    <Text fontSize={18}>Collect Gem</Text>
-                    <Image alt="gem" src={GemIcon} width={16} height={16} />
+                    {isLoading ? (
+                      <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="md"
+                      />
+                    ) : (
+                      <>
+                        <Text fontSize={18}>Collect Gem</Text>
+                        <Image alt="gem" src={GemIcon} width={16} height={16} />
+                      </>
+                    )}
                   </Flex>
                 ) : (
                   ""
