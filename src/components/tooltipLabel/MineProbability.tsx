@@ -1,21 +1,37 @@
 import { Flex, Box, Text, useTheme } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { useRecoilState } from "recoil";
-import { numberOfRarityUsers } from "@/recoil/market/atom";
+import {
+  numberOfRarityUsers,
+  numberOfRarityGemsAvailable,
+} from "@/recoil/market/atom";
 import { rarityList } from "@/constants/rarity";
 
 const MineProbability = ({ rarity }: { rarity: number }) => {
   const theme = useTheme();
   const [numberOfUsers] = useRecoilState(numberOfRarityUsers);
+  const [numberOfGems] = useRecoilState(numberOfRarityGemsAvailable);
 
   const activeMiners = useMemo(() => {
     let sum = 0;
     for (let i = 0; i <= rarity; i++) {
-      console.log(numberOfUsers[rarityList[i]]);
       sum += Number(numberOfUsers[rarityList[i]]);
     }
     return sum;
   }, [numberOfUsers]);
+
+  const gemsAvailable = useMemo(() => {
+    let sum = 0;
+    for (let i = 0; i <= rarity; i++) {
+      sum += Number(numberOfGems[rarityList[i]]);
+    }
+    return sum;
+  }, [numberOfGems]);
+
+  const probabilityValue = useMemo(
+    () => Math.min(Math.floor((gemsAvailable / activeMiners) * 100), 100),
+    [gemsAvailable, activeMiners]
+  );
 
   return (
     <Flex flexDir={"column"} p={"0px 15px"} fontFamily={theme.fonts.Inter}>
@@ -32,9 +48,9 @@ const MineProbability = ({ rarity }: { rarity: number }) => {
         </Text>
       </Box>
       <Box textAlign={"center"} py={3} fontSize={16} fontWeight={600}>
-        <Text>1,259</Text>
+        <Text>{gemsAvailable}</Text>
         <Text fontSize={12} fontWeight={400} color={"#FFFFFF80"}>
-          Gems Vailable
+          Gems Available
         </Text>
       </Box>
       <Box textAlign={"center"} pb={3}>
@@ -42,7 +58,7 @@ const MineProbability = ({ rarity }: { rarity: number }) => {
           =
         </Text>
         <Text fontSize={24} fontWeight={700}>
-          99.9%
+          {probabilityValue}%
         </Text>
       </Box>
     </Flex>

@@ -106,3 +106,15 @@ export const numberOfRarityUsers = atom<UserNumbers>({
     "mythic": 0
   }
 })
+
+export const numberOfRarityGemsAvailable = atom<UserNumbers>({
+  key: "numberOfRarityGemsAvailable",
+  default: {
+    "common": 0,
+    "rare": 0, 
+    "unique": 0,
+    "epic": 0,
+    "legendary": 0,
+    "mythic": 0
+  }
+})

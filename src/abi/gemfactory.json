@@ -1315,6 +1315,12 @@
         "internalType": "uint256"
       },
       {
+        "name": "initialGemCooldownDueDate",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
         "name": "miner",
         "type": "address",
         "indexed": false,
@@ -1666,6 +1672,12 @@
       },
       {
         "name": "tokenId",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "gemCooldownDueDate",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"

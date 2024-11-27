@@ -32,6 +32,7 @@ import { SupportedChainId } from "@/types/network/supportedNetworks";
 import { config } from "@/config/wagmi";
 
 import RandomPackABI from "@/abi/randomPack.json";
+import FactoryABI from "@/abi/gemfactory.json";
 import GempackLogo from "@/assets/images/gempack.png";
 import TonIcon from "@/assets/icon/ton.svg";
 import WalletIcon from "@/assets/icon/wallet.svg";
@@ -94,9 +95,9 @@ const GemPack = () => {
     });
 
     const topic: any = await decodeEventLog({
-      abi: RandomPackABI,
-      data: fulfillLogData?.logs[2].data,
-      topics: fulfillLogData?.logs[2].topics,
+      abi: FactoryABI,
+      data: fulfillLogData?.logs[0].data,
+      topics: fulfillLogData?.logs[0].topics,
     });
     const newTokenId = topic?.args?.tokenId;
     return newTokenId;
