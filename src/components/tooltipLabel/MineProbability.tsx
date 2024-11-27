@@ -1,7 +1,21 @@
 import { Flex, Box, Text, useTheme } from "@chakra-ui/react";
+import { useMemo } from "react";
+import { useRecoilState } from "recoil";
+import { numberOfRarityUsers } from "@/recoil/market/atom";
+import { rarityList } from "@/constants/rarity";
 
-const MineProbability = () => {
+const MineProbability = ({ rarity }: { rarity: number }) => {
   const theme = useTheme();
+  const [numberOfUsers] = useRecoilState(numberOfRarityUsers);
+
+  const activeMiners = useMemo(() => {
+    let sum = 0;
+    for (let i = 0; i <= rarity; i++) {
+      console.log(numberOfUsers[rarityList[i]]);
+      sum += Number(numberOfUsers[rarityList[i]]);
+    }
+    return sum;
+  }, [numberOfUsers]);
 
   return (
     <Flex flexDir={"column"} p={"0px 15px"} fontFamily={theme.fonts.Inter}>
@@ -12,7 +26,7 @@ const MineProbability = () => {
         fontWeight={600}
         borderBottom={"1px solid #FFFFFF40"}
       >
-        <Text>823</Text>
+        <Text>{activeMiners}</Text>
         <Text fontSize={12} fontWeight={400} color={"#FFFFFF80"}>
           Active Miners
         </Text>

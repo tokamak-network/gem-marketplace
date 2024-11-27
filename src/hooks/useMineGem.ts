@@ -3,6 +3,8 @@ import { useAccount, useWriteContract } from "wagmi";
 import FactoryMiningABI from "@/abi/gemFactoryMining.json";
 import { FACTORY_ADDRESS } from "@/constants/tokens";
 import { parseEther, parseGwei } from "viem";
+import { writeContract } from "@wagmi/core";
+import { config } from "@/config/wagmi";
 
 export const useStartMiningGem = (tokenId: number) => {
   const { writeContractAsync, isError, isPending, isSuccess, error } =
@@ -39,4 +41,18 @@ export const useCollectGem = (tokenId: number) => {
   }, [tokenId]);
 
   return { callCollectGem, isError, isPending, isSuccess, error };
+};
+
+export const collectGem = async (
+  tokenId: number,
+  contractAddress: `0x${string}`
+) => {
+  const tx = await writeContract(config, {
+    abi: FactoryMiningABI,
+    address: contractAddress,
+    functionName: "pickMinedGEM",
+    args: [tokenId],
+    value: parseEther("0.003"),
+  });
+  return tx
 };

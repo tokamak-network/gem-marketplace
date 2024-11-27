@@ -1,8 +1,8 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { formatUnits } from "viem";
-import { getStakingIndex } from "@/utils";
-import { MARKETPLACE_ADDRESS } from "@/constants/tokens";
+import { getNumberOfUserByRarity, getStakingIndex } from "@/utils";
+import { FACTORY_ADDRESS, MARKETPLACE_ADDRESS } from "@/constants/tokens";
 import { useAccount, useSwitchChain } from "wagmi";
 import { StakingIndex } from "@/recoil/market/atom";
 import { cooldownStatus } from "@/recoil/mine/atom";
@@ -16,16 +16,28 @@ import Drawers from "../drawer";
 import { SupportedChainId } from "@/types/network/supportedNetworks";
 import { useCheckChain } from "@/hooks/useCheckChain";
 import { fetchMarketPrice } from "@/utils/price";
-import { priceListStatus } from "@/recoil/market/atom";
+import { priceListStatus, numberOfRarityUsers } from "@/recoil/market/atom";
+import { rarityList } from "@/constants/rarity";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { chain, isConnected } = useAccount();
   const [, setStakingIndex] = useRecoilState(StakingIndex);
   const cooldownPeriods = useGetCooldownPeriods();
   const [, setCooldowns] = useRecoilState(cooldownStatus);
-  const [, setPriceStatus] = useRecoilState(priceListStatus)
+  const [, setPriceStatus] = useRecoilState(priceListStatus);
+  const [, setNumberOfRarityUsers] = useRecoilState(numberOfRarityUsers);
   const { switchChainAsync } = useSwitchChain();
   const { isSupportedChain } = useCheckChain();
+
+  useEffect(() => {
+    const fetchNumberOfUser = async () => {
+      for (let i = 0 ; i < 6 ; i ++ ) {
+        const number = await getNumberOfUserByRarity(FACTORY_ADDRESS[chain?.id!] as `0x${string}`, i);
+        setNumberOfRarityUsers((prev) => ({...prev, ...{[rarityList[i]]: number}}))
+      }
+    }
+    fetchNumberOfUser();
+  }, []);
 
   useEffect(() => {
     !isSupportedChain && switchChainAsync({ chainId: SupportedChainId.TITAN_SEPOLIA });
@@ -51,7 +63,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       });
     };
     fetchCooldowns();
-  }, [cooldownPeriods]);
+  }, []);
 
   useEffect(() => {
     const fetchPriceData = async () => {

@@ -1303,6 +1303,12 @@
         "internalType": "uint256"
       },
       {
+        "name": "chosenTokenId",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
         "name": "minedGemCooldownDueDate",
         "type": "uint256",
         "indexed": false,

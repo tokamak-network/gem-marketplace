@@ -109,6 +109,17 @@ export const getValueOfRarity = async (contractAddress: `0x${string}`, rarity: n
   return result;
 };
 
+export const getNumberOfUserByRarity = async (contractAddress: `0x${string}`, rarity: number) => {
+  const result: any = await readContract(config, {
+    abi: GemFactoryABI,
+    address: contractAddress,
+    functionName: "getNumberActiveMinersByRarity",
+    args: [rarity]
+  });
+
+  return result;
+}
+
 export function groupAndSortByDate(data: any) {
   if (data && data?.length > 0) {
     // Step 1: Group by date in 'YYYY-MM-DD' format

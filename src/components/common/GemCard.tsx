@@ -28,7 +28,11 @@ import {
 } from "@/recoil/forge/atom";
 import GemShape from "./GemShape";
 import { GemStandard, CardType, RarityType, TokenType } from "@/types";
-import { useCollectGem, useStartMiningGem } from "@/hooks/useMineGem";
+import {
+  collectGem,
+  useCollectGem,
+  useStartMiningGem,
+} from "@/hooks/useMineGem";
 
 import PriceContainer from "./PriceContainer";
 import RarityViewer from "./RarityViewer";
@@ -51,7 +55,7 @@ import SaleAlert from "./SaleAlert";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "@/config/wagmi";
 import FactoryMiningABI from "@/abi/gemFactoryMining.json";
-import { DRB_ADDRESS } from "@/constants/tokens";
+import { DRB_ADDRESS, FACTORY_ADDRESS } from "@/constants/tokens";
 import { fulfillRandomRequest } from "@/hooks/useGemPack";
 
 interface GemCardType {
@@ -274,6 +278,10 @@ const GemCard = ({
     try {
       setLoading(true);
       const tx = await callCollectGem();
+      // const tx = await collectGem(
+      //   tokenID,
+      //   FACTORY_ADDRESS[chain?.id!] as `0x${string}`
+      // );
       const logData = await waitForTransactionReceipt(config, {
         hash: tx,
       });
@@ -424,7 +432,11 @@ const GemCard = ({
             //   </Box>
             // ) :
             mode === "mine" ? (
-              <Tooltip bg={"#000000E5"} label={<MineProbability />} hasArrow>
+              <Tooltip
+                bg={"#000000E5"}
+                label={<MineProbability rarity={Number(rarity)} />}
+                hasArrow
+              >
                 <Flex
                   columnGap={1}
                   pos={"absolute"}

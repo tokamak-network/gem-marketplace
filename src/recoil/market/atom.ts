@@ -85,3 +85,24 @@ export const priceListStatus = atom<PriceList>({
     ton_price: 0
   }
 })
+
+type UserNumbers = {
+  [common: string]: number,
+  rare: number,
+  unique: number,
+  epic: number,
+  legendary: number,
+  mythic: number
+}
+
+export const numberOfRarityUsers = atom<UserNumbers>({
+  key: "numberOfUsers",
+  default: {
+    "common": 0,
+    "rare": 0, 
+    "unique": 0,
+    "epic": 0,
+    "legendary": 0,
+    "mythic": 0
+  }
+})
