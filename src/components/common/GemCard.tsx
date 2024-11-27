@@ -464,7 +464,7 @@ const GemCard = ({
           </Center>
 
           {((mode === "mine" && isMining && !isReadyForCollectMinedGem) ||
-            (mode === "mine" && !isReadyForStartMine)) && (
+            (mode === "mine" && !isReadyForStartMine && !isMining)) && (
             <>
               <Center justifyContent={"space-between"} px={2}>
                 <Text fontSize={10} color="#FFFFFF80">
@@ -533,7 +533,7 @@ const GemCard = ({
                         await waitForTransactionReceipt(config, {
                           hash: txHash,
                         });
-                        seMineModalState({ isOpen: true, mineTime: 2342347 });
+                        seMineModalState({ isOpen: true, mineTime: miningRemainingTime });
                       }}
                     >
                       {isStartMiningPending ? (
@@ -567,7 +567,7 @@ const GemCard = ({
                     textColor={isHoverCooldown ? "#FFFFFF" : "#FFFFFF80"}
                     rounded={"0px 0px 8px 8px"}
                   >
-                    <Text>{isHoverCooldown ? "Speed Up" : "Cooldown..."}</Text>
+                    <Text>{"Cooldown..."}</Text>
                   </Center>
                 ) : isReadyForStartMine === true &&
                   isMining === true &&

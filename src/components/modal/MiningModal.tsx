@@ -61,7 +61,7 @@ const MiningModal = () => {
               lineHeight={"34.57px"}
               textAlign={"center"}
             >
-              Mining takes some time, come back in 9:59 minutes
+              {`Mining takes some time, come back in ${mineModalStatus.mineTime}`}
             </Text>
 
             <Center>
