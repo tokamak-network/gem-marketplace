@@ -20,7 +20,7 @@ export const useStartMiningGem = (tokenId: number) => {
       address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
       functionName: "startMiningGEM",
       args: [tokenId],
-      gas: BigInt(25_000_000),
+      gas: BigInt(1500000)
     });
     return tx;
   }, [writeContractAsync, chain, chain?.id]);

@@ -35,24 +35,25 @@ const MineProbability = ({ rarity }: { rarity: number }) => {
 
   return (
     <Flex flexDir={"column"} p={"0px 15px"} fontFamily={theme.fonts.Inter}>
-      <Box
-        textAlign={"center"}
-        py={3}
-        fontSize={16}
-        fontWeight={600}
-        borderBottom={"1px solid #FFFFFF40"}
-      >
-        <Text>{activeMiners}</Text>
-        <Text fontSize={12} fontWeight={400} color={"#FFFFFF80"}>
-          Active Miners
-        </Text>
-      </Box>
       <Box textAlign={"center"} py={3} fontSize={16} fontWeight={600}>
         <Text>{gemsAvailable}</Text>
         <Text fontSize={12} fontWeight={400} color={"#FFFFFF80"}>
           Gems Available
         </Text>
       </Box>
+      <Box
+        textAlign={"center"}
+        py={3}
+        fontSize={16}
+        fontWeight={600}
+        borderTop={"1px solid #FFFFFF40"}
+      >
+        <Text>{activeMiners}</Text>
+        <Text fontSize={12} fontWeight={400} color={"#FFFFFF80"}>
+          Active Miners
+        </Text>
+      </Box>
+
       <Box textAlign={"center"} pb={3}>
         <Text fontSize={16} fontWeight={600}>
           =
