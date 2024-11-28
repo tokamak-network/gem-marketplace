@@ -4,14 +4,13 @@ import FactoryMiningABI from "@/abi/gemFactoryMining.json";
 import { FACTORY_ADDRESS } from "@/constants/tokens";
 import { parseEther, parseGwei } from "viem";
 import { writeContract } from "@wagmi/core";
-import { config } from "@/config/wagmi";
+import { config, publicClient } from "@/config/wagmi";
 import { BigNumberish } from "ethers";
 
 export const useStartMiningGem = (tokenId: number) => {
   const { writeContractAsync, isError, isPending, isSuccess, error } =
     useWriteContract();
   const { chain } = useAccount();
-
   const callStartMining = useCallback(async (tokenId: BigNumberish) => {
     if (!writeContractAsync) return
     if (!chain?.id) return
@@ -33,7 +32,11 @@ export const useCollectGem = (tokenId: number) => {
     useWriteContract();
   const { chain } = useAccount();
 
+
   const callCollectGem = useCallback(async () => {
+    const blockNumber = await publicClient.getBlockNumber();
+    console.log(blockNumber)
+    
     const tx = await writeContractAsync({
       abi: FactoryMiningABI,
       address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
