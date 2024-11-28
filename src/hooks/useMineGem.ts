@@ -5,21 +5,25 @@ import { FACTORY_ADDRESS } from "@/constants/tokens";
 import { parseEther, parseGwei } from "viem";
 import { writeContract } from "@wagmi/core";
 import { config } from "@/config/wagmi";
+import { BigNumberish } from "ethers";
 
 export const useStartMiningGem = (tokenId: number) => {
   const { writeContractAsync, isError, isPending, isSuccess, error } =
     useWriteContract();
   const { chain } = useAccount();
 
-  const callStartMining = useCallback(async () => {
+  const callStartMining = useCallback(async (tokenId: BigNumberish) => {
+    if (!writeContractAsync) return
+    if (!chain?.id) return
     const tx = await writeContractAsync({
       abi: FactoryMiningABI,
       address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
       functionName: "startMiningGEM",
       args: [tokenId],
+      gas: BigInt(25_000_000),
     });
     return tx;
-  }, [tokenId]);
+  }, [writeContractAsync, chain, chain?.id]);
 
   return { callStartMining, isError, isPending, isSuccess, error };
 };
@@ -36,6 +40,7 @@ export const useCollectGem = (tokenId: number) => {
       functionName: "pickMinedGEM",
       args: [tokenId],
       value: parseEther("0.003"),
+      
     });
     return tx;
   }, [tokenId]);

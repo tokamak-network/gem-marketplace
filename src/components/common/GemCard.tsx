@@ -115,7 +115,7 @@ const GemCard = ({
   const { callStartMining, isPending: isStartMiningPending } =
     useStartMiningGem(tokenID);
 
-  const { callCollectGem } = useCollectGem(tokenID);
+  const { callCollectGem, error: collectError } = useCollectGem(tokenID);
   const { chain } = useAccount();
   const [_, setObtainModalStatus] = useRecoilState(obtainModalStatus);
 
@@ -529,9 +529,9 @@ const GemCard = ({
                       rounded={"0px 0px 8px 8px"}
                       onClick={async () => {
                         if (isForSale) return;
-                        const txHash = await callStartMining();
+                        const txHash = await callStartMining(tokenID);
                         await waitForTransactionReceipt(config, {
-                          hash: txHash,
+                          hash: txHash!,
                         });
                         seMineModalState({ isOpen: true, mineTime: miningRemainingTime });
                       }}
@@ -641,7 +641,7 @@ const GemCard = ({
                   </Text>
                   <Flex columnGap={1} align={"center"}>
                     <Text fontSize={10} fontWeight={400} opacity={0.5}>
-                      Staked ${formatUnits(value!, 27)}{" "}
+                      Staked {formatUnits(value!, 27)}{" TITANWSTON"}
                     </Text>
                   </Flex>
                 </Flex>
