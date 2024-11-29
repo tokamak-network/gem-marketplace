@@ -6,51 +6,70 @@ import { parseEther, parseGwei } from "viem";
 import { writeContract } from "@wagmi/core";
 import { config, publicClient } from "@/config/wagmi";
 import { BigNumberish } from "ethers";
+import { ethers } from "ethers";
 
-export const useStartMiningGem = (tokenId: number) => {
+export const useStartMiningGem = () => {
   const { writeContractAsync, isError, isPending, isSuccess, error } =
     useWriteContract();
-  const { chain, address } = useAccount();
-  const callStartMining = useCallback(async (tokenId: BigNumberish) => {
-    if (!writeContractAsync) return
-    if (!chain?.id) return
-    const nonce = await publicClient.getTransactionCount({address: address!});
-    const tx = await writeContractAsync({
-      abi: FactoryMiningABI,
-      address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
-      functionName: "startMiningGEM",
-      args: [tokenId],
-      nonce: nonce + 1
-      
-    });
-    return tx;
-  }, [writeContractAsync, chain, chain?.id]);
+  const { chain } = useAccount();
 
-  return { callStartMining, isError, isPending, isSuccess, error };
+  const callStartMining = useCallback(
+    async (tokenId: BigNumberish) => {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+
+      const FactoryContract = new ethers.Contract(
+        FACTORY_ADDRESS[chain?.id!],
+        FactoryMiningABI,
+        signer
+      );
+      console.log(FactoryContract);
+      const res = await FactoryContract.startMiningGEM(tokenId, {
+        gasLimit: 15000000
+      });
+      // const tx = await writeContractAsync({
+      //   abi: FactoryMiningABI,
+      //   address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
+      //   functionName: "startMiningGEM",
+      //   args: [tokenId],
+      // });
+      return res.hash;
+    },
+    [chain, chain?.id]
+  );
+
+  return { callStartMining };
 };
 
 export const useCollectGem = (tokenId: number) => {
   const { writeContractAsync, isError, isPending, isSuccess, error } =
     useWriteContract();
-  const { chain, address } = useAccount();
-
+  const { chain } = useAccount();
 
   const callCollectGem = useCallback(async () => {
-    const blockNumber = await publicClient.getBlockNumber();
-    const nonce = await publicClient.getTransactionCount({address: address!});
-    console.log(blockNumber)
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const signer = await provider.getSigner();
+    const FactoryContract = new ethers.Contract(
+      FACTORY_ADDRESS[chain?.id!],
+      FactoryMiningABI,
+      signer
+    );
 
-    const tx = await writeContractAsync({
-      abi: FactoryMiningABI,
-      address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
-      functionName: "pickMinedGEM",
-      args: [tokenId],
+    const res = await FactoryContract.pickMinedGEM(tokenId, {
       value: parseEther("0.003"),
+      gasLimit: 1500000
     });
-    return tx;
-  }, [tokenId]);
+    // const tx = await writeContractAsync({
+    //   abi: FactoryMiningABI,
+    //   address: FACTORY_ADDRESS[chain?.id!] as `0x${string}`,
+    //   functionName: "pickMinedGEM",
+    //   args: [tokenId],
+    //   value: parseEther("0.003"),
+    // });
+    return res.hash;
+  }, [chain]);
 
-  return { callCollectGem, isError, isPending, isSuccess, error };
+  return { callCollectGem };
 };
 
 export const collectGem = async (
@@ -64,5 +83,5 @@ export const collectGem = async (
     args: [tokenId],
     value: parseEther("0.003"),
   });
-  return tx
+  return tx;
 };

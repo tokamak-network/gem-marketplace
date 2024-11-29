@@ -112,10 +112,10 @@ const GemCard = ({
     miningTry,
   } = gemInfo;
 
-  const { callStartMining, isPending: isStartMiningPending } =
-    useStartMiningGem(tokenID);
+  const { callStartMining } =
+    useStartMiningGem();
 
-  const { callCollectGem, error: collectError } = useCollectGem(tokenID);
+  const { callCollectGem } = useCollectGem(tokenID);
   const { chain } = useAccount();
   const [_, setObtainModalStatus] = useRecoilState(obtainModalStatus);
 
@@ -529,14 +529,21 @@ const GemCard = ({
                       rounded={"0px 0px 8px 8px"}
                       onClick={async () => {
                         if (isForSale) return;
-                        const txHash = await callStartMining(tokenID);
-                        await waitForTransactionReceipt(config, {
-                          hash: txHash!,
-                        });
-                        seMineModalState({ isOpen: true, mineTime: miningRemainingTime });
+                        try {
+                          setLoading(true);
+                          const txHash = await callStartMining(tokenID);
+                          await waitForTransactionReceipt(config, {
+                            hash: txHash!,
+                          });
+                          seMineModalState({ isOpen: true, mineTime: miningRemainingTime });
+                          setLoading(false);
+                        } catch(e) {
+                          setLoading(false);
+                        }
+                        
                       }}
                     >
-                      {isStartMiningPending ? (
+                      {isLoading ? (
                         <Spinner
                           thickness="4px"
                           speed="0.65s"
