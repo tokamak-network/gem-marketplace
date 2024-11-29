@@ -112,8 +112,7 @@ const GemCard = ({
     miningTry,
   } = gemInfo;
 
-  const { callStartMining } =
-    useStartMiningGem();
+  const { callStartMining } = useStartMiningGem();
 
   const { callCollectGem } = useCollectGem(tokenID);
   const { chain } = useAccount();
@@ -362,7 +361,10 @@ const GemCard = ({
       {mode === "chest" && isForSale && <Ribbon />}
       {((mode === "forge" && isForSale) ||
         (mode === "forge" && isMining) ||
-        (mode === "mine" && isForSale)) && <SaleAlert isMining={isMining!} />}
+        (mode === "mine" && isForSale) ||
+        (mode === "mine" && !isMining && miningTry === 0)) && (
+        <SaleAlert isMining={isMining!} miningTry={miningTry} />
+      )}
       {((isForgeSelected && mode === "forge") ||
         (isFinalForgeItemSelected && mode === "forgeFinal")) && (
         <>
@@ -535,12 +537,14 @@ const GemCard = ({
                           await waitForTransactionReceipt(config, {
                             hash: txHash!,
                           });
-                          seMineModalState({ isOpen: true, mineTime: miningRemainingTime });
+                          seMineModalState({
+                            isOpen: true,
+                            mineTime: miningRemainingTime,
+                          });
                           setLoading(false);
-                        } catch(e) {
+                        } catch (e) {
                           setLoading(false);
                         }
-                        
                       }}
                     >
                       {isLoading ? (
@@ -648,7 +652,8 @@ const GemCard = ({
                   </Text>
                   <Flex columnGap={1} align={"center"}>
                     <Text fontSize={10} fontWeight={400} opacity={0.5}>
-                      Staked {formatUnits(value!, 27)}{" TITANWSTON"}
+                      Staked {formatUnits(value!, 27)}
+                      {" TITANWSTON"}
                     </Text>
                   </Flex>
                 </Flex>

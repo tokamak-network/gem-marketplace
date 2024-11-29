@@ -1,6 +1,12 @@
 import { Box, Center, Flex } from "@chakra-ui/react";
 
-const SaleAlert = ({ isMining }: { isMining?: boolean }) => {
+const SaleAlert = ({
+  isMining,
+  miningTry,
+}: {
+  isMining?: boolean;
+  miningTry?: number;
+}) => {
   return (
     <Box
       pos={"absolute"}
@@ -11,6 +17,7 @@ const SaleAlert = ({ isMining }: { isMining?: boolean }) => {
       bgColor={"#00000080"}
       rounded={"8px"}
       zIndex={1}
+      cursor={"not-allowed"}
     >
       <Center
         pos={"absolute"}
@@ -21,7 +28,11 @@ const SaleAlert = ({ isMining }: { isMining?: boolean }) => {
         fontSize={12}
         fontWeight={700}
       >
-        {isMining ? "Currently Mining" : "Currently For Sale"}
+        {isMining
+          ? "Currently Mining"
+          : miningTry === 0
+            ? "No Mining Attempt"
+            : "Currently For Sale"}
       </Center>
     </Box>
   );
