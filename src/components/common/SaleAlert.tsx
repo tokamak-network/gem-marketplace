@@ -22,7 +22,7 @@ const SaleAlert = ({
       <Center
         pos={"absolute"}
         bgColor={"black"}
-        w={"132px"}
+        w={"150px"}
         h={"24px"}
         rounded={"8px 0px"}
         fontSize={12}
@@ -31,7 +31,7 @@ const SaleAlert = ({
         {isMining
           ? "Currently Mining"
           : miningTry === 0
-            ? "No Mining Attempt"
+            ? "Maximum attempts exceeded"
             : "Currently For Sale"}
       </Center>
     </Box>

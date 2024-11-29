@@ -94,6 +94,7 @@ const GemCard = ({
   const [, setForgeConfirm] = useRecoilState(forgeConfirmModalStatus);
   const [finalForgeItem, setFinalForgeGem] = useRecoilState(selectedFinalForge);
   const [cooldowns] = useRecoilState(cooldownStatus);
+  const [isMineFailed, setMineFailed] = useState<boolean>(false);
 
   const theme = useTheme();
   const router = useRouter();
@@ -300,16 +301,16 @@ const GemCard = ({
         hash: fulfillTx,
       });
 
-      const fulfillTtopic: any = await decodeEventLog({
+      const fulfillTopic: any = await decodeEventLog({
         abi: FactoryMiningABI,
         data: fulfillLogData?.logs[2].data,
         topics: fulfillLogData?.logs[2].topics,
       });
-      const tokenId = fulfillTtopic?.args?.tokenId;
+      const tokenId = fulfillTopic?.args?.tokenId;
       setObtainModalStatus({ isOpen: true, gemId: tokenId });
-
       setLoading(false);
     } catch (e) {
+      setMineFailed(true);
       setLoading(false);
       console.log(e);
     }
@@ -503,7 +504,23 @@ const GemCard = ({
               align={"center"}
             >
               {mode === "mine" ? (
-                isReadyForStartMine && isMining !== true ? (
+                isMineFailed ? (
+                  <Center
+                    h={53}
+                    w={"full"}
+                    bg={"#00000080"}
+                    columnGap={"6px"}
+                    transition={"0.5s"}
+                    _hover={{ bgColor: "#000000" }}
+                    onMouseEnter={() => SetHoverMine(true)}
+                    onMouseLeave={() => SetHoverMine(false)}
+                    border={"1px solid #FFFFFF40"}
+                    rounded={"0px 0px 8px 8px"}
+                    onClick={() => setMineFailed(false)}
+                  >
+                    Unlucky.. Try Again
+                  </Center>
+                ) : isReadyForStartMine && isMining !== true ? (
                   <Tooltip
                     w={"232px"}
                     hasArrow
@@ -518,8 +535,6 @@ const GemCard = ({
                   >
                     <Center
                       h={53}
-                      top={0}
-                      left={0}
                       w={"full"}
                       bg={"#00000080"}
                       columnGap={"6px"}
@@ -565,8 +580,6 @@ const GemCard = ({
                 ) : !isReadyForStartMine ? (
                   <Center
                     h={53}
-                    top={0}
-                    left={0}
                     w={"full"}
                     bg={"#00000080"}
                     columnGap={"6px"}

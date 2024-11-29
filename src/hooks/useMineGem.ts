@@ -23,7 +23,6 @@ export const useStartMiningGem = () => {
         FactoryMiningABI,
         signer
       );
-      console.log(FactoryContract);
       const res = await FactoryContract.startMiningGEM(tokenId, {
         gasLimit: 15000000
       });
