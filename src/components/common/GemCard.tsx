@@ -467,32 +467,38 @@ const GemCard = ({
           </Center>
 
           {((mode === "mine" && isMining && !isReadyForCollectMinedGem) ||
-            (mode === "mine" && !isReadyForStartMine && !isMining)) && (
-            <>
-              <Center justifyContent={"space-between"} px={2}>
-                <Text fontSize={10} color="#FFFFFF80">
-                  Time Remaining
-                </Text>
-                <Text fontSize={12} minW={"56px"}>
-                  {isMining ? miningRemainingTime : cooldownRemainingTime}
-                </Text>
-              </Center>
-              <Progress
-                value={
-                  isMining
-                    ? ((miningPeriod! - miningTimeRemaining) / miningPeriod!) *
-                      100
-                    : ((cooldowns[cooldownIndex[Number(rarity)]] -
-                        timeRemaining) /
-                        cooldowns[cooldownIndex[Number(rarity)]]) *
-                      100
-                }
-                bgColor={"transparent"}
-                colorScheme="gray"
-                h={"3px"}
-              />
-            </>
-          )}
+            (mode === "mine" && !isReadyForStartMine && !isMining)) &&
+            (isMineFailed ? (
+              <Text px={2} fontSize={10} color={"#FFFFFF80"}>
+                Mining Failed.
+              </Text>
+            ) : (
+              <>
+                <Center justifyContent={"space-between"} px={2}>
+                  <Text fontSize={10} color="#FFFFFF80">
+                    Time Remaining
+                  </Text>
+                  <Text fontSize={12} minW={"56px"}>
+                    {isMining ? miningRemainingTime : cooldownRemainingTime}
+                  </Text>
+                </Center>
+                <Progress
+                  value={
+                    isMining
+                      ? ((miningPeriod! - miningTimeRemaining) /
+                          miningPeriod!) *
+                        100
+                      : ((cooldowns[cooldownIndex[Number(rarity)]] -
+                          timeRemaining) /
+                          cooldowns[cooldownIndex[Number(rarity)]]) *
+                        100
+                  }
+                  bgColor={"transparent"}
+                  colorScheme="gray"
+                  h={"3px"}
+                />
+              </>
+            ))}
 
           {mode !== "normal" && (
             <Flex
