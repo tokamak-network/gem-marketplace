@@ -13,5 +13,10 @@ export const supportedNetworkList: Network[] = [
     id: 55007,
     name: "Titan Sepolia",
     icon: Titan
+  },
+  {
+    id: 111551119090,
+    name: "Thanos Sepolia",
+    icon: Thanos
   }
 ]

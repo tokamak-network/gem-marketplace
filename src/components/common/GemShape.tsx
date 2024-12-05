@@ -22,8 +22,8 @@ const GemShape = ({
 }: GemProps) => {
   const [combinedGem, setCombinedGem] = useState<string>("");
   const [bgGemShape, setBgGemShape] = useState<string>("");
-
   useEffect(() => {
+    quadrants &&
     mergeImages(
       [
         {
@@ -54,7 +54,7 @@ const GemShape = ({
     ).then((blob) => {
       setCombinedGem(blob);
     });
-
+    quadrants &&
     mergeImages(
       [
         {
@@ -89,12 +89,12 @@ const GemShape = ({
 
   return (
     <Box pos={"relative"} w={width} h={height}>
-      {!isOnlyFrame && (
+      {!isOnlyFrame && gemColor && quadrants && (
         <Box
           style={{
             maskImage: `url("${bgGemShape}")`,
             background:
-              gemColor.length === 1
+              gemColor?.length === 1
                 ? gemColorList[Object.keys(gemColorList)[gemColor[0]]]
                 : `linear-gradient(${
                   gemColorList[Object.keys(gemColorList)[gemColor[0]]]

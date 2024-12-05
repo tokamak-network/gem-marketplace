@@ -5,7 +5,7 @@ import { useAccount } from "wagmi";
 export const useCheckChain = () => {
   const { chain } = useAccount();
   const isSupportedChain: boolean = useMemo(
-    () => supportedNetworkList.some((network) => network.id === chain?.id),
+    () => supportedNetworkList.some((network) => Number(network.id) === Number(chain?.id)),
     [supportedNetworkList, chain]
   );
   return { isSupportedChain };

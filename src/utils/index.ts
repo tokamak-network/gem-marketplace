@@ -65,7 +65,7 @@ export function bnToNumber(value: bigint, decimals: number = 18) {
 }
 
 export function arraysEqual(arr1: number[], arr2: number[]) {
-  if (arr1.length !== arr2.length) return false; // Arrays must have the same length
+  if (arr1?.length !== arr2?.length) return false; // Arrays must have the same length
   return arr1.every((value, index) => value === arr2[index]); // Compare each element
 }
 

@@ -57,7 +57,9 @@ const AccountStatus = () => {
 
   const ETHBalanceUSD = useBalancePrice(Number(ETHBalance), TokenType.ETH);
   const TONBalanceUSD = useBalancePrice(
-    TONBalance?.balanceNum || 0,
+    chain?.id === SupportedChainId.THANOS_SEPOLIA
+      ? ETHBalance! || 0
+      : TONBalance?.balanceNum || 0,
     TokenType.TON
   );
   const WSTONBalanceUSD = useBalancePrice(
@@ -117,7 +119,10 @@ const AccountStatus = () => {
                 <NetworkSymbol w={32} h={32} network={chain?.id} />
                 <Text
                   fontSize={
-                    chain?.id === SupportedChainId.TITAN_SEPOLIA ? 12 : 16
+                    chain?.id === SupportedChainId.TITAN_SEPOLIA ||
+                    SupportedChainId.THANOS_SEPOLIA
+                      ? 12
+                      : 16
                   }
                   fontWeight={500}
                 >
@@ -175,50 +180,60 @@ const AccountStatus = () => {
         </Flex>
       </Flex>
 
-      {tokenList.map((item, key) => (
-        <Flex key={key} justify={"space-between"} align={"center"} mt={2}>
-          <Center columnGap={2}>
-            <Image alt="ton" src={item.icon} width={24} height={24} />
-            <Text fontSize={12} fontWeight={500} color={"#5D6978"}>
-              {item.symbol}
-            </Text>
-          </Center>
-
-          <Flex flexDir={"column"} align={"end"}>
-            {(item.symbol === "TON" && !TONBalance?.parsedBalance) ||
-            (item.symbol === "TITANWSTON" && !WSTONBalance?.parsedBalance) ||
-            (item.symbol === "ETH" && !ETHBalance) ? (
-              <Box w={"60px"} h={"24px"}>
-                <GradientSpinner />
-              </Box>
-            ) : (
-              <Text fontWeight={600} fontSize={16}>
-                {item.symbol === "TON"
-                  ? TONBalance?.roundedBalance
-                  : item.symbol === "TITANWSTON"
-                    ? WSTONBalance?.roundedBalance
-                    : item.symbol === "ETH"
-                      ? ETHBalance
-                      : ""}
+      {tokenList.map((item, key) =>
+        item.symbol === "ETH" &&
+        chain?.id === SupportedChainId.THANOS_SEPOLIA ? (
+          <></>
+        ) : (
+          <Flex key={key} justify={"space-between"} align={"center"} mt={2}>
+            <Center columnGap={2}>
+              <Image alt="ton" src={item.icon} width={24} height={24} />
+              <Text fontSize={12} fontWeight={500} color={"#5D6978"}>
+                {item.symbol}
               </Text>
-            )}
-            <Box color={"#5D6978"} fontSize={12}>
-              {TONBalanceUSD !== undefined && WSTONBalanceUSD !== undefined ? (
-                "$" +
-                (item.symbol === "TON"
-                  ? TONBalanceUSD
-                  : item.symbol === "TITANWSTON"
-                    ? WSTONBalanceUSD
-                    : ETHBalanceUSD)
-              ) : (
-                <Box w={"35px"} h={"18px"}>
+            </Center>
+
+            <Flex flexDir={"column"} align={"end"}>
+              {(item.symbol === "TON" &&
+                !TONBalance?.parsedBalance &&
+                chain?.id !== SupportedChainId.THANOS_SEPOLIA) ||
+              (item.symbol === "TITANWSTON" && !WSTONBalance?.parsedBalance) ||
+              (item.symbol === "ETH" && !ETHBalance) ? (
+                <Box w={"60px"} h={"24px"}>
                   <GradientSpinner />
                 </Box>
+              ) : (
+                <Text fontWeight={600} fontSize={16}>
+                  {item.symbol === "TON"
+                    ? chain?.id === SupportedChainId.THANOS_SEPOLIA
+                      ? ETHBalance
+                      : TONBalance?.roundedBalance
+                    : item.symbol === "TITANWSTON"
+                      ? WSTONBalance?.roundedBalance
+                      : item.symbol === "ETH"
+                        ? ETHBalance
+                        : ""}
+                </Text>
               )}
-            </Box>
+              <Box color={"#5D6978"} fontSize={12}>
+                {TONBalanceUSD !== undefined &&
+                WSTONBalanceUSD !== undefined ? (
+                  "$" +
+                  (item.symbol === "TON"
+                    ? TONBalanceUSD
+                    : item.symbol === "TITANWSTON"
+                      ? WSTONBalanceUSD
+                      : ETHBalanceUSD)
+                ) : (
+                  <Box w={"35px"} h={"18px"}>
+                    <GradientSpinner />
+                  </Box>
+                )}
+              </Box>
+            </Flex>
           </Flex>
-        </Flex>
-      ))}
+        )
+      )}
       {/* <Flex justify={"space-between"} align={"end"} mt={2}>
         <Box>
           <Text fontSize={14} color={"#5D6978"} lineHeight={"50px"}>

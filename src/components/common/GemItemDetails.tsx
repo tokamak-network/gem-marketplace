@@ -1,6 +1,7 @@
 import { Box, Flex, Link, Text } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import { GemContractAddress } from "@/constants";
+import { FACTORY_ADDRESS } from "@/constants/tokens";
 
 const GemItemDetails = ({ gemId, owner }: { gemId: number; owner: string }) => {
   const { chain } = useAccount();
@@ -35,11 +36,11 @@ const GemItemDetails = ({ gemId, owner }: { gemId: number; owner: string }) => {
             href={
               chain?.blockExplorers?.default.url +
               "/address/" +
-              GemContractAddress
+              FACTORY_ADDRESS[chain?.id!]
             }
             target="_blank"
           >
-            {GemContractAddress}
+            {FACTORY_ADDRESS[chain?.id!]}
           </Link>
         </Flex>
         <Flex>

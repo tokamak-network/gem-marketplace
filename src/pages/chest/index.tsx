@@ -24,7 +24,9 @@ const ChestPage = () => {
       ? setBuyRecommendModal(false)
       : setBuyRecommendModal(true);
   }, [result]);
-  
+
+  console.log(activeGemList)
+
   return search ? (
     <GemItemView id={Number(search)} mode="chest" />
   ) : (
@@ -58,9 +60,11 @@ const ChestPage = () => {
         isOpen={isBuyRecommendModal}
         onClose={() => setBuyRecommendModal(false)}
       />
-      {activeGemList?.map((item: GemStandard, key: number) => {
-        return <GemCard mode="chest" key={key} gemInfo={item} />;
-      })}
+      {activeGemList &&
+        activeGemList.length > 0 &&
+        activeGemList.map((item: GemStandard, key: number) => {
+          return <GemCard mode="chest" key={key} gemInfo={item} />;
+        })}
     </Flex>
     //   </InfiniteScroll>
     // )

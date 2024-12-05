@@ -53,13 +53,13 @@ export function NetworkSymbol(props: {
           {...props}
         />
       );
-    // case SupportedChainId.THANOS_SEPOLIA:
-    //   return (
-    //     <ImageSymbol
-    //       ImgFile={SYMBOL_THANOS_CIRCLE}
-    //       {...props}
-    //     />
-    //   );
+    case SupportedChainId.THANOS_SEPOLIA:
+      return (
+        <ImageSymbol
+          ImgFile={SYMBOL_THANOS_CIRCLE}
+          {...props}
+        />
+      );
     default:
       return <ImageSymbol ImgFile={WarningRed} {...props} />;
   }

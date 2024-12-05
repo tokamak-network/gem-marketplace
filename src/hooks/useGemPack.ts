@@ -10,7 +10,7 @@ import { config } from "@/config/wagmi";
 export const useGemPack = ({
   gemPackFee
 }: {
-  gemPackFee: bigint
+  gemPackFee: string
 }) => {
   const { writeContractAsync, isError, isPending, isSuccess, error } = useWriteContract();
   const { chain } = useAccount();
@@ -20,7 +20,7 @@ export const useGemPack = ({
       abi: RandomPackABI,
       address: GEMPACK_ADDRESS[chain?.id!] as `0x${string}`,
       functionName: "requestRandomGem",
-      value: parseEther("0.005")
+      value: parseEther((Number(gemPackFee) + 0.005).toString())
     });
     return tx;
   }, [gemPackFee]);

@@ -13,7 +13,7 @@ export const useETHBalance = () => {
   if (data)
     return isSupportedChain
       ? Math.round(Number(ethers.formatEther(data.value)) * 100) / 100
-      : "0";
+      : 0;
   return null;
 };
 

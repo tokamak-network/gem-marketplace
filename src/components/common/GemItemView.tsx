@@ -49,6 +49,8 @@ import Warning from "@/assets/icon/warningYellow.svg";
 import { useBalancePrice } from "@/hooks/useBalancePrice";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import GemMiningAlert from "../tooltipLabel/GemMiningAlert";
+import { useETHBalance } from "@/hooks/useTokenBalance";
+import { SupportedChainId } from "@/types/network/supportedNetworks";
 
 interface ItemProps {
   id: number;
@@ -97,11 +99,14 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     address: address,
     token: WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
   });
+  
+  const ETHBalance = useETHBalance();
 
   const TONBalance = useBalance({
     address: address,
     token: TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
   });
+
 
   const priceAsTON = useMemo(
     () =>
@@ -117,9 +122,10 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     const WSTONBalanceValue = Number(
       formatUnits(WSTONBalance?.data?.value! ?? "0", 27)
     );
-    const TONBalanceValue = Number(
+    const TONBalanceValue = chain?.id === SupportedChainId.THANOS_SEPOLIA ? ETHBalance || 0 : Number(
       formatUnits(TONBalance?.data?.value! ?? "0", 18)
     );
+
     const priceValue = Number(formatUnits(gemItem?.price! || BigInt("0"), 27));
     const requiredTON = priceValue * stakingIndex;
 
@@ -130,29 +136,31 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   }, [WSTONBalance, gemItem, TONBalance, stakingIndex]);
 
   const GemValueUSD = useBalancePrice(
-    Number(formatUnits(gemItem?.value!, 27)),
+    Number(formatUnits(gemItem?.value! || BigInt(0), 27)),
     TokenType.WSTON
   );
+
 
   const handleClick = useCallback(
     async (isPayWithWSTON: boolean) => {
       !isConnected && connectToWallet();
-
       try {
         isPayWithWSTON ? setWSTONLoading(true) : setTONLoading(true);
-        const txHash = await handleApprove(
-          MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
-          isPayWithWSTON
-            ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
-            : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
-          isPayWithWSTON
-            ? gemItem
-              ? gemItem?.price!
-              : BigInt("0")
-            : parseUnits(priceAsTON.toString(), 18)
-        );
-
-        await waitForTransactionReceipt(txHash);
+        if (chain?.id! !== SupportedChainId.THANOS_SEPOLIA) {
+          const txHash = await handleApprove(
+            MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
+            isPayWithWSTON
+              ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
+              : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
+            isPayWithWSTON
+              ? gemItem
+                ? gemItem?.price!
+                : BigInt("0")
+              : parseUnits(priceAsTON.toString(), 18)
+          );
+  
+          await waitForTransactionReceipt(txHash);
+        }
         const contract_address = MARKETPLACE_ADDRESS[chain?.id!];
         const buyTx = await buyGem(
           gemItem.tokenID,
@@ -264,7 +272,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               <Center columnGap={3}>
                 <Image alt="ton" src={WSTONIcon} width={32} height={32} />
                 <Text fontSize={32} fontWeight={600}>
-                  {`${formatUnits(gemItem?.value!, 27)} TITANWSTON`}
+                  {`${formatUnits(gemItem?.value! || BigInt(0), 27)} TITANWSTON`}
                 </Text>
               </Center>
 

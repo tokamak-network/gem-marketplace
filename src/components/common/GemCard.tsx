@@ -671,7 +671,7 @@ const GemCard = ({
                   </Text>
                   <Flex columnGap={1} align={"center"}>
                     <Text fontSize={10} fontWeight={400} opacity={0.5}>
-                      Staked {formatUnits(value!, 27)}
+                      Staked {formatUnits(value! || BigInt(0), 27)}
                       {" TITANWSTON"}
                     </Text>
                   </Flex>

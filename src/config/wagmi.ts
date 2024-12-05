@@ -5,7 +5,7 @@ import { injected, metaMask, safe } from "wagmi/connectors";
 import { createPublicClient } from "viem";
 
 export const config = createConfig({
-  chains: [titan_sepolia, sepolia],
+  chains: [titan_sepolia, sepolia, thanos_sepolia],
   connectors: [
     injected(),
     // metaMask(),
@@ -16,7 +16,7 @@ export const config = createConfig({
     // [titan.id]: http(),
     [titan_sepolia.id]: http(),
     [sepolia.id]: http(),
-    // [thanos_sepolia.id] : http()
+    [thanos_sepolia.id] : http()
   },
 });
 

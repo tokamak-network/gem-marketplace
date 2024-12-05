@@ -49,7 +49,7 @@ export const titan_sepolia = {
 } as const satisfies Chain;
 
 export const thanos_sepolia = {
-  id: 111551118080,
+  id: 111551119090,
   name: "Thanos Sepolia",
   nativeCurrency: {
     decimals: 18,
@@ -63,11 +63,11 @@ export const thanos_sepolia = {
   blockExplorers: {
     etherscan: {
       name: "BlockScout",
-      url: "https://explorer.thanos-sepolia-test.tokamak.network",
+      url: "https://explorer.thanos-sepolia.tokamak.network",
     },
     default: {
       name: "BlockScout",
-      url: "https://explorer.thanos-sepolia-test.tokamak.network",
+      url: "https://explorer.thanos-sepolia.tokamak.network",
     },
   },
 } as const satisfies Chain;

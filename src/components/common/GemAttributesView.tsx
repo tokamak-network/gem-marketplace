@@ -24,7 +24,7 @@ const GemAttributesView = ({ gemItem }: { gemItem: GemStandard }) => {
 
   const nonDupColorList = useMemo(
     () =>
-      gemItem.color.filter((value: number, index: number, self: number[]) => {
+      gemItem?.color?.filter((value: number, index: number, self: number[]) => {
         return self.indexOf(value) === index;
       }),
 
@@ -80,7 +80,7 @@ const GemAttributesView = ({ gemItem }: { gemItem: GemStandard }) => {
         </Flex>
 
         <Flex columnGap={3}>
-          {nonDupColorList.map((item, key) => (
+          {nonDupColorList?.map((item, key) => (
             <ColorItem readOnly color={colorNameList[item]} key={key} />
           ))}
         </Flex>

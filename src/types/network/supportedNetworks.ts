@@ -4,6 +4,7 @@ export enum SupportedChainId {
   SEPOLIA = 11155111,
   // THANOS_SEPOLIA = 111551118080,
   TITAN_SEPOLIA = 55007,
+  THANOS_SEPOLIA = 111551119090
 }
 
 export type Network = {

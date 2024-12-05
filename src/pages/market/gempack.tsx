@@ -43,7 +43,7 @@ const GemPack = () => {
   const [_, setModalStatus] = useRecoilState(obtainModalStatus);
   const [fee, setFee] = useState<bigint>(BigInt(0));
   const { callGemPack } = useGemPack({
-    gemPackFee: fee,
+    gemPackFee: formatEther(fee),
   });
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
@@ -52,14 +52,16 @@ const GemPack = () => {
     if (isConnected) {
       try {
         setLoading(true);
-        const txHash = await handleApprove(
-          GEMPACK_ADDRESS[chain?.id!] as `0x${string}`,
-          TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
-          fee
-        );
-        await waitForTransactionReceipt(config, {
-          hash: txHash,
-        });
+        if (chain?.id !== SupportedChainId.THANOS_SEPOLIA){
+          const txHash = await handleApprove(
+            GEMPACK_ADDRESS[chain?.id!] as `0x${string}`,
+            TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
+            fee
+          );
+          await waitForTransactionReceipt(config, {
+            hash: txHash,
+          });
+        }
         const requestHash = await callGemPack();
 
         const logData = await waitForTransactionReceipt(config, {
@@ -71,6 +73,7 @@ const GemPack = () => {
           data: logData?.logs[logData?.logs.length - 1].data,
           topics: logData?.logs[logData?.logs.length - 1].topics,
         });
+        console.log()
         const requestId = topic?.args?.requestId;
         const tokenId = await fulFullRandomness(requestId);
         setModalStatus({ isOpen: true, gemId: tokenId });
@@ -93,7 +96,6 @@ const GemPack = () => {
     const fulfillLogData = await waitForTransactionReceipt(config, {
       hash: fulfillTx,
     });
-
     const topic: any = await decodeEventLog({
       abi: FactoryABI,
       data: fulfillLogData?.logs[0].data,
@@ -111,7 +113,8 @@ const GemPack = () => {
       );
       setFee(gemPackFee);
     };
-    isConnected && chain?.id === SupportedChainId.TITAN_SEPOLIA && fetchFee();
+    (isConnected && chain?.id === SupportedChainId.TITAN_SEPOLIA) ||
+      (SupportedChainId.THANOS_SEPOLIA && fetchFee());
   }, []);
 
   return (
