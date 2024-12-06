@@ -148,19 +148,19 @@ const GemItemView = ({ id, mode }: ItemProps) => {
         isPayWithWSTON ? setWSTONLoading(true) : setTONLoading(true);
         if (chain?.id! === SupportedChainId.THANOS_SEPOLIA && !isPayWithWSTON) {
         } else {
-          // const txHash = await handleApprove(
-          //   MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
-          //   isPayWithWSTON
-          //     ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
-          //     : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
-          //   isPayWithWSTON
-          //     ? gemItem
-          //       ? gemItem?.price!
-          //       : BigInt("0")
-          //     : parseUnits(priceAsTON.toString(), 18)
-          // );
+          const txHash = await handleApprove(
+            MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
+            isPayWithWSTON
+              ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
+              : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
+            isPayWithWSTON
+              ? gemItem
+                ? gemItem?.price!
+                : BigInt("0")
+              : parseUnits(priceAsTON.toString(), 18)
+          );
   
-          // await waitForTransactionReceipt(txHash);
+          await waitForTransactionReceipt(txHash);
         }
         const contract_address = MARKETPLACE_ADDRESS[chain?.id!];
 
@@ -191,7 +191,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
         console.log(e);
       }
     },
-    [payOption]
+    [payOption, gemItem]
   );
 
   useEffect(() => {
@@ -285,7 +285,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               <Center columnGap={3}>
                 <Image alt="ton" src={WSTONIcon} width={32} height={32} />
                 <Text fontSize={32} fontWeight={600}>
-                  {`${formatUnits(gemItem?.value! || BigInt(0), 27)} TITANWSTON`}
+                  {`${formatUnits(gemItem?.value! || BigInt(0), 27)} TWSTON`}
                 </Text>
               </Center>
 
@@ -392,7 +392,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                                   size="md"
                                 />
                               ) : (
-                                `${formatUnits(gemItem?.price || BigInt(0), 27)} TITANWSTON`
+                                `${formatUnits(gemItem?.price || BigInt(0), 27)} TWSTON`
                               )}
                             </Text>
                           </Button>
@@ -404,7 +404,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                                 {" "}
                                 <Image src={Warning} alt="warning" />
                                 <Text fontSize={14} color={"#FFB801"}>
-                                  Insufficient TITANWSTON Balance
+                                  Insufficient TWSTON Balance
                                 </Text>
                               </>
                             )}
