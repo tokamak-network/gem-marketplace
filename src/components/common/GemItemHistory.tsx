@@ -39,9 +39,10 @@ const GemItemHistory = ({ gemId }: { gemId: number }) => {
           History
         </Text>
       )}
-      {filteredHistory &&
-      filteredHistory?.length > 0 &&
-      chain?.id === SupportedChainId.TITAN_SEPOLIA ? (
+      {(filteredHistory &&
+        filteredHistory?.length > 0 &&
+        chain?.id === SupportedChainId.TITAN_SEPOLIA) ||
+      chain?.id === SupportedChainId.THANOS_SEPOLIA ? (
         dateGroupedHistory?.map((groupItem, key) => (
           <Flex flexDir={"column"} rowGap={"6px"} mt={6} key={key}>
             <Text fontSize={12} color={"#FFFFFF80"}>

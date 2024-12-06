@@ -167,14 +167,14 @@ const GemItemView = ({ id, mode }: ItemProps) => {
         let buyTx;
         if (isPayWithWSTON) {
           buyTx = await buyGemWithWSTON(
-            gemItem.tokenID,
+            id,
             isPayWithWSTON,
             contract_address as `0x${string}`,
           );
         }
         else {
           buyTx = await buyGemWithTON(
-            gemItem.tokenID,
+            id,
             isPayWithWSTON,
             contract_address as `0x${string}`,
             priceAsTON

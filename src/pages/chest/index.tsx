@@ -25,8 +25,6 @@ const ChestPage = () => {
       : setBuyRecommendModal(true);
   }, [result]);
 
-  console.log(activeGemList)
-
   return search ? (
     <GemItemView id={Number(search)} mode="chest" />
   ) : (

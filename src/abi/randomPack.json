@@ -357,6 +357,15 @@
   },
   {
     "type": "function",
+    "name": "setTon",
+    "inputs": [
+      { "name": "_ton", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "setTreasury",
     "inputs": [
       { "name": "_treasury", "type": "address", "internalType": "address" }
