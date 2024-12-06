@@ -660,7 +660,7 @@ const GemCard = ({
                     opacity={0.5}
                   >{`Staked Value $${valueUSD}`}</Text>
                   <Text fontSize={14} fontWeight={600}>
-                    {formatUnits(value! ?? "0", 27)} TWSTON
+                    {formatUnits(value! ?? "0", 27)} ThanosWSTON
                   </Text>
                 </Flex>
               ) : (
@@ -675,7 +675,7 @@ const GemCard = ({
                   <Flex columnGap={1} align={"center"}>
                     <Text fontSize={10} fontWeight={400} opacity={0.5}>
                       Staked {formatUnits(value! || BigInt(0), 27)}
-                      {" TWSTON"}
+                      {" ThanosWSTON"}
                     </Text>
                   </Flex>
                 </Flex>

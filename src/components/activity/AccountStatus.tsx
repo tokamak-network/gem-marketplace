@@ -197,7 +197,7 @@ const AccountStatus = () => {
               {(item.symbol === "TON" &&
                 !TONBalance?.parsedBalance &&
                 chain?.id !== SupportedChainId.THANOS_SEPOLIA) ||
-              (item.symbol === "TWSTON" && !WSTONBalance?.parsedBalance) ||
+              (item.symbol === "ThanosWSTON" && !WSTONBalance?.parsedBalance) ||
               (item.symbol === "ETH" && !ETHBalance) ? (
                 <Box w={"60px"} h={"24px"}>
                   <GradientSpinner />
@@ -208,7 +208,7 @@ const AccountStatus = () => {
                     ? chain?.id === SupportedChainId.THANOS_SEPOLIA
                       ? ETHBalance
                       : TONBalance?.roundedBalance
-                    : item.symbol === "TWSTON"
+                    : item.symbol === "ThanosWSTON"
                       ? WSTONBalance?.roundedBalance
                       : item.symbol === "ETH"
                         ? ETHBalance
@@ -221,7 +221,7 @@ const AccountStatus = () => {
                   "$" +
                   (item.symbol === "TON"
                     ? TONBalanceUSD
-                    : item.symbol === "TWSTON"
+                    : item.symbol === "ThanosWSTON"
                       ? WSTONBalanceUSD
                       : ETHBalanceUSD)
                 ) : (

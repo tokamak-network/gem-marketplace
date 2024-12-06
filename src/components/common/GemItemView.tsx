@@ -73,7 +73,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const [, setSellGemModalStatus] = useRecoilState(sellGemModalStatus);
   const [, burnSellGemModalStatus] = useRecoilState(burnGemModalStatus);
   const [stakingIndex] = useRecoilState(StakingIndex);
-  const [isWSTONLoading, setWSTONLoading] = useState<boolean>(false);
+  const [isWSTONLoading, seThanosWSTONLoading] = useState<boolean>(false);
   const [isTONLoading, setTONLoading] = useState<boolean>(false);
   const { waitForTransactionReceipt } = useWaitForTransaction();
   const [tonFeesRate, setTonFeesRate] = useState<number>();
@@ -145,7 +145,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     async (isPayWithWSTON: boolean) => {
       !isConnected && connectToWallet();
       try {
-        isPayWithWSTON ? setWSTONLoading(true) : setTONLoading(true);
+        isPayWithWSTON ? seThanosWSTONLoading(true) : setTONLoading(true);
         if (chain?.id! === SupportedChainId.THANOS_SEPOLIA && !isPayWithWSTON) {
         } else {
           const txHash = await handleApprove(
@@ -182,11 +182,11 @@ const GemItemView = ({ id, mode }: ItemProps) => {
         }
         await waitForTransactionReceipt(buyTx);
 
-        setWSTONLoading(false);
+        seThanosWSTONLoading(false);
         setTONLoading(false);
         setModalStatus({ isOpen: true, gemId: gemItem?.tokenID });
       } catch (e) {
-        setWSTONLoading(false);
+        seThanosWSTONLoading(false);
         setTONLoading(false);
         console.log(e);
       }
@@ -285,7 +285,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
               <Center columnGap={3}>
                 <Image alt="ton" src={WSTONIcon} width={32} height={32} />
                 <Text fontSize={32} fontWeight={600}>
-                  {`${formatUnits(gemItem?.value! || BigInt(0), 27)} TWSTON`}
+                  {`${formatUnits(gemItem?.value! || BigInt(0), 27)} ThanosWSTON`}
                 </Text>
               </Center>
 
@@ -392,7 +392,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                                   size="md"
                                 />
                               ) : (
-                                `${formatUnits(gemItem?.price || BigInt(0), 27)} TWSTON`
+                                `${formatUnits(gemItem?.price || BigInt(0), 27)} ThanosWSTON`
                               )}
                             </Text>
                           </Button>
@@ -404,7 +404,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                                 {" "}
                                 <Image src={Warning} alt="warning" />
                                 <Text fontSize={14} color={"#FFB801"}>
-                                  Insufficient TWSTON Balance
+                                  Insufficient ThanosWSTON Balance
                                 </Text>
                               </>
                             )}

@@ -41,7 +41,7 @@ export const tokenList = [
     icon: TON
   },
   {
-    symbol: "TWSTON",
+    symbol: "ThanosWSTON",
     address: WSWTON_ADDRESS_BY_CHAINID,
     icon: Thanos
   },
