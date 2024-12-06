@@ -17,6 +17,7 @@ import { useRecoilState } from "recoil";
 import {
   cooldownStatus,
   miningModalStatus,
+  miningPeriodStatus,
   miningResultStatus,
 } from "@/recoil/mine/atom";
 import { useAccount } from "wagmi";
@@ -46,7 +47,7 @@ import InfoIcon from "@/assets/icon/info.svg";
 import { rarityList } from "@/constants/rarity";
 import { arraysEqual } from "@/utils";
 import { decodeEventLog, formatUnits } from "viem";
-import { cooldownIndex } from "@/constants";
+import { cooldownIndex, miningPeriodIndex } from "@/constants";
 import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useBalancePrice } from "@/hooks/useBalancePrice";
@@ -94,6 +95,7 @@ const GemCard = ({
   const [, setForgeConfirm] = useRecoilState(forgeConfirmModalStatus);
   const [finalForgeItem, setFinalForgeGem] = useRecoilState(selectedFinalForge);
   const [cooldowns] = useRecoilState(cooldownStatus);
+  const [miningPeriods] = useRecoilState(miningPeriodStatus);
   const [isMineFailed, setMineFailed] = useState<boolean>(false);
 
   const theme = useTheme();
@@ -107,7 +109,6 @@ const GemCard = ({
     isMining,
     quadrants,
     miningStartTime,
-    miningPeriod,
     value,
     isForSale,
     miningTry,
@@ -118,6 +119,8 @@ const GemCard = ({
   const { callCollectGem } = useCollectGem(tokenID);
   const { chain } = useAccount();
   const [_, setObtainModalStatus] = useRecoilState(obtainModalStatus);
+
+  const miningPeriod = miningPeriods[miningPeriodIndex[Number(rarity)]];
 
   // const [savedGemList, setValue] = useLocalStorage("savedGemList", []);
   // const isSaved = useMemo(

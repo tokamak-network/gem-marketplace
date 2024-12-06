@@ -18,6 +18,15 @@ type CooldownPeriods = {
   mythicCooldown: number;
 }
 
+type MiningPeriods = {
+  [rareMiningPeriod: string]: number;
+  epicMiningPeriod: number;
+  uniqueMiningPeriod: number;
+  legendaryMiningPeriod: number;
+  mythicMiningPeriod: number;
+}
+
+
 export const miningModalStatus = atom<MiningModalStatus>({
   key: "mineModalStatus",
   default: {
@@ -42,5 +51,16 @@ export const cooldownStatus = atom<CooldownPeriods>({
     uniqueCooldown: 0,
     legendaryCooldown: 0,
     mythicCooldown: 0
+  }
+})
+
+export const miningPeriodStatus = atom<MiningPeriods>({
+  key: "miningPeriodStatus",
+  default: {
+    rareMiningPeriod: 0,
+    epicMiningPeriod: 0,
+    uniqueMiningPeriod: 0,
+    legendaryMiningPeriod: 0,
+    mythicMiningPeriod: 0
   }
 })

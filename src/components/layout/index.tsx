@@ -9,9 +9,9 @@ import {
 import { FACTORY_ADDRESS, MARKETPLACE_ADDRESS } from "@/constants/tokens";
 import { useAccount, useSwitchChain } from "wagmi";
 import { StakingIndex } from "@/recoil/market/atom";
-import { cooldownStatus } from "@/recoil/mine/atom";
+import { cooldownStatus, miningPeriodStatus } from "@/recoil/mine/atom";
 import { useRecoilState } from "recoil";
-import { useGetCooldownPeriods } from "@/hooks/useGetCooldownPeriods";
+import { useGetCooldownPeriods, useGetMiningPeriods } from "@/hooks/useGetCooldownPeriods";
 
 import Sidebar from "./sidebar";
 import Header from "./header";
@@ -31,7 +31,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { chain, isConnected } = useAccount();
   const [, setStakingIndex] = useRecoilState(StakingIndex);
   const cooldownPeriods = useGetCooldownPeriods();
+  const miningPeriods = useGetMiningPeriods();
   const [, setCooldowns] = useRecoilState(cooldownStatus);
+  const [, setMiningPeriods] = useRecoilState(miningPeriodStatus);
   const [, setPriceStatus] = useRecoilState(priceListStatus);
   const [, setNumberOfRarityUsers] = useRecoilState(numberOfRarityUsers);
   const [, setNumberOfRarityGems] = useRecoilState(numberOfRarityGemsAvailable);
@@ -97,9 +99,17 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         legendaryCooldown: cooldownPeriods?.LegendaryGemsCooldownPeriod,
         mythicCooldown: cooldownPeriods?.MythicGemsCooldownPeriod,
       });
+
+      setMiningPeriods({
+        rareMiningPeriod: miningPeriods?.RareGemsCooldownPeriod,
+        epicMiningPeriod: miningPeriods?.EpicGemsCooldownPeriod,
+        uniqueMiningPeriod: miningPeriods?.UniqueGemsCooldownPeriod,
+        legendaryMiningPeriod: miningPeriods?.LegendaryGemsCooldownPeriod,
+        mythicMiningPeriod: miningPeriods?.MythicGemsCooldownPeriod,
+      });
     };
     fetchCooldowns();
-  }, [cooldownPeriods]);
+  }, [cooldownPeriods, miningPeriods]);
 
   useEffect(() => {
     const fetchPriceData = async () => {

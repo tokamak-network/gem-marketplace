@@ -56,6 +56,16 @@ export const cooldownIndex: string[] = [
   "mythicCooldown",
 ];
 
+export const miningPeriodIndex: string[] = [
+  "",
+  "rareMiningPeriod",
+  "uniqueMiningPeriod",
+  "epicMiningPeriod",
+  "legendaryMiningPeriod",
+  "mythicMiningPeriod",
+];
+
+
 export enum SortFilterItems {
   DATE_DES = "Newest",
   DATE_ASC = "Oldest",

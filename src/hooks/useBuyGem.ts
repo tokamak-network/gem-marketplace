@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { MARKETPLACE_ADDRESS } from "@/constants/tokens";
 import { writeContract } from "@wagmi/core";
 import { config } from "@/config/wagmi";
+import { formatEther, formatUnits, parseEther } from "viem";
 
 export const useBuyGem = ({
   tokenID,
@@ -29,10 +30,26 @@ export const useBuyGem = ({
   return { callBuyGem, isError, isPending, isSuccess, error };
 };
 
-export const buyGem = async (
+export const buyGemWithTON = async (
   tokenID: number,
   payOption: boolean,
-  contractAddress: `0x${string}`
+  contractAddress: `0x${string}`,
+  gemPrice: number
+) => {
+  const tx = await writeContract(config, {
+    abi: MarketplaceABI,
+    address: contractAddress,
+    functionName: "buyGem",
+    args: [tokenID, payOption],
+    value: parseEther(gemPrice.toString()),
+  });
+  return tx;
+};
+
+export const buyGemWithWSTON = async (
+  tokenID: number,
+  payOption: boolean,
+  contractAddress: `0x${string}`,
 ) => {
   const tx = await writeContract(config, {
     abi: MarketplaceABI,
@@ -40,5 +57,5 @@ export const buyGem = async (
     functionName: "buyGem",
     args: [tokenID, payOption],
   });
-  return tx
+  return tx;
 };

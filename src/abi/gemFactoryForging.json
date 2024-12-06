@@ -35,7 +35,6 @@
         "type": "uint8",
         "internalType": "enum GemFactoryStorage.Rarity"
       },
-      { "name": "miningPeriod", "type": "uint32", "internalType": "uint32" },
       { "name": "miningTry", "type": "uint8", "internalType": "uint8" },
       { "name": "isLocked", "type": "bool", "internalType": "bool" },
       { "name": "tokenURI", "type": "string", "internalType": "string" }
@@ -525,12 +524,6 @@
         "internalType": "uint8[4]"
       },
       {
-        "name": "miningPeriod",
-        "type": "uint32",
-        "indexed": false,
-        "internalType": "uint32"
-      },
-      {
         "name": "cooldownDueDate",
         "type": "uint256",
         "indexed": false,
@@ -643,7 +636,19 @@
         "internalType": "uint256"
       },
       {
+        "name": "chosenTokenId",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
         "name": "minedGemCooldownDueDate",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "initialGemCooldownDueDate",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
@@ -902,6 +907,18 @@
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
+      },
+      {
+        "name": "initialGemCooldownDueDate",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "miner",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
       }
     ],
     "anonymous": false
@@ -981,6 +998,12 @@
       },
       {
         "name": "tokenId",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "gemCooldownDueDate",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"

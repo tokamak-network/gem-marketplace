@@ -82,7 +82,7 @@ const ActivityContainer = () => {
         >
           {txHistory &&
           txHistory.length > 0 &&
-          chain?.id === SupportedChainId.TITAN_SEPOLIA ? (
+          chain?.id === SupportedChainId.TITAN_SEPOLIA || chain?.id === SupportedChainId.THANOS_SEPOLIA ? (
             dateGroupedHistory?.map((groupItem, key) => (
               <Flex flexDir={"column"} rowGap={"20px"} mt={"30px"} key={key}>
                 <Text fontSize={12} color={"#FFFFFF80"}>

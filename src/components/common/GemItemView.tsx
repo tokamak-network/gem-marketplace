@@ -25,7 +25,7 @@ import useConnectWallet from "@/hooks/account/useConnectWallet";
 import { useUnlistGem } from "@/hooks/useListGem";
 
 import { useGetGemWithId } from "@/hooks/useGetMarketGems";
-import { buyGem } from "@/hooks/useBuyGem";
+import { buyGemWithTON, buyGemWithWSTON } from "@/hooks/useBuyGem";
 import {
   MARKETPLACE_ADDRESS,
   TON_ADDRESS_BY_CHAINID,
@@ -146,27 +146,40 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       !isConnected && connectToWallet();
       try {
         isPayWithWSTON ? setWSTONLoading(true) : setTONLoading(true);
-        if (chain?.id! !== SupportedChainId.THANOS_SEPOLIA) {
-          const txHash = await handleApprove(
-            MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
-            isPayWithWSTON
-              ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
-              : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
-            isPayWithWSTON
-              ? gemItem
-                ? gemItem?.price!
-                : BigInt("0")
-              : parseUnits(priceAsTON.toString(), 18)
-          );
+        if (chain?.id! === SupportedChainId.THANOS_SEPOLIA && !isPayWithWSTON) {
+        } else {
+          // const txHash = await handleApprove(
+          //   MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
+          //   isPayWithWSTON
+          //     ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
+          //     : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
+          //   isPayWithWSTON
+          //     ? gemItem
+          //       ? gemItem?.price!
+          //       : BigInt("0")
+          //     : parseUnits(priceAsTON.toString(), 18)
+          // );
   
-          await waitForTransactionReceipt(txHash);
+          // await waitForTransactionReceipt(txHash);
         }
         const contract_address = MARKETPLACE_ADDRESS[chain?.id!];
-        const buyTx = await buyGem(
-          gemItem.tokenID,
-          isPayWithWSTON,
-          contract_address as `0x${string}`
-        );
+
+        let buyTx;
+        if (isPayWithWSTON) {
+          buyTx = await buyGemWithWSTON(
+            gemItem.tokenID,
+            isPayWithWSTON,
+            contract_address as `0x${string}`,
+          );
+        }
+        else {
+          buyTx = await buyGemWithTON(
+            gemItem.tokenID,
+            isPayWithWSTON,
+            contract_address as `0x${string}`,
+            priceAsTON
+          );
+        }
         await waitForTransactionReceipt(buyTx);
 
         setWSTONLoading(false);

@@ -44,7 +44,6 @@
         "type": "uint8",
         "internalType": "enum GemFactoryStorage.Rarity"
       },
-      { "name": "miningPeriod", "type": "uint32", "internalType": "uint32" },
       { "name": "miningTry", "type": "uint8", "internalType": "uint8" },
       { "name": "isLocked", "type": "bool", "internalType": "bool" },
       { "name": "tokenURI", "type": "string", "internalType": "string" }
@@ -529,12 +528,6 @@
         "type": "uint8[4]",
         "indexed": false,
         "internalType": "uint8[4]"
-      },
-      {
-        "name": "miningPeriod",
-        "type": "uint32",
-        "indexed": false,
-        "internalType": "uint32"
       },
       {
         "name": "cooldownDueDate",

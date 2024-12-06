@@ -131,6 +131,19 @@ export const GET_COOLDOWN_PERIODS = gql`
   }
 `;
 
+export const GET_MINING_PERIODS = gql`
+  query GetCooldownPeriods {
+    gemCooldowns {
+      UniqueGemsCooldownPeriod
+      RareGemsCooldownPeriod
+      MythicGemsCooldownPeriod
+      LegendaryGemsCooldownPeriod
+      EpicGemsCooldownPeriod
+    }
+  }
+`;
+
+
 export const GET_USER_TX_HISTORY = gql`
   query GetTxHistory($user: String!) {
     tradeHistories(where: {or:[{trader: $user}, {payer: $user}]}) {
