@@ -87,7 +87,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       const stakingIndex: any = await getStakingIndex(
         MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`
       );
-      setStakingIndex(Number(formatUnits(stakingIndex, 27)) | 1);
+      setStakingIndex(Number(formatUnits(stakingIndex, 27)));
     };
     isConnected &&
       (chain?.id === SupportedChainId.TITAN_SEPOLIA ||

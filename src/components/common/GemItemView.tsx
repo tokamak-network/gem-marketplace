@@ -452,7 +452,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                                   size="md"
                                 />
                               ) : (
-                                `${priceAsTON} TON`
+                                `${Math.round(priceAsTON * 100) / 100} TON`
                               )}
                             </Text>
                           </Button>
