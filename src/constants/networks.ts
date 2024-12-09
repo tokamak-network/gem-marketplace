@@ -9,11 +9,11 @@ export const supportedNetworkList: Network[] = [
     name: "Sepolia",
     icon: Ethereum
   },
-  {
-    id: 55007,
-    name: "Titan Sepolia",
-    icon: Titan
-  },
+  // {
+  //   id: 55007,
+  //   name: "Titan Sepolia",
+  //   icon: Titan
+  // },
   {
     id: 111551119090,
     name: "Thanos Sepolia",

@@ -11,7 +11,10 @@ import { useAccount, useSwitchChain } from "wagmi";
 import { StakingIndex } from "@/recoil/market/atom";
 import { cooldownStatus, miningPeriodStatus } from "@/recoil/mine/atom";
 import { useRecoilState } from "recoil";
-import { useGetCooldownPeriods, useGetMiningPeriods } from "@/hooks/useGetCooldownPeriods";
+import {
+  useGetCooldownPeriods,
+  useGetMiningPeriods,
+} from "@/hooks/useGetCooldownPeriods";
 
 import Sidebar from "./sidebar";
 import Header from "./header";
@@ -72,13 +75,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       }
     };
     isConnected &&
-      chain?.id === SupportedChainId.TITAN_SEPOLIA &&
+      (chain?.id === SupportedChainId.TITAN_SEPOLIA ||
+        chain?.id === SupportedChainId.THANOS_SEPOLIA) &&
       fetchNumberOfGems();
   }, []);
 
   useEffect(() => {
     !isSupportedChain &&
-      switchChainAsync({ chainId: SupportedChainId.TITAN_SEPOLIA });
+      switchChainAsync({ chainId: SupportedChainId.THANOS_SEPOLIA });
     const fetchStakingIndex = async () => {
       const stakingIndex: any = await getStakingIndex(
         MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`
@@ -86,7 +90,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       setStakingIndex(Number(formatUnits(stakingIndex, 27)) | 1);
     };
     isConnected &&
-      chain?.id === SupportedChainId.TITAN_SEPOLIA &&
+      (chain?.id === SupportedChainId.TITAN_SEPOLIA ||
+        chain?.id === SupportedChainId.THANOS_SEPOLIA) &&
       fetchStakingIndex();
   }, [isConnected, chain]);
 
