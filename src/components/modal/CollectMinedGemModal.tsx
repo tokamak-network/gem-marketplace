@@ -17,15 +17,29 @@ import { useRecoilState } from "recoil";
 
 import ForgeIcon from "@/assets/icon/forge.svg";
 import GemIcon from "@/assets/icon/mine.svg";
-import { GemStandard } from "@/types";
-import { GemList } from "@/constants";
+import { GemStandard, RarityType } from "@/types";
 import GemShape from "../common/GemShape";
+import { useGetGemWithId } from "@/hooks/useGetMarketGems";
+import { useMemo } from "react";
 
 const CollectMinedGemModal = () => {
   const [modalStatus, setModalStatus] = useRecoilState(miningResultStatus);
-  const gemItem = GemList.filter(
-    (item: GemStandard) => Number(item.tokenID) === Number(modalStatus.minedGemId)
-  );
+  
+  const gemList = useGetGemWithId(modalStatus.minedGemId!);
+
+  const gemItem: GemStandard = useMemo(() => {
+    return gemList && gemList[0] && gemList.length > 0
+      ? gemList[0]
+      : {
+          tokenID: 0,
+          quadrants: [1, 1, 1, 1],
+          color: [1],
+          value: BigInt("0"),
+          price: BigInt("0"),
+          rarity: RarityType.common,
+          isMining: false,
+        };
+  }, [gemList]);
   const theme = useTheme();
 
   return (
@@ -59,7 +73,7 @@ const CollectMinedGemModal = () => {
             </Text>
 
             <Center mt={8}>
-              <GemShape quadrants={gemItem[0]?.quadrants} gemColor={gemItem[0]?.color}/>
+              <GemShape quadrants={gemItem?.quadrants} gemColor={gemItem?.color}/>
             </Center>
 
             <Text

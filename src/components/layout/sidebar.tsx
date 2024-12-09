@@ -132,7 +132,7 @@ const Sidebar = () => {
       </CustomMenuItem>
       <Box h={4} />
 
-      <MenuTitle>Account</MenuTitle>
+      <MenuTitle>Resources</MenuTitle>
 
       <CustomMenuItem
         icon={Guide}
