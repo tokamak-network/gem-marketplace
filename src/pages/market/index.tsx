@@ -3,7 +3,7 @@ import { Box, Center, Flex, Text, useTheme } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { useSearchParams } from "next/navigation";
 
-import { gemPackModalStatus } from "@/recoil/market/atom";
+import { colorStatus, gemPackModalStatus } from "@/recoil/market/atom";
 
 import PriceContainer from "@/components/common/PriceContainer";
 import GemPackModal from "@/components/modal/GemPackModal";
@@ -15,8 +15,11 @@ import GEM from "@/assets/images/sample_gem.png";
 import Link from "next/link";
 import { useFilteredList } from "@/hooks/useFilteredList";
 import { useGetMarketGems } from "@/hooks/useGetMarketGems";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
+import { selectedForgeGems } from "@/recoil/forge/atom";
+import { rarityStatus } from "@/recoil/market/atom";
+import { RarityType } from "@/types";
 
 const MarketPage = () => {
   const theme = useTheme();
@@ -26,8 +29,38 @@ const MarketPage = () => {
   const search = useMemo(() => searchParams.get("asset"), [searchParams]);
   const gemList = useGetMarketGems();
   const router = useRouter();
-
+  const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
+  const [, setRarityState] = useRecoilState(rarityStatus);
   const { activeGemList } = useFilteredList(gemList);
+  const [, setColorState] = useRecoilState(colorStatus);
+
+  useEffect(() => {
+    setSelectedGemsInfo({
+      selectedRarity: RarityType.none,
+      selectedGemsList: [],
+    });
+    setRarityState({
+      common: false,
+      rare: false,
+      unique: false,
+      epic: false,
+      legendary: false,
+      mythic: false,
+    });
+    setColorState({
+      ruby: false,
+      amber: false,
+      topaz: false,
+      emerald: false,
+      turquoise: false,
+      sapphire: false,
+      amethyst: false,
+      garnet: false,
+      diamond: false,
+      onyx: false,
+    })
+  }, []);
+
   return search ? (
     <GemItemView id={Number(search)} mode="market" />
   ) : (

@@ -8,6 +8,10 @@ import { useGetUserGems } from "@/hooks/useGetUserGems";
 import { useFilteredList } from "@/hooks/useFilteredList";
 import { GemStandard } from "@/types";
 import BuyRecommendModal from "@/components/modal/BuyRecommendModal";
+import { selectedForgeGems } from "@/recoil/forge/atom";
+import { colorStatus, rarityStatus } from "@/recoil/market/atom";
+import { RarityType } from "@/types";
+import { useRecoilState } from "recoil";
 
 const ForgePage = () => {
   const [storedValue] = useLocalStorage("forge-guide", true);
@@ -15,12 +19,42 @@ const ForgePage = () => {
   const { result: gemListForUser } = useGetUserGems();
   const { activeGemList } = useFilteredList(gemListForUser);
   const [isBuyRecommendModal, setBuyRecommendModal] = useState<boolean>(false);
-
+  const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
+  const [, setRarityState] = useRecoilState(rarityStatus);
+  const [, setColorState] = useRecoilState(colorStatus);
+  
   useEffect(() => {
     gemListForUser && gemListForUser.length && gemListForUser.length > 0
       ? setBuyRecommendModal(false)
       : setBuyRecommendModal(true);
   }, [gemListForUser]);
+
+  useEffect(() => {
+    setSelectedGemsInfo({
+      selectedRarity: RarityType.none,
+      selectedGemsList: [],
+    });
+    setRarityState({
+      common: false,
+      rare: false,
+      unique: false,
+      epic: false,
+      legendary: false,
+      mythic: false,
+    });
+    setColorState({
+      ruby: false,
+      amber: false,
+      topaz: false,
+      emerald: false,
+      turquoise: false,
+      sapphire: false,
+      amethyst: false,
+      garnet: false,
+      diamond: false,
+      onyx: false,
+    })
+  }, []);
 
   return (
     <Box>

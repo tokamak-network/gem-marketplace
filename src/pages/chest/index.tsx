@@ -8,6 +8,10 @@ import { useFilteredList } from "@/hooks/useFilteredList";
 import { GemStandard } from "@/types";
 import InfiniteScroll from "react-infinite-scroll-component";
 import BuyRecommendModal from "@/components/modal/BuyRecommendModal";
+import { selectedForgeGems } from "@/recoil/forge/atom";
+import { colorStatus, rarityStatus } from "@/recoil/market/atom";
+import { RarityType } from "@/types";
+import { useRecoilState } from "recoil";
 
 const ChestPage = () => {
   const searchParams = useSearchParams();
@@ -18,12 +22,42 @@ const ChestPage = () => {
   const [hasMore, setHasMore] = useState<boolean>(true);
 
   const [isBuyRecommendModal, setBuyRecommendModal] = useState<boolean>(false);
+  const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
+  const [, setRarityState] = useRecoilState(rarityStatus);
+  const [, setColorState] = useRecoilState(colorStatus);
 
   useEffect(() => {
     result && result.length && result.length > 0
       ? setBuyRecommendModal(false)
       : setBuyRecommendModal(true);
   }, [result]);
+
+  useEffect(() => {
+    setSelectedGemsInfo({
+      selectedRarity: RarityType.none,
+      selectedGemsList: [],
+    });
+    setRarityState({
+      common: false,
+      rare: false,
+      unique: false,
+      epic: false,
+      legendary: false,
+      mythic: false,
+    });
+    setColorState({
+      ruby: false,
+      amber: false,
+      topaz: false,
+      emerald: false,
+      turquoise: false,
+      sapphire: false,
+      amethyst: false,
+      garnet: false,
+      diamond: false,
+      onyx: false,
+    })
+  }, []);
 
   return search ? (
     <GemItemView id={Number(search)} mode="chest" />
