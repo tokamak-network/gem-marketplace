@@ -24,6 +24,7 @@ import Github from "@/assets/icon/github.svg";
 import Settings from "@/assets/icon/setting.svg";
 import Community from "@/assets/icon/community.svg";
 import Guide from "@/assets/icon/guide.svg";
+import Bug from "@/assets/icon/bug.svg";
 
 interface MenuType {
   children: React.ReactNode;
@@ -147,6 +148,13 @@ const Sidebar = () => {
         link="https://github.com/tokamak-network/gem-nft-contract"
       >
         Github
+      </CustomMenuItem>
+      <CustomMenuItem
+        icon={Bug}
+        newTab
+        link="https://docs.google.com/forms/d/e/1FAIpQLSejKoUKxAAh8B7-utiLi4tw83uAAO-QP2xsmhWBl3ZcM1gy_w/viewform?usp=sf_link"
+      >
+        Report Bug
       </CustomMenuItem>
     </Flex>
   );
