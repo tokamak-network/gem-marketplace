@@ -51,6 +51,7 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import GemMiningAlert from "../tooltipLabel/GemMiningAlert";
 import { useETHBalance } from "@/hooks/useTokenBalance";
 import { SupportedChainId } from "@/types/network/supportedNetworks";
+import { useCheckChain } from "@/hooks/useCheckChain";
 
 interface ItemProps {
   id: number;
@@ -76,7 +77,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const [isWSTONLoading, seThanosWSTONLoading] = useState<boolean>(false);
   const [isTONLoading, setTONLoading] = useState<boolean>(false);
   const { waitForTransactionReceipt } = useWaitForTransaction();
-  const [tonFeesRate, setTonFeesRate] = useState<number>();
+  const [tonFeesRate, setTonFeesRate] = useState<number>(1);
   const toast = useToast();
   const router = useRouter();
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -140,6 +141,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     TokenType.WSTON
   );
 
+  const {isSupportedChain} = useCheckChain();
 
   const handleClick = useCallback(
     async (isPayWithWSTON: boolean) => {
@@ -201,7 +203,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       );
       setTonFeesRate(Number(formatUnits(value, 0)));
     };
-    fetchTonFeesRate();
+    isSupportedChain && fetchTonFeesRate();
   }, []);
 
   const handleUnlistGem = async () => {

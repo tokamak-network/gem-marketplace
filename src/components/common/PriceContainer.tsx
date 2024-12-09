@@ -9,6 +9,7 @@ import { TON_FEES_RATE_DIVIDER } from "@/constants";
 import { getTonFeesRate } from "@/utils";
 import { MARKETPLACE_ADDRESS } from "@/constants/tokens";
 import { useAccount } from "wagmi";
+import { useCheckChain } from "@/hooks/useCheckChain";
 
 const PriceContainer = ({
   price,
@@ -19,16 +20,17 @@ const PriceContainer = ({
 }) => {
   const [stakingIndex] = useRecoilState(StakingIndex);
   const { chain } = useAccount();
-  const [tonFeesRate, setTonFeesRate] = useState<number>();
+  const [tonFeesRate, setTonFeesRate] = useState<number>(1);
+  const {isSupportedChain} = useCheckChain();
 
   useEffect(() => {
     const fetchTonFeesRate = async () => {
-      const value = await getTonFeesRate(
+    const value = await getTonFeesRate(
         MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`
       );
       setTonFeesRate(Number(formatUnits(value, 0)));
     };
-    fetchTonFeesRate();
+    isSupportedChain && fetchTonFeesRate();
   }, []);
 
   const priceAsTON = useMemo(
