@@ -11,7 +11,7 @@ export const useGetUserGems = () => {
       skip: 0,
       first: 1000,
     },
-    pollInterval: 1000
+    pollInterval: 5000
   });
   const result = useMemo(() => data?.nfts, [loading, error, data]);
   return { fetchMore, result };
@@ -23,7 +23,7 @@ export const useGetUserMineGems = () => {
     variables: {
       user: address,
     },
-    pollInterval: 1000
+    pollInterval: 5000
   });
   return useMemo(() => data?.nfts, [loading, error, data]);
 };

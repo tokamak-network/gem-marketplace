@@ -165,7 +165,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
           await waitForTransactionReceipt(txHash);
         }
         const contract_address = MARKETPLACE_ADDRESS[chain?.id!];
-
+        console.log(priceAsTON)
         let buyTx;
         if (isPayWithWSTON) {
           buyTx = await buyGemWithWSTON(

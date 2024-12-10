@@ -29,7 +29,7 @@ const MineProbability = ({ rarity }: { rarity: number }) => {
   }, [numberOfGems]);
 
   const probabilityValue = useMemo(
-    () => Math.min(Math.floor((gemsAvailable / activeMiners) * 100), 100),
+    () => Math.min(Math.floor((gemsAvailable / activeMiners) * 100), 100) || 0,
     [gemsAvailable, activeMiners]
   );
 
