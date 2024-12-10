@@ -163,7 +163,7 @@ const MarketPage = () => {
             </Flex>
 
             <Link href={"/market/gempack"} replace>
-              <PriceContainer price={15} />
+              <PriceContainer isGemPack price={15} />
             </Link>
           </Flex>
         </Flex>

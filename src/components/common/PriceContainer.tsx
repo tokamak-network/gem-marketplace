@@ -14,8 +14,10 @@ import { useCheckChain } from "@/hooks/useCheckChain";
 const PriceContainer = ({
   price,
   onClick,
+  isGemPack
 }: {
   price: number;
+  isGemPack?: boolean;
   onClick?: () => void;
 }) => {
   const [stakingIndex] = useRecoilState(StakingIndex);
@@ -34,7 +36,7 @@ const PriceContainer = ({
   }, []);
 
   const priceAsTON = useMemo(
-    () =>
+    () =>isGemPack ? price :
       price * stakingIndex +
       (price * stakingIndex * tonFeesRate!) / TON_FEES_RATE_DIVIDER,
     [stakingIndex, tonFeesRate, TON_FEES_RATE_DIVIDER, price]
