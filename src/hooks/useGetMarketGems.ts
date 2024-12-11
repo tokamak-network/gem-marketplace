@@ -23,14 +23,12 @@ export const useGetUserTransactionHistory = () => {
     variables: {
       user: address
     },
-    pollInterval: 5000,
   });
   return useMemo(() => data?.tradeHistories, [loading, error, data]);
 }
 
 export const useGetTransactionHistory = () => {
   const { loading, error, data } = useQuery(GET_TX_HISTORY, {
-    pollInterval: 5000,
   });
   return useMemo(() => data?.tradeHistories, [loading, error, data]);
 }
@@ -40,7 +38,6 @@ export const useGetGemWithId = (id: number) => {
     variables: {
       id: id
     },
-    pollInterval: 5000,
   });
   return useMemo(() => data?.nfts, [loading, error, data]);
 }
