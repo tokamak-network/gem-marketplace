@@ -41,8 +41,8 @@ export const colorList: ColorListType = {
 };
 
 export const gemColorList: ColorListType = {
-  ruby: "#FF001A",
-  amber: "#FF5100",
+  ruby: "#E60017",
+  amber: "#FF6600",
   topaz: "#D9C300",
   emerald: "#00B53F",
   turquoise: "#00DCD1",
