@@ -55,7 +55,7 @@ export const useCollectGem = (tokenId: number) => {
     );
 
     const res = await FactoryContract.pickMinedGEM(tokenId, {
-      value: parseEther("1"),
+      value: parseEther("10"),
       gasLimit: 1500000
     });
     // const tx = await writeContractAsync({
@@ -80,7 +80,7 @@ export const collectGem = async (
     address: contractAddress,
     functionName: "pickMinedGEM",
     args: [tokenId],
-    value: parseEther("1"),
+    value: parseEther("10"),
   });
   return tx;
 };
