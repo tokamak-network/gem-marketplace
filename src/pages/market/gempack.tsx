@@ -176,6 +176,7 @@ const GemPack = () => {
               colorScheme="blue"
               bgColor={"#0380FF"}
               onClick={handleClick}
+              isDisabled={fee ? false: true}
             >
               {!loading &&
                 (isConnected ? (

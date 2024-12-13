@@ -56,7 +56,7 @@ export const useCollectGem = (tokenId: number) => {
 
     const res = await FactoryContract.pickMinedGEM(tokenId, {
       value: parseEther("10"),
-      gasLimit: 1500000
+      gasLimit: 15000000
     });
     // const tx = await writeContractAsync({
     //   abi: FactoryMiningABI,
