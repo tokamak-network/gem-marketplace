@@ -1,6 +1,7 @@
 import { Center, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import TON from "@/assets/icon/ton.svg";
+// import TON from "@/assets/icon/ton.svg";
+import TON from "@/assets/icon/ton2.svg";
 // import { StakingIndex } from "@/recoil/market/atom";
 // import { useRecoilState } from "recoil";
 // import { useEffect, useMemo, useState } from "react";
@@ -49,7 +50,7 @@ const PriceContainer = ({
       h={"32px"}
       columnGap={"6px"}
       rounded={"full"}
-      bgColor={"#0380FF"}
+      bgColor={"#191A22"}
       cursor={"pointer"}
       onClick={onClick ? onClick : () => {}}
     >
