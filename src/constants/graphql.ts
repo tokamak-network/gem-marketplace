@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_MARKET_GEMS = gql`
-  query GetAllMarketGems {
-    nfts(where: { isForSale: true }) {
+  query GetAllMarketGems($skip: Int, $first: Int) {
+    nfts(skip: $skip, first: $first, where: { isForSale: true } ) {
       tokenID
       color
       cooldownDueDate

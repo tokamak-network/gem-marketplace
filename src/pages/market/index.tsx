@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Box, Center, Flex, Text, useTheme } from "@chakra-ui/react";
+import { Box, Center, Flex, Spinner, Text, useTheme } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { useSearchParams } from "next/navigation";
 
@@ -9,17 +9,19 @@ import PriceContainer from "@/components/common/PriceContainer";
 import GemPackModal from "@/components/modal/GemPackModal";
 import GemCard from "@/components/common/GemCard";
 import GemItemView from "@/components/common/GemItemView";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import GEM from "@/assets/images/sample_gem.png";
 // import PumpkinGem from "@/assets/images/pumpkingem.png";
 import Link from "next/link";
 import { useFilteredList } from "@/hooks/useFilteredList";
 import { useGetMarketGems } from "@/hooks/useGetMarketGems";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { selectedForgeGems } from "@/recoil/forge/atom";
 import { rarityStatus } from "@/recoil/market/atom";
 import { RarityType } from "@/types";
+import { useGetUserGems } from "@/hooks/useGetUserGems";
 
 const MarketPage = () => {
   const theme = useTheme();
@@ -27,12 +29,13 @@ const MarketPage = () => {
     useRecoilState(gemPackModalStatus);
   const searchParams = useSearchParams();
   const search = useMemo(() => searchParams.get("asset"), [searchParams]);
-  const gemList = useGetMarketGems();
+  const { result: gemList, fetchMore } = useGetMarketGems();
   const router = useRouter();
   const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
   const [, setRarityState] = useRecoilState(rarityStatus);
   const { activeGemList } = useFilteredList(gemList);
   const [, setColorState] = useRecoilState(colorStatus);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
   useEffect(() => {
     setSelectedGemsInfo({
@@ -58,7 +61,7 @@ const MarketPage = () => {
       garnet: false,
       diamond: false,
       onyx: false,
-    })
+    });
   }, []);
 
   return search ? (
@@ -103,81 +106,107 @@ const MarketPage = () => {
           ></Box>
         </Flex> */}
       </Flex>
-
-      <Flex
-        gap={4}
-        flexWrap={"wrap"}
+      <InfiniteScroll
+        dataLength={activeGemList.length} //This is important field to render the next data
+        next={() =>
+          fetchMore({
+            variables: {
+              skip: activeGemList.length,
+            },
+            updateQuery(previousData, { fetchMoreResult }) {
+              if (fetchMoreResult.nfts.length < 15) {
+                setHasMore(false);
+              }
+              return {
+                nfts: [...previousData.nfts, ...fetchMoreResult.nfts],
+              };
+            },
+          })
+        }
+        hasMore={hasMore}
+        loader={
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="lg"
+          />
+        }
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            {/* <b>Yay! You have seen it all</b> */}
+          </p>
+        }
       >
-        <Flex
-          pos={"relative"}
-          w={212}
-          h={272}
-          bgImage={"/assets/images/gempack.png"}
-          flexDir={"column"}
-          justify={"end"}
-          rounded={"8px"}
-          onClick={() => router.push("/market/gempack")}
-          cursor={"pointer"}
-          // overflow={"hidden"}
-        >
-          <Box
-            pos={"absolute"}
-            transform={"translateX(-50%)"}
-            left={"calc(50%)"}
-            top={"-70px"}
-            width={200}
-            height={200}
-          >
-            <Image alt="gem" src={GEM} />
-          </Box>
-
-          <Text fontSize={24} fontWeight={700} px={17}>
-            GEM PACK
-          </Text>
-          <Text
-            fontFamily={theme.fonts.Inter}
-            fontSize={14}
-            fontWeight={400}
-            px={17}
-            mt={4}
-            mb={5}
-          >
-            Obtain 1 Gem ranging from Rare up to Unique!
-          </Text>
-
+        <Flex gap={4} flexWrap={"wrap"}>
           <Flex
-            w={"full"}
-            h={53}
-            bg={"#00000080"}
-            justify={"space-between"}
-            px={"9px"}
-            align={"center"}
+            pos={"relative"}
+            w={212}
+            h={272}
+            bgImage={"/assets/images/gempack.png"}
+            flexDir={"column"}
+            justify={"end"}
+            rounded={"8px"}
+            onClick={() => router.push("/market/gempack")}
+            cursor={"pointer"}
+            // overflow={"hidden"}
           >
-            <Flex flexDir={"column"} justify={"space-between"}>
-              <Text fontSize={14} color={"#FFFFFFBF"}>
-                Gem #????
-              </Text>
-              <Text fontSize={10} color={"#FFFFFF80"}>
-                Staked $10 - $55
-              </Text>
-            </Flex>
+            <Box
+              pos={"absolute"}
+              transform={"translateX(-50%)"}
+              left={"calc(50%)"}
+              top={"-70px"}
+              width={200}
+              height={200}
+            >
+              <Image alt="gem" src={GEM} />
+            </Box>
 
-            <Link href={"/market/gempack"} replace>
-              <PriceContainer isGemPack price={15} />
-            </Link>
+            <Text fontSize={24} fontWeight={700} px={17}>
+              GEM PACK
+            </Text>
+            <Text
+              fontFamily={theme.fonts.Inter}
+              fontSize={14}
+              fontWeight={400}
+              px={17}
+              mt={4}
+              mb={5}
+            >
+              Obtain 1 Gem ranging from Rare up to Unique!
+            </Text>
+
+            <Flex
+              w={"full"}
+              h={53}
+              bg={"#00000080"}
+              justify={"space-between"}
+              px={"9px"}
+              align={"center"}
+            >
+              <Flex flexDir={"column"} justify={"space-between"}>
+                <Text fontSize={14} color={"#FFFFFFBF"}>
+                  Gem #????
+                </Text>
+                <Text fontSize={10} color={"#FFFFFF80"}>
+                  Staked $10 - $55
+                </Text>
+              </Flex>
+
+              <Link href={"/market/gempack"} replace>
+                <PriceContainer isGemPack price={15} />
+              </Link>
+            </Flex>
           </Flex>
+
+          {activeGemList &&
+            activeGemList.length > 0 &&
+            activeGemList.map((item: any, key: number) => {
+              return <GemCard key={key} gemInfo={item} />;
+            })}
         </Flex>
-        {activeGemList &&
-          activeGemList.length > 0 &&
-          activeGemList.map((item: any, key: number) => {
-            return (
-              <GemCard
-                key={key}
-                gemInfo={item}
-              />
-            );
-          })}
-      </Flex>
+      </InfiniteScroll>
     </>
   );
 };
