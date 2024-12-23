@@ -32,8 +32,6 @@ const GemItemHistory = ({ gemId }: { gemId: number }) => {
     [tradeHistory]
   );
 
-  console.log(filteredHistory);
-
   return (
     <Box w={"100%"} h={"100%"} p={9} bgColor={"#191A22"} rounded={16}>
       {filteredHistory && filteredHistory?.length > 0 && (

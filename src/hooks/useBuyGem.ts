@@ -41,7 +41,7 @@ export const buyGemWithTON = async (
     address: contractAddress,
     functionName: "buyGem",
     args: [tokenID, payOption],
-    value: parseEther((gemPrice + 0.0001).toString()),
+    value: parseEther((gemPrice + 0.01).toString()),
   });
   return tx;
 };

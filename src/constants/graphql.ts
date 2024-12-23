@@ -132,13 +132,13 @@ export const GET_COOLDOWN_PERIODS = gql`
 `;
 
 export const GET_MINING_PERIODS = gql`
-  query GetCooldownPeriods {
-    gemCooldowns {
-      UniqueGemsCooldownPeriod
-      RareGemsCooldownPeriod
-      MythicGemsCooldownPeriod
-      LegendaryGemsCooldownPeriod
-      EpicGemsCooldownPeriod
+  query GetMiningPeriods {
+    gemMiningPeriods {
+      UniqueGemsMiningPeriod
+      RareGemsMiningPeriod
+      MythicGemsMiningPeriod
+      LegendaryGemsMiningPeriod
+      EpicGemsMiningPeriod
     }
   }
 `;

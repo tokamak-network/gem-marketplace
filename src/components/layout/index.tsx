@@ -106,11 +106,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       });
 
       setMiningPeriods({
-        rareMiningPeriod: miningPeriods?.RareGemsCooldownPeriod,
-        epicMiningPeriod: miningPeriods?.EpicGemsCooldownPeriod,
-        uniqueMiningPeriod: miningPeriods?.UniqueGemsCooldownPeriod,
-        legendaryMiningPeriod: miningPeriods?.LegendaryGemsCooldownPeriod,
-        mythicMiningPeriod: miningPeriods?.MythicGemsCooldownPeriod,
+        rareMiningPeriod: miningPeriods?.RareGemsMiningPeriod,
+        epicMiningPeriod: miningPeriods?.EpicGemsMiningPeriod,
+        uniqueMiningPeriod: miningPeriods?.UniqueGemsMiningPeriod,
+        legendaryMiningPeriod: miningPeriods?.LegendaryGemsMiningPeriod,
+        mythicMiningPeriod: miningPeriods?.MythicGemsMiningPeriod,
       });
     };
     fetchCooldowns();

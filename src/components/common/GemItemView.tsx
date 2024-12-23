@@ -100,14 +100,13 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     address: address,
     token: WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
   });
-  
+
   const ETHBalance = useETHBalance();
 
   const TONBalance = useBalance({
     address: address,
     token: TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
   });
-
 
   const priceAsTON = useMemo(
     () =>
@@ -123,9 +122,10 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     const WSTONBalanceValue = Number(
       formatUnits(WSTONBalance?.data?.value! ?? "0", 27)
     );
-    const TONBalanceValue = chain?.id === SupportedChainId.THANOS_SEPOLIA ? ETHBalance || 0 : Number(
-      formatUnits(TONBalance?.data?.value! ?? "0", 18)
-    );
+    const TONBalanceValue =
+      chain?.id === SupportedChainId.THANOS_SEPOLIA
+        ? ETHBalance || 0
+        : Number(formatUnits(TONBalance?.data?.value! ?? "0", 18));
 
     const priceValue = Number(formatUnits(gemItem?.price! || BigInt("0"), 27));
     const requiredTON = priceValue * stakingIndex;
@@ -141,60 +141,55 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     TokenType.WSTON
   );
 
-  const {isSupportedChain} = useCheckChain();
+  const { isSupportedChain } = useCheckChain();
 
-  const handleClick = useCallback(
-    async (isPayWithWSTON: boolean) => {
-      !isConnected && connectToWallet();
-      try {
-        isPayWithWSTON ? seThanosWSTONLoading(true) : setTONLoading(true);
-        if (chain?.id! === SupportedChainId.THANOS_SEPOLIA && !isPayWithWSTON) {
-        } else {
-          const txHash = await handleApprove(
-            MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
-            isPayWithWSTON
-              ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
-              : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
-            isPayWithWSTON
-              ? gemItem
-                ? gemItem?.price!
-                : BigInt("0")
-              : parseUnits(priceAsTON.toString(), 18)
-          );
-  
-          await waitForTransactionReceipt(txHash);
-        }
-        const contract_address = MARKETPLACE_ADDRESS[chain?.id!];
-        console.log(priceAsTON)
-        let buyTx;
-        if (isPayWithWSTON) {
-          buyTx = await buyGemWithWSTON(
-            id,
-            isPayWithWSTON,
-            contract_address as `0x${string}`,
-          );
-        }
-        else {
-          buyTx = await buyGemWithTON(
-            id,
-            isPayWithWSTON,
-            contract_address as `0x${string}`,
-            priceAsTON
-          );
-        }
-        await waitForTransactionReceipt(buyTx);
+  const handleClick = async (isPayWithWSTON: boolean) => {
+    !isConnected && connectToWallet();
+    try {
+      isPayWithWSTON ? seThanosWSTONLoading(true) : setTONLoading(true);
+      if (chain?.id! === SupportedChainId.THANOS_SEPOLIA && !isPayWithWSTON) {
+      } else {
+        const txHash = await handleApprove(
+          MARKETPLACE_ADDRESS[chain?.id!] as `0x${string}`,
+          isPayWithWSTON
+            ? (WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`)
+            : (TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`),
+          isPayWithWSTON
+            ? gemItem
+              ? gemItem?.price!
+              : BigInt("0")
+            : parseUnits(priceAsTON.toString(), 18)
+        );
 
-        seThanosWSTONLoading(false);
-        setTONLoading(false);
-        setModalStatus({ isOpen: true, gemId: gemItem?.tokenID });
-      } catch (e) {
-        seThanosWSTONLoading(false);
-        setTONLoading(false);
-        console.log(e);
+        await waitForTransactionReceipt(txHash);
       }
-    },
-    [payOption, gemItem]
-  );
+      const contract_address = MARKETPLACE_ADDRESS[chain?.id!];
+      let buyTx;
+      if (isPayWithWSTON) {
+        buyTx = await buyGemWithWSTON(
+          id,
+          isPayWithWSTON,
+          contract_address as `0x${string}`
+        );
+      } else {
+        buyTx = await buyGemWithTON(
+          id,
+          isPayWithWSTON,
+          contract_address as `0x${string}`,
+          priceAsTON
+        );
+      }
+      await waitForTransactionReceipt(buyTx);
+
+      seThanosWSTONLoading(false);
+      setTONLoading(false);
+      setModalStatus({ isOpen: true, gemId: gemItem?.tokenID });
+    } catch (e) {
+      seThanosWSTONLoading(false);
+      setTONLoading(false);
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
     const fetchTonFeesRate = async () => {

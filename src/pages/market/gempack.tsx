@@ -73,7 +73,6 @@ const GemPack = () => {
           data: logData?.logs[logData?.logs.length - 1].data,
           topics: logData?.logs[logData?.logs.length - 1].topics,
         });
-        console.log()
         const requestId = topic?.args?.requestId;
         const tokenId = await fulFullRandomness(requestId);
         setModalStatus({ isOpen: true, gemId: tokenId });
