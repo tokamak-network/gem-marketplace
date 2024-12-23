@@ -633,41 +633,47 @@ const GemCard = ({
                 ) : isReadyForStartMine === true &&
                   isMining === true &&
                   !isReadyForCollectMinedGem ? (
-                  <Flex
-                    w={"full"}
-                    justify={"center"}
-                    align={"center"}
-                    columnGap={1}
-                    h={"53px"}
-                    bgColor={"#00000080"}
-                    color={"#FFFFFF80"}
-                    _hover={{ bgColor: "#000000", color: "#FFFFFF" }}
-                    rounded={"0px 0px 8px 8px"}
-                    border={"1px solid #FFFFFF40"}
-                    transition={"0.2s"}
-                    onClick={handleCancleMineGem}
-                  >
-                    {isLoading ? (
-                      <Spinner
-                        thickness="4px"
-                        speed="0.65s"
-                        emptyColor="gray.200"
-                        color="blue.500"
-                        size="md"
+                  <Tooltip
+                    hasArrow
+                    bgColor={"#000000E5"}
+                    label={
+                      <GemMiningAlert
+                        text={
+                          "Cancel mining will not retain your remaining progress"
+                        }
                       />
-                    ) : (
-                      <Tooltip
-                        hasArrow
-                        bgColor={"#000000E5"}
-                        label={<GemMiningAlert text={"Cancel mining will not retain your remaining progress"} />}
-                        rounded={4}
-                      >
+                    }
+                    rounded={4}
+                  >
+                    <Flex
+                      w={"full"}
+                      justify={"center"}
+                      align={"center"}
+                      columnGap={1}
+                      h={"53px"}
+                      bgColor={"#00000080"}
+                      color={"#FFFFFF80"}
+                      _hover={{ bgColor: "#000000", color: "#FFFFFF" }}
+                      rounded={"0px 0px 8px 8px"}
+                      border={"1px solid #FFFFFF40"}
+                      transition={"0.2s"}
+                      onClick={handleCancleMineGem}
+                    >
+                      {isLoading ? (
+                        <Spinner
+                          thickness="4px"
+                          speed="0.65s"
+                          emptyColor="gray.200"
+                          color="blue.500"
+                          size="md"
+                        />
+                      ) : (
                         <Text fontSize={18} textAlign={"center"}>
                           Cancel Mine
                         </Text>
-                      </Tooltip>
-                    )}
-                  </Flex>
+                      )}
+                    </Flex>
+                  </Tooltip>
                 ) : isReadyForStartMine === true &&
                   isReadyForCollectMinedGem &&
                   isMining === true ? (

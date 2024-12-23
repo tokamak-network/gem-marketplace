@@ -124,9 +124,9 @@ const GemItemHistory = ({ gemId }: { gemId: number }) => {
                       style={{ color: "#0075FF" }}
                     >{` Gem #${item.gemIds[0]} `}</Link>
                   )}
-                  {item.tradeType === "purchased" || item.tradeType === "listed" || item.tradeType === "received"
+                  {item.tradeType === "purchased" || item.tradeType === "listed" 
                     ? `for ${commafy(formatUnits(item.value ?? BigInt(0), 27), 2)} WSTON`
-                    : ""}
+                    : item.tradeType === "received" ? "from Gem Pack" : ""}
                 </Text>
               </Flex>
             ))}
