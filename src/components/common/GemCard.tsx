@@ -30,6 +30,7 @@ import {
 import GemShape from "./GemShape";
 import { GemStandard, CardType, RarityType, TokenType } from "@/types";
 import {
+  cancleMineGem,
   collectGem,
   useCollectGem,
   useStartMiningGem,
@@ -276,6 +277,23 @@ const GemCard = ({
       setFinalForgeGem({ color: [...color] });
     }
   }, [selectedGemsList, selectedRarity, selectedGemsInfo, gemInfo]);
+
+  const handleCancleMineGem = async () => {
+    try {
+      setLoading(true);
+      const tx = await cancleMineGem(
+        tokenID,
+        FACTORY_ADDRESS[chain?.id!] as `0x${string}`
+      );
+      await waitForTransactionReceipt(config, {
+        hash: tx,
+      });
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  };
 
   const handleCollectGem = async () => {
     try {
@@ -617,10 +635,21 @@ const GemCard = ({
                     rounded={"0px 0px 8px 8px"}
                     border={"1px solid #FFFFFF40"}
                     transition={"0.2s"}
+                    onClick={handleCancleMineGem}
                   >
-                    <Text fontSize={18} textAlign={"center"}>
-                      Cancel Mine
-                    </Text>
+                    {isLoading ? (
+                      <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="md"
+                      />
+                    ) : (
+                      <Text fontSize={18} textAlign={"center"}>
+                        Cancel Mine
+                      </Text>
+                    )}
                   </Flex>
                 ) : isReadyForStartMine === true &&
                   isReadyForCollectMinedGem &&

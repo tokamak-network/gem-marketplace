@@ -68,7 +68,7 @@ const MarketPage = () => {
     <GemItemView id={Number(search)} mode="market" />
   ) : (
     <>
-      <Flex columnGap={4} mt={73}>
+      <Flex columnGap={4}>
         <GemPackModal
           isOpen={gemPackModalState}
           onOpen={() => setGemPackModalState(true)}
@@ -139,7 +139,7 @@ const MarketPage = () => {
           </p>
         }
       >
-        <Flex gap={4} flexWrap={"wrap"}>
+        <Flex gap={4} flexWrap={"wrap"} mt={73}>
           <Flex
             pos={"relative"}
             w={212}

@@ -84,3 +84,16 @@ export const collectGem = async (
   });
   return tx;
 };
+
+export const cancleMineGem = async (
+  tokenId: number,
+  contractAddress: `0x${string}`
+) => {
+  const tx = await writeContract(config, {
+    abi: FactoryMiningABI,
+    address: contractAddress,
+    functionName: "cancelMining",
+    args: [tokenId],
+  });
+  return tx;
+};
