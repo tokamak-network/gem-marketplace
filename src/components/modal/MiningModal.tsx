@@ -28,7 +28,7 @@ const MiningModal = () => {
   const [storageValue, setValue] = useLocalStorage("mining-detail", true);
   const handleClose = () => {
     if (isChecked) setValue(false);
-    setMineModalStatus({ isOpen: false });
+    setMineModalStatus({ isOpen: false, gemId: -1 });
   };
 
 
@@ -61,7 +61,7 @@ const MiningModal = () => {
               lineHeight={"34.57px"}
               textAlign={"center"}
             >
-              {`Mining takes some time, come back in ${mineModalStatus.mineTime}`}
+              {`Mining takes some time, come back in ${mineModalStatus.mineTime ?? "0:0:0"}`}
             </Text>
 
             <Center>

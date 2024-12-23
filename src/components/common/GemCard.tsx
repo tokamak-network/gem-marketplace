@@ -87,7 +87,7 @@ const GemCard = ({
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
   const [isHoverCooldown, SetHoverCooldown] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [, seMineModalState] = useRecoilState(miningModalStatus);
+  const [mineModalState, seMineModalState] = useRecoilState(miningModalStatus);
   const [, setCollectGemStatus] = useRecoilState(miningResultStatus);
   const [selectedGemsInfo, setSelectedGemsInfo] =
     useRecoilState(selectedForgeGems);
@@ -200,6 +200,14 @@ const GemCard = ({
           )} : ${Math.floor((miningTimeRemaining % 3600) % 60)}`,
     [miningTimeRemaining]
   );
+
+  useEffect(() => {
+    tokenID === mineModalState.gemId && mineModalState.isOpen &&
+    seMineModalState({
+      ...mineModalState,
+      mineTime: miningRemainingTime,
+    });
+  }, [miningRemainingTime, miningTimeRemaining]);
 
   const handleCardClick = useCallback(() => {
     if (mode === "forge") {
@@ -581,7 +589,7 @@ const GemCard = ({
                           });
                           seMineModalState({
                             isOpen: true,
-                            mineTime: miningRemainingTime,
+                            gemId: tokenID
                           });
                           setLoading(false);
                         } catch (e) {

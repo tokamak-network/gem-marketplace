@@ -3,6 +3,7 @@ import { atom } from "recoil";
 type MiningModalStatus = {
   isOpen: boolean;
   mineTime?: string;
+  gemId: number;
 }
 
 type MiningResultStatus = {
@@ -31,6 +32,7 @@ export const miningModalStatus = atom<MiningModalStatus>({
   key: "mineModalStatus",
   default: {
     isOpen: false,
+    gemId: -1,
     mineTime: ""
   }
 });
