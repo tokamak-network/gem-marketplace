@@ -59,6 +59,7 @@ import { config } from "@/config/wagmi";
 import FactoryMiningABI from "@/abi/gemFactoryMining.json";
 import { DRB_ADDRESS, FACTORY_ADDRESS } from "@/constants/tokens";
 import { fulfillRandomRequest } from "@/hooks/useGemPack";
+import GemMiningAlert from "../tooltipLabel/GemMiningAlert";
 
 interface GemCardType {
   width?: number;
@@ -202,11 +203,12 @@ const GemCard = ({
   );
 
   useEffect(() => {
-    tokenID === mineModalState.gemId && mineModalState.isOpen &&
-    seMineModalState({
-      ...mineModalState,
-      mineTime: miningRemainingTime,
-    });
+    tokenID === mineModalState.gemId &&
+      mineModalState.isOpen &&
+      seMineModalState({
+        ...mineModalState,
+        mineTime: miningRemainingTime,
+      });
   }, [miningRemainingTime, miningTimeRemaining]);
 
   const handleCardClick = useCallback(() => {
@@ -589,7 +591,7 @@ const GemCard = ({
                           });
                           seMineModalState({
                             isOpen: true,
-                            gemId: tokenID
+                            gemId: tokenID,
                           });
                           setLoading(false);
                         } catch (e) {
@@ -654,9 +656,16 @@ const GemCard = ({
                         size="md"
                       />
                     ) : (
-                      <Text fontSize={18} textAlign={"center"}>
-                        Cancel Mine
-                      </Text>
+                      <Tooltip
+                        hasArrow
+                        bgColor={"#000000E5"}
+                        label={<GemMiningAlert text={"Cancel mining will not retain your remaining progress"} />}
+                        rounded={4}
+                      >
+                        <Text fontSize={18} textAlign={"center"}>
+                          Cancel Mine
+                        </Text>
+                      </Tooltip>
                     )}
                   </Flex>
                 ) : isReadyForStartMine === true &&

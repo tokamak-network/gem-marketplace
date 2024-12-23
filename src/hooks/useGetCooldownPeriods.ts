@@ -9,6 +9,5 @@ export const useGetCooldownPeriods = () => {
 
 export const useGetMiningPeriods = () => {
   const { loading, error, data } = useQuery(GET_MINING_PERIODS);
-  console.log(loading, error);
   return useMemo(() => data?.gemMiningPeriods[0], [loading, error, data]);
 };
