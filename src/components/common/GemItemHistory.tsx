@@ -1,5 +1,5 @@
 import { useAccount } from "wagmi";
-import { useGetTransactionHistory } from "@/hooks/useGetMarketGems";
+import { useGetTransactionHistory, useGetTransactionHistoryByID } from "@/hooks/useGetMarketGems";
 import { SupportedChainId } from "@/types/network/supportedNetworks";
 import { groupAndSortByDate } from "@/utils";
 import { Box, Flex, Text, Link } from "@chakra-ui/react";
@@ -16,25 +16,27 @@ import NoActivityContainer from "../activity/NoActivityAlert";
 
 const GemItemHistory = ({ gemId }: { gemId: number }) => {
   const { address, chain } = useAccount();
-  const tradeHistory = useGetTransactionHistory();
+  const tradeHistory = useGetTransactionHistoryByID(gemId.toString());
+  // const filteredHistory = useMemo(
+  //   () =>
+  //     tradeHistory?.filter(
+  //       (item: any) =>
+  //         item?.gemIds?.includes(gemId.toString()) ||
+  //         item.newId === gemId.toString()
+  //     ),
+  //   [tradeHistory]
+  // );
+
   const filteredHistory = useMemo(
-    () =>
-      tradeHistory?.filter(
-        (item: any) =>
-          item?.gemIds?.includes(gemId.toString()) ||
-          item.newId === gemId.toString()
-      ),
+    () => groupAndSortByDate(tradeHistory),
     [tradeHistory]
   );
 
-  const dateGroupedHistory = useMemo(
-    () => groupAndSortByDate(filteredHistory),
-    [filteredHistory]
-  );
+  console.log(filteredHistory);
 
   return (
     <Box w={"100%"} h={"100%"} p={9} bgColor={"#191A22"} rounded={16}>
-      {filteredHistory?.length > 0 && (
+      {filteredHistory && filteredHistory?.length > 0 && (
         <Text fontWeight={600} fontSize={18}>
           History
         </Text>
@@ -43,7 +45,7 @@ const GemItemHistory = ({ gemId }: { gemId: number }) => {
         filteredHistory?.length > 0 &&
         chain?.id === SupportedChainId.TITAN_SEPOLIA) ||
       chain?.id === SupportedChainId.THANOS_SEPOLIA ? (
-        dateGroupedHistory?.map((groupItem, key) => (
+        filteredHistory?.map((groupItem, key) => (
           <Flex flexDir={"column"} rowGap={"6px"} mt={6} key={key}>
             <Text fontSize={12} color={"#FFFFFF80"}>
               {groupItem.date}

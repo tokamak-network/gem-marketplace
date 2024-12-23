@@ -4,6 +4,7 @@ import {
   GET_GEM_WITH_ID,
   GET_MARKET_GEMS,
   GET_TX_HISTORY,
+  GET_TX_HISTORY_BY_ID,
   GET_USER_TX_HISTORY,
 } from "@/constants/graphql";
 import { useQuery } from "@apollo/client";
@@ -40,6 +41,15 @@ export const useGetUserTransactionHistory = () => {
 
 export const useGetTransactionHistory = () => {
   const { loading, error, data } = useQuery(GET_TX_HISTORY, {});
+  return useMemo(() => data?.tradeHistories, [loading, error, data]);
+};
+
+export const useGetTransactionHistoryByID = (id: string) => {
+  const { loading, error, data } = useQuery(GET_TX_HISTORY_BY_ID, {
+    variables: {
+      id
+    }
+  });
   return useMemo(() => data?.tradeHistories, [loading, error, data]);
 };
 

@@ -159,6 +159,21 @@ export const GET_USER_TX_HISTORY = gql`
   }
 `;
 
+export const GET_TX_HISTORY_BY_ID = gql`
+  query GetTxHistory($id: String!) {
+    tradeHistories(where: {gemIds: [$id]}) {
+      gemIds
+      newId
+      payer
+      tradeType
+      trader
+      value
+      date
+      txHash
+    }
+  }
+`;
+
 export const GET_TX_HISTORY = gql`
   query GetTxHistory {
     tradeHistories {
