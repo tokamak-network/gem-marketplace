@@ -536,7 +536,7 @@ const GemCard = ({
               pos={"relative"}
               w={"full"}
               h={53}
-              bgColor={"#00000080"}
+              bgColor={"#000000A0"}
               justify={"space-between"}
               align={"center"}
             >
