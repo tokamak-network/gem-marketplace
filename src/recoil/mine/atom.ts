@@ -3,7 +3,7 @@ import { atom } from "recoil";
 type MiningModalStatus = {
   isOpen: boolean;
   mineTime?: string;
-  gemId: number;
+  gemId?: number;
 }
 
 type MiningResultStatus = {
