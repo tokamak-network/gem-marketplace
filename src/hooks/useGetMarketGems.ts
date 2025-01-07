@@ -54,10 +54,11 @@ export const useGetTransactionHistoryByID = (id: string) => {
 };
 
 export const useGetGemWithId = (id: number) => {
-  const { loading, error, data } = useQuery(GET_GEM_WITH_ID, {
+  const { loading, error, data, refetch } = useQuery(GET_GEM_WITH_ID, {
     variables: {
       id: id,
     },
   });
-  return useMemo(() => data?.nfts, [loading, error, data]);
+  const result = useMemo(() => data?.nfts, [loading, error, data]);
+  return {result, refetch}
 };

@@ -3,6 +3,7 @@ import { atom } from "recoil";
 export const sellGemModalStatus = atom<{
   isOpen: boolean;
   tokenID: number;
+  refetch?: () => void;
 }>({
   key: "sellGemModalStatus",
   default: {

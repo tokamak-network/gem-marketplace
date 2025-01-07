@@ -5,7 +5,7 @@ import { GET_USER_GEMS, GET_USER_MINE_GEMS } from "@/constants/graphql";
 
 export const useGetUserGems = () => {
   const { address } = useAccount();
-  const { loading, error, data, fetchMore } = useQuery(GET_USER_GEMS, {
+  const { loading, error, data, fetchMore, refetch } = useQuery(GET_USER_GEMS, {
     variables: {
       user: address,
       skip: 0,
@@ -14,7 +14,7 @@ export const useGetUserGems = () => {
     pollInterval: 5000
   });
   const result = useMemo(() => data?.nfts, [loading, error, data]);
-  return { fetchMore, result };
+  return { fetchMore, result, refetch };
 };
 
 export const useGetUserMineGems = () => {

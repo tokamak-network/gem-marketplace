@@ -88,7 +88,7 @@ const GemCard = ({
   const [isHoverMine, SetHoverMine] = useState<boolean>(false);
   const [isHoverCooldown, SetHoverCooldown] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [mineModalState, seMineModalState] = useRecoilState(miningModalStatus);
+  const [mineModalState, setMineModalState] = useRecoilState(miningModalStatus);
   const [, setCollectGemStatus] = useRecoilState(miningResultStatus);
   const [selectedGemsInfo, setSelectedGemsInfo] =
     useRecoilState(selectedForgeGems);
@@ -205,7 +205,7 @@ const GemCard = ({
   useEffect(() => {
     tokenID === mineModalState.gemId &&
       mineModalState.isOpen &&
-      seMineModalState({
+      setMineModalState({
         ...mineModalState,
         mineTime: miningRemainingTime,
       });
@@ -479,7 +479,7 @@ const GemCard = ({
                   opacity={0.5}
                 >
                   <Text fontSize={10}>Probability:</Text>
-                  <Image alt="info" src={InfoIcon} width={8} height={8} />
+                  {/* <Image alt="info" src={InfoIcon} width={8} height={8} /> */}
                 </Flex>
               </Tooltip>
             ) : (
@@ -536,7 +536,7 @@ const GemCard = ({
               pos={"relative"}
               w={"full"}
               h={53}
-              bgColor={"#000000A0"}
+              bgColor={"#000000B0"}
               justify={"space-between"}
               align={"center"}
             >
@@ -589,7 +589,7 @@ const GemCard = ({
                           await waitForTransactionReceipt(config, {
                             hash: txHash!,
                           });
-                          seMineModalState({
+                          setMineModalState({
                             isOpen: true,
                             gemId: tokenID,
                           });

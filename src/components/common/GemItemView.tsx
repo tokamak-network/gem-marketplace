@@ -66,7 +66,7 @@ enum PayOption {
 }
 
 const GemItemView = ({ id, mode }: ItemProps) => {
-  const gemList = useGetGemWithId(id);
+  const {result: gemList, refetch} = useGetGemWithId(id);
   const { connectToWallet } = useConnectWallet();
   const { isConnected, address, chain } = useAccount();
   const { callUnlistGem } = useUnlistGem({ tokenID: id });
@@ -206,6 +206,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
       setLoading(true);
       const hash = await callUnlistGem();
       await waitForTransactionReceipt(hash);
+      await refetch();
       setLoading(false);
     } catch (e) {
       setLoading(false);
@@ -314,6 +315,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                           : setSellGemModalStatus({
                               isOpen: true,
                               tokenID: gemItem?.tokenID,
+                              refetch
                             });
                       }}
                       isDisabled={gemItem.isMining!}

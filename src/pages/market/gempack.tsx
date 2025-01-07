@@ -52,7 +52,7 @@ const GemPack = () => {
     if (isConnected) {
       try {
         setLoading(true);
-        if (chain?.id !== SupportedChainId.THANOS_SEPOLIA){
+        if (chain?.id !== SupportedChainId.THANOS_SEPOLIA) {
           const txHash = await handleApprove(
             GEMPACK_ADDRESS[chain?.id!] as `0x${string}`,
             TON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,
@@ -173,9 +173,10 @@ const GemPack = () => {
               alignItems={"center"}
               justifyContent={"center"}
               colorScheme="blue"
-              bgColor={"#0380FF"}
+              bgColor={"transparent"}
               onClick={handleClick}
-              isDisabled={fee ? false: true}
+              border={"2px solid #0075FF"}
+              isDisabled={fee ? false : true}
             >
               {!loading &&
                 (isConnected ? (
@@ -193,9 +194,20 @@ const GemPack = () => {
                     size="md"
                   />
                 ) : (
-                  <Text fontSize={24} fontWeight={600}>
-                    {formatEther(fee)}
-                  </Text>
+                  <Flex align={"center"}>
+                    <Text fontSize={24} fontWeight={600}>
+                      {formatEther(fee)} TON
+                    </Text>
+                    <Text
+                      ml={1}
+                      fontSize={14}
+                      fontWeight={400}
+                      color={"#FFFFFFBF"}
+                    >
+                      {" "}
+                      + Fees
+                    </Text>
+                  </Flex>
                 )
               ) : (
                 <Text fontSize={24} fontWeight={600}>
@@ -203,6 +215,11 @@ const GemPack = () => {
                 </Text>
               )}
             </Button>
+
+            <Text mt={4} fontSize={12} color={"#FFFFFF80"} fontWeight={200}>
+              *Network Fees only apply to Thanos Sepolia Testnet. There will be
+              no fees on Thanos Mainnet.
+            </Text>
           </Box>
         </Flex>
       </Flex>

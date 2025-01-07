@@ -70,6 +70,7 @@ const SellGemModal = () => {
       setLoading(false);
       handleClose();
       setSuccessModalStatus(true);
+      await modalStatus?.refetch!();
     } catch (err) {
       setLoading(false);
     }
