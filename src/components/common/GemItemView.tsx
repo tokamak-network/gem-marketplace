@@ -52,6 +52,7 @@ import GemMiningAlert from "../tooltipLabel/GemMiningAlert";
 import { useETHBalance } from "@/hooks/useTokenBalance";
 import { SupportedChainId } from "@/types/network/supportedNetworks";
 import { useCheckChain } from "@/hooks/useCheckChain";
+import { sellSuccessModalStatus } from "@/recoil/chest/atom";
 
 interface ItemProps {
   id: number;
@@ -81,6 +82,14 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   const toast = useToast();
   const router = useRouter();
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [successModalStatus] = useRecoilState(sellSuccessModalStatus);
+
+  useEffect(() => {
+    const refetchList = async () => {
+      await refetch();
+    }
+    refetchList();
+  }, [successModalStatus])
 
   const gemItem: GemStandard = useMemo(() => {
     return gemList && gemList[0] && gemList.length > 0
