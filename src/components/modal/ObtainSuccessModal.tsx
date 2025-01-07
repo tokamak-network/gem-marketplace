@@ -30,7 +30,7 @@ import GemAttributesView from "../common/GemAttributesView";
 const ObtainSuccessModal = () => {
   const router = useRouter();
   const [modalStatus, setModalStatus] = useRecoilState(obtainModalStatus);
-  const gemList = useGetGemWithId(Number(modalStatus.gemId!));
+  const { result: gemList } = useGetGemWithId(Number(modalStatus.gemId!));
 
   const handleClose = () => {
     setModalStatus({ isOpen: false });

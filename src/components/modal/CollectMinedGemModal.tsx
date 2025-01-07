@@ -25,7 +25,7 @@ import { useMemo } from "react";
 const CollectMinedGemModal = () => {
   const [modalStatus, setModalStatus] = useRecoilState(miningResultStatus);
   
-  const gemList = useGetGemWithId(modalStatus.minedGemId!);
+  const {result: gemList} = useGetGemWithId(modalStatus.minedGemId!);
 
   const gemItem: GemStandard = useMemo(() => {
     return gemList && gemList[0] && gemList.length > 0
