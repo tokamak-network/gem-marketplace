@@ -7,13 +7,13 @@ const GoogleAnalyticsScript = () => {
     <>
       <Script
         async
-        src="https://www.googletagmanager.com/gtag/js?id=G-RSTR92STYJ"
+        src="https://www.googletagmanager.com/gtag/js?id=G-28VTJXXRB2"
       ></Script>
       <Script>
         {`window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-RSTR92STYJ');`}
+          gtag('config', 'G-28VTJXXRB2');`}
       </Script>
     </>
   );
