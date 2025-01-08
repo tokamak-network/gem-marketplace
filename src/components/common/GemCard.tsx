@@ -31,7 +31,6 @@ import GemShape from "./GemShape";
 import { GemStandard, CardType, RarityType, TokenType } from "@/types";
 import {
   cancleMineGem,
-  collectGem,
   useCollectGem,
   useStartMiningGem,
 } from "@/hooks/useMineGem";
@@ -42,15 +41,10 @@ import MinePreview from "../tooltipLabel/MinePreview";
 import MineProbability from "../tooltipLabel/MineProbability";
 
 import GemIcon from "@/assets/icon/mine.svg";
-import HighArrow from "@/assets/icon/higharrow.svg";
-import SavedIcon from "./SavedIcon";
-import InfoIcon from "@/assets/icon/info.svg";
 import { rarityList } from "@/constants/rarity";
 import { arraysEqual } from "@/utils";
 import { decodeEventLog, formatUnits } from "viem";
 import { cooldownIndex, miningPeriodIndex } from "@/constants";
-import { useWaitForTransaction } from "@/hooks/useWaitTxReceipt";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useBalancePrice } from "@/hooks/useBalancePrice";
 import Ribbon from "./Ribbon";
 import SaleAlert from "./SaleAlert";
@@ -93,7 +87,7 @@ const GemCard = ({
   const [selectedGemsInfo, setSelectedGemsInfo] =
     useRecoilState(selectedForgeGems);
   const { selectedRarity, selectedGemsList } = selectedGemsInfo;
-  const [, setRarityState] = useRecoilState(rarityStatus);
+  const [rarityState, setRarityState] = useRecoilState(rarityStatus);
   const [, setForgeConfirm] = useRecoilState(forgeConfirmModalStatus);
   const [finalForgeItem, setFinalForgeGem] = useRecoilState(selectedFinalForge);
   const [cooldowns] = useRecoilState(cooldownStatus);
@@ -214,10 +208,13 @@ const GemCard = ({
   const handleCardClick = useCallback(() => {
     if (mode === "forge") {
       if (isForSale || isMining) return;
+      if (rarity !== selectedRarity && selectedGemsList.length > 0) return;
+
       setSelectedGemsInfo((prev) => ({
         ...prev,
         selectedRarity: rarity,
       }));
+
       if (selectedGemsList.length === 0) {
         setSelectedGemsInfo({
           selectedRarity: rarity,
@@ -352,7 +349,7 @@ const GemCard = ({
       (item) => Number(item.tokenID) === Number(tokenID)
     );
     return selected.length > 0 ? true : false;
-  }, [selectedGemsList, selectedRarity]);
+  }, [selectedGemsList, selectedRarity, rarityState]);
 
   const isFinalForgeItemSelected = useMemo(() => {
     return arraysEqual(color, finalForgeItem.color);
