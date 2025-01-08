@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { rarityStatus } from "@/recoil/market/atom";
 
 import { rarityList } from "@/constants/rarity";
+import { selectedForgeGems } from "@/recoil/forge/atom";
 
 export const RarityItem = ({
   rarity,
@@ -17,8 +18,12 @@ export const RarityItem = ({
   readOnly?: boolean;
 }) => {
   const [rarityState, setRarityState] = useRecoilState(rarityStatus);
+  const [selectedGemsInfo] = useRecoilState(selectedForgeGems);
+  const { selectedGemsList } = selectedGemsInfo;
+
   const handleRarity = (rarity: string) => {
     !readOnly &&
+      selectedGemsList.length === 0 &&
       setRarityState((prev) => ({ ...prev, ...{ [rarity]: !prev[rarity] } }));
   };
 
