@@ -57,7 +57,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       }
     };
     isConnected &&
-      chain?.id === SupportedChainId.TITAN_SEPOLIA &&
+      (chain?.id === SupportedChainId.TITAN_SEPOLIA ||
+        chain?.id === SupportedChainId.THANOS_SEPOLIA) &&
       fetchNumberOfUser();
   }, []);
 
