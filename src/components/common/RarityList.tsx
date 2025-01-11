@@ -4,7 +4,7 @@ import { Box, Center, Flex, Text } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 
 import { rarityStatus } from "@/recoil/market/atom";
-
+import GradientSpinner from "../ui/GradientSpinner";
 import { rarityList } from "@/constants/rarity";
 import { selectedForgeGems } from "@/recoil/forge/atom";
 
@@ -34,7 +34,7 @@ export const RarityItem = ({
     return true;
   }, [rarityState]);
 
-  return (
+  return rarity ? (
     <Center
       px={5}
       h={"30px"}
@@ -68,6 +68,10 @@ export const RarityItem = ({
         {rarity}
       </Text>
     </Center>
+  ) : (
+    <Box w={"100px"} h={"30px"}>
+      <GradientSpinner />
+    </Box>
   );
 };
 

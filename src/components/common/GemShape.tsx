@@ -24,67 +24,67 @@ const GemShape = ({
   const [bgGemShape, setBgGemShape] = useState<string>("");
   useEffect(() => {
     quadrants &&
-    mergeImages(
-      [
+      mergeImages(
+        [
+          {
+            src: `/assets/gem_pieces/${quadrants[0]}_1.svg`,
+            x: 0,
+            y: 0,
+          },
+          {
+            src: `/assets/gem_pieces/${quadrants[1]}_2.svg`,
+            x: 160,
+            y: 0,
+          },
+          {
+            src: `/assets/gem_pieces/${quadrants[2]}_3.svg`,
+            x: 0,
+            y: 160,
+          },
+          {
+            src: `/assets/gem_pieces/${quadrants[3]}_4.svg`,
+            x: 160,
+            y: 160,
+          },
+        ],
         {
-          src: `/assets/gem_pieces/${quadrants[0]}_1.svg`,
-          x: 0,
-          y: 0,
-        },
-        {
-          src: `/assets/gem_pieces/${quadrants[1]}_2.svg`,
-          x: 160,
-          y: 0,
-        },
-        {
-          src: `/assets/gem_pieces/${quadrants[2]}_3.svg`,
-          x: 0,
-          y: 160,
-        },
-        {
-          src: `/assets/gem_pieces/${quadrants[3]}_4.svg`,
-          x: 160,
-          y: 160,
-        },
-      ],
-      {
-        width: 320,
-        height: 320,
-      }
-    ).then((blob) => {
-      setCombinedGem(blob);
-    });
+          width: 320,
+          height: 320,
+        }
+      ).then((blob) => {
+        setCombinedGem(blob);
+      });
     quadrants &&
-    mergeImages(
-      [
+      mergeImages(
+        [
+          {
+            src: `/assets/gem_pieces/${quadrants[0]}_1 copy.svg`,
+            x: 0,
+            y: 0,
+          },
+          {
+            src: `/assets/gem_pieces/${quadrants[1]}_2 copy.svg`,
+            x: 160,
+            y: 0,
+          },
+          {
+            src: `/assets/gem_pieces/${quadrants[2]}_3 copy.svg`,
+            x: 0,
+            y: 160,
+          },
+          {
+            src: `/assets/gem_pieces/${quadrants[3]}_4 copy.svg`,
+            x: 160,
+            y: 160,
+          },
+        ],
         {
-          src: `/assets/gem_pieces/${quadrants[0]}_1 copy.svg`,
-          x: 0,
-          y: 0,
-        },
-        {
-          src: `/assets/gem_pieces/${quadrants[1]}_2 copy.svg`,
-          x: 160,
-          y: 0,
-        },
-        {
-          src: `/assets/gem_pieces/${quadrants[2]}_3 copy.svg`,
-          x: 0,
-          y: 160,
-        },
-        {
-          src: `/assets/gem_pieces/${quadrants[3]}_4 copy.svg`,
-          x: 160,
-          y: 160,
-        },
-      ],
-      {
-        width: 320,
-        height: 320,
-      }
-    ).then((blob) => {
-      setBgGemShape(blob);
-    });
+          width: 320,
+          height: 320,
+        }
+      ).then((blob) => {
+        setBgGemShape(blob);
+      });
   }, [quadrants]);
 
   return (
@@ -97,7 +97,7 @@ const GemShape = ({
               gemColor?.length === 1
                 ? gemColorList[Object.keys(gemColorList)[gemColor[0]]]
                 : `linear-gradient(${
-                  gemColorList[Object.keys(gemColorList)[gemColor[0]]]
+                    gemColorList[Object.keys(gemColorList)[gemColor[0]]]
                   }, ${gemColorList[Object.keys(gemColorList)[gemColor[1]]]})`,
             maskSize: "100% 100%",
           }}
