@@ -105,8 +105,6 @@ const GemItemView = ({ id, mode }: ItemProps) => {
         };
   }, [gemList]);
 
-  console.log(gemItem)
-
   const WSTONBalance = useBalance({
     address: address,
     token: WSWTON_ADDRESS_BY_CHAINID[chain?.id!] as `0x${string}`,

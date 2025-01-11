@@ -4,6 +4,7 @@ import { Box } from "@chakra-ui/react";
 import mergeImages from "merge-images";
 import { GradientType } from "@/types";
 import { gemColorList } from "@/constants/rarity";
+import GradientSpinner from "../ui/GradientSpinner";
 interface GemProps {
   quadrants: number[];
   gemColor?: number[];
@@ -87,7 +88,7 @@ const GemShape = ({
       });
   }, [quadrants]);
 
-  return (
+  return bgGemShape && combinedGem ? (
     <Box pos={"relative"} w={width} h={height}>
       {!isOnlyFrame && gemColor && quadrants && (
         <Box
@@ -114,6 +115,10 @@ const GemShape = ({
           <Image width={width} height={height} alt="" src={combinedGem} />
         )}
       </Box>
+    </Box>
+  ) : (
+    <Box w={width} h={height}>
+      <GradientSpinner />
     </Box>
   );
 };
