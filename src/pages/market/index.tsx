@@ -133,11 +133,6 @@ const MarketPage = () => {
             size="lg"
           />
         }
-        endMessage={
-          <p style={{ textAlign: "center" }}>
-            {/* <b>Yay! You have seen it all</b> */}
-          </p>
-        }
       >
         <Flex gap={4} flexWrap={"wrap"} mt={73}>
           <Flex
