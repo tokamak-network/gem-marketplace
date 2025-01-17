@@ -22,10 +22,9 @@ const GoogleAnalyticsScript = () => {
 export default function Document() {
   return (
     <Html lang="en">
+      <Head />
       <GoogleAnalyticsScript />
       <TrackAnalytics />
-
-      <Head />
       <title>GemSTON MVP</title>
       <body>
         <Main />
