@@ -14,7 +14,7 @@ const TrackAnalytics = () => {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = `https://www.googletagmanager.com/gtag/js?id=G-RSTR92STYJ`;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=G-28VTJXXRB2`;
     script.async = true;
     document.head.appendChild(script);
 
@@ -24,10 +24,10 @@ const TrackAnalytics = () => {
     }
 
     gtag("js", new Date());
-    gtag("config", "G-RSTR92STYJ");
+    gtag("config", "G-28VTJXXRB2");
 
     const handleRouteChange = (url: string) => {
-      gtag("config", "G-RSTR92STYJ", {
+      gtag("config", "G-28VTJXXRB2", {
         page_path: url,
       });
     };
