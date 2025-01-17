@@ -1,4 +1,3 @@
-import TrackAnalytics from "@/components/trackAnalytics";
 import { Html, Head, Main, NextScript } from "next/document";
 import Script from "next/script";
 
@@ -24,7 +23,6 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <GoogleAnalyticsScript />
-      <TrackAnalytics />
       <title>GemSTON MVP</title>
       <body>
         <Main />

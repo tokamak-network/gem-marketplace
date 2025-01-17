@@ -9,7 +9,7 @@ import { CacheProvider } from "@chakra-ui/next-js";
 import { WagmiProvider } from "wagmi";
 import { config } from "@/config/wagmi";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-
+import TrackAnalytics from "@/components/trackAnalytics";
 
 const client = new ApolloClient({
   uri: "https://graph-node.thanos-sepolia.tokamak.network/subgraphs/name/tokamak/gem-nft-subgraph/",
@@ -22,20 +22,24 @@ export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
 
   return (
-    <RecoilRoot>
-      <CacheProvider>
-        <ChakraProvider resetCSS theme={theme}>
-          <WagmiProvider config={config}>
-            <QueryClientProvider client={queryClient}>
-              <ApolloProvider client={client}>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </ApolloProvider>
-            </QueryClientProvider>
-          </WagmiProvider>
-        </ChakraProvider>
-      </CacheProvider>
-    </RecoilRoot>
+    <>
+      <TrackAnalytics />
+
+      <RecoilRoot>
+        <CacheProvider>
+          <ChakraProvider resetCSS theme={theme}>
+            <WagmiProvider config={config}>
+              <QueryClientProvider client={queryClient}>
+                <ApolloProvider client={client}>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </ApolloProvider>
+              </QueryClientProvider>
+            </WagmiProvider>
+          </ChakraProvider>
+        </CacheProvider>
+      </RecoilRoot>
+    </>
   );
 }
