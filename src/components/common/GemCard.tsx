@@ -54,6 +54,7 @@ import FactoryMiningABI from "@/abi/gemFactoryMining.json";
 import { DRB_ADDRESS, FACTORY_ADDRESS } from "@/constants/tokens";
 import { fulfillRandomRequest } from "@/hooks/useGemPack";
 import GemMiningAlert from "../tooltipLabel/GemMiningAlert";
+import { getGemCardBackground } from "@/utils/bgColor";
 
 interface GemCardType {
   width?: number;
@@ -359,13 +360,14 @@ const GemCard = ({
     Number(formatUnits(value! ?? "0", 27)),
     TokenType.WSTON
   );
+  console.log(getGemCardBackground(color, rarity))
   return (
     <Box
       pos={"relative"}
       w={width}
       h={height}
       minW={width}
-      bgColor={"#191A22"}
+      bg={getGemCardBackground(color, rarity).gradient}
       sx={{ perspective: "1000px" }}
       cursor={mode !== "normal" ? "pointer" : "default"}
       onClick={handleCardClick}
