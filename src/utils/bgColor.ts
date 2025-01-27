@@ -170,7 +170,7 @@ export function getGemCardBackground(gemColor: number[], rarity: RarityType) {
         };
       default:
         return {
-          gradient: rgbToHex(rgb),
+          gradient: "#191A22",
           dropShadow: false,
           blur: false,
         };

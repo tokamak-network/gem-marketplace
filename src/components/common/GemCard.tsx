@@ -375,11 +375,11 @@ const GemCard = ({
       // opacity={
       //   mode === "forge" ? (isForgeActive || isForgeSelected ? 1 : 0.25) : 1
       // }
-      boxShadow={
-        (isForgeSelected && mode === "forge") || mode === "common"
-          ? "0px 0px 25px 0px #0068FF"
-          : ""
-      }
+      // boxShadow={
+      //   (isForgeSelected && mode === "forge") || mode === "common"
+      //     ? "0px 0px 25px 0px #0068FF"
+      //     : ""
+      // }
       border={
         (isForgeSelected && mode === "forge") ||
         mode === "common" ||
