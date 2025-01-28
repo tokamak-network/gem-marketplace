@@ -360,7 +360,10 @@ const GemCard = ({
     Number(formatUnits(value! ?? "0", 27)),
     TokenType.WSTON
   );
-  console.log(getGemCardBackground(color, rarity))
+
+  const gemBg = useMemo(() => getGemCardBackground(color, rarity).gradient,[color, rarity])
+  const isDropShadow = useMemo(() => getGemCardBackground(color, rarity).gradient,[color, rarity])
+
   return (
     <Box
       pos={"relative"}

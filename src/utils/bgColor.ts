@@ -88,13 +88,15 @@ export function getGemCardBackground(gemColor: number[], rarity: RarityType) {
   function calculateColor(gemColor: number[], rarity: RarityType) {
     const rgb =
       gemColor.length === 2
-        ? hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[0]]]).map(
+        ? rarity === RarityType.rare || rarity === RarityType.unique ?
+        hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[0]]]).map(
             (value, index) =>
               value +
               hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[1]]])[
                 index
               ]
           )
+          : hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[Math.floor(Math.random() * 2)]]])
         : hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[0]]]);
 
     switch (rarityList[Number(rarity)]) {
