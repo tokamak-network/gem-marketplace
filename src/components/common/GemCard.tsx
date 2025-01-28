@@ -361,8 +361,7 @@ const GemCard = ({
     TokenType.WSTON
   );
 
-  const gemBg = useMemo(() => getGemCardBackground(color, rarity).gradient,[color, rarity])
-  const isDropShadow = useMemo(() => getGemCardBackground(color, rarity).gradient,[color, rarity])
+  const {gradient: gemBg, dropShadow: isDropShadow, blur: blurColor} = useMemo(() => getGemCardBackground(color, rarity),[color, rarity])
 
   return (
     <Box
@@ -378,11 +377,11 @@ const GemCard = ({
       // opacity={
       //   mode === "forge" ? (isForgeActive || isForgeSelected ? 1 : 0.25) : 1
       // }
-      // boxShadow={
-      //   (isForgeSelected && mode === "forge") || mode === "common"
-      //     ? "0px 0px 25px 0px #0068FF"
-      //     : ""
-      // }
+      boxShadow={
+        isDropShadow
+          ? `0px 0px 25px 0px ${blurColor}`
+          : ""
+      }
       border={
         (isForgeSelected && mode === "forge") ||
         mode === "common" ||

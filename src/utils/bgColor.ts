@@ -88,15 +88,21 @@ export function getGemCardBackground(gemColor: number[], rarity: RarityType) {
   function calculateColor(gemColor: number[], rarity: RarityType) {
     const rgb =
       gemColor.length === 2
-        ? rarity === RarityType.rare || rarity === RarityType.unique ?
-        hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[0]]]).map(
-            (value, index) =>
-              value +
-              hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[1]]])[
-                index
+        ? rarity === RarityType.rare || rarity === RarityType.unique
+          ? hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[0]]]).map(
+              (value, index) =>
+                value +
+                hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[1]]])[
+                  index
+                ]
+            )
+          : hexToRgb(
+              gemColorList[
+                Object.keys(gemColorList)[
+                  gemColor[Math.floor(Math.random() * 2)]
+                ]
               ]
-          )
-          : hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[Math.floor(Math.random() * 2)]]])
+            )
         : hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[0]]]);
 
     switch (rarityList[Number(rarity)]) {
@@ -144,31 +150,20 @@ export function getGemCardBackground(gemColor: number[], rarity: RarityType) {
             0
           ),
           dropShadow: true,
-          blur: true,
+          blur: gemColorList[Object.keys(gemColorList)[gemColor[Math.floor(Math.random() * 2)]]],
         };
       case RarityType.mythic:
-        const primaryGradient = calculateGradient(
-          rgb,
-          150,
-          [80, 120],
-          50,
-          100,
-          [40, 60],
-          0
-        );
-        const randomGradient = `linear-gradient(to bottom right, ${rgbToHex([
-          Math.floor(Math.random() * 256),
-          Math.floor(Math.random() * 256),
-          Math.floor(Math.random() * 256),
-        ])}, ${rgbToHex([
-          Math.floor(Math.random() * 256),
-          Math.floor(Math.random() * 256),
-          Math.floor(Math.random() * 256),
-        ])})`;
+        const randomGradient = `linear-gradient(to bottom right, ${gemColorList[Object.keys(gemColorList)[gemColor[Math.floor(Math.random() * 2)]]]}, ${rgbToHex(
+          [
+            Math.floor(Math.random() * 256),
+            Math.floor(Math.random() * 256),
+            Math.floor(Math.random() * 256),
+          ]
+        )})`;
         return {
-          gradient: `${primaryGradient}, ${randomGradient}`,
+          gradient: randomGradient,
           dropShadow: true,
-          blur: true,
+          blur: gemColorList[Object.keys(gemColorList)[gemColor[Math.floor(Math.random() * 2)]]],
         };
       default:
         return {
