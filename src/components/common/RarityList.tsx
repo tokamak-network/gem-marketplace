@@ -7,6 +7,8 @@ import { rarityStatus } from "@/recoil/market/atom";
 import GradientSpinner from "../ui/GradientSpinner";
 import { rarityList } from "@/constants/rarity";
 import { selectedForgeGems } from "@/recoil/forge/atom";
+import { usePathname } from "next/navigation";
+import { RarityType } from "@/types";
 
 export const RarityItem = ({
   rarity,
@@ -18,13 +20,34 @@ export const RarityItem = ({
   readOnly?: boolean;
 }) => {
   const [rarityState, setRarityState] = useRecoilState(rarityStatus);
-  const [selectedGemsInfo] = useRecoilState(selectedForgeGems);
+  const [selectedGemsInfo, setSelectedGemsInfo] =
+    useRecoilState(selectedForgeGems);
   const { selectedGemsList } = selectedGemsInfo;
+  const pathname = usePathname();
+  const pathName = pathname.substring(1, pathname.length);
 
   const handleRarity = (rarity: string) => {
     !readOnly &&
-      selectedGemsList.length === 0 &&
-      setRarityState((prev) => ({ ...prev, ...{ [rarity]: !prev[rarity] } }));
+      (pathName === "forge"
+        ? (setRarityState((prev) => ({
+            ...{
+              common: false,
+              rare: false,
+              unique: false,
+              epic: false,
+              legendary: false,
+              mythic: false,
+            },
+            ...{ [rarity]: !prev[rarity] },
+          })),
+          setSelectedGemsInfo({
+            selectedRarity: RarityType.none,
+            selectedGemsList: [],
+          }))
+        : setRarityState((prev) => ({
+            ...prev,
+            ...{ [rarity]: !prev[rarity] },
+          })));
   };
 
   const defaultState = useMemo(() => {
