@@ -2,7 +2,13 @@ import { gql } from "@apollo/client";
 
 export const GET_ALL_MARKET_GEMS = gql`
   query GetAllMarketGems($skip: Int, $first: Int) {
-    nfts(skip: $skip, first: $first, where: { isForSale: true } ) {
+    nfts(
+      skip: $skip
+      first: $first
+      orderDirection: desc
+      orderBy: creationDate
+      where: { isForSale: true }
+    ) {
       tokenID
       color
       cooldownDueDate
@@ -47,7 +53,7 @@ export const GET_MARKET_GEMS = gql`
 
 export const GET_GEM_WITH_ID = gql`
   query GetAllMarketGems($id: Int) {
-    nfts(where: {tokenID: $id}) {
+    nfts(where: { tokenID: $id }) {
       color
       cooldownDueDate
       gemCooldownInitTime
@@ -143,10 +149,9 @@ export const GET_MINING_PERIODS = gql`
   }
 `;
 
-
 export const GET_USER_TX_HISTORY = gql`
   query GetTxHistory($user: String!) {
-    tradeHistories(where: {or:[{trader: $user}, {payer: $user}]}) {
+    tradeHistories(where: { or: [{ trader: $user }, { payer: $user }] }) {
       gemIds
       newId
       payer
@@ -161,7 +166,7 @@ export const GET_USER_TX_HISTORY = gql`
 
 export const GET_TX_HISTORY_BY_ID = gql`
   query GetTxHistory($id: String!) {
-    tradeHistories(where: {gemIds: [$id]}) {
+    tradeHistories(where: { gemIds: [$id] }) {
       gemIds
       newId
       payer
