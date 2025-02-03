@@ -88,13 +88,15 @@ export function getGemCardBackground(gemColor: number[], rarity: RarityType) {
   function calculateColor(gemColor: number[], rarity: RarityType) {
     const rgb =
       gemColor.length === 2
-        ? rarity === RarityType.rare || rarity === RarityType.unique
+        ? Number(rarity) === 1 || Number(rarity) === 2
           ? hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[0]]]).map(
               (value, index) =>
-                value +
-                hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[1]]])[
-                  index
-                ]
+                Number(value) +
+                Number(
+                  hexToRgb(
+                    gemColorList[Object.keys(gemColorList)[gemColor[1]]]
+                  )[index]
+                )
             )
           : hexToRgb(
               gemColorList[
@@ -150,7 +152,9 @@ export function getGemCardBackground(gemColor: number[], rarity: RarityType) {
             0
           ),
           dropShadow: true,
-          blur: gemColorList[Object.keys(gemColorList)[gemColor[Math.floor(Math.random() * 2)]]],
+          blur: gemColorList[
+            Object.keys(gemColorList)[gemColor[Math.floor(Math.random() * 2)]]
+          ],
         };
       case RarityType.mythic:
         const randomGradient = `linear-gradient(to bottom right, ${gemColorList[Object.keys(gemColorList)[gemColor[Math.floor(Math.random() * 2)]]]}, ${rgbToHex(
@@ -163,7 +167,9 @@ export function getGemCardBackground(gemColor: number[], rarity: RarityType) {
         return {
           gradient: randomGradient,
           dropShadow: true,
-          blur: gemColorList[Object.keys(gemColorList)[gemColor[Math.floor(Math.random() * 2)]]],
+          blur: gemColorList[
+            Object.keys(gemColorList)[gemColor[Math.floor(Math.random() * 2)]]
+          ],
         };
       default:
         return {
