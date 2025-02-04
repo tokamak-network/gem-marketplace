@@ -9,20 +9,24 @@ import { useFilteredList } from "@/hooks/useFilteredList";
 import { GemStandard } from "@/types";
 import BuyRecommendModal from "@/components/modal/BuyRecommendModal";
 import { selectedForgeGems } from "@/recoil/forge/atom";
-import { colorStatus, rarityStatus } from "@/recoil/market/atom";
+import { colorStatus, rarityStatus, sortParams } from "@/recoil/market/atom";
 import { RarityType } from "@/types";
 import { useRecoilState } from "recoil";
 
 const ForgePage = () => {
   const [storedValue] = useLocalStorage("forge-guide", true);
   const [isGuideModal, setGuideModal] = useState(storedValue);
-  const { result: gemListForUser } = useGetUserGems();
+  const [sortParam] = useRecoilState(sortParams);
+  const { result: gemListForUser } = useGetUserGems(
+    sortParam.orderDir,
+    sortParam.orderBy
+  );
   const { activeGemList } = useFilteredList(gemListForUser);
   const [isBuyRecommendModal, setBuyRecommendModal] = useState<boolean>(false);
   const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
   const [, setRarityState] = useRecoilState(rarityStatus);
   const [, setColorState] = useRecoilState(colorStatus);
-  
+
   useEffect(() => {
     gemListForUser && gemListForUser.length && gemListForUser.length > 0
       ? setBuyRecommendModal(false)
@@ -53,7 +57,7 @@ const ForgePage = () => {
       garnet: false,
       diamond: false,
       onyx: false,
-    })
+    });
   }, []);
 
   return (
@@ -71,7 +75,7 @@ const ForgePage = () => {
 
       {/* <ForgeContainer /> */}
 
-      <Flex mt={"72px"} gap={4} flexWrap={"wrap"}>
+      <Flex mt={"72px"} gap={4} flexWrap={"wrap"} px={10}>
         {activeGemList &&
           activeGemList.length > 0 &&
           activeGemList.map((item: GemStandard, key: number) => {

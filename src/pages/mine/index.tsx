@@ -11,12 +11,13 @@ import { useFilteredList } from "@/hooks/useFilteredList";
 import BuyRecommendModal from "@/components/modal/BuyRecommendModal";
 import { useRecoilState } from "recoil";
 import { selectedForgeGems } from "@/recoil/forge/atom";
-import { colorStatus, rarityStatus } from "@/recoil/market/atom";
+import { colorStatus, rarityStatus, sortParams } from "@/recoil/market/atom";
 
 const MinePage = () => {
   const [storedValue] = useLocalStorage("mine-guide", true);
   const [isGuideModal, setGuideModal] = useState(storedValue);
-  const gemsList = useGetUserMineGems();
+  const [sortParam] = useRecoilState(sortParams);
+  const gemsList = useGetUserMineGems(sortParam.orderDir, sortParam.orderBy);
   const { activeGemList } = useFilteredList(gemsList);
   const [isBuyRecommendModal, setBuyRecommendModal] = useState<boolean>(false);
   const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
@@ -53,7 +54,7 @@ const MinePage = () => {
       garnet: false,
       diamond: false,
       onyx: false,
-    })
+    });
   }, []);
 
   const handleGuideModal = () => {
@@ -72,7 +73,7 @@ const MinePage = () => {
         onClose={() => setBuyRecommendModal(false)}
       />
 
-      <Flex mt={4} gap={4} flexWrap={"wrap"}>
+      <Flex mt={4} gap={4} flexWrap={"wrap"} p={10}>
         {activeGemList &&
           activeGemList.length > 0 &&
           activeGemList.map((item: GemStandard, key: number) => {

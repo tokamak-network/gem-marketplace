@@ -1,7 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_MARKET_GEMS = gql`
-  query GetAllMarketGems($skip: Int, $first: Int, $orderDir: String, $orderBy: String) {
+  query GetAllMarketGems(
+    $skip: Int
+    $first: Int
+    $orderDir: String
+    $orderBy: String
+  ) {
     nfts(
       skip: $skip
       first: $first
@@ -74,8 +79,20 @@ export const GET_GEM_WITH_ID = gql`
 `;
 
 export const GET_USER_GEMS = gql`
-  query GetUserGems($skip: Int, $first: Int, $user: String) {
-    nfts(skip: $skip, first: $first, where: { owner: $user }) {
+  query GetUserGems(
+    $skip: Int
+    $first: Int
+    $user: String
+    $orderDir: String
+    $orderBy: String
+  ) {
+    nfts(
+      skip: $skip
+      first: $first
+      orderDirection: $orderDir
+      orderBy: $orderBy
+      where: { owner: $user }
+    ) {
       tokenID
       color
       cooldownDueDate
@@ -96,8 +113,12 @@ export const GET_USER_GEMS = gql`
 `;
 
 export const GET_USER_MINE_GEMS = gql`
-  query GetUserGems($user: String!) {
-    nfts(where: { owner: $user, rarity_not: 0 }) {
+  query GetUserGems($user: String!, $orderDir: String, $orderBy: String) {
+    nfts(
+      orderDirection: $orderDir
+      orderBy: $orderBy
+      where: { owner: $user, rarity_not: 0 }
+    ) {
       tokenID
       color
       cooldownDueDate

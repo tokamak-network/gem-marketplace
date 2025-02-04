@@ -9,7 +9,7 @@ import { GemStandard } from "@/types";
 import InfiniteScroll from "react-infinite-scroll-component";
 import BuyRecommendModal from "@/components/modal/BuyRecommendModal";
 import { selectedForgeGems } from "@/recoil/forge/atom";
-import { colorStatus, rarityStatus } from "@/recoil/market/atom";
+import { colorStatus, rarityStatus, sortParams } from "@/recoil/market/atom";
 import { RarityType } from "@/types";
 import { useRecoilState } from "recoil";
 
@@ -17,7 +17,11 @@ const ChestPage = () => {
   const searchParams = useSearchParams();
   const search = searchParams.get("asset");
 
-  const { result, fetchMore } = useGetUserGems();
+  const [sortParam] = useRecoilState(sortParams);
+  const { result, fetchMore } = useGetUserGems(
+    sortParam.orderDir,
+    sortParam.orderBy
+  );
   const { activeGemList } = useFilteredList(result);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
@@ -56,37 +60,37 @@ const ChestPage = () => {
       garnet: false,
       diamond: false,
       onyx: false,
-    })
+    });
   }, []);
 
   return search ? (
     <GemItemView id={Number(search)} mode="chest" />
   ) : (
     // activeGemList && (
-      // <InfiniteScroll
-      //   dataLength={activeGemList.length} //This is important field to render the next data
-      //   next={() =>
-      //     fetchMore({
-      //       variables: {
-      //         skip: activeGemList.length,
-      //       },
-      //       updateQuery(previousData, { fetchMoreResult }) {
-      //         if (fetchMoreResult.nfts.length < 15) {
-      //           setHasMore(false);
-      //         }
-      //         return { nfts: [...previousData.nfts, ...fetchMoreResult.nfts] };
-      //       },
-      //     })
-      //   }
-      //   hasMore={hasMore}
-      //   loader={<h4></h4>}
-      //   endMessage={
-      //     <p style={{ textAlign: "center" }}>
-      //       {/* <b>Yay! You have seen it all</b> */}
-      //     </p>
-      //   }
-      // >
-    <Flex mt={4} gap={4} flexWrap={"wrap"}>
+    // <InfiniteScroll
+    //   dataLength={activeGemList.length} //This is important field to render the next data
+    //   next={() =>
+    //     fetchMore({
+    //       variables: {
+    //         skip: activeGemList.length,
+    //       },
+    //       updateQuery(previousData, { fetchMoreResult }) {
+    //         if (fetchMoreResult.nfts.length < 15) {
+    //           setHasMore(false);
+    //         }
+    //         return { nfts: [...previousData.nfts, ...fetchMoreResult.nfts] };
+    //       },
+    //     })
+    //   }
+    //   hasMore={hasMore}
+    //   loader={<h4></h4>}
+    //   endMessage={
+    //     <p style={{ textAlign: "center" }}>
+    //       {/* <b>Yay! You have seen it all</b> */}
+    //     </p>
+    //   }
+    // >
+    <Flex mt={4} gap={4} flexWrap={"wrap"} p={10}>
       <BuyRecommendModal
         mode={"chest"}
         isOpen={isBuyRecommendModal}
