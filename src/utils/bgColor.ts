@@ -52,8 +52,12 @@ export function getGemCardBackground(gemColor: number[], rarity: RarityType) {
     const newRgb = [...values];
     newRgb[largestValueIdx] = largestValue;
     newRgb[middleValueIdx] =
-      Math.floor(Math.random() * (middleRange[1] - middleRange[0] + 1)) +
-      middleRange[0];
+      values[middleValueIdx] === values[largestValueIdx]
+        ? largestValue
+        : values[middleValueIdx] === values[lowestValueIdx]
+          ? lowestValue
+          : Math.floor(Math.random() * (middleRange[1] - middleRange[0] + 1)) +
+            middleRange[0];
     newRgb[lowestValueIdx] = lowestValue;
 
     return newRgb;

@@ -13,7 +13,7 @@ const Header = () => {
   return search || pathName === "community" || pathName === "market/gempack" ? (
     <></>
   ) : (
-    <Flex justify={"space-between"}>
+    <Flex justify={"space-between"} px={10}>
       <Box>
         <ColorList />
         <RarityList />

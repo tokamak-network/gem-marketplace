@@ -1,12 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_MARKET_GEMS = gql`
-  query GetAllMarketGems($skip: Int, $first: Int) {
+  query GetAllMarketGems($skip: Int, $first: Int, $orderDir: String, $orderBy: String) {
     nfts(
       skip: $skip
       first: $first
-      orderDirection: desc
-      orderBy: creationDate
+      orderDirection: $orderDir
+      orderBy: $orderBy
       where: { isForSale: true }
     ) {
       tokenID

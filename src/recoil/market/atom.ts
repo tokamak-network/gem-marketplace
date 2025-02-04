@@ -118,3 +118,11 @@ export const numberOfRarityGemsAvailable = atom<UserNumbers>({
     "mythic": 0
   }
 })
+
+export const sortParams = atom<any>({
+  key: "sortParams",
+  default: {
+    orderDir: "desc",
+    orderBy: "creationDate"
+  }
+})

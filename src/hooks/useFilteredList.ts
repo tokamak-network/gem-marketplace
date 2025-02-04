@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { rarityStatus, colorStatus } from "@/recoil/market/atom";
+import { rarityStatus, colorStatus, sortParams } from "@/recoil/market/atom";
 import { rarityList, colorNameList } from "@/constants/rarity";
 import { useMemo } from "react";
 import { GemStandard } from "@/types";
@@ -11,6 +11,7 @@ export const useFilteredList = (gemList: GemStandard[]) => {
   const [raritySelected] = useRecoilState(rarityStatus);
   const [colorSelected] = useRecoilState(colorStatus);
   const [sortItem] = useRecoilState(sortFilterStatus);
+  const [, setSortParam] = useRecoilState(sortParams);
 
   let isRaritySelected = false;
   let isColorSelected = false;
@@ -52,30 +53,23 @@ export const useFilteredList = (gemList: GemStandard[]) => {
     [activeList]
   );
 
-  const sortedList = useMemo(
+  const sortParam = useMemo(
     () =>
       sortItem === SortFilterItems.DATE_DES
-        ? tempList.sort((a, b) => b.creationDate - a.creationDate)
+        ? {orderDir: "desc", orderBy: "creationDate"}
         : sortItem === SortFilterItems.DATE_ASC
-          ? tempList.sort((a, b) => a.creationDate - b.creationDate)
+          ? {orderDir: "asc", orderBy: "creationDate"}
           : sortItem === SortFilterItems.RARITY_DES
-            ? tempList.sort((a, b) => Number(a.rarity) - Number(b.rarity))
+            ? {orderDir: "desc", orderBy: "rarity"}
             : sortItem === SortFilterItems.RARITY_ASC
-              ? tempList.sort((a, b) => Number(b.rarity) - Number(a.rarity))
+              ? {orderDir: "asc", orderBy: "rarity"}
               : sortItem === SortFilterItems.PRICE_DES
-                ? tempList.sort(
-                    (a, b) =>
-                      Number(formatEther(a.price!)) -
-                      Number(formatEther(b.price!))
-                  )
+                ? {orderDir: "desc", orderBy: "price"}
                 : sortItem === SortFilterItems.PRICE_ASC
-                  ? tempList.sort(
-                      (a, b) =>
-                        Number(formatEther(b.price!)) -
-                        Number(formatEther(a.price!))
-                    )
+                  ? {orderDir: "asc", orderBy: "rarity"}
                   : activeList,
     [tempList, sortItem]
   );
-  return { activeGemList: sortedList };
+
+  return { activeGemList: tempList };
 };

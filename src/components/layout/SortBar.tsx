@@ -1,4 +1,4 @@
-import { filterItemList } from "@/constants";
+import { filterItemList, SortFilterItems } from "@/constants";
 import {
   Flex,
   Menu,
@@ -11,9 +11,31 @@ import {
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { sortFilterStatus } from "@/recoil/settings/atoms";
 import { useRecoilState } from "recoil";
+import { sortParams } from "@/recoil/market/atom";
 
 const SortBar = () => {
   const [currentFilter, setFilterStatus] = useRecoilState(sortFilterStatus);
+  const [, setSortParam] = useRecoilState(sortParams);
+
+  const handleSort = (sortItem: SortFilterItems) => {
+    const sortParam =
+      sortItem === SortFilterItems.DATE_DES
+        ? { orderDir: "desc", orderBy: "creationDate" }
+        : sortItem === SortFilterItems.DATE_ASC
+          ? { orderDir: "asc", orderBy: "creationDate" }
+          : sortItem === SortFilterItems.RARITY_DES
+            ? { orderDir: "desc", orderBy: "rarity" }
+            : sortItem === SortFilterItems.RARITY_ASC
+              ? { orderDir: "asc", orderBy: "rarity" }
+              : sortItem === SortFilterItems.PRICE_DES
+                ? { orderDir: "desc", orderBy: "price" }
+                : sortItem === SortFilterItems.PRICE_ASC
+                  ? { orderDir: "asc", orderBy: "rarity" }
+                  : { orderDir: "desc", orderBy: "creationDate" };
+    setSortParam({ ...sortParam });
+    setFilterStatus(sortItem);
+  };
+
   return (
     <Flex w={270} align={"start"} mt={2}>
       <Text
@@ -52,7 +74,9 @@ const SortBar = () => {
               bg={"#191A22"}
               key={key}
               _hover={{ bgColor: "#2A2C3A" }}
-              onClick={() => {setFilterStatus(item)}}
+              onClick={() => {
+                handleSort(item);
+              }}
             >
               {item}
             </MenuItem>

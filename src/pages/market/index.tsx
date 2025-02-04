@@ -19,7 +19,7 @@ import { useGetMarketGems } from "@/hooks/useGetMarketGems";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { selectedForgeGems } from "@/recoil/forge/atom";
-import { rarityStatus } from "@/recoil/market/atom";
+import { rarityStatus, sortParams } from "@/recoil/market/atom";
 import { RarityType } from "@/types";
 import { useGetUserGems } from "@/hooks/useGetUserGems";
 
@@ -29,7 +29,8 @@ const MarketPage = () => {
     useRecoilState(gemPackModalStatus);
   const searchParams = useSearchParams();
   const search = useMemo(() => searchParams.get("asset"), [searchParams]);
-  const { result: gemList, fetchMore } = useGetMarketGems();
+  const [sortParam] = useRecoilState(sortParams);
+  const { result: gemList, fetchMore } = useGetMarketGems(sortParam.orderDir, sortParam.orderBy);
   const router = useRouter();
   const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
   const [, setRarityState] = useRecoilState(rarityStatus);
@@ -136,7 +137,7 @@ const MarketPage = () => {
           </Center>
         }
       >
-        <Flex gap={4} flexWrap={"wrap"} mt={73}>
+        <Flex gap={4} flexWrap={"wrap"} mt={73} px={10}>
           <Flex
             pos={"relative"}
             w={212}

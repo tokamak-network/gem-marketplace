@@ -10,11 +10,13 @@ import {
 import { useQuery } from "@apollo/client";
 import { useAccount } from "wagmi";
 
-export const useGetMarketGems = () => {
+export const useGetMarketGems = (orderDir: string, orderBy: string) => {
   const { loading, error, data, fetchMore } = useQuery(GET_ALL_MARKET_GEMS, {
     variables: {
       skip: 0,
       first: 30,
+      orderDir,
+      orderBy
     },
     pollInterval: 5000,
   });

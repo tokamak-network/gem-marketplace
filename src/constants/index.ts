@@ -43,8 +43,8 @@ export const miningPeriodIndex: string[] = [
 export enum SortFilterItems {
   DATE_DES = "Newest",
   DATE_ASC = "Oldest",
-  RARITY_DES = "Rarity Low - High",
-  RARITY_ASC = "Rarity High - Low",
+  RARITY_DES = "Rarity High - Low",
+  RARITY_ASC = "Rarity Low - High",
   PRICE_DES = "Price Low - High",
   PRICE_ASC = "Price High - Low",
   // SAVED = "Saved"
@@ -53,8 +53,8 @@ export enum SortFilterItems {
 export const filterItemList = [
   SortFilterItems.DATE_DES,
   SortFilterItems.DATE_ASC,
-  SortFilterItems.RARITY_DES,
   SortFilterItems.RARITY_ASC,
+  SortFilterItems.RARITY_DES,
   SortFilterItems.PRICE_DES,
   SortFilterItems.PRICE_ASC,
   // SortFilterItems.SAVED,
