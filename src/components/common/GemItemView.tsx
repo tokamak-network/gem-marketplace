@@ -224,7 +224,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
 
   return (
     gemItem && (
-      <Flex flexDir={"column"} w={"100%"} h={"100%"}>
+      <Flex flexDir={"column"} w={"100%"} h={"100%"} px={10}>
         <Flex
           mb={4}
           align={"center"}
