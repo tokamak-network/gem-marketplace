@@ -1,119 +1,111 @@
 <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30">
-	<title>common-svg</title>
+	<title>base-svg</title>
 	<defs>
-		<linearGradient id="g1" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(6.66,-3.48,4.293,8.215,19.977,11.76)">
-			<stop offset="0" stop-color="#ffffff" stop-opacity=".15"/>
-			<stop offset="1" stop-color="#ffffff" stop-opacity=".5"/>
-		</linearGradient>
-		<clipPath clipPathUnits="userSpaceOnUse" id="cp1">
-			<path d="m30 15h-15v-6.6 6.6h6.6l-3.3-6.6 4.2-8.4z"/>
-		</clipPath>
-		<linearGradient id="g2" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-0.9,15.001,-14.917,-0.895,22.497,0)">
-			<stop offset="0" stop-color="#ffffff" stop-opacity="1"/>
-			<stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-		</linearGradient>
-		<linearGradient id="g3" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-3.3,3.3,-4.4,-4.4,18.3,11.699)">
+		<linearGradient id="g1" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-3.3,3.3,-6.6,-6.6,18.3,11.701)">
 			<stop offset="0" stop-color="#ffffff" stop-opacity=".5"/>
 			<stop offset="1" stop-color="#ffffff" stop-opacity=".32"/>
 		</linearGradient>
-		<linearGradient id="g4" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-6.3,4.2,-4.8,-7.2,10.017,18.24)">
+		<linearGradient id="g2" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-22.773,-9.601,6.754,-16.019,30.004,15.002)">
 			<stop offset="0" stop-color="#ffffff" stop-opacity=".5"/>
 			<stop offset="1" stop-color="#ffffff" stop-opacity=".15"/>
 		</linearGradient>
-		<clipPath clipPathUnits="userSpaceOnUse" id="cp2">
-			<path d="m0 15h15-6.6l3.3 6.6-4.2 8.4z"/>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp1">
+			<path d="m15 0l15 15h-15 6.6l-6.6-6.6z"/>
 		</clipPath>
-		<linearGradient id="g5" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-6.24,4.08,-4.702,-7.192,10.017,18.36)">
+		<linearGradient id="g3" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-4.201,4.201,-8.401,-8.401,22.503,7.501)">
 			<stop offset="0" stop-color="#ffffff" stop-opacity="1"/>
-			<stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+			<stop offset=".505" stop-color="#ffffff" stop-opacity=".15"/>
+			<stop offset="1" stop-color="#ffffff" stop-opacity="1"/>
 		</linearGradient>
-		<linearGradient id="g6" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-3.3,3.3,-4.4,-4.4,15,15)">
+		<linearGradient id="g4" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-3.3,3.3,-6.6,-6.6,15,15.001)">
 			<stop offset="0" stop-color="#ffffff" stop-opacity=".32"/>
 			<stop offset="1" stop-color="#ffffff" stop-opacity=".15"/>
 		</linearGradient>
-		<linearGradient id="g7" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(11.7,-6.6,7.952,14.097,-0.004,15)">
+		<linearGradient id="g5" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(4.201,-4.201,8.401,8.401,7.501,22.501)">
 			<stop offset="0" stop-color="#ffffff" stop-opacity=".15"/>
 			<stop offset="1" stop-color="#ffffff" stop-opacity=".5"/>
 		</linearGradient>
-		<clipPath clipPathUnits="userSpaceOnUse" id="cp3">
-			<path d="m0 15h15-6.6l3.3-6.6-4.2-8.4z"/>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp2">
+			<path d="m15 30l-15-15h15-6.6l6.6 6.6z"/>
 		</clipPath>
-		<linearGradient id="g8" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-0.9,-15.001,14.537,-0.872,8.397,15)">
-			<stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
-			<stop offset="1" stop-color="#ffffff" stop-opacity="1"/>
+		<linearGradient id="g6" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-4.171,4.171,-8.341,-8.341,11.671,18.331)">
+			<stop offset="0" stop-color="#ffffff" stop-opacity="1"/>
+			<stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
 		</linearGradient>
-		<linearGradient id="g9" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-6.6,6.6,-4.95,-4.95,14.996,8.4)">
+		<linearGradient id="g7" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-6.6,6.6,-3.3,-3.3,14.997,8.401)">
 			<stop offset="0" stop-color="#ffffff" stop-opacity=".5"/>
 			<stop offset="1" stop-color="#ffffff" stop-opacity=".15"/>
 		</linearGradient>
-		<linearGradient id="g10" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-11.701,6.6,-6.779,-12.018,29.998,15)">
+		<linearGradient id="g8" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-15.002,15.002,-7.501,-7.501,15.002,0)">
+			<stop offset="0" stop-color="#ffffff" stop-opacity=".5"/>
+			<stop offset="1" stop-color="#ffffff" stop-opacity=".15"/>
+		</linearGradient>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp3">
+			<path d="m15 0l-15 15h15-6.6l6.6-6.6z"/>
+		</clipPath>
+		<linearGradient id="g9" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-6.601,6.601,-3.3,-3.301,15.002,8.401)">
+			<stop offset="0" stop-color="#ffffff" stop-opacity=".75"/>
+			<stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+		</linearGradient>
+		<linearGradient id="g10" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-6.6,6.6,-3.3,-3.3,21.605,15.002)">
+			<stop offset="0" stop-color="#ffffff" stop-opacity=".5"/>
+			<stop offset="1" stop-color="#ffffff" stop-opacity=".15"/>
+		</linearGradient>
+		<linearGradient id="g11" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-15.002,15.002,-7.501,-7.501,30.004,15)">
 			<stop offset="0" stop-color="#ffffff" stop-opacity=".5"/>
 			<stop offset="1" stop-color="#ffffff" stop-opacity=".15"/>
 		</linearGradient>
 		<clipPath clipPathUnits="userSpaceOnUse" id="cp4">
-			<path d="m30 15h-15v6.6-6.6h6.6l-3.3 6.6 4.2 8.4z"/>
+			<path d="m15 30l15-15h-15 6.6l-6.6 6.6z"/>
 		</clipPath>
-		<linearGradient id="g11" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(11.641,-6.6,6.779,11.956,18.357,21.6)">
-			<stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
-			<stop offset="1" stop-color="#ffffff" stop-opacity="1"/>
-		</linearGradient>
-		<linearGradient id="g12" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-6.6,6.6,-4.95,-4.95,21.604,15.001)">
-			<stop offset="0" stop-color="#ffffff" stop-opacity=".5"/>
-			<stop offset="1" stop-color="#ffffff" stop-opacity=".15"/>
+		<linearGradient id="g12" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-6.661,6.661,-3.33,-3.33,21.663,15)">
+			<stop offset="0" stop-color="#ffffff" stop-opacity=".75"/>
+			<stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
 		</linearGradient>
 	</defs>
 	<style>
 		.s0 { fill: #333333 } 
-		.s1 { opacity: .3;fill: #ffffff } 
-		.s2 { fill: url(#g1) } 
-		.s3 { fill: url(#g2) } 
-		.s4 { fill: url(#g3) } 
-		.s5 { fill: url(#g4) } 
-		.s6 { fill: url(#g5) } 
-		.s7 { fill: url(#g6) } 
-		.s8 { fill: url(#g7) } 
-		.s9 { fill: url(#g8) } 
-		.s10 { fill: url(#g9) } 
-		.s11 { fill: url(#g10) } 
-		.s12 { fill: url(#g11) } 
-		.s13 { fill: url(#g12) } 
+		.s1 { fill: url(#g1) } 
+		.s2 { fill: url(#g2) } 
+		.s3 { fill: url(#g3) } 
+		.s4 { fill: url(#g4) } 
+		.s5 { fill: url(#g5) } 
+		.s6 { fill: url(#g6) } 
+		.s7 { fill: url(#g7) } 
+		.s8 { fill: url(#g8) } 
+		.s9 { fill: url(#g9) } 
+		.s10 { fill: url(#g10) } 
+		.s11 { fill: url(#g11) } 
+		.s12 { fill: url(#g12) } 
 	</style>
 	<g id="Layer">
-		<path id="Layer" class="s0" d="m15 0h7.5l-4.2 8.4h-3.3z"/>
-		<path id="Layer" class="s0" d="m22.5 0l7.5 15h-15 6.6l-3.3-6.6z"/>
-		<path id="Layer" class="s0" d="m15 15h6.6l-3.3-6.6h-3.3z"/>
-		<path id="Layer" class="s0" d="m15 30h-7.5l4.2-8.4h3.3z"/>
-		<path id="Layer" class="s0" d="m7.5 30l-7.5-15h15-6.6l3.3 6.6z"/>
-		<path id="Layer" class="s0" d="m15 15h-6.6l3.3 6.6h3.3z"/>
-		<path id="Layer" class="s0" d="m15 0h-7.5l4.2 8.4h3.3z"/>
-		<path id="Layer" class="s0" d="m7.5 0l-7.5 15h15-6.6l3.3-6.6z"/>
-		<path id="Layer" class="s0" d="m15 15v-6.6h-3.3l-3.3 6.6z"/>
-		<path id="Layer" class="s0" d="m15 30h7.5l-4.2-8.4h-3.3z"/>
-		<path id="Layer" class="s0" d="m22.5 30l7.5-15h-15 6.6l-3.3 6.6z"/>
-		<path id="Layer" class="s0" d="m15 15v6.6h3.3l3.3-6.6z"/>
-		<path id="Layer" fill-rule="evenodd" class="s1" d="m15 0h7.5l-4.2 8.4h-3.3z"/>
-		<path id="Layer" fill-rule="evenodd" class="s2" d="m30 15h-15v-6.6 6.6h6.6l-3.3-6.6 4.2-8.4z"/>
+		<path id="Layer" class="s0" d="m21.6 15l-6.6-6.6v6.6z"/>
+		<path id="Layer" class="s0" d="m15 0l15 15h-8.4l-6.6-6.6z"/>
+		<path id="Layer" class="s0" d="m8.4 15l6.6 6.6v-6.6z"/>
+		<path id="Layer" class="s0" d="m15 30l-15-15h8.4l6.6 6.6z"/>
+		<path id="Layer" class="s0" d="m15 8.4l-6.6 6.6h6.6z"/>
+		<path id="Layer" class="s0" d="m15 0l-15 15h8.4l6.6-6.6z"/>
+		<path id="Layer" class="s0" d="m15 21.6l6.6-6.6h-6.6z"/>
+		<path id="Layer" class="s0" d="m15 30l15-15h-8.4l-6.6 6.6z"/>
+		<path id="Layer" class="s1" d="m21.6 15l-6.6-6.6v6.6z"/>
+		<path id="Layer" fill-rule="evenodd" class="s2" d="m15 0l15 15h-15 6.6l-6.6-6.6z"/>
 		<g id="Clip-Path" clip-path="url(#cp1)">
-			<path id="Layer" fill-rule="evenodd" class="s3" d="m14.9 15.1v-6.8h0.2v6.6h6.4l-3.3-6.5 4.2-8.4h0.1-0.1l0.1-0.1 0.1 0.1 7.5 15h-0.1 0.1v0.1zm3.4-6.7l3.3 6.5h8.3l-7.4-14.8zm3.3 6.7l-0.1-0.1v0.1z"/>
+			<path id="Layer" fill-rule="evenodd" class="s3" d="m30.1 15.1h-15.2v-0.2h6.6l0.1 0.1v-0.1h8.3l-14.8-14.8v8.3l6.5 6.5h-0.1l-6.5-6.5h-0.1v-8.5l0.1 0.1 15 15zm-8.4 0l-0.1-0.1v0.1z"/>
 		</g>
-		<path id="Layer" class="s4" d="m15 15h6.6l-3.3-6.6h-3.3z"/>
-		<path id="Layer" fill-rule="evenodd" class="s1" d="m15 30h-7.5l4.2-8.4h3.3z"/>
-		<path id="Layer" fill-rule="evenodd" class="s5" d="m0 15h15-6.6l3.3 6.6-4.2 8.4z"/>
+		<path id="Layer" class="s4" d="m8.4 15l6.6 6.6v-6.6z"/>
+		<path id="Layer" fill-rule="evenodd" class="s5" d="m15 30l-15-15h15-6.6l6.6 6.6z"/>
 		<g id="Clip-Path" clip-path="url(#cp2)">
-			<path id="Layer" fill-rule="evenodd" class="s6" d="m15.1 14.9v0.2h-6.6l3.3 6.5h-0.1 0.1l-4.2 8.4-0.1 0.1-0.1-0.1-7.5-15v-0.1zm-3.4 6.7l-3.3-6.5h-8.3l7.4 14.8zm-3.3-6.7l0.1 0.1v-0.1z"/>
+			<path id="Layer" fill-rule="evenodd" class="s6" d="m-0.1 14.9h15.2v0.1h-0.2v0.1h-6.4l6.4 6.4v0.1l-6.5-6.5v-0.2h-0.1l0.1 0.1v0.1h-8.3l14.8 14.8v-8.3h0.1l0.1 0.1v8.4l-0.1-0.1-15-15zm15.1 6.7l-0.1-0.1v0.1h0.1z"/>
 		</g>
-		<path id="Layer" class="s7" d="m15 15h-6.6l3.3 6.6h3.3z"/>
-		<path id="Layer" fill-rule="evenodd" class="s1" d="m15 0h-7.5l4.2 8.4h3.3z"/>
-		<path id="Layer" fill-rule="evenodd" class="s8" d="m0 15h15-6.6l3.3-6.6-4.2-8.4z"/>
+		<path id="Layer" class="s7" d="m15 8.4l-6.6 6.6h6.6z"/>
+		<path id="Layer" fill-rule="evenodd" class="s8" d="m15 0l-15 15h15-6.6l6.6-6.6z"/>
 		<g id="Clip-Path" clip-path="url(#cp3)">
-			<path id="Layer" fill-rule="evenodd" class="s9" d="m15.1 15.1h-15.2v-0.1h0.1-0.1l7.5-15h0.1-0.1l0.1-0.1 0.1 0.1 4.2 8.4h-0.1 0.1l-3.3 6.5h6.6zm-6.7-0.1l3.2-6.5-4.1-8.3-7.4 14.8zm-0.1 0.1h0.1z"/>
+			<path id="Layer" fill-rule="evenodd" class="s9" d="m-0.1 15.1l0.1-0.1 15-15 0.1-0.1v8.5h-0.1l-6.5 6.5h-0.1l6.5-6.5v-8.3l-14.8 14.8h8.3v0.1l-0.1 0.1h0.1v-0.1l0.1-0.1h6.6v0.2zm8.5-0.1z"/>
 		</g>
-		<path id="Layer" class="s10" d="m15 15v-6.6h-3.3l-3.3 6.6z"/>
-		<path id="Layer" fill-rule="evenodd" class="s1" d="m15 30h7.5l-4.2-8.4h-3.3z"/>
-		<path id="Layer" fill-rule="evenodd" class="s11" d="m30 15h-15v6.6-6.6h6.6l-3.3 6.6 4.2 8.4z"/>
+		<path id="Layer" class="s10" d="m15 21.6l6.6-6.6h-6.6z"/>
+		<path id="Layer" fill-rule="evenodd" class="s11" d="m15 30l15-15h-15 6.6l-6.6 6.6z"/>
 		<g id="Clip-Path" clip-path="url(#cp4)">
-			<path id="Layer" fill-rule="evenodd" class="s12" d="m14.9 14.9h15.2v0.1l-7.5 15-0.1 0.1-0.1-0.1-4.2-8.4 3.3-6.5h-6.4v6.6h-0.2zm6.7 0.1l-3.2 6.5 4.1 8.3 7.4-14.8zm0-0.1h0.1-0.1z"/>
+			<path id="Layer" fill-rule="evenodd" class="s12" d="m30.1 14.9l-0.1 0.1-15 15-0.1 0.1v-8.5h0.1l6.5-6.5h0.1l-6.5 6.5v8.3l14.8-14.8h-8.3v-0.1l0.1-0.1h-0.1v0.1l-0.1 0.1h-6.6v-0.1h0.1-0.1v-0.1z"/>
 		</g>
-		<path id="Layer" class="s13" d="m15 15v6.6h3.3l3.3-6.6z"/>
 	</g>
 </svg>
