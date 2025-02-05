@@ -11,7 +11,7 @@ import { useQuery } from "@apollo/client";
 import { useAccount } from "wagmi";
 
 export const useGetMarketGems = (orderDir: string, orderBy: string) => {
-  const { loading, error, data, fetchMore } = useQuery(GET_ALL_MARKET_GEMS, {
+  const { loading, error, data, fetchMore, refetch } = useQuery(GET_ALL_MARKET_GEMS, {
     variables: {
       skip: 0,
       first: 30,
@@ -21,7 +21,7 @@ export const useGetMarketGems = (orderDir: string, orderBy: string) => {
     pollInterval: 5000,
   });
   const result = useMemo(() => data?.nfts, [loading, error, data]);
-  return {result, fetchMore};
+  return {result, fetchMore, refetch};
 };
 
 export const useGetAllGems = () => {
