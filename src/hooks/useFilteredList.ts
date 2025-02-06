@@ -64,9 +64,9 @@ export const useFilteredList = (gemList: GemStandard[]) => {
             : sortItem === SortFilterItems.RARITY_ASC
               ? {orderDir: "asc", orderBy: "rarity"}
               : sortItem === SortFilterItems.PRICE_DES
-                ? {orderDir: "desc", orderBy: "price"}
+                ? {orderDir: "asc", orderBy: "price"}
                 : sortItem === SortFilterItems.PRICE_ASC
-                  ? {orderDir: "asc", orderBy: "rarity"}
+                  ? {orderDir: "desc", orderBy: "price"}
                   : activeList,
     [tempList, sortItem]
   );
