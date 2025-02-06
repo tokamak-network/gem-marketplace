@@ -23,7 +23,7 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <GoogleAnalyticsScript />
-      <title>GemSTON MVP</title>
+      <title>GemSTON MVP 1.0</title>
       <body>
         <Main />
         <NextScript />
