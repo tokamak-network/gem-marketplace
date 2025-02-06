@@ -37,7 +37,6 @@ const MarketPage = () => {
   const { activeGemList } = useFilteredList(gemList);
   const [, setColorState] = useRecoilState(colorStatus);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const [tempGemList, setTempGemList] = useState([]);
 
   useEffect(() => {
     refetch();
@@ -143,7 +142,7 @@ const MarketPage = () => {
           </Center>
         }
       >
-        <Flex gap={4} flexWrap={"wrap"} mt={73} px={10}>
+        <Flex gap={4} flexWrap={"wrap"} mt={73} px={10} pb={10}>
           <Flex
             pos={"relative"}
             w={212}
