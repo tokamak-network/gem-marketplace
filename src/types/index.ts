@@ -12,7 +12,7 @@ export enum RarityType {
   epic = "epic",
   legendary = "legendary",
   mythic = "mythic",
-  none = "none"
+  none = "none",
 }
 
 export type PieceInfo = {
@@ -40,6 +40,15 @@ export type GemStandard = {
   creationDate: number;
   owner?: string;
   isForSale?: boolean;
+  backgroundColor?: BackgroundColorType;
+};
+
+export type BackgroundColorType = {
+  r: number[];
+  g: number[];
+  b: number[];
+  blur: number;
+  dropShadow: boolean;
 };
 
 export type ActivityFilterType = "all" | "mine" | "forge" | "buysell";
@@ -50,10 +59,17 @@ export enum ImageFileType {
   SVG = ".svg",
 }
 
-export type CardType = "market" | "forge" | "mine" | "common" | "normal" | "chest" | "forgeFinal";
+export type CardType =
+  | "market"
+  | "forge"
+  | "mine"
+  | "common"
+  | "normal"
+  | "chest"
+  | "forgeFinal";
 
 export enum TokenType {
   ETH,
   TON,
-  WSTON
+  WSTON,
 }
