@@ -12,7 +12,7 @@ export const GET_ALL_MARKET_GEMS = gql`
       first: $first
       orderDirection: $orderDir
       orderBy: $orderBy
-      where: { isForSale: true }
+      where: { isForSale: true, creationDate_not: null }
     ) {
       tokenID
       color
@@ -30,6 +30,13 @@ export const GET_ALL_MARKET_GEMS = gql`
       miningPeriod
       miningTry
       creationDate
+      backgroundColor {
+        b
+        blur
+        dropShadow
+        g
+        r
+      }
     }
   }
 `;

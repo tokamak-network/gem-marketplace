@@ -109,6 +109,7 @@ const GemCard = ({
     value,
     isForSale,
     miningTry,
+    backgroundColor,
   } = gemInfo;
 
   const { callStartMining } = useStartMiningGem();
@@ -365,7 +366,7 @@ const GemCard = ({
     gradient: gemBg,
     dropShadow: isDropShadow,
     blur: blurColor,
-  } = useMemo(() => getGemCardBackground(color, rarity), [color, rarity]);
+  } = useMemo(() => getGemCardBackground(backgroundColor), [backgroundColor]);
 
   return (
     <Box

@@ -30,7 +30,11 @@ const MarketPage = () => {
   const searchParams = useSearchParams();
   const search = useMemo(() => searchParams.get("asset"), [searchParams]);
   const [sortParam] = useRecoilState(sortParams);
-  const { result: gemList, fetchMore, refetch } = useGetMarketGems(sortParam.orderDir, sortParam.orderBy);
+  const {
+    result: gemList,
+    fetchMore,
+    refetch,
+  } = useGetMarketGems(sortParam.orderDir, sortParam.orderBy);
   const router = useRouter();
   const [, setSelectedGemsInfo] = useRecoilState(selectedForgeGems);
   const [, setRarityState] = useRecoilState(rarityStatus);
@@ -41,7 +45,7 @@ const MarketPage = () => {
   useEffect(() => {
     refetch();
     setHasMore(true);
-  }, [sortParam])
+  }, [sortParam]);
 
   useEffect(() => {
     setSelectedGemsInfo({
