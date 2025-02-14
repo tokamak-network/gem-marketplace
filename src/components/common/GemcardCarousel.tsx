@@ -10,6 +10,7 @@ import { getValueOfRarity } from "@/utils";
 import { rarityList } from "@/constants/rarity";
 import { FACTORY_ADDRESS } from "@/constants/tokens";
 import { useAccount } from "wagmi";
+import { RarityType } from "@/types";
 
 const responsive = {
   superLargeDesktop: {
@@ -39,7 +40,6 @@ const GemcardCarousel = () => {
   const { forgeResultQuadrant, colorCombo, forgedRarity } =
     useRecoilValue(forgeResultSelector);
   const [gemValue, setGemValue] = useState();
-
   useEffect(() => {
     const fetchValue = async () => {
       const value = await getValueOfRarity(
@@ -73,9 +73,9 @@ const GemcardCarousel = () => {
                 tokenID: -1,
                 quadrants: forgeResultQuadrant,
                 color: item,
-                rarity: forgedRarity,
+                rarity: RarityType[forgedRarity],
                 creationDate: 0,
-                value: gemValue
+                value: gemValue,
               }}
             />
           ))}

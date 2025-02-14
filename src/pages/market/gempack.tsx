@@ -117,7 +117,7 @@ const GemPack = () => {
   }, []);
 
   return (
-    <Flex flexDir={"column"} w={"100%"} h={"100%"}>
+    <Flex flexDir={"column"} w={"100%"} h={"100%"} ml={"40px"}>
       <Flex
         mb={10}
         align={"center"}

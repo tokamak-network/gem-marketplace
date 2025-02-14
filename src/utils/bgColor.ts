@@ -125,7 +125,7 @@ export function getGemCardBackgroundForForge(
             )
         : hexToRgb(gemColorList[Object.keys(gemColorList)[gemColor[0]]]);
 
-    switch (rarityList[Number(rarity)]) {
+    switch (rarityList[Number(rarity)] || rarity) {
       case RarityType.common:
         return {
           gradient: "#191A22",

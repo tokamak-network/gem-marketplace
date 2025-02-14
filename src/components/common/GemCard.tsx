@@ -115,7 +115,6 @@ const GemCard = ({
     miningTry,
     backgroundColor,
   } = gemInfo;
-
   const { callStartMining } = useStartMiningGem();
 
   const { callCollectGem } = useCollectGem(tokenID);
@@ -396,7 +395,9 @@ const GemCard = ({
               backgroundColor.g[0],
               backgroundColor.b[0],
             ])}`
-          : ""
+          : isDropShadow && !backgroundColor
+            ? `0px 0px 25px 0px ${blur}`
+            : ""
       }
       border={
         (isForgeSelected && mode === "forge") ||
