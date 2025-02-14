@@ -6,6 +6,11 @@
   },
   {
     "inputs": [],
+    "name": "BackgroundColorNotExist",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "ColorNotExist",
     "type": "error"
   },
@@ -306,6 +311,11 @@
   },
   {
     "inputs": [],
+    "name": "WrongBackGroundColor",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "WrongRarity",
     "type": "error"
   },
@@ -363,25 +373,6 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "uint8",
-        "name": "id",
-        "type": "uint8"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "backgroundColor",
-        "type": "string"
-      }
-    ],
-    "name": "BackgroundColorAdded",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
         "indexed": false,
         "internalType": "uint256",
         "name": "_fromTokenId",
@@ -401,10 +392,23 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "newCallbackGasLimit",
+        "type": "uint32"
+      }
+    ],
+    "name": "CallBackGasLimitUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
-        "internalType": "uint8",
+        "internalType": "uint256",
         "name": "id",
-        "type": "uint8"
+        "type": "uint256"
       },
       {
         "indexed": false,
@@ -474,6 +478,39 @@
         "internalType": "uint8[2]",
         "name": "color",
         "type": "uint8[2]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint8[2]",
+            "name": "r",
+            "type": "uint8[2]"
+          },
+          {
+            "internalType": "uint8[2]",
+            "name": "g",
+            "type": "uint8[2]"
+          },
+          {
+            "internalType": "uint8[2]",
+            "name": "b",
+            "type": "uint8[2]"
+          },
+          {
+            "internalType": "uint8",
+            "name": "blur",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "dropShadow",
+            "type": "bool"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct GemFactoryStorage.BackgroundColor",
+        "name": "backgroundColor",
+        "type": "tuple"
       },
       {
         "indexed": false,
@@ -566,6 +603,39 @@
         "internalType": "uint8[2]",
         "name": "color",
         "type": "uint8[2]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint8[2]",
+            "name": "r",
+            "type": "uint8[2]"
+          },
+          {
+            "internalType": "uint8[2]",
+            "name": "g",
+            "type": "uint8[2]"
+          },
+          {
+            "internalType": "uint8[2]",
+            "name": "b",
+            "type": "uint8[2]"
+          },
+          {
+            "internalType": "uint8",
+            "name": "blur",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "dropShadow",
+            "type": "bool"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct GemFactoryStorage.BackgroundColor",
+        "name": "backgroundColor",
+        "type": "tuple"
       },
       {
         "indexed": false,
@@ -947,6 +1017,12 @@
   },
   {
     "anonymous": false,
+    "inputs": [],
+    "name": "Test",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
     "inputs": [
       {
         "indexed": true,
@@ -1015,19 +1091,6 @@
     "type": "event"
   },
   {
-    "inputs": [],
-    "name": "CALLBACK_GAS_LIMIT",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -1092,6 +1155,38 @@
         "type": "bool"
       },
       {
+        "components": [
+          {
+            "internalType": "uint8[2]",
+            "name": "r",
+            "type": "uint8[2]"
+          },
+          {
+            "internalType": "uint8[2]",
+            "name": "g",
+            "type": "uint8[2]"
+          },
+          {
+            "internalType": "uint8[2]",
+            "name": "b",
+            "type": "uint8[2]"
+          },
+          {
+            "internalType": "uint8",
+            "name": "blur",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "dropShadow",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GemFactoryStorage.BackgroundColor",
+        "name": "backgroundColor",
+        "type": "tuple"
+      },
+      {
         "internalType": "string",
         "name": "tokenURI",
         "type": "string"
@@ -1109,12 +1204,42 @@
       },
       {
         "internalType": "uint8",
-        "name": "_index1",
+        "name": "_colorId1",
         "type": "uint8"
       },
       {
         "internalType": "uint8",
-        "name": "_index2",
+        "name": "_colorId2",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "_r1",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "_r2",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "_g1",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "_g2",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "_b1",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "_b2",
         "type": "uint8"
       }
     ],
@@ -1176,8 +1301,69 @@
   {
     "inputs": [
       {
+        "internalType": "bytes1",
+        "name": "",
+        "type": "bytes1"
+      },
+      {
+        "internalType": "bytes1",
+        "name": "",
+        "type": "bytes1"
+      }
+    ],
+    "name": "backgroundColorName",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "backgroundColors",
+    "outputs": [
+      {
+        "internalType": "bytes1",
+        "name": "",
+        "type": "bytes1"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "backgroundColorsCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
-        "name": "_owner",
+        "name": "owner",
         "type": "address"
       }
     ],
@@ -1185,7 +1371,44 @@
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "count",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "callbackGasLimit",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "name": "colorIndexInTheColorArray",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -1222,32 +1445,14 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "name": "colors",
     "outputs": [
       {
-        "internalType": "uint8",
-        "name": "",
-        "type": "uint8"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "colorsCount",
-    "outputs": [
-      {
-        "internalType": "uint8",
-        "name": "",
-        "type": "uint8"
+        "internalType": "string",
+        "name": "colorName",
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -1500,6 +1705,38 @@
             "type": "uint8[2]"
           },
           {
+            "components": [
+              {
+                "internalType": "uint8[2]",
+                "name": "r",
+                "type": "uint8[2]"
+              },
+              {
+                "internalType": "uint8[2]",
+                "name": "g",
+                "type": "uint8[2]"
+              },
+              {
+                "internalType": "uint8[2]",
+                "name": "b",
+                "type": "uint8[2]"
+              },
+              {
+                "internalType": "uint8",
+                "name": "blur",
+                "type": "uint8"
+              },
+              {
+                "internalType": "bool",
+                "name": "dropShadow",
+                "type": "bool"
+              }
+            ],
+            "internalType": "struct GemFactoryStorage.BackgroundColor",
+            "name": "backgroundColor",
+            "type": "tuple"
+          },
+          {
             "internalType": "string",
             "name": "tokenURI",
             "type": "string"
@@ -1508,6 +1745,45 @@
         "internalType": "struct GemFactoryStorage.Gem",
         "name": "",
         "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getGemBackgroundColor",
+    "outputs": [
+      {
+        "internalType": "uint8[2]",
+        "name": "r",
+        "type": "uint8[2]"
+      },
+      {
+        "internalType": "uint8[2]",
+        "name": "g",
+        "type": "uint8[2]"
+      },
+      {
+        "internalType": "uint8[2]",
+        "name": "b",
+        "type": "uint8[2]"
+      },
+      {
+        "internalType": "uint8",
+        "name": "blur",
+        "type": "uint8"
+      },
+      {
+        "internalType": "bool",
+        "name": "dropShadow",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -1836,19 +2112,6 @@
   },
   {
     "inputs": [],
-    "name": "getRequestIds",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "getTonAddress",
     "outputs": [
       {
@@ -2012,6 +2275,25 @@
   {
     "inputs": [
       {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "isColorNameUsed",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "_tokenId",
         "type": "uint256"
@@ -2134,19 +2416,6 @@
   {
     "inputs": [],
     "name": "pauseProxy",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "paused",
     "outputs": [
       {
         "internalType": "bool",
@@ -2337,6 +2606,19 @@
       }
     ],
     "name": "setApprovalForAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "_callbackGasLimit",
+        "type": "uint32"
+      }
+    ],
+    "name": "setCallbackGasLimit",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

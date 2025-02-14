@@ -12,7 +12,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import TrackAnalytics from "@/components/trackAnalytics";
 
 const client = new ApolloClient({
-  uri: "https://graph-node.thanos-sepolia.tokamak.network/subgraphs/name/tokamak/gem-nft-subgraph/",
+  uri: "https://graph-node.thanos-sepolia.tokamak.network/subgraphs/name/tokamak/gem-nft-subgraph",
   cache: new InMemoryCache(),
 });
 

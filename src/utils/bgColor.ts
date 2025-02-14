@@ -1,7 +1,26 @@
-import { RarityType } from "@/types";
-import { colorList, gemColorList, rarityList } from "@/constants/rarity";
+import { gemColorList, rarityList } from "@/constants/rarity";
+import { BackgroundColorType, RarityType } from "@/types";
 
-export function getGemCardBackground(gemColor: number[], rarity: RarityType) {
+// Helper to convert RGB to hex
+export function rgbToHex([r, g, b]: number[]) {
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
+}
+
+export function getGemCardBackground(backgroundColor: BackgroundColorType) {
+  const { r, g, b, blur, dropShadow } = backgroundColor;
+
+  const gradient = `linear-gradient(to bottom right, ${rgbToHex([r[0], g[0], b[0]])}, ${rgbToHex([r[1], g[1], b[1]])})`;
+  return {
+    gradient,
+    dropShadow,
+    blur,
+  };
+}
+
+export function getGemCardBackgroundForForge(
+  gemColor: number[],
+  rarity: RarityType
+) {
   // Validate inputs
   if (!Array.isArray(gemColor) || gemColor.length < 1 || gemColor.length > 2) {
     throw new Error(
@@ -23,11 +42,6 @@ export function getGemCardBackground(gemColor: number[], rarity: RarityType) {
     const bigint = parseInt(hex.slice(1), 16);
 
     return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
-  }
-
-  // Helper to convert RGB to hex
-  function rgbToHex([r, g, b]: number[]) {
-    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
   }
 
   // Helper to process RGB values

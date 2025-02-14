@@ -54,7 +54,11 @@ import FactoryMiningABI from "@/abi/gemFactoryMining.json";
 import { DRB_ADDRESS, FACTORY_ADDRESS } from "@/constants/tokens";
 import { fulfillRandomRequest } from "@/hooks/useGemPack";
 import GemMiningAlert from "../tooltipLabel/GemMiningAlert";
-import { getGemCardBackground } from "@/utils/bgColor";
+import {
+  getGemCardBackground,
+  getGemCardBackgroundForForge,
+  rgbToHex,
+} from "@/utils/bgColor";
 
 interface GemCardType {
   width?: number;
@@ -109,6 +113,7 @@ const GemCard = ({
     value,
     isForSale,
     miningTry,
+    backgroundColor,
   } = gemInfo;
 
   const { callStartMining } = useStartMiningGem();
@@ -364,8 +369,11 @@ const GemCard = ({
   const {
     gradient: gemBg,
     dropShadow: isDropShadow,
-    blur: blurColor,
-  } = useMemo(() => getGemCardBackground(color, rarity), [color, rarity]);
+    blur: blur,
+  } = useMemo(() => {
+    if (!backgroundColor) return getGemCardBackgroundForForge(color, rarity);
+    return getGemCardBackground(backgroundColor);
+  }, [backgroundColor, color, rarity]);
 
   return (
     <Box
@@ -381,7 +389,15 @@ const GemCard = ({
       // opacity={
       //   mode === "forge" ? (isForgeActive || isForgeSelected ? 1 : 0.25) : 1
       // }
-      boxShadow={isDropShadow ? `0px 0px 25px 0px ${blurColor}` : ""}
+      boxShadow={
+        isDropShadow && backgroundColor
+          ? `0px 0px ${blur}px 0px ${rgbToHex([
+              backgroundColor.r[0],
+              backgroundColor.g[0],
+              backgroundColor.b[0],
+            ])}`
+          : ""
+      }
       border={
         (isForgeSelected && mode === "forge") ||
         mode === "common" ||

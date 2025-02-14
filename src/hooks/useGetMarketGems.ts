@@ -11,17 +11,20 @@ import { useQuery } from "@apollo/client";
 import { useAccount } from "wagmi";
 
 export const useGetMarketGems = (orderDir: string, orderBy: string) => {
-  const { loading, error, data, fetchMore, refetch } = useQuery(GET_ALL_MARKET_GEMS, {
-    variables: {
-      skip: 0,
-      first: 30,
-      orderDir,
-      orderBy
-    },
-    pollInterval: 5000,
-  });
+  const { loading, error, data, fetchMore, refetch } = useQuery(
+    GET_ALL_MARKET_GEMS,
+    {
+      variables: {
+        skip: 0,
+        first: 30,
+        orderDir,
+        orderBy,
+      },
+      pollInterval: 5000,
+    }
+  );
   const result = useMemo(() => data?.nfts, [loading, error, data]);
-  return {result, fetchMore, refetch};
+  return { result, fetchMore, refetch };
 };
 
 export const useGetAllGems = () => {
@@ -49,8 +52,8 @@ export const useGetTransactionHistory = () => {
 export const useGetTransactionHistoryByID = (id: string) => {
   const { loading, error, data } = useQuery(GET_TX_HISTORY_BY_ID, {
     variables: {
-      id
-    }
+      id,
+    },
   });
   return useMemo(() => data?.tradeHistories, [loading, error, data]);
 };
@@ -62,5 +65,5 @@ export const useGetGemWithId = (id: number) => {
     },
   });
   const result = useMemo(() => data?.nfts, [loading, error, data]);
-  return {result, refetch}
+  return { result, refetch };
 };
