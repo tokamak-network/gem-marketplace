@@ -12,7 +12,7 @@ export const GET_ALL_MARKET_GEMS = gql`
       first: $first
       orderDirection: $orderDir
       orderBy: $orderBy
-      where: { isForSale: true, creationDate_not: null }
+      where: { isForSale: true, tokenID_not: null }
     ) {
       tokenID
       color
@@ -43,7 +43,7 @@ export const GET_ALL_MARKET_GEMS = gql`
 
 export const GET_MARKET_GEMS = gql`
   query GetAllMarketGems {
-    nfts(first: 1000) {
+    nfts(first: 1000, where: { tokenID_not: null }) {
       tokenID
       color
       cooldownDueDate
@@ -59,13 +59,20 @@ export const GET_MARKET_GEMS = gql`
       price
       miningTry
       creationDate
+      backgroundColor {
+        b
+        blur
+        dropShadow
+        g
+        r
+      }
     }
   }
 `;
 
 export const GET_GEM_WITH_ID = gql`
   query GetAllMarketGems($id: Int) {
-    nfts(where: { tokenID: $id }) {
+    nfts(where: { tokenID: $id, tokenID_not: null }) {
       color
       cooldownDueDate
       gemCooldownInitTime
@@ -81,6 +88,13 @@ export const GET_GEM_WITH_ID = gql`
       price
       miningTry
       creationDate
+      backgroundColor {
+        b
+        blur
+        dropShadow
+        g
+        r
+      }
     }
   }
 `;
@@ -98,7 +112,7 @@ export const GET_USER_GEMS = gql`
       first: $first
       orderDirection: $orderDir
       orderBy: $orderBy
-      where: { owner: $user }
+      where: { owner: $user, tokenID_not: null }
     ) {
       tokenID
       color
@@ -115,6 +129,13 @@ export const GET_USER_GEMS = gql`
       price
       miningTry
       creationDate
+      backgroundColor {
+        b
+        blur
+        dropShadow
+        g
+        r
+      }
     }
   }
 `;
@@ -124,7 +145,7 @@ export const GET_USER_MINE_GEMS = gql`
     nfts(
       orderDirection: $orderDir
       orderBy: $orderBy
-      where: { owner: $user, rarity_not: 0 }
+      where: { owner: $user, rarity_not: 0, tokenID_not: null }
     ) {
       tokenID
       color
@@ -141,6 +162,13 @@ export const GET_USER_MINE_GEMS = gql`
       price
       miningTry
       creationDate
+      backgroundColor {
+        b
+        blur
+        dropShadow
+        g
+        r
+      }
     }
   }
 `;

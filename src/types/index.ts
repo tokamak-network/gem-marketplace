@@ -40,7 +40,7 @@ export type GemStandard = {
   creationDate: number;
   owner?: string;
   isForSale?: boolean;
-  backgroundColor: BackgroundColorType;
+  backgroundColor?: BackgroundColorType;
 };
 
 export type BackgroundColorType = {

@@ -67,7 +67,7 @@ enum PayOption {
 }
 
 const GemItemView = ({ id, mode }: ItemProps) => {
-  const {result: gemList, refetch} = useGetGemWithId(id);
+  const { result: gemList, refetch } = useGetGemWithId(id);
   const { connectToWallet } = useConnectWallet();
   const { isConnected, address, chain } = useAccount();
   const { callUnlistGem } = useUnlistGem({ tokenID: id });
@@ -87,9 +87,9 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   useEffect(() => {
     const refetchList = async () => {
       await refetch();
-    }
+    };
     refetchList();
-  }, [successModalStatus])
+  }, [successModalStatus]);
 
   const gemItem: GemStandard = useMemo(() => {
     return gemList && gemList[0] && gemList.length > 0
@@ -324,7 +324,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                           : setSellGemModalStatus({
                               isOpen: true,
                               tokenID: gemItem?.tokenID,
-                              refetch
+                              refetch,
                             });
                       }}
                       isDisabled={gemItem.isMining!}
