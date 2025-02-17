@@ -40,25 +40,26 @@ body {
   height: 350px;
 }
 
-.carousel-item  {
-  /* margin: 0px 30px; */
-  /* margin-left: 30px; */
+.carousel-item {
+  max-width: 234px;
+  display: flex;
+  justify-content: center;
 }
 
 .carousel-dot-list {
-  bottom: 0px!important;
+  bottom: 0px !important;
 }
 
 .react-multi-carousel-dot--active button {
-  border: none!important;
-  background: white!important;
+  border: none !important;
+  background: white !important;
 }
 .react-multi-carousel-dot button {
-  width: 7px!important;
-  height: 7px!important;
-  border: none!important;
-  margin: 5px!important;
-  background: #FFFFFF40;
+  width: 7px !important;
+  height: 7px !important;
+  border: none !important;
+  margin: 5px !important;
+  background: #ffffff40;
 }
 
 /* .chakra-menu__menu-list css-v3qd7r {

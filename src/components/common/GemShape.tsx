@@ -23,27 +23,28 @@ const GemShape = ({
 }: GemProps) => {
   const [combinedGem, setCombinedGem] = useState<string>("");
   const [bgGemShape, setBgGemShape] = useState<string>("");
+
   useEffect(() => {
     quadrants &&
       mergeImages(
         [
           {
-            src: `/assets/gem_pieces/${quadrants[0]}_1.svg`,
+            src: `/assets/gem_pieces/${Math.min(quadrants[0], 6)}_1.svg`,
             x: 0,
             y: 0,
           },
           {
-            src: `/assets/gem_pieces/${quadrants[1]}_2.svg`,
+            src: `/assets/gem_pieces/${Math.min(quadrants[1], 6)}_2.svg`,
             x: 160,
             y: 0,
           },
           {
-            src: `/assets/gem_pieces/${quadrants[2]}_3.svg`,
+            src: `/assets/gem_pieces/${Math.min(quadrants[2], 6)}_3.svg`,
             x: 0,
             y: 160,
           },
           {
-            src: `/assets/gem_pieces/${quadrants[3]}_4.svg`,
+            src: `/assets/gem_pieces/${Math.min(quadrants[3], 6)}_4.svg`,
             x: 160,
             y: 160,
           },
@@ -59,22 +60,22 @@ const GemShape = ({
       mergeImages(
         [
           {
-            src: `/assets/gem_pieces/${quadrants[0]}_1 copy.svg`,
+            src: `/assets/gem_pieces/${Math.min(quadrants[0], 6)}_1 copy.svg`,
             x: 0,
             y: 0,
           },
           {
-            src: `/assets/gem_pieces/${quadrants[1]}_2 copy.svg`,
+            src: `/assets/gem_pieces/${Math.min(quadrants[1], 6)}_2 copy.svg`,
             x: 160,
             y: 0,
           },
           {
-            src: `/assets/gem_pieces/${quadrants[2]}_3 copy.svg`,
+            src: `/assets/gem_pieces/${Math.min(quadrants[2], 6)}_3 copy.svg`,
             x: 0,
             y: 160,
           },
           {
-            src: `/assets/gem_pieces/${quadrants[3]}_4 copy.svg`,
+            src: `/assets/gem_pieces/${Math.min(quadrants[3], 6)}_4 copy.svg`,
             x: 160,
             y: 160,
           },
