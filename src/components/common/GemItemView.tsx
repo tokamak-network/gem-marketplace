@@ -92,17 +92,7 @@ const GemItemView = ({ id, mode }: ItemProps) => {
   }, [successModalStatus]);
 
   const gemItem: GemStandard = useMemo(() => {
-    return gemList && gemList[0] && gemList.length > 0
-      ? gemList[0]
-      : {
-          tokenID: 0,
-          quadrants: [1, 1, 1, 1],
-          color: [1],
-          value: BigInt("0"),
-          price: BigInt("0"),
-          rarity: RarityType.common,
-          isMining: false,
-        };
+    return gemList && gemList[0] && gemList.length > 0 ? gemList[0] : null;
   }, [gemList]);
 
   const WSTONBalance = useBalance({
@@ -222,326 +212,98 @@ const GemItemView = ({ id, mode }: ItemProps) => {
     }
   };
 
-  return (
-    gemItem && (
-      <Flex flexDir={"column"} w={"100%"} h={"100%"} px={10}>
-        <Flex
-          mb={4}
-          align={"center"}
-          columnGap={1}
-          cursor={"pointer"}
-          onClick={() => router.push("/" + mode)}
-        >
-          <ArrowBackIcon />
-          <Text textTransform={"capitalize"}>{mode}</Text>
-        </Flex>
-        <Flex columnGap={"40px"}>
-          <GemCard
-            mode="normal"
-            width={453}
-            height={581}
-            gemInfo={gemItem}
-            gemWidth={316}
-            gemHeight={316}
-          />
-          <Flex w={"full"} flexDir={"column"}>
-            <Flex justify={"space-between"}>
-              <Text fontWeight={700} fontSize={48} textTransform="capitalize">
-                Gem #{gemItem?.tokenID}
-              </Text>
+  return !gemItem ? (
+    <Center w={"100%"} overflow={"hidden"}>
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="lg"
+      />
+    </Center>
+  ) : (
+    <Flex flexDir={"column"} w={"100%"} h={"100%"} px={10}>
+      <Flex
+        mb={4}
+        align={"center"}
+        columnGap={1}
+        cursor={"pointer"}
+        onClick={() => router.push("/" + mode)}
+      >
+        <ArrowBackIcon />
+        <Text textTransform={"capitalize"}>{mode}</Text>
+      </Flex>
+      <Flex columnGap={"40px"}>
+        <GemCard
+          mode="normal"
+          width={453}
+          height={581}
+          gemInfo={gemItem}
+          gemWidth={316}
+          gemHeight={316}
+        />
+        <Flex w={"full"} flexDir={"column"}>
+          <Flex justify={"space-between"}>
+            <Text fontWeight={700} fontSize={48} textTransform="capitalize">
+              Gem #{gemItem?.tokenID}
+            </Text>
 
-              <Flex columnGap={2}>
-                {/* <Center w={8} h={8} rounded={"8px"} bgColor={"#2A2C3A"}>
+            <Flex columnGap={2}>
+              {/* <Center w={8} h={8} rounded={"8px"} bgColor={"#2A2C3A"}>
                   <SavedIcon width={16} height={16} isFill={false} />
                 </Center> */}
 
-                <Center
-                  w={8}
-                  h={8}
-                  rounded={"8px"}
-                  bgColor={"#2A2C3A"}
-                  cursor={"pointer"}
-                  onClick={() => {
-                    if (typeof window !== "undefined") {
-                      const protocol = window.location.protocol;
-                      const host = window.location.host;
-                      const path = router.asPath;
-                      copy(`${protocol}//${host}${path}`);
+              <Center
+                w={8}
+                h={8}
+                rounded={"8px"}
+                bgColor={"#2A2C3A"}
+                cursor={"pointer"}
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    const protocol = window.location.protocol;
+                    const host = window.location.host;
+                    const path = router.asPath;
+                    copy(`${protocol}//${host}${path}`);
 
-                      toast({
-                        title: "URL Copied",
-                        status: "success",
-                        duration: 2000,
-                        isClosable: true,
-                        position: "top",
-                      });
-                    }
-                  }}
-                >
-                  <Image alt="share" src={ShareIcon} width={16} height={16} />
-                </Center>
-              </Flex>
-            </Flex>
-
-            <GemAttributesView gemItem={gemItem} />
-
-            <Text fontSize={14} fontWeight={400} opacity={0.5} mt={2}>
-              Backed by
-            </Text>
-            <Flex align={"end"} columnGap={17} mb={4}>
-              <Center columnGap={3}>
-                <Image alt="ton" src={WSTONIcon} width={32} height={32} />
-                <Text fontSize={32} fontWeight={600}>
-                  {`${formatUnits(gemItem?.value! || BigInt(0), 27)} ThanosWSTON`}
-                </Text>
+                    toast({
+                      title: "URL Copied",
+                      status: "success",
+                      duration: 2000,
+                      isClosable: true,
+                      position: "top",
+                    });
+                  }
+                }}
+              >
+                <Image alt="share" src={ShareIcon} width={16} height={16} />
               </Center>
-
-              <Text pb={"6px"} fontSize={14} lineHeight={"30px"} opacity={0.5}>
-                ${GemValueUSD}
-              </Text>
             </Flex>
+          </Flex>
 
-            {isConnected ? (
-              mode === "market" ? (
-                gemItem.isForSale ? (
-                  gemItem.owner?.toLowerCase() === address?.toLowerCase() ? (
-                    <Button
-                      w={"full"}
-                      maxW={624}
-                      h={"65px"}
-                      columnGap={2}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      colorScheme="blue"
-                      bgColor={"#0380FF"}
-                      _disabled={{
-                        bgColor: "#21232D",
-                      }}
-                      _hover={{ bgColor: "none" }}
-                      onClick={() => {
-                        gemItem.isForSale
-                          ? handleUnlistGem()
-                          : setSellGemModalStatus({
-                              isOpen: true,
-                              tokenID: gemItem?.tokenID,
-                              refetch,
-                            });
-                      }}
-                      isDisabled={gemItem.isMining!}
-                    >
-                      {isLoading ? (
-                        <Spinner
-                          thickness="4px"
-                          speed="0.65s"
-                          emptyColor="gray.200"
-                          color="blue.500"
-                          size="md"
-                        />
-                      ) : gemItem.isForSale ? (
-                        "Remove Listing"
-                      ) : (
-                        "Sell"
-                      )}
-                    </Button>
-                  ) : (
-                    <Box>
-                      <Text
-                        pb={"6px"}
-                        fontSize={14}
-                        lineHeight={"30px"}
-                        opacity={0.5}
-                      >
-                        BUY GEM WITH:
-                      </Text>
-                      <Center columnGap={"16px"}>
-                        <Box w={"full"}>
-                          <Button
-                            w={"full"}
-                            maxW={624}
-                            h={"65px"}
-                            columnGap={2}
-                            alignItems={"center"}
-                            justifyContent={"center"}
-                            colorScheme="blue"
-                            bgColor={"#0380FF"}
-                            onClick={() => {
-                              handleClick(true);
-                            }}
-                            isDisabled={
-                              isTONLoading ||
-                              isWSTONLoading ||
-                              payOption === PayOption.NONE ||
-                              payOption === PayOption.TON
-                            }
-                          >
-                            {!isWSTONLoading &&
-                              (isConnected ? (
-                                <Image
-                                  alt="ton"
-                                  src={WSTONIcon}
-                                  width={27}
-                                  height={27}
-                                />
-                              ) : (
-                                <Image
-                                  alt="wallet"
-                                  src={WalletIcon}
-                                  width={22}
-                                  height={23}
-                                />
-                              ))}
-                            <Text fontSize={24} fontWeight={600}>
-                              {isWSTONLoading ? (
-                                <Spinner
-                                  thickness="4px"
-                                  speed="0.65s"
-                                  emptyColor="gray.200"
-                                  color="blue.500"
-                                  size="md"
-                                />
-                              ) : (
-                                `${formatUnits(gemItem?.price || BigInt(0), 27)} ThanosWSTON`
-                              )}
-                            </Text>
-                          </Button>
+          <GemAttributesView gemItem={gemItem} />
 
-                          <Flex mt={3} columnGap={1} h={7}>
-                            {(payOption === PayOption.TON ||
-                              payOption === PayOption.NONE) && (
-                              <>
-                                {" "}
-                                <Image src={Warning} alt="warning" />
-                                <Text fontSize={14} color={"#FFB801"}>
-                                  Insufficient ThanosWSTON Balance
-                                </Text>
-                              </>
-                            )}
-                          </Flex>
-                        </Box>
+          <Text fontSize={14} fontWeight={400} opacity={0.5} mt={2}>
+            Backed by
+          </Text>
+          <Flex align={"end"} columnGap={17} mb={4}>
+            <Center columnGap={3}>
+              <Image alt="ton" src={WSTONIcon} width={32} height={32} />
+              <Text fontSize={32} fontWeight={600}>
+                {`${formatUnits(gemItem?.value! || BigInt(0), 27)} ThanosWSTON`}
+              </Text>
+            </Center>
 
-                        <Text pb={10}>or</Text>
+            <Text pb={"6px"} fontSize={14} lineHeight={"30px"} opacity={0.5}>
+              ${GemValueUSD}
+            </Text>
+          </Flex>
 
-                        <Box w={"full"}>
-                          <Button
-                            w={"full"}
-                            maxW={624}
-                            h={"65px"}
-                            columnGap={2}
-                            alignItems={"center"}
-                            justifyContent={"center"}
-                            colorScheme="blue"
-                            bgColor={"transparent"}
-                            onClick={() => {
-                              handleClick(false);
-                            }}
-                            border={"2px solid #0380FF"}
-                            isDisabled={
-                              isWSTONLoading ||
-                              isTONLoading ||
-                              payOption === PayOption.NONE ||
-                              payOption === PayOption.WSTON
-                            }
-                          >
-                            {!isTONLoading && (
-                              <Image
-                                alt="ton"
-                                src={TonIcon}
-                                width={27}
-                                height={27}
-                              />
-                            )}
-                            <Text fontSize={24} fontWeight={600}>
-                              {isTONLoading ? (
-                                <Spinner
-                                  thickness="4px"
-                                  speed="0.65s"
-                                  emptyColor="gray.200"
-                                  color="blue.500"
-                                  size="md"
-                                />
-                              ) : (
-                                `${Math.round(priceAsTON * 100) / 100} TON`
-                              )}
-                            </Text>
-                          </Button>
-
-                          <Flex mt={3} columnGap={1} h={7}>
-                            {(payOption === PayOption.WSTON ||
-                              payOption === PayOption.NONE) && (
-                              <>
-                                {" "}
-                                <Image src={Warning} alt="warning" />
-                                <Text fontSize={14} color={"#FFB801"}>
-                                  Insufficient TON Balance
-                                </Text>
-                              </>
-                            )}
-                          </Flex>
-                        </Box>
-                      </Center>
-                    </Box>
-                  )
-                ) : (
-                  <Button
-                    w={"full"}
-                    maxW={624}
-                    h={"65px"}
-                    colorScheme="blue"
-                    bgColor={"#0380FF"}
-                    isDisabled={true}
-                    fontSize={24}
-                    fontWeight={600}
-                  >
-                    Not for Sale
-                  </Button>
-                )
-              ) : mode === "chest" ? (
-                <Flex w={"100%"} columnGap={6}>
-                  <Tooltip
-                    hasArrow
-                    bgColor={"#000000E5"}
-                    isDisabled={!gemItem.isMining}
-                    label={<GemMiningAlert />}
-                    rounded={4}
-                  >
-                    <Button
-                      w={"full"}
-                      maxW={624}
-                      h={"65px"}
-                      columnGap={2}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      colorScheme="blue"
-                      bgColor={"#0380FF"}
-                      _disabled={{
-                        bgColor: "#21232D",
-                      }}
-                      _hover={{ bgColor: "none" }}
-                      onClick={() => {
-                        gemItem.isForSale
-                          ? handleUnlistGem()
-                          : setSellGemModalStatus({
-                              isOpen: true,
-                              tokenID: gemItem?.tokenID,
-                            });
-                      }}
-                      isDisabled={gemItem.isMining!}
-                    >
-                      {isLoading ? (
-                        <Spinner
-                          thickness="4px"
-                          speed="0.65s"
-                          emptyColor="gray.200"
-                          color="blue.500"
-                          size="md"
-                        />
-                      ) : gemItem.isForSale ? (
-                        "Remove Listing"
-                      ) : (
-                        "Sell"
-                      )}
-                    </Button>
-                  </Tooltip>
+          {isConnected ? (
+            mode === "market" ? (
+              gemItem.isForSale ? (
+                gemItem.owner?.toLowerCase() === address?.toLowerCase() ? (
                   <Button
                     w={"full"}
                     maxW={624}
@@ -550,51 +312,287 @@ const GemItemView = ({ id, mode }: ItemProps) => {
                     alignItems={"center"}
                     justifyContent={"center"}
                     colorScheme="blue"
-                    bgColor={"transparent"}
-                    onClick={() =>
-                      burnSellGemModalStatus({
-                        isOpen: true,
-                        tokenID: gemItem?.tokenID,
-                      })
-                    }
-                    border={"1px solid #0380FF"}
-                    _hover={{ bgColor: "#111111" }}
+                    bgColor={"#0380FF"}
+                    _disabled={{
+                      bgColor: "#21232D",
+                    }}
+                    _hover={{ bgColor: "none" }}
+                    onClick={() => {
+                      gemItem.isForSale
+                        ? handleUnlistGem()
+                        : setSellGemModalStatus({
+                            isOpen: true,
+                            tokenID: gemItem?.tokenID,
+                            refetch,
+                          });
+                    }}
+                    isDisabled={gemItem.isMining!}
                   >
-                    Melt
+                    {isLoading ? (
+                      <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="md"
+                      />
+                    ) : gemItem.isForSale ? (
+                      "Remove Listing"
+                    ) : (
+                      "Sell"
+                    )}
                   </Button>
-                </Flex>
-              ) : (
-                ""
-              )
-            ) : (
-              <Button
-                w={"full"}
-                maxW={624}
-                h={"65px"}
-                colorScheme="blue"
-                bgColor={"#0380FF"}
-                onClick={() => {
-                  handleClick(true);
-                }}
-                fontSize={18}
-                fontWeight={600}
-                alignItems={"center"}
-                columnGap={2}
-                rounded={8}
-              >
-                <Image src={WalletIcon} width={22} height={23} alt="wallet" />
-                Connect Wallet
-              </Button>
-            )}
-          </Flex>
-        </Flex>
+                ) : (
+                  <Box>
+                    <Text
+                      pb={"6px"}
+                      fontSize={14}
+                      lineHeight={"30px"}
+                      opacity={0.5}
+                    >
+                      BUY GEM WITH:
+                    </Text>
+                    <Center columnGap={"16px"}>
+                      <Box w={"full"}>
+                        <Button
+                          w={"full"}
+                          maxW={624}
+                          h={"65px"}
+                          columnGap={2}
+                          alignItems={"center"}
+                          justifyContent={"center"}
+                          colorScheme="blue"
+                          bgColor={"#0380FF"}
+                          onClick={() => {
+                            handleClick(true);
+                          }}
+                          isDisabled={
+                            isTONLoading ||
+                            isWSTONLoading ||
+                            payOption === PayOption.NONE ||
+                            payOption === PayOption.TON
+                          }
+                        >
+                          {!isWSTONLoading &&
+                            (isConnected ? (
+                              <Image
+                                alt="ton"
+                                src={WSTONIcon}
+                                width={27}
+                                height={27}
+                              />
+                            ) : (
+                              <Image
+                                alt="wallet"
+                                src={WalletIcon}
+                                width={22}
+                                height={23}
+                              />
+                            ))}
+                          <Text fontSize={24} fontWeight={600}>
+                            {isWSTONLoading ? (
+                              <Spinner
+                                thickness="4px"
+                                speed="0.65s"
+                                emptyColor="gray.200"
+                                color="blue.500"
+                                size="md"
+                              />
+                            ) : (
+                              `${formatUnits(gemItem?.price || BigInt(0), 27)} ThanosWSTON`
+                            )}
+                          </Text>
+                        </Button>
 
-        <Flex w={"100%"} mt={10} columnGap={6} flexGrow={1} h={"fit-content"}>
-          <GemItemHistory gemId={id} />
-          <GemItemDetails gemId={id} owner={gemItem.owner!} />
+                        <Flex mt={3} columnGap={1} h={7}>
+                          {(payOption === PayOption.TON ||
+                            payOption === PayOption.NONE) && (
+                            <>
+                              {" "}
+                              <Image src={Warning} alt="warning" />
+                              <Text fontSize={14} color={"#FFB801"}>
+                                Insufficient ThanosWSTON Balance
+                              </Text>
+                            </>
+                          )}
+                        </Flex>
+                      </Box>
+
+                      <Text pb={10}>or</Text>
+
+                      <Box w={"full"}>
+                        <Button
+                          w={"full"}
+                          maxW={624}
+                          h={"65px"}
+                          columnGap={2}
+                          alignItems={"center"}
+                          justifyContent={"center"}
+                          colorScheme="blue"
+                          bgColor={"transparent"}
+                          onClick={() => {
+                            handleClick(false);
+                          }}
+                          border={"2px solid #0380FF"}
+                          isDisabled={
+                            isWSTONLoading ||
+                            isTONLoading ||
+                            payOption === PayOption.NONE ||
+                            payOption === PayOption.WSTON
+                          }
+                        >
+                          {!isTONLoading && (
+                            <Image
+                              alt="ton"
+                              src={TonIcon}
+                              width={27}
+                              height={27}
+                            />
+                          )}
+                          <Text fontSize={24} fontWeight={600}>
+                            {isTONLoading ? (
+                              <Spinner
+                                thickness="4px"
+                                speed="0.65s"
+                                emptyColor="gray.200"
+                                color="blue.500"
+                                size="md"
+                              />
+                            ) : (
+                              `${Math.round(priceAsTON * 100) / 100} TON`
+                            )}
+                          </Text>
+                        </Button>
+
+                        <Flex mt={3} columnGap={1} h={7}>
+                          {(payOption === PayOption.WSTON ||
+                            payOption === PayOption.NONE) && (
+                            <>
+                              {" "}
+                              <Image src={Warning} alt="warning" />
+                              <Text fontSize={14} color={"#FFB801"}>
+                                Insufficient TON Balance
+                              </Text>
+                            </>
+                          )}
+                        </Flex>
+                      </Box>
+                    </Center>
+                  </Box>
+                )
+              ) : (
+                <Button
+                  w={"full"}
+                  maxW={624}
+                  h={"65px"}
+                  colorScheme="blue"
+                  bgColor={"#0380FF"}
+                  isDisabled={true}
+                  fontSize={24}
+                  fontWeight={600}
+                >
+                  Not for Sale
+                </Button>
+              )
+            ) : mode === "chest" ? (
+              <Flex w={"100%"} columnGap={6}>
+                <Tooltip
+                  hasArrow
+                  bgColor={"#000000E5"}
+                  isDisabled={!gemItem.isMining}
+                  label={<GemMiningAlert />}
+                  rounded={4}
+                >
+                  <Button
+                    w={"full"}
+                    maxW={624}
+                    h={"65px"}
+                    columnGap={2}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    colorScheme="blue"
+                    bgColor={"#0380FF"}
+                    _disabled={{
+                      bgColor: "#21232D",
+                    }}
+                    _hover={{ bgColor: "none" }}
+                    onClick={() => {
+                      gemItem.isForSale
+                        ? handleUnlistGem()
+                        : setSellGemModalStatus({
+                            isOpen: true,
+                            tokenID: gemItem?.tokenID,
+                          });
+                    }}
+                    isDisabled={gemItem.isMining!}
+                  >
+                    {isLoading ? (
+                      <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="md"
+                      />
+                    ) : gemItem.isForSale ? (
+                      "Remove Listing"
+                    ) : (
+                      "Sell"
+                    )}
+                  </Button>
+                </Tooltip>
+                <Button
+                  w={"full"}
+                  maxW={624}
+                  h={"65px"}
+                  columnGap={2}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  colorScheme="blue"
+                  bgColor={"transparent"}
+                  onClick={() =>
+                    burnSellGemModalStatus({
+                      isOpen: true,
+                      tokenID: gemItem?.tokenID,
+                    })
+                  }
+                  border={"1px solid #0380FF"}
+                  _hover={{ bgColor: "#111111" }}
+                >
+                  Melt
+                </Button>
+              </Flex>
+            ) : (
+              ""
+            )
+          ) : (
+            <Button
+              w={"full"}
+              maxW={624}
+              h={"65px"}
+              colorScheme="blue"
+              bgColor={"#0380FF"}
+              onClick={() => {
+                handleClick(true);
+              }}
+              fontSize={18}
+              fontWeight={600}
+              alignItems={"center"}
+              columnGap={2}
+              rounded={8}
+            >
+              <Image src={WalletIcon} width={22} height={23} alt="wallet" />
+              Connect Wallet
+            </Button>
+          )}
         </Flex>
       </Flex>
-    )
+
+      <Flex w={"100%"} mt={10} columnGap={6} flexGrow={1} h={"fit-content"}>
+        <GemItemHistory gemId={id} />
+        <GemItemDetails gemId={id} owner={gemItem.owner!} />
+      </Flex>
+    </Flex>
   );
 };
 
