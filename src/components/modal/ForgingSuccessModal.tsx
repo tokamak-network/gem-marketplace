@@ -58,10 +58,10 @@ const ForgeSuccessModal = () => {
                 mode="common"
                 gemInfo={{
                   quadrants: [6, 5, 5, 5],
-                  color: [2,3],
+                  color: [2, 3],
                   tokenID: 30,
                   rarity: RarityType.legendary,
-                  creationDate: 0
+                  creationDate: 0,
                 }}
               />
             </Center>

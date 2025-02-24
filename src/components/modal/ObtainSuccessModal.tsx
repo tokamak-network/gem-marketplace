@@ -37,73 +37,88 @@ const ObtainSuccessModal = () => {
   };
 
   const gemItem: GemStandard = useMemo(() => {
-    return gemList && gemList[0] && gemList.length > 0
-      ? gemList[0]
-      : {
-          tokenID: 0,
-          quadrants: [1, 1, 1, 1],
-          color: [1],
-          value: BigInt("0"),
-          price: BigInt("0"),
-          rarity: RarityType.common,
-        };
+    return gemList && gemList[0] && gemList.length > 0 ? gemList[0] : null;
   }, [gemList]);
 
   return (
-    <Modal isOpen={modalStatus.isOpen} onClose={() => handleClose()} isCentered>
-      <ModalOverlay />
-      <ModalContent
-        bgColor={"#21232D"}
-        rounded={16}
-        minW={"920px"}
-        minH={"580px"}
+    gemItem && (
+      <Modal
+        isOpen={modalStatus.isOpen}
+        onClose={() => handleClose()}
+        isCentered
       >
-        <ModalCloseButton />
-        <ModalBody padding={0}>
-          <Flex>
-            {gemItem && (
-              <GemCard
-                mode="normal"
-                width={453}
-                height={620}
-                gemInfo={gemItem}
-                gemWidth={316}
-                gemHeight={316}
-              />
-            )}
-            <Flex
-              w={"100%"}
-              flexDir={"column"}
-              justify={"space-between"}
-              p={"20px 26px 30px 26px"}
-            >
-              <Box>
-                <Text
-                  fontWeight={600}
-                  fontSize={48}
-                  textAlign={"center"}
-                  textTransform={"capitalize"}
-                >
-                  congrats!
-                </Text>
+        <ModalOverlay />
+        <ModalContent
+          bgColor={"#21232D"}
+          rounded={16}
+          minW={"920px"}
+          minH={"580px"}
+        >
+          <ModalCloseButton />
+          <ModalBody padding={0}>
+            <Flex>
+              {gemItem && (
+                <GemCard
+                  mode="normal"
+                  width={453}
+                  height={620}
+                  gemInfo={gemItem}
+                  gemWidth={316}
+                  gemHeight={316}
+                />
+              )}
+              <Flex
+                w={"100%"}
+                flexDir={"column"}
+                justify={"space-between"}
+                p={"20px 26px 30px 26px"}
+              >
+                <Box>
+                  <Text
+                    fontWeight={600}
+                    fontSize={48}
+                    textAlign={"center"}
+                    textTransform={"capitalize"}
+                  >
+                    congrats!
+                  </Text>
 
-                <Text
-                  mt={6}
-                  fontSize={16}
-                  fontWeight={400}
-                  lineHeight={"34.57px"}
-                  textAlign={"center"}
-                >
-                  Take your newly acquired gem and start mining or forging
-                </Text>
-                <Box px={"30px"}>
-                  <GemAttributesView gemItem={gemItem} />
+                  <Text
+                    mt={6}
+                    fontSize={16}
+                    fontWeight={400}
+                    lineHeight={"34.57px"}
+                    textAlign={"center"}
+                  >
+                    Take your newly acquired gem and start mining or forging
+                  </Text>
+                  <Box px={"30px"}>
+                    <GemAttributesView gemItem={gemItem} />
+                  </Box>
                 </Box>
-              </Box>
 
-              <Center columnGap={4}>
-                {rarityList[Number(gemItem.rarity)] !== RarityType.common &&
-                  gemItem.miningTry! > 0 && (
+                <Center columnGap={4}>
+                  {rarityList[Number(gemItem.rarity)] !== RarityType.common &&
+                    gemItem.miningTry! > 0 && (
+                      <Button
+                        w={"180px"}
+                        h={65}
+                        rounded={8}
+                        bgColor={"#0380FF"}
+                        colorScheme="blue"
+                        fontWeight={600}
+                        fontSize={24}
+                        columnGap={2}
+                        onClick={() => {
+                          router.push("/mine");
+                          setModalStatus({ isOpen: false });
+                        }}
+                      >
+                        <Image width={23} height={23} alt="gem" src={GemIcon} />
+                        Mine
+                      </Button>
+                    )}
+                  {rarityList[Number(gemItem.rarity)] !== RarityType.mythic && (
                     <Button
                       w={"180px"}
                       h={65}
@@ -114,39 +129,26 @@ const ObtainSuccessModal = () => {
                       fontSize={24}
                       columnGap={2}
                       onClick={() => {
-                        router.push("/mine");
+                        router.push("/forge");
                         setModalStatus({ isOpen: false });
                       }}
                     >
-                      <Image width={23} height={23} alt="gem" src={GemIcon} />
-                      Mine
+                      <Image
+                        width={23}
+                        height={23}
+                        alt="forge"
+                        src={ForgeIcon}
+                      />
+                      <Text>Forge</Text>
                     </Button>
                   )}
-                {rarityList[Number(gemItem.rarity)] !== RarityType.mythic && (
-                  <Button
-                    w={"180px"}
-                    h={65}
-                    rounded={8}
-                    bgColor={"#0380FF"}
-                    colorScheme="blue"
-                    fontWeight={600}
-                    fontSize={24}
-                    columnGap={2}
-                    onClick={() => {
-                      router.push("/forge");
-                      setModalStatus({ isOpen: false });
-                    }}
-                  >
-                    <Image width={23} height={23} alt="forge" src={ForgeIcon} />
-                    <Text>Forge</Text>
-                  </Button>
-                )}
-              </Center>
+                </Center>
+              </Flex>
             </Flex>
-          </Flex>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    )
   );
 };
 
